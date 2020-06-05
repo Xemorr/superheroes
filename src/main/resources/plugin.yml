@@ -1,0 +1,13 @@
+name: Superheroes
+version: ${project.version}
+main: me.xemor.superheroes.Superheroes
+api-version: 1.13
+authors: [Xemor_]
+description: Gives people a random superpower when they first join the server.
+commands:
+  reroll:
+    description: Allows you to reroll someone's power
+    usage: /reroll <name>
+  power:
+    description: Allows you to set your power
+    usage: /power <power> <name>
