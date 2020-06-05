@@ -1,5 +1,7 @@
 package me.xemor.superheroes;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -33,7 +35,7 @@ public class CooldownHandler {
             }
             long seconds = ((cooldownMap.get(uuid) - System.currentTimeMillis()) / 1000);
             if (!cooldownMessage.equals("")) {
-                Bukkit.getPlayer(uuid).sendActionBar(String.format(cooldownMessage, seconds));
+                Bukkit.getPlayer(uuid).spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(String.format(cooldownMessage, seconds)));
             }
             return false;
         }

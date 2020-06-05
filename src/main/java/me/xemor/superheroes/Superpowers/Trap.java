@@ -1,8 +1,5 @@
 package me.xemor.superheroes.Superpowers;
 
-import com.destroystokyo.paper.profile.CraftPlayerProfile;
-import com.destroystokyo.paper.profile.PlayerProfile;
-import com.mojang.authlib.GameProfile;
 import me.xemor.superheroes.Events.PlayerLostPowerEvent;
 import me.xemor.superheroes.PowersHandler;
 import org.bukkit.Bukkit;
@@ -10,13 +7,12 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -36,9 +32,7 @@ public class Trap extends Superpower {
     public Trap(PowersHandler powersHandler) {
         super(powersHandler);
         SkullMeta skullMeta = (SkullMeta) headItem.getItemMeta();
-        PlayerProfile trapGirl = Bukkit.createProfile(UUID.fromString("86810003-57b0-4753-9262-581e4872a7d2"));
-        trapGirl.complete();
-        skullMeta.setPlayerProfile(trapGirl);
+        skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString("86810003-57b0-4753-9262-581e4872a7d2")));
         headItem.setItemMeta(skullMeta);
         LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) pinkLeatherTunic.getItemMeta();
         leatherArmorMeta.setColor(Color.fromRGB(255, 0, 255));
@@ -65,8 +59,7 @@ public class Trap extends Superpower {
                 playerToTrap.put(player.getUniqueId(), armorStand.getUniqueId());
                 armorStand.setInvulnerable(true);
                 armorStand.setArms(true);
-                armorStand.setCanTick(false);
-                armorStand.setDisabledSlots(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.LEGS);
+                armorStand.setCustomName("Trap");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 300000, 0));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, 1));
             }
@@ -78,6 +71,15 @@ public class Trap extends Superpower {
                     player.removePotionEffect(PotionEffectType.SPEED);
                     playerToTrap.remove(player.getUniqueId());
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void disableSlots(EntityInteractEvent e) {
+        if (e.getEntity() instanceof ArmorStand) {
+            if ("Trap".equals(e.getEntity().getCustomName())) {
+                e.setCancelled(true);
             }
         }
     }

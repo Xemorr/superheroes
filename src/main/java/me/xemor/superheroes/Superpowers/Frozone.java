@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,8 +34,9 @@ public class Frozone extends Superpower {
             if (block.getType() == Material.WATER) {
                 block.setType(Material.FROSTED_ICE);
             }
-            Collection<LivingEntity> nearbyLivingEntities = world.getNearbyLivingEntities(location, 10, (entity) -> !player.equals(entity));
-            for (LivingEntity livingEntity : nearbyLivingEntities) {
+            Collection<Entity> nearbyLivingEntities = world.getNearbyEntities(location, 10,10,10, (entity) -> !player.equals(entity) && entity instanceof LivingEntity);
+            for (Entity entity : nearbyLivingEntities) {
+                LivingEntity livingEntity = (LivingEntity) entity;
                 livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 0));
             }
         }

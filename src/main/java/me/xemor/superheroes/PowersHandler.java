@@ -37,14 +37,14 @@ public class PowersHandler {
         Power currentPower = uuidToPowers.get(player.getUniqueId());
         if (currentPower != null) {
             PlayerLostPowerEvent playerLostPowerEvent = new PlayerLostPowerEvent(player, currentPower);
-            playerLostPowerEvent.callEvent();
+            Bukkit.getServer().getPluginManager().callEvent(playerLostPowerEvent);
         }
         uuidToPowers.put(player.getUniqueId(), power);
         showOffPower(player, power);
         savePower(player, power);
         if (currentPower != power) {
             PlayerGainedPowerEvent playerGainedPowerEvent = new PlayerGainedPowerEvent(player, power);
-            playerGainedPowerEvent.callEvent();
+            Bukkit.getServer().getPluginManager().callEvent(playerGainedPowerEvent);
         }
     }
 
@@ -55,12 +55,14 @@ public class PowersHandler {
             remover.sendMessage(ChatColor.BOLD + player.getName() + " has had their power erased temporarily!");
         }
         player.sendMessage(ChatColor.BOLD + player.getName() + " has had their power erased temporarily!");
-        new PlayerLostPowerEvent(player, oldPower).callEvent();
+        PlayerLostPowerEvent playerLostPowerEvent = new PlayerLostPowerEvent(player, oldPower);
+        Bukkit.getServer().getPluginManager().callEvent(playerLostPowerEvent);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (uuidToPowers.get(player.getUniqueId()) == null) {
-                    new PlayerGainedPowerEvent(player, oldPower).callEvent();
+                    PlayerGainedPowerEvent playerGainedPowerEvent = new PlayerGainedPowerEvent(player, oldPower);
+                    Bukkit.getServer().getPluginManager().callEvent(playerGainedPowerEvent);
                     uuidToPowers.put(player.getUniqueId(), oldPower);
                     Bukkit.broadcastMessage(ChatColor.BOLD + player.getName() + " has had their powers reinstated!");
                 }

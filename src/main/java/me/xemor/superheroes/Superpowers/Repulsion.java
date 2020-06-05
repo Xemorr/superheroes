@@ -3,6 +3,7 @@ package me.xemor.superheroes.Superpowers;
 import me.xemor.superheroes.PowersHandler;
 import me.xemor.superheroes.Superheroes;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,8 +32,8 @@ public class Repulsion extends Superpower {
                             cancel();
                             return;
                         }
-                        Collection<LivingEntity> nearbyEntities = world.getNearbyLivingEntities(player.getLocation(), 10, (entity) -> !player.equals(entity));
-                        for (LivingEntity entity : nearbyEntities) {
+                        Collection<Entity> nearbyLivingEntities = world.getNearbyEntities(player.getLocation(), 10,10,10, (entity) -> !player.equals(entity) && entity instanceof LivingEntity);
+                        for (Entity entity : nearbyLivingEntities) {
                             Vector vector = entity.getLocation().subtract(player.getLocation()).toVector();
                             vector.setY(0);
                             entity.teleport(entity.getLocation().add(0, 0.2, 0));

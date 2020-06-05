@@ -50,7 +50,7 @@ public class CreeperPower extends Superpower {
                                     cancel();return;
                                 }
                                 if (timer[0] >= 40) {
-                                    world.createExplosion(player, 3, false);
+                                    world.createExplosion(player.getLocation(), 3, false);
                                     cooldownHandler.startCooldown(10L, player.getUniqueId());
                                     player.setVelocity(new Vector(0, 2.5, 0));
                                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 140, 0));

@@ -1,10 +1,10 @@
 package me.xemor.superheroes.Superpowers;
 
-import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import me.xemor.superheroes.CooldownHandler;
 import me.xemor.superheroes.Events.PlayerGainedPowerEvent;
 import me.xemor.superheroes.Events.PlayerLostPowerEvent;
 import me.xemor.superheroes.PowersHandler;
+import me.xemor.superheroes.Superheroes;
 import org.bukkit.*;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EnderDragon;
@@ -15,8 +15,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
@@ -63,11 +66,16 @@ public class Gun extends Superpower {
     }
 
     @EventHandler
-    public void onDeath(PlayerPostRespawnEvent e) {
-        Player player = e.getPlayer();
-        if (powersHandler.getPower(player) == Power.Gun) {
-            player.getInventory().addItem(gun);
-        }
+    public void onDeath(PlayerRespawnEvent e) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Player player = e.getPlayer();
+                if (powersHandler.getPower(player) == Power.Gun) {
+                    player.getInventory().addItem(gun);
+                }
+            }
+        }.runTaskLater(JavaPlugin.getPlugin(Superheroes.class), 1L);
     }
 
     @EventHandler
@@ -102,9 +110,6 @@ public class Gun extends Superpower {
                         }
                         if (livingEntity instanceof EnderDragon) {
                             livingEntity.setHealth(livingEntity.getHealth() - 5);
-                            if (livingEntity.getHealth() <= 0) {
-                                livingEntity.setKiller(player);
-                            }
                             return;
                         }
                         livingEntity.damage(5.0, player); //doesn't work on edragon for some reason
