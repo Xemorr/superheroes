@@ -2,6 +2,7 @@ package me.xemor.superheroes.Superpowers;
 
 import me.xemor.superheroes.Events.PlayerLostPowerEvent;
 import me.xemor.superheroes.PowersHandler;
+import me.xemor.superheroes.Superheroes;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -9,15 +10,15 @@ import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -29,16 +30,18 @@ public class Trap extends Superpower {
     ItemStack pinkLeatherLegs = new ItemStack(Material.LEATHER_LEGGINGS);
     ItemStack pinkLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
 
-    public Trap(PowersHandler powersHandler) {
+    public Trap(PowersHandler powersHandler, Superheroes superheroes) {
         super(powersHandler);
-        SkullMeta skullMeta = (SkullMeta) headItem.getItemMeta();
-        skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString("86810003-57b0-4753-9262-581e4872a7d2")));
-        headItem.setItemMeta(skullMeta);
-        LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) pinkLeatherTunic.getItemMeta();
-        leatherArmorMeta.setColor(Color.fromRGB(255, 0, 255));
-        pinkLeatherTunic.setItemMeta(leatherArmorMeta);
-        pinkLeatherBoots.setItemMeta(leatherArmorMeta);
-        pinkLeatherLegs.setItemMeta(leatherArmorMeta);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) pinkLeatherTunic.getItemMeta();
+                leatherArmorMeta.setColor(Color.fromRGB(255, 0, 255));
+                pinkLeatherTunic.setItemMeta(leatherArmorMeta);
+                pinkLeatherBoots.setItemMeta(leatherArmorMeta);
+                pinkLeatherLegs.setItemMeta(leatherArmorMeta);
+            }
+        }.runTaskLater(superheroes, 200L);
     }
 
     HashMap<UUID, UUID> playerToTrap = new HashMap<>();
@@ -76,9 +79,9 @@ public class Trap extends Superpower {
     }
 
     @EventHandler
-    public void disableSlots(EntityInteractEvent e) {
-        if (e.getEntity() instanceof ArmorStand) {
-            if ("Trap".equals(e.getEntity().getCustomName())) {
+    public void disableSlots(PlayerInteractEntityEvent e) {
+        if (e.getRightClicked() instanceof ArmorStand) {
+            if ("Trap".equals(e.getRightClicked().getCustomName())) {
                 e.setCancelled(true);
             }
         }

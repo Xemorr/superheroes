@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Superheroes:jar">
+    <output-path>D:/Holder/1.15.2 test server/plugins</output-path>
+    <root id="archive" name="Superheroes.jar">
+      <element id="module-output" name="Superheroes" />
+    </root>
+  </artifact>
+</component>

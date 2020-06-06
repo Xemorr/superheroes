@@ -19,7 +19,7 @@ public class DiamondBlockReroll implements Listener {
         if (e.getItem() == null) {
             return;
         }
-        if (e.getItem().getType() == Material.DIAMOND_BLOCK) {
+        if (e.getItem().getType() == Material.DIAMOND_BLOCK || e.getItem().getType() == Material.NETHER_STAR) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR) {
                 powersHandler.setRandomPower(e.getPlayer());
                 e.getItem().setAmount(e.getItem().getAmount() - 1);

@@ -8,7 +8,7 @@ public enum Power {
     Aerosurfer("&7&lAerosurfer", "You can create platforms under you by sneak + jumping"), GravityGuy("&b&lGravity Guy", "When you sneak, gravity is inverted."),
     Floral("&a&lFloral", "Wherever you look, you create flowers. Right-clicking with flowers consumes them."),
     Phase("&3&lPhase", "You can phase through the ground whenever you sneak."), Trap("&7&lTrap", "You can trick players with your waifu disguise."),
-    Strongman("&c&lStrongman", "You have Strength II. You can also pick up mobs."),Speedster("&b&lSpeedster", "You have Speed IV, 'gotta go fast'"),Gun("&8&lGun", "You have a gun."),
+    Strongman("&c&lStrongman", "You can also pick up mobs and throw them."),Speedster("&b&lSpeedster", "You have Speed IV, 'gotta go fast'"),Gun("&8&lGun", "You have a gun."),
     Pyromaniac("&c&lPyromaniac", "Wherever you walk and look turns to fire, you are immune to fire."),Repulsion("&7&lRepulsion", "When you go near other entities, it is repelled away from you"),
     LavaWalker("&c&lLava Walker", "You have full fire immunity - and can walk on lava."), Chicken("&e&lChicken", "You are, the chicken."),
     ExtraHeartMan("&d&lExtra Heart Man", "has extra hearts. can give absorption hearts to other players by right-clicking."),

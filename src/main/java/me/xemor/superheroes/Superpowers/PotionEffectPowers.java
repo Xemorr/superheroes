@@ -30,12 +30,8 @@ public class PotionEffectPowers extends BukkitRunnable {
                 case Superhuman:
                     potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 60, 0));
                     potionEffects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
-                    potionEffects.add(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0));
                     potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 60, 0));
                     potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 60, 1));
-                    break;
-                case Strongman:
-                    potionEffects.add(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1));
                     break;
                 case Speedster:
                     potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 60, 3));
