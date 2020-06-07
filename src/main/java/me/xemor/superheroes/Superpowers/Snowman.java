@@ -2,6 +2,7 @@ package me.xemor.superheroes.Superpowers;
 
 import me.xemor.superheroes.Events.PlayerGainedPowerEvent;
 import me.xemor.superheroes.PowersHandler;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -26,6 +27,9 @@ public class Snowman extends Superpower{
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         if (player.isSneaking()) {
+            return;
+        }
+        if (player.getGameMode() == GameMode.SPECTATOR) {
             return;
         }
         if (powersHandler.getPower(player) == Power.Snowman) {

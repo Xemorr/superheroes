@@ -1,10 +1,7 @@
 package me.xemor.superheroes.Superpowers;
 
 import me.xemor.superheroes.PowersHandler;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,6 +20,9 @@ public class Chicken extends BukkitRunnable {
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (powersHandler.getPower(player) == Power.Chicken) {
+                if (player.getGameMode() == GameMode.SPECTATOR) {
+                    continue;
+                }
                 Random random = new Random();
                 if (1 == random.nextInt(5)) {
                     World world = player.getWorld();

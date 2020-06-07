@@ -9,9 +9,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -50,7 +48,15 @@ public class Eraserhead extends Superpower {
         World world = player.getWorld();
         Location currentLocation = player.getEyeLocation();
         Vector increment = player.getEyeLocation().getDirection();
-        RayTraceResult rayTraceResult = world.rayTrace(currentLocation, increment, 32, FluidCollisionMode.NEVER, true, 0.5, (entity) -> (!player.equals(entity) && entity instanceof Player));
+        RayTraceResult rayTraceResult = world.rayTrace(currentLocation, increment, 32, FluidCollisionMode.NEVER, true, 0.5, entity -> {
+            if (entity instanceof Player) {
+                Player otherPlayer = (Player) entity;
+                if (!otherPlayer.equals(player) && otherPlayer.getGameMode() != GameMode.SPECTATOR) {
+                    return true;
+                }
+            }
+            return false;
+        });
         if (rayTraceResult == null) {
             return null;
         }
