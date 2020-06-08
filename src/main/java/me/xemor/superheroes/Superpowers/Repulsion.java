@@ -32,6 +32,10 @@ public class Repulsion extends Superpower {
                             cancel();
                             return;
                         }
+                        if (powersHandler.getPower(player) != Power.Repulsion) {
+                            cancel();
+                            return;
+                        }
                         Collection<Entity> nearbyLivingEntities = world.getNearbyEntities(player.getLocation(), 10,10,10, (entity) -> !player.equals(entity) && entity instanceof LivingEntity);
                         for (Entity entity : nearbyLivingEntities) {
                             Vector vector = entity.getLocation().subtract(player.getLocation()).toVector();

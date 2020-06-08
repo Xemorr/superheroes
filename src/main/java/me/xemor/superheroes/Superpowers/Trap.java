@@ -11,7 +11,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -79,11 +79,9 @@ public class Trap extends Superpower {
     }
 
     @EventHandler
-    public void disableSlots(PlayerInteractEntityEvent e) {
-        if (e.getRightClicked() instanceof ArmorStand) {
-            if ("Trap".equals(e.getRightClicked().getCustomName())) {
-                e.setCancelled(true);
-            }
+    public void disableSlots(PlayerArmorStandManipulateEvent e) {
+        if ("Trap".equals(e.getRightClicked().getCustomName())) {
+            e.setCancelled(true);
         }
     }
 

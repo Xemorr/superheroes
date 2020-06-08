@@ -5,6 +5,7 @@ import me.xemor.superheroes.Events.PlayerLostPowerEvent;
 import me.xemor.superheroes.Superpowers.Power;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -30,7 +31,11 @@ public class PowersHandler {
     }
 
     public Power getPower(Player player) {
-        return uuidToPowers.get(player.getUniqueId());
+        Power power = uuidToPowers.get(player.getUniqueId());
+        if (player.getGameMode() == GameMode.SPECTATOR && power != Power.Phase) {
+            return null;
+        }
+        return power;
     }
 
     public void setPower(Player player, Power power) {

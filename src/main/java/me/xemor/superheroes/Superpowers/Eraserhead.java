@@ -29,11 +29,17 @@ public class Eraserhead extends Superpower {
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
+        if (e.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+            return;
+        }
         if (e.isSneaking()) {
             Player player = e.getPlayer();
             if (powersHandler.getPower(player) == Power.Eraserhead) {
                 if (cooldownHandler.isCooldownOver(player.getUniqueId())) {
                     Player otherPlayer = raytrace(player);
+                    if (otherPlayer == null) {
+                        return;
+                    }
                     powersHandler.temporarilyRemovePower(otherPlayer, player);
                     cooldownHandler.startCooldown(15L, player.getUniqueId());
                     for (PotionEffect potionEffect : otherPlayer.getActivePotionEffects()) {
@@ -67,6 +73,9 @@ public class Eraserhead extends Superpower {
     public void onLook(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         if (powersHandler.getPower(player) != Power.Eraserhead) {
+            return;
+        }
+        if (e.getPlayer().getGameMode() == GameMode.SPECTATOR) {
             return;
         }
         if (!e.getFrom().getDirection().equals(e.getTo().getDirection())) {
