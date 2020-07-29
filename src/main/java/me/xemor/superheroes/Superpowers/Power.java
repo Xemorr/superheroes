@@ -15,7 +15,9 @@ public enum Power {
     Enderman("&5&lEnderman", "Allows you to teleport to wherever you're looking by punching. Get more Enderpearls."), Snowman("&f&lSnowman", "You never run out of snowballs and you place snow under yourself"),
     KingMidas("&6&lKingMidas", "Apples are turned golden. Clicking on ingot blocks, turns them into gold."),
     Frozone("&b&lFrozone", "You can walk on water, and every other entity around you is slowed."), Eraserhead("&8&lEraserhead", "When you look and people and sneak, they lose their power."),
-    Creeper("&2&lCreeper", "If you hold sneak for two seconds, you explode."), Pickpocket("&d&lPickpocket", "Right clicking on players, lets you steal from their inventory");
+    Creeper("&2&lCreeper", "If you hold sneak for two seconds, you explode."), Pickpocket("&d&lPickpocket", "Right clicking on players, lets you steal from their inventory"),
+    Speleologist("&7&lSpeleologist", "Instantly smelt and double ores!"), Robot("&7&lRobot", "You're never hungry, but water hurts you."),
+    Doomfist("&8&lDoomfist", "You are doomfist."), Slime("&a&lSlime", "You can bounce along the floor!");
 
     String nameColourCode;
     String description;

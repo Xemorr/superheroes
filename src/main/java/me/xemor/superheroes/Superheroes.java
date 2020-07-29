@@ -14,7 +14,7 @@ public final class Superheroes extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         this.saveDefaultConfig();
-        superpowers = new Superpower[]{new Pickpocket(powersHandler), new CreeperPower(powersHandler), new Strongman(powersHandler), new Eraserhead(powersHandler), new Enderman(powersHandler), new Snowman(powersHandler), new Repulsion(powersHandler), new Frozone(powersHandler), new LavaWalker(powersHandler), new NoFire(powersHandler), new Pyromaniac(powersHandler), new Gun(powersHandler), new Trap(powersHandler, this), new Phase(powersHandler), new KingMidas(powersHandler), new Mole(powersHandler), new Aerosurfer(powersHandler), new GravityGuy(powersHandler), new Floral(powersHandler), new ExtraHeartMan(powersHandler)};
+        superpowers = new Superpower[]{new Pickpocket(powersHandler), new Slime(powersHandler), new Doomfist(powersHandler, this), new Speleologist(powersHandler), new Robot(powersHandler, this), new CreeperPower(powersHandler), new Strongman(powersHandler), new Eraserhead(powersHandler), new Enderman(powersHandler), new Snowman(powersHandler), new Repulsion(powersHandler), new Frozone(powersHandler), new LavaWalker(powersHandler), new NoFire(powersHandler), new Pyromaniac(powersHandler), new Gun(powersHandler), new Trap(powersHandler, this), new Phase(powersHandler), new KingMidas(powersHandler), new Mole(powersHandler), new Aerosurfer(powersHandler), new GravityGuy(powersHandler), new Floral(powersHandler), new ExtraHeartMan(powersHandler)};
         PotionEffectPowers potionEffectPowers = new PotionEffectPowers(powersHandler);
         potionEffectPowers.runTaskTimer(this, 100L, 50L);
         Chicken chicken = new Chicken(powersHandler);

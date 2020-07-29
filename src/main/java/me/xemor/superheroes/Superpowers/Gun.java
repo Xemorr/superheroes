@@ -115,10 +115,8 @@ public class Gun extends Superpower {
                         livingEntity.damage(5.0, player); //doesn't work on edragon for some reason
                         world.spawnParticle(Particle.EXPLOSION_NORMAL, livingEntity.getLocation().add(0, 1, 0), 1);
                     }
-
                 }
             }
         }
     }
-
 }
