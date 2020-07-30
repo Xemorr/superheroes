@@ -50,10 +50,7 @@ public class CreeperPower extends Superpower {
                                     cancel();return;
                                 }
                                 if (timer[0] >= 40) {
-                                    world.createExplosion(player.getLocation(), 3, false);
-                                    cooldownHandler.startCooldown(10L, player.getUniqueId());
-                                    player.setVelocity(new Vector(0, 2.5, 0));
-                                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 140, 0));
+                                    explosion(player, world);
                                     cancel();return;
                                 } else {
                                     timer[0]++;
@@ -80,13 +77,23 @@ public class CreeperPower extends Superpower {
         return (Creeper) rayTraceResult.getHitEntity();
     }
 
+    public void explosion(Player player, World world) {
+        world.createExplosion(player.getLocation(), 3, false);
+        cooldownHandler.startCooldown(10L, player.getUniqueId());
+        player.setVelocity(new Vector(0, 2.5, 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 140, 0));
+    }
+
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if (e.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
-            if (e.getEntity() instanceof Player) {
-                Player player = (Player) e.getEntity();
-                if (powersHandler.getPower(player) == Power.Creeper) {
+        if (e.getEntity() instanceof Player) {
+            Player player = (Player) e.getEntity();
+            if (powersHandler.getPower(player) == Power.Creeper) {
+                if (e.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
                     e.setDamage(0);
+                }
+                else if (e.getCause() == EntityDamageEvent.DamageCause.LIGHTNING) {
+                    explosion(player, player.getWorld());
                 }
             }
         }

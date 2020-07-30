@@ -7,6 +7,7 @@ import me.xemor.superheroes.Superheroes;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
@@ -33,11 +34,30 @@ public class Robot extends Superpower {
     }
 
     @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player) {
+            Player player = (Player) e.getEntity();
+            if (powersHandler.getPower(player) == Power.Robot) {
+                if (e.getCause() == EntityDamageEvent.DamageCause.LIGHTNING) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 6000, 0));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 6000, 1));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 0, 0));
+                    e.setCancelled(true);
+                }
+                else if (e.getCause() == EntityDamageEvent.DamageCause.FIRE && e.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
+                    e.setDamage(e.getDamage() * 0.5);
+                }
+            }
+        }
+    }
+
+    @EventHandler
     public void onBecomeRobot(PlayerGainedPowerEvent e) {
         if (e.getPower() == Power.Robot) {
             startWaterCheck(e.getPlayer());
             e.getPlayer().setFoodLevel(20);
             e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0));
+            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 0));
         }
     }
 
@@ -45,6 +65,9 @@ public class Robot extends Superpower {
     public void losesRobot(PlayerLostPowerEvent e) {
         if (e.getPower() == Power.Robot) {
             e.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+            e.getPlayer().removePotionEffect(PotionEffectType.GLOWING);
+            e.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
+            e.getPlayer().removePotionEffect(PotionEffectType.SPEED);
         }
     }
 

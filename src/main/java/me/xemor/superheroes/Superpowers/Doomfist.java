@@ -10,8 +10,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -29,14 +30,16 @@ public class Doomfist extends Superpower {
     }
 
     @EventHandler
-    public void onPunch(PlayerAnimationEvent e) {
-        if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) {
-            if (powersHandler.getPower(e.getPlayer()) == Power.Doomfist) {
-                if (cooldownHandler.isCooldownOver(e.getPlayer().getUniqueId())) {
-                    if (e.getPlayer().getFoodLevel() > 6) {
-                        cooldownHandler.startCooldown(1, e.getPlayer().getUniqueId());
-                        e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel() - 3);
-                        doDoomfistJump(e.getPlayer());
+    public void onPunch(PlayerInteractEvent e) {
+        if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) {
+            if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) {
+                if (powersHandler.getPower(e.getPlayer()) == Power.Doomfist) {
+                    if (cooldownHandler.isCooldownOver(e.getPlayer().getUniqueId())) {
+                        if (e.getPlayer().getFoodLevel() > 6) {
+                            cooldownHandler.startCooldown(1, e.getPlayer().getUniqueId());
+                            e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel() - 3);
+                            doDoomfistJump(e.getPlayer());
+                        }
                     }
                 }
             }
@@ -54,6 +57,10 @@ public class Doomfist extends Superpower {
                         @Override
                         public void run() {
                             Block under = player.getWorld().getBlockAt(player.getLocation().subtract(0, 1, 0));
+                            if (powersHandler.getPower(player) != Power.Doomfist) {
+                                cancel();
+                                return;
+                            }
                             if (!under.getType().isAir()) {
                                 World world = player.getWorld();
                                 Collection<Entity> entities = world.getNearbyEntities(player.getLocation(), 10, 3, 10, entity -> entity instanceof LivingEntity);
