@@ -23,7 +23,12 @@ public class PowerCommand implements CommandExecutor, TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("superheroes.power")) {
             if (args.length >= 1) {
-                Power power = Power.valueOf(args[0]);
+                Power power = null;
+                try {
+                    power = Power.valueOf(args[0]);
+                } catch(IllegalArgumentException e) {
+                    sender.sendMessage("This power does not exist!");
+                }
                 if (power == null) {
                     return false;
                 }

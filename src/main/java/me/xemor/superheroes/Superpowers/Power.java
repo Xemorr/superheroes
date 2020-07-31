@@ -15,10 +15,10 @@ public enum Power {
     Speedster("&b&lSpeedster", "You have Speed IV, 'gotta go fast'"),
     Gun("&8&lGun", "You have a gun."),
     Pyromaniac("&c&lPyromaniac", "Wherever you walk and look turns to fire, you are immune to fire."),
-    Repulsion("&7&lRepulsion", "When you go near other entities, it is repelled away from you"),
+    Repulsion("&7&lRepulsion", "When you sneak, other entities are repelled."),
     LavaWalker("&c&lLava Walker", "You have full fire immunity - and can walk on lava."),
     Chicken("&e&lChicken", "You are, the chicken."),
-    ExtraHeartMan("&d&lExtra Heart Man", "has extra hearts. can give absorption hearts to other players by right-clicking."),
+    ExtraHeartMan("&d&lExtra Heart Man", "has extra hearts. Can give absorption hearts to other players by right-clicking."),
     Enderman("&5&lEnderman", "Allows you to teleport to wherever you're looking by punching. Get more Enderpearls."),
     Snowman("&f&lSnowman", "You never run out of snowballs and you place snow under yourself"),
     KingMidas("&6&lKingMidas", "Apples are turned golden. Clicking on ingot blocks, turns them into gold."),
@@ -32,7 +32,8 @@ public enum Power {
     Slime("&a&lSlime", "You can bounce along the floor!"),
     Zeus("&e&lZeus", "Punching causes you to strike lightning wherever you look."),
     Scavenger("&e&lScavenger", "You unlock cheaper crafting recipes!"),
-    Sorcerer("&5&lSorcerer", "You can create magical spell books and wield them using redstone.");
+    Sorcerer("&5&lSorcerer", "You can create magical spell books and wield them using redstone."),
+    Bodkin("&2&lBodkin", "");
 
     String nameColourCode;
     String description;

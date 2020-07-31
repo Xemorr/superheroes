@@ -24,20 +24,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Sorcerer extends Superpower {
 
     private static final HashSet<Spell> spells = new HashSet<>();
     private static final HashMap<Spell, Integer> spellToCost = new HashMap<>();
     private static final HashMap<Spell, Integer> spellToCooldown = new HashMap<>();
+    private static final String redstoneCost = ChatColor.translateAlternateColorCodes('&', "&r&cRedstone &fCost: ");
+    private static final String cooldown = ChatColor.translateAlternateColorCodes('&', "&fCooldown: ");
     private CooldownHandler cooldownHandler = new CooldownHandler("&5Spell &7Cooldown: %s seconds");
     private String moreRedstone = ChatColor.translateAlternateColorCodes('&', "&cRedstone &7Required: ");
+    private static final HashSet<Material> transmutationBlocks = new HashSet<>();
 
     static {
-        spells.addAll(Arrays.asList(new Spell[]{Spell.FIREBALL, Spell.LIGHTNING, Spell.EGG, Spell.SNOWBALL, Spell.ARROW, Spell.WATER, Spell.FIRE, Spell.LAVA}));
+        spells.addAll(Arrays.asList(new Spell[]{Spell.FIREBALL, Spell.TRANSMUTATION, Spell.TRIDENT, Spell.EXPLOSION, Spell.LIGHTNING, Spell.EGG, Spell.SNOWBALL, Spell.ARROW, Spell.WATER, Spell.FIRE, Spell.LAVA}));
+        transmutationBlocks.addAll(Arrays.asList(new Material[]{Material.IRON_BLOCK, Material.DIAMOND_BLOCK, Material.EMERALD_BLOCK, Material.COAL_BLOCK, Material.LAPIS_BLOCK, Material.GOLD_BLOCK, Material.NETHERITE_BLOCK}));
     }
 
     public Sorcerer(PowersHandler powersHandler, RecipeHandler recipeHandler, Superheroes superheroes) {
@@ -67,6 +69,15 @@ public class Sorcerer extends Superpower {
         //FIRE
         spellToCost.put(Spell.FIRE, 1);
         spellToCooldown.put(Spell.FIRE, 1);
+        //EXPLOSION
+        spellToCost.put(Spell.EXPLOSION, 12);
+        spellToCooldown.put(Spell.EXPLOSION, 20);
+        //TRIDENT
+        spellToCost.put(Spell.TRIDENT, 4);
+        spellToCooldown.put(Spell.TRIDENT, 10);
+        //TRANSMUTATION
+        spellToCost.put(Spell.TRANSMUTATION, 0);
+        spellToCooldown.put(Spell.TRANSMUTATION, 30);
     }
 
     public void handleRecipes(RecipeHandler recipeHandler, Superheroes superheroes) {
@@ -85,10 +96,15 @@ public class Sorcerer extends Superpower {
             Player player = e.getPlayer();
             if (powersHandler.getPower(player) == Power.Sorcerer) {
                 BookMeta bookMeta = e.getNewBookMeta();
-                if (spells.contains(Spell.valueOf(bookMeta.getTitle().toUpperCase()))) {
+                Spell spell = Spell.valueOf(bookMeta.getTitle().toUpperCase());
+                if (spells.contains(spell)) {
                     String newName = ChatColor.DARK_PURPLE + e.getNewBookMeta().getTitle().toUpperCase();
                     bookMeta.setTitle(newName);
                     bookMeta.setDisplayName(newName);
+                    List<String> lore = new ArrayList<>();
+                    lore.add(cooldown + spellToCooldown.get(spell));
+                    lore.add(redstoneCost + spellToCost.get(spell));
+                    bookMeta.setLore(lore);
                     e.setNewBookMeta(bookMeta);
                 }
             }
@@ -137,6 +153,13 @@ public class Sorcerer extends Superpower {
             else if (spell == Spell.EGG) {
                 player.launchProjectile(Egg.class);
             }
+            else if (spell == Spell.EXPLOSION) {
+                explosionSpell(player);
+            }
+            else if (spell == Spell.TRIDENT) {
+                Trident trident = player.launchProjectile(Trident.class);
+                trident.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
+            }
             else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     Block clickedBlock = e.getClickedBlock();
                     Block placeHere = clickedBlock.getRelative(e.getBlockFace());
@@ -148,6 +171,11 @@ public class Sorcerer extends Superpower {
                     }
                     else if (spell == Spell.FIRE) {
                         placeHere.setType(Material.FIRE);
+                    }
+                    else if (spell == Spell.TRANSMUTATION) {
+                        if (transmutationBlocks.contains(clickedBlock.getType())) {
+                            clickedBlock.setType(Material.REDSTONE_BLOCK);
+                        }
                     }
             }
             else {
@@ -182,6 +210,17 @@ public class Sorcerer extends Superpower {
     }
 
     private void strikeLightning(Player player, int blocksToTravel) {
+        Location location = findLookingLocation(player, blocksToTravel);
+        player.getWorld().strikeLightning(location);
+    }
+
+    private void explosionSpell(Player player) {
+        TNTPrimed tnt = (TNTPrimed) player.getWorld().spawnEntity(player.getEyeLocation(), EntityType.PRIMED_TNT);
+        tnt.setFuseTicks(50);
+        tnt.setVelocity(player.getEyeLocation().getDirection().multiply(1.4));
+    }
+
+    private Location findLookingLocation(Player player, int blocksToTravel) {
         World world = player.getWorld();
         Location eyeLoc = player.getEyeLocation().clone();
         Vector travelVector = eyeLoc.getDirection();
@@ -192,8 +231,7 @@ public class Sorcerer extends Superpower {
         } else {
             hitPosition = rayTraceResult.getHitPosition();
         }
-        Location location = new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
-        world.strikeLightning(location);
+        return new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
     }
 
 
