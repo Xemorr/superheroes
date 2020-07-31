@@ -1,28 +1,20 @@
 package me.xemor.superheroes.Superpowers;
 
-import me.xemor.superheroes.Events.PlayerGainedPowerEvent;
-import me.xemor.superheroes.Events.PlayerLostPowerEvent;
 import me.xemor.superheroes.PowersHandler;
 import me.xemor.superheroes.RecipeHandler;
 import me.xemor.superheroes.Superheroes;
 import org.bukkit.ChatColor;
-import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Scavenger extends Superpower {
     Superheroes superheroes;
 
-    List<NamespacedKey> recipeKeys = new ArrayList<>();
     private final static String swordDisplayName = ChatColor.translateAlternateColorCodes('&', "&6Scavenger's Sword");
     private final static String helmetDisplayName = ChatColor.translateAlternateColorCodes('&', "&6Scavenger's Helmet");
     private final static String chestplateDisplayName = ChatColor.translateAlternateColorCodes('&', "&6Scavenger's Chestplate");
@@ -46,21 +38,6 @@ public class Scavenger extends Superpower {
         makeDiamondAxeRecipe(), makeDiamondPickaxeRecipe(), makeDiamondShovelRecipe(), makeString(), makeBerrySoup()};
         for (Recipe recipe : recipes) {
             recipeHandler.registerRecipe(recipe, Power.Scavenger);
-            recipeKeys.add(((Keyed) recipe).getKey());
-        }
-    }
-
-    @EventHandler
-    public void gainPower(PlayerGainedPowerEvent e) {
-        if (e.getPower() == Power.Scavenger) {
-            e.getPlayer().discoverRecipes(recipeKeys);
-        }
-    }
-
-    @EventHandler
-    public void lostPower(PlayerLostPowerEvent e) {
-        if (e.getPower() == Power.Scavenger) {
-            e.getPlayer().undiscoverRecipes(recipeKeys);
         }
     }
 

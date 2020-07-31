@@ -1,5 +1,9 @@
 package me.xemor.superheroes;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import me.xemor.superheroes.Events.PlayerGainedPowerEvent;
+import me.xemor.superheroes.Events.PlayerLostPowerEvent;
 import me.xemor.superheroes.Superpowers.Power;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -13,12 +17,14 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 public class RecipeHandler implements Listener {
 
-    private HashMap<NamespacedKey, Power> hashMap = new HashMap<>();
+    private HashMap<NamespacedKey, Power> recipeToPower = new HashMap<>();
+    private Multimap<Power, NamespacedKey> powerToRecipe = HashMultimap.create();
     private PowersHandler powersHandler;
 
 
@@ -31,7 +37,7 @@ public class RecipeHandler implements Listener {
         Power power = null;
         Recipe eventRecipe = e.getRecipe();
         if (eventRecipe instanceof Keyed) {
-            power = hashMap.get(((Keyed)eventRecipe).getKey());
+            power = recipeToPower.get(((Keyed)eventRecipe).getKey());
         }
         if (power == null) {
             return;
@@ -48,9 +54,23 @@ public class RecipeHandler implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPowerGain(PlayerGainedPowerEvent e) {
+        Collection<NamespacedKey> recipeKeys = powerToRecipe.get(e.getPower());
+        e.getPlayer().discoverRecipes(recipeKeys);
+    }
+
+    @EventHandler
+    public void onPowerLost(PlayerLostPowerEvent e) {
+        Collection<NamespacedKey> recipeKeys = powerToRecipe.get(e.getPower());
+        e.getPlayer().undiscoverRecipes(recipeKeys);
+    }
+
     public void registerRecipe(Recipe recipe, Power power) {
         if (recipe instanceof Keyed) {
-            hashMap.put(((Keyed)recipe).getKey(), power);
+            NamespacedKey key = ((Keyed)recipe).getKey();
+            recipeToPower.put(key, power);
+            powerToRecipe.put(power, key);
         }
         Bukkit.addRecipe(recipe);
     }

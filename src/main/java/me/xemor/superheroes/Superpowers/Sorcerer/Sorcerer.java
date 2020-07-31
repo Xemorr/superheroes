@@ -2,6 +2,7 @@ package me.xemor.superheroes.Superpowers.Sorcerer;
 
 import me.xemor.superheroes.CooldownHandler;
 import me.xemor.superheroes.PowersHandler;
+import me.xemor.superheroes.RecipeHandler;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.Superpowers.Power;
 import me.xemor.superheroes.Superpowers.Superpower;
@@ -16,6 +17,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -38,11 +40,9 @@ public class Sorcerer extends Superpower {
         spells.addAll(Arrays.asList(new Spell[]{Spell.FIREBALL, Spell.LIGHTNING, Spell.EGG, Spell.SNOWBALL, Spell.ARROW, Spell.WATER, Spell.FIRE, Spell.LAVA}));
     }
 
-    public Sorcerer(PowersHandler powersHandler, Superheroes superheroes) {
+    public Sorcerer(PowersHandler powersHandler, RecipeHandler recipeHandler, Superheroes superheroes) {
         super(powersHandler);
-        ShapelessRecipe shapelessRecipe = new ShapelessRecipe(new NamespacedKey(superheroes, "spellRecycle"), new ItemStack(Material.WRITABLE_BOOK));
-        shapelessRecipe.addIngredient(Material.WRITTEN_BOOK);
-        Bukkit.addRecipe(shapelessRecipe);
+        handleRecipes(recipeHandler, superheroes);
         //FIREBALL
         spellToCost.put(Spell.FIREBALL, 4);
         spellToCooldown.put(Spell.FIREBALL, 6);
@@ -67,6 +67,16 @@ public class Sorcerer extends Superpower {
         //FIRE
         spellToCost.put(Spell.FIRE, 1);
         spellToCooldown.put(Spell.FIRE, 1);
+    }
+
+    public void handleRecipes(RecipeHandler recipeHandler, Superheroes superheroes) {
+        ShapelessRecipe spellRecycle = new ShapelessRecipe(new NamespacedKey(superheroes, "spellRecycle"), new ItemStack(Material.WRITABLE_BOOK));
+        spellRecycle.addIngredient(Material.WRITTEN_BOOK);
+        recipeHandler.registerRecipe(spellRecycle, Power.Sorcerer);
+        ShapedRecipe cheapWritableBook = new ShapedRecipe(new NamespacedKey(superheroes, "cheapWritableBook"), new ItemStack(Material.WRITABLE_BOOK));
+        cheapWritableBook.shape("   ", "   ", "PPP");
+        cheapWritableBook.setIngredient('P', Material.PAPER);
+        recipeHandler.registerRecipe(cheapWritableBook, Power.Sorcerer);
     }
 
     @EventHandler
