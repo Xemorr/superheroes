@@ -2,21 +2,28 @@ package me.xemor.superheroes.Superpowers;
 
 import me.xemor.superheroes.PowersHandler;
 import me.xemor.superheroes.Superheroes;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Aerosurfer extends Superpower {
-    public Aerosurfer(PowersHandler powersHandler) {
+
+    Superheroes superheroes;
+    public Aerosurfer(PowersHandler powersHandler, Superheroes superheroes) {
         super(powersHandler);
+        this.superheroes = superheroes;
     }
 
     @EventHandler
@@ -51,18 +58,27 @@ public class Aerosurfer extends Superpower {
                     Block block = world.getBlockAt(blockToPlaceLocation);
                     if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
                         block.setType(Material.GLASS);
+                        block.setMetadata("aerosurferGlass", new FixedMetadataValue(superheroes, true));
                         new BukkitRunnable() {
                             @Override
                             public void run() {
                                 if (block.getType() == Material.GLASS) {
                                     world.playSound(block.getLocation(), Sound.BLOCK_GLASS_BREAK, 0.5F, 1.0F);
                                     block.setType(Material.AIR);
+
                                 }
                             }
                         }.runTaskLater(JavaPlugin.getPlugin(Superheroes.class), 200L);
                     }
                 }
             }.runTaskTimer(JavaPlugin.getPlugin(Superheroes.class), 0L, 2L);
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        if (e.getBlock().hasMetadata("aerosurferGlass")) {
+            e.setDropItems(false);
         }
     }
 
