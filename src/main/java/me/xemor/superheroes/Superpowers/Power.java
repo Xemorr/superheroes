@@ -32,8 +32,8 @@ public enum Power {
     Slime("&a&lSlime", "You can bounce along the floor!"),
     Zeus("&e&lZeus", "Punching causes you to strike lightning wherever you look."),
     Scavenger("&e&lScavenger", "You unlock cheaper crafting recipes!"),
-    Sorcerer("&5&lSorcerer", "You can create magical spell books and wield them using redstone."),
-    Bodkin("&2&lBodkin", "");
+    Sorcerer("&5&lSorcerer", "You can create magical spell books and wield them using redstone.");
+    //Bodkin("&2&lBodkin", "");
 
     String nameColourCode;
     String description;

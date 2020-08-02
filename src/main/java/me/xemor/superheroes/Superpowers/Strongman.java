@@ -16,7 +16,7 @@ public class Strongman extends Superpower {
         super(powersHandler);
     }
 
-    private String tooMuscular = ChatColor.translateAlternateColorCodes('&', Power.Strongman + " is too strong to sit in a vehicle!");
+    private String tooMuscular = ChatColor.translateAlternateColorCodes('&', Power.Strongman.getNameColourCode() + " &fis too strong to sit in a vehicle!");
 
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent e) {
