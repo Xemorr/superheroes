@@ -11,3 +11,10 @@ commands:
   power:
     description: Allows you to set your power
     usage: /power <power> <name>
+permissions:
+  superheroes.power:
+    description: Allows them to use /power
+    default: op
+  superheroes.reroll:
+    description: Allows them to use /reroll
+    default: op
