@@ -24,11 +24,14 @@ public class Pyromaniac extends Superpower {
         if (player.getGameMode() == GameMode.SPECTATOR) {
             return;
         }
+        if (!ensureFromIsDifferentToTo(e.getFrom(), e.getTo())) {
+            return;
+        }
         if (powersHandler.getPower(player) == Power.Pyromaniac) {
             if (player.isSneaking()) {
                 return;
             }
-            Location location = player.getLocation();
+            Location location = e.getFrom();
             World world = player.getWorld();
             Block block = world.getBlockAt(location);
             if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR) {
@@ -50,6 +53,15 @@ public class Pyromaniac extends Superpower {
                 }
                 return;
             }
+        }
+    }
+
+    public boolean ensureFromIsDifferentToTo(Location from, Location to) {
+        if (!(from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ())) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 

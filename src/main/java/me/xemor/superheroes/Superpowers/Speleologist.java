@@ -48,5 +48,4 @@ public class Speleologist extends Superpower {
             }
         }
     }
-
 }

@@ -12,22 +12,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class PowersHandler {
 
     HashMap<UUID, Power> uuidToPowers = new HashMap<>();
     FileConfiguration powersFile;
     Superheroes superheroes;
+    EnumSet<Power> enabledPowers = EnumSet.noneOf(Power.class);
 
 
     public PowersHandler(Superheroes superheroes) {
         powersFile = superheroes.getConfig();
         this.superheroes = superheroes;
         loadPowers();
+    }
+
+    public void enablePower(Power power) {
+        enabledPowers.add(power);
+    }
+
+    public boolean isEnabled(Power power) {
+        return enabledPowers.contains(power);
     }
 
     public Power getPower(Player player) {
