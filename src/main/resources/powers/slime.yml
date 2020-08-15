@@ -1,0 +1,7 @@
+Slime:
+  colouredName: "&a&lSlime"
+  description: "You can bounce along the floor"
+  skills:
+    slimeboots:
+      skill: SLIME
+      speedMultiplier: 1.0

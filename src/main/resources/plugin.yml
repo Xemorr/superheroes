@@ -1,0 +1,20 @@
+name: Superheroes2
+version: ${project.version}
+main: me.xemor.superheroes2.Superheroes2
+api-version: 1.16
+authors: [Xemor_]
+description: Adds superheroes to your world - these can be customized completely and are extremely modular.
+commands:
+  reroll:
+    description: Allows you to reroll someone's power
+    usage: /reroll <name>
+  hero:
+    description: Allows you to set your power
+    usage: /hero <hero> <name>
+permissions:
+  superheroes.hero:
+    description: Allows them to use /power
+    default: op
+  superheroes.reroll:
+    description: Allows them to use /reroll
+    default: op

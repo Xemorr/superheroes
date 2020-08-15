@@ -1,0 +1,22 @@
+Robot:
+  colouredName: "&7&lThe Robot"
+  description: "You're a robot"
+  skills:
+    nohunger:
+      skill: NOHUNGER
+    damageres:
+      skill: POTIONEFFECT
+      type: DAMAGE_RESISTANCE
+    nightvision:
+      skill: POTIONEFFECT
+      type: NIGHT_VISION
+    lightningStrike:
+      skill: ELECTRIFIED
+      type: SPEED
+      duration: 30
+      potency: 2
+    lightningStrike2:
+      skill: ELECTRIFIED
+      type: GLOWING
+      duration: 30
+      potency: 1

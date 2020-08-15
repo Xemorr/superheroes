@@ -1,0 +1,20 @@
+Superhuman:
+  colouredName: "&c&lSuperhuman"
+  description: "You are a more powerful human"
+  skills:
+    resistance:
+      skill: POTIONEFFECT
+      type: DAMAGE_RESISTANCE
+      potency: 1
+    speed:
+      skill: POTIONEFFECT
+      type: SPEED
+      potency: 1
+    jump:
+      skill: POTIONEFFECT
+      type: JUMP
+      potency: 2
+    haste:
+      skill: POTIONEFFECT
+      type: FAST_DIGGING
+      potency: 1

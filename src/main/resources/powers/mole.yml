@@ -1,0 +1,14 @@
+Mole:
+  colouredName: "&6&lThe Mole"
+  description: "You can instant break certain blocks"
+  skills:
+    instantbreak:
+      skill: INSTANTBREAK
+      blocks:
+        - DIRT
+        - STONE
+        - COBBLESTONE
+      breakUsing: DIAMOND_PICKAXE
+    blindInLight:
+      skill: LIGHT
+      type: BLINDNESS
