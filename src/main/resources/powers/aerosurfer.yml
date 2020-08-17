@@ -1,0 +1,7 @@
+Aerosurfer:
+  colouredName: "&7&lAerosurfer"
+  description: "You can create platforms under you by sneak + jumping"
+  skills:
+    aerosurfer:
+      skill: AEROSURFER
+      block: GLASS
