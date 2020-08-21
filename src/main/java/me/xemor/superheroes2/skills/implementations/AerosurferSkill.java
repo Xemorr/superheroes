@@ -1,7 +1,8 @@
-package me.xemor.superheroes2.skills;
+package me.xemor.superheroes2.skills.implementations;
 
 import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.AerosurferData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.Location;
@@ -14,7 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -47,7 +47,7 @@ public class AerosurferSkill extends SkillImplementation {
                             cancel();
                             return;
                         }
-                        if (powersHandler.getSuperhero(player).hasSkill(Skill.AEROSURFER)) {
+                        if (!powersHandler.getSuperhero(player).hasSkill(Skill.AEROSURFER)) {
                             cancel();
                             return;
                         }

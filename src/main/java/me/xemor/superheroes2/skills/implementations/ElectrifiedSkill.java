@@ -1,9 +1,9 @@
-package me.xemor.superheroes2.skills;
+package me.xemor.superheroes2.skills.implementations;
 
-import jdk.internal.jline.internal.Nullable;
 import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.ElectrifiedData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.entity.Player;

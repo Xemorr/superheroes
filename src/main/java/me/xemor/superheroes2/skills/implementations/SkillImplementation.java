@@ -1,4 +1,4 @@
-package me.xemor.superheroes2.skills;
+package me.xemor.superheroes2.skills.implementations;
 
 import me.xemor.superheroes2.PowersHandler;
 import org.bukkit.event.Listener;

@@ -1,9 +1,10 @@
-package me.xemor.superheroes2.skills;
+package me.xemor.superheroes2.skills.implementations;
 
 import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.PotionEffectData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.entity.Player;

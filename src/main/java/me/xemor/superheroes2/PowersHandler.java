@@ -85,11 +85,15 @@ public class PowersHandler {
     }
 
     public void setRandomHero(Player player) {
+        Superhero newHero = getRandomHero();
+        this.setHero(player, newHero);
+    }
+
+    public Superhero getRandomHero() {
         Object[] superheroes = nameToSuperhero.values().toArray();
         Random random = new Random();
         int rng = random.nextInt(superheroes.length);
-        Superhero newHero = (Superhero) superheroes[rng];
-        this.setHero(player, newHero);
+        return (Superhero) superheroes[rng];
     }
 
     public void showOffPower(Player player, Superhero hero) {

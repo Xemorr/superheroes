@@ -9,13 +9,7 @@ public class ElectrifiedData extends PotionEffectData {
 
     protected ElectrifiedData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-        Double dR = configurationSection.getDouble("damageResistance");
-        if (dR != null) {
-            damageResistance = dR.doubleValue();
-        }
-        else {
-            damageResistance = 0;
-        }
+        damageResistance = configurationSection.getDouble("damageResistance", 0);
     }
 
     public double getDamageResistance() {

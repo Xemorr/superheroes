@@ -18,12 +18,15 @@ public abstract class SkillData {
     public static SkillData create(Skill skill, ConfigurationSection configurationSection) {
         switch (skill) {
             case INSTANTBREAK: return new InstantBreakData(skill, configurationSection);
-            case POTIONEFFECT: return new PotionEffectData(skill, configurationSection);
+            case POTIONEFFECT:
+            case SNEAKINGPOTION:
+                return new PotionEffectData(skill, configurationSection);
             case LIGHT: return new LightData(skill, configurationSection);
             case NOHUNGER: return new BlankData(skill, configurationSection);
             case ELECTRIFIED: return new ElectrifiedData(skill, configurationSection);
             case SLIME: return new SlimeData(skill, configurationSection);
             case AEROSURFER: return new AerosurferData(skill, configurationSection);
+            case EGGLAYER: return new EggLayerData(skill, configurationSection);
             default: return null;
         }
     }

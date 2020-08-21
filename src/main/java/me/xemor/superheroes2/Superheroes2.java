@@ -1,8 +1,7 @@
 package me.xemor.superheroes2;
 
 import me.xemor.superheroes2.commands.HeroCMD;
-import me.xemor.superheroes2.skills.*;
-import me.xemor.superheroes2.skills.skilldata.InstantBreakData;
+import me.xemor.superheroes2.skills.implementations.*;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,7 +24,9 @@ public final class Superheroes2 extends JavaPlugin {
                 new NoHungerSkill(powersHandler),
                 new ElectrifiedSkill(powersHandler),
                 new SlimeSkill(powersHandler),
-                new AerosurferSkill(powersHandler)
+                new AerosurferSkill(powersHandler),
+                new SneakingPotionSkill(powersHandler),
+                new EggLayerSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);

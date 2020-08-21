@@ -1,6 +1,7 @@
-package me.xemor.superheroes2.skills;
+package me.xemor.superheroes2.skills.implementations;
 
 import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.FoodLevelChangeEvent;

@@ -1,0 +1,17 @@
+Chicken:
+  colouredName: "&e&lChicken"
+  description: "You're a chicken."
+  skills:
+    eggLayer:
+      skill: EGGLAYER
+      type: EGG
+      quantity: 1
+      delay: 15
+    speed:
+      skill: POTIONEFFECT
+      type: SPEED
+      potency: 2
+    slowfall:
+      skill: POTIONEFFECT
+      type: SLOW_FALLING
+      potency: 1

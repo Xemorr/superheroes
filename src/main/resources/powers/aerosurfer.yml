@@ -5,3 +5,7 @@ Aerosurfer:
     aerosurfer:
       skill: AEROSURFER
       block: GLASS
+    speedWhenSneaking:
+      skill: SNEAKINGPOTION
+      type: SPEED
+      potency: 2

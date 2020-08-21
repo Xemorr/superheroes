@@ -19,7 +19,7 @@ public class ConfigHandler {
     private File dataFolder;
     private File superpowersFolder;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"superhuman", "mole", "robot", "slime", "aerosurfer.yml"};
+    private final static String[] resources = new String[]{"superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken"};
 
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {
@@ -97,13 +97,26 @@ public class ConfigHandler {
     public void loadPlayerHeroes() {
         HashMap<UUID, Superhero> playerHeroes = new HashMap<>();
         for (Map.Entry<String, Object> entry :  currentPowersYAML.getValues(false).entrySet()) {
-            playerHeroes.put(UUID.fromString(entry.getKey()), powersHandler.getSuperhero((String) entry.getValue()));
+            Superhero superhero = powersHandler.getSuperhero((String) entry.getValue());
+            UUID uuid = UUID.fromString(entry.getKey());
+            if (superhero == null) {
+                Superhero randomHero = powersHandler.getRandomHero();
+                saveSuperhero(uuid, randomHero);
+                playerHeroes.put(uuid, randomHero);
+            }
+            else {
+                playerHeroes.put(uuid, superhero);
+            }
         }
         powersHandler.setHeroes(playerHeroes);
     }
 
     public void saveSuperhero(Player player, Superhero hero) {
-        currentPowersYAML.set(String.valueOf(player.getUniqueId()), hero.getName());
+        saveSuperhero(player.getUniqueId(), hero);
+    }
+
+    public void saveSuperhero(UUID uuid, Superhero hero) {
+        currentPowersYAML.set(String.valueOf(uuid), hero.getName());
         saveCurrentPowers();
     }
 

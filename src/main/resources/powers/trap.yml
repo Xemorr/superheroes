@@ -1,0 +1,8 @@
+Trap:
+  colouredName: "&7&lTrap"
+  description: "You can trick players with your waifu disguise."
+  skills:
+    invisibility:
+      skill: SNEAKINGPOTION
+      type: INVISIBILITY
+      potency: 1

@@ -11,17 +11,16 @@ public class PotionEffectData extends SkillData {
 
     protected PotionEffectData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-        Integer tempPotency = configurationSection.getInt("potency");
-        int potency = 0;
-        if (tempPotency != null) {
-            potency = tempPotency - 1;
+        int potency = configurationSection.getInt("potency", 0);
+        if (potency != 0) {
+            potency--;
         }
         PotionEffectType type = PotionEffectType.getByName(configurationSection.getString("type").toUpperCase());
-        Integer duration = configurationSection.getInt("duration");
+        int duration = configurationSection.getInt("duration", 0);
         if (type.isInstant()) {
             potionEffect = new PotionEffect(type, 1, potency);
         }
-        else if (duration != null) {
+        else if (duration != 0) {
             potionEffect = new PotionEffect(type, duration * 20, potency);
         }
         else {
