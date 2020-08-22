@@ -26,7 +26,9 @@ public final class Superheroes2 extends JavaPlugin {
                 new SlimeSkill(powersHandler),
                 new AerosurferSkill(powersHandler),
                 new SneakingPotionSkill(powersHandler),
-                new EggLayerSkill(powersHandler)
+                new EggLayerSkill(powersHandler),
+                new WalkerSkill(powersHandler),
+                new AuraSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);

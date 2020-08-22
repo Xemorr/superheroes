@@ -1,0 +1,19 @@
+Frozone:
+  colouredName: "&b&lFrozone"
+  description: "You can walk on water, and slow others near you."
+  skills:
+    aura:
+      skill: AURA
+      type: SLOW
+      potency: 1
+      duration: 15
+      radius: 5
+    walkOnWater:
+      skill: WALKER
+      blocksToReplace:
+        - "WATER"
+      blocksToPlace:
+        - "FROSTED_ICE"
+      isSneaking: false
+      blocksDrop: true
+      shouldRevert: false

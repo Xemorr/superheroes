@@ -27,12 +27,10 @@ public class ElectrifiedSkill extends SkillImplementation {
             Player player = (Player) e.getEntity();
             Superhero superhero = powersHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.ELECTRIFIED);
-            if (!skillDatas.isEmpty()) {
-                for (SkillData skillData : skillDatas) {
-                    ElectrifiedData electrifiedData = (ElectrifiedData) skillData;
-                    e.setDamage(e.getDamage() * electrifiedData.getDamageResistance());
-                    player.addPotionEffect(electrifiedData.getPotionEffect());
-                }
+            for (SkillData skillData : skillDatas) {
+                ElectrifiedData electrifiedData = (ElectrifiedData) skillData;
+                e.setDamage(e.getDamage() * electrifiedData.getDamageResistance());
+                player.addPotionEffect(electrifiedData.getPotionEffect());
             }
         }
     }

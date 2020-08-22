@@ -17,6 +17,14 @@ public class PotionEffectData extends SkillData {
         }
         PotionEffectType type = PotionEffectType.getByName(configurationSection.getString("type").toUpperCase());
         int duration = configurationSection.getInt("duration", 0);
+        createPotion(type, duration, potency);
+    }
+
+    public PotionEffect getPotionEffect() {
+        return potionEffect;
+    }
+
+    protected void createPotion(PotionEffectType type, int duration, int potency) {
         if (type.isInstant()) {
             potionEffect = new PotionEffect(type, 1, potency);
         }
@@ -26,9 +34,5 @@ public class PotionEffectData extends SkillData {
         else {
             potionEffect = new PotionEffect(type, Integer.MAX_VALUE, potency);
         }
-    }
-
-    public PotionEffect getPotionEffect() {
-        return potionEffect;
     }
 }

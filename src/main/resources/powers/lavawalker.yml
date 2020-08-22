@@ -1,0 +1,17 @@
+LavaWalker:
+  colouredName: "&c&lLava-Walker"
+  description: "You can walk on lava and are fire immune!"
+  skills:
+    lavawalker:
+      skill: WALKER
+      blocksToReplace:
+        - LAVA
+      blocksToPlace:
+        - MAGMA_BLOCK
+      isSneaking: false
+      blocksDrop: true
+      shouldRevert: false
+    fireResistance:
+      skill: POTIONEFFECT
+      type: FIRE_RESISTANCE
+      potency: 1

@@ -27,6 +27,8 @@ public abstract class SkillData {
             case SLIME: return new SlimeData(skill, configurationSection);
             case AEROSURFER: return new AerosurferData(skill, configurationSection);
             case EGGLAYER: return new EggLayerData(skill, configurationSection);
+            case AURA: return new AuraData(skill, configurationSection);
+            case WALKER: return new WalkerData(skill, configurationSection);
             default: return null;
         }
     }
