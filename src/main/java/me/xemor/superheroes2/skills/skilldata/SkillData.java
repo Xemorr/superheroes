@@ -29,6 +29,7 @@ public abstract class SkillData {
             case AURA: return new AuraData(skill, configurationSection);
             case WALKER: return new WalkerData(skill, configurationSection);
             case PICKPOCKET: return new PickpocketData(skill, configurationSection);
+            case STRONGMAN: return new StrongmanData(skill, configurationSection);
             default: return null;
         }
     }

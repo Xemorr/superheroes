@@ -1,0 +1,10 @@
+Strongman:
+  colouredName: "&7&lStrongman"
+  description: "You can pickup and throw entities!"
+  skills:
+    strongman:
+      skill: STRONGMAN
+      velocity: 2.5
+      upwardsVelocity: 1.0
+      tooMuscularMessage: " &fis too strong to sit in a vehicle!"
+      maxPassengers: 10
