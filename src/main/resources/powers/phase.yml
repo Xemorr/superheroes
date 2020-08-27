@@ -1,0 +1,7 @@
+Phase:
+  colouredName: "&5&lPhase"
+  description: "You can phase through the ground by sneaking!"
+  skills:
+    phase:
+      skill: PHASE
+      minimumPhaseYAxis: 5

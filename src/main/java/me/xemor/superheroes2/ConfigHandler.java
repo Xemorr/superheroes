@@ -19,7 +19,7 @@ public class ConfigHandler {
     private File dataFolder;
     private File superpowersFolder;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"strongman", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
+    private final static String[] resources = new String[]{"strongman", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
 
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {

@@ -30,6 +30,7 @@ public abstract class SkillData {
             case WALKER: return new WalkerData(skill, configurationSection);
             case PICKPOCKET: return new PickpocketData(skill, configurationSection);
             case STRONGMAN: return new StrongmanData(skill, configurationSection);
+            case PHASE: return new PhaseData(skill, configurationSection);
             default: return null;
         }
     }
