@@ -25,10 +25,10 @@ public abstract class SkillData {
             case NOHUNGER: return new BlankData(skill, configurationSection);
             case ELECTRIFIED: return new ElectrifiedData(skill, configurationSection);
             case SLIME: return new SlimeData(skill, configurationSection);
-            case AEROSURFER: return new AerosurferData(skill, configurationSection);
             case EGGLAYER: return new EggLayerData(skill, configurationSection);
             case AURA: return new AuraData(skill, configurationSection);
             case WALKER: return new WalkerData(skill, configurationSection);
+            case PICKPOCKET: return new PickpocketData(skill, configurationSection);
             default: return null;
         }
     }

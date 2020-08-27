@@ -14,12 +14,12 @@ import java.util.logging.Level;
 
 public class ConfigHandler {
 
-    private YamlConfiguration currentPowersYAML = null;
+    private YamlConfiguration currentPowersYAML;
     private File currentPowersFile;
     private File dataFolder;
     private File superpowersFolder;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
+    private final static String[] resources = new String[]{"pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
 
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {

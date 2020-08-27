@@ -3,6 +3,7 @@ package me.xemor.superheroes2.skills.implementations;
 import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
+import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.LightData;
@@ -23,6 +24,16 @@ public class LightSkill extends SkillImplementation {
         Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
         if (superhero.hasSkill(Skill.LIGHT)) {
             runnable(e.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void onLost(PlayerLostSuperheroEvent e) {
+        Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.LIGHT);
+        for (SkillData skillData : skillDatas) {
+            LightData lightData = (LightData) skillData;
+            e.getPlayer().removePotionEffect(lightData.getPotionEffect().getType());
         }
     }
 

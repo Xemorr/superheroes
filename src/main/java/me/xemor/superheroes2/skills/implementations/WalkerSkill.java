@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -26,9 +27,6 @@ public class WalkerSkill extends SkillImplementation {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        if (player.isSneaking()) {
-            return;
-        }
         Superhero superhero = powersHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.WALKER);
         for (SkillData skillData : skillDatas) {
@@ -58,5 +56,12 @@ public class WalkerSkill extends SkillImplementation {
                 block.setMetadata("blockDrops", new FixedMetadataValue(powersHandler.getPlugin(), true));
             }
         }.runTaskLater(powersHandler.getPlugin(), walkerData.getRevertsAfter());
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        if (e.getBlock().hasMetadata("blockDrops")) {
+            e.setDropItems(e.getBlock().getMetadata("blockDrops").get(0).asBoolean());
+        }
     }
 }
