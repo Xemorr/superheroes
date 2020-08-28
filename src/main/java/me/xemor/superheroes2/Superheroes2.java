@@ -26,7 +26,7 @@ public final class Superheroes2 extends JavaPlugin {
                 new InstantBreak(powersHandler),
                 new LightSkill(powersHandler),
                 new NoHungerSkill(powersHandler),
-                new ElectrifiedSkill(powersHandler),
+                new DamageResistanceSkill(powersHandler),
                 new SlimeSkill(powersHandler),
                 new SneakingPotionSkill(powersHandler),
                 new EggLayerSkill(powersHandler),
@@ -34,7 +34,8 @@ public final class Superheroes2 extends JavaPlugin {
                 new AuraSkill(powersHandler),
                 new PickpocketSkill(powersHandler),
                 new StrongmanSkill(powersHandler),
-                new PhaseSkill(powersHandler)
+                new PhaseSkill(powersHandler),
+                new SlamSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);

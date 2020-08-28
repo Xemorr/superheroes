@@ -5,3 +5,7 @@ Slime:
     slimeboots:
       skill: SLIME
       speedMultiplier: 1.0
+    noFallDamage:
+      skill: DAMAGERESISTANCE
+      damageMultiplier: 0
+      damageCause: FALL

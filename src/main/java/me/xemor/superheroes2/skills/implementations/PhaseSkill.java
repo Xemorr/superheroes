@@ -47,7 +47,7 @@ public class PhaseSkill extends SkillImplementation {
                             player.setGravity(true);
                             player.setAllowFlight(false);
                             player.setFlying(false);
-                            player.setVelocity(player.getVelocity().normalize().multiply(0.75));
+                            player.setVelocity(player.getVelocity().normalize());
                         }
                         else {
                             player.setGameMode(GameMode.SURVIVAL);

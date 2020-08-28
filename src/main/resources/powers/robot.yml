@@ -11,12 +11,16 @@ Robot:
       skill: POTIONEFFECT
       type: NIGHT_VISION
     lightningStrike:
-      skill: ELECTRIFIED
+      skill: DAMAGERESISTANCE
       type: SPEED
       duration: 30
       potency: 2
+      damageMultiplier: 0
+      damageCause: LIGHTNING
     lightningStrike2:
-      skill: ELECTRIFIED
+      skill: DAMAGERESISTANCE
       type: GLOWING
       duration: 30
       potency: 1
+      damageMultiplier: 0
+      damageCause: LIGHTNING

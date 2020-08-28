@@ -5,3 +5,11 @@ Phase:
     phase:
       skill: PHASE
       minimumPhaseYAxis: 5
+    noFallDamage:
+      skill: DAMAGERESISTANCE
+      damageMultiplier: 0
+      damageCause: FALL
+    noSuffocation:
+      skill: DAMAGERESISTANCE
+      damageMultiplier: 0
+      damageCause: SUFFOCATION

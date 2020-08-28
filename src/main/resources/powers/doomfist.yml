@@ -1,0 +1,18 @@
+Doomfist:
+  colouredName: "&8&lDoomfist"
+  description: "You are Doomfist."
+  skills:
+    punch:
+      skill: SLAM
+      item: "AIR"
+      landCooldown: 10
+      airCooldown: 1
+      foodCost: 3
+      minimumFood: 6
+      diameterRadius: 5
+      damage: 8
+      cooldownMessage: "&8&lSlam &fCooldown: %s seconds"
+    noFallDamage:
+      skill: DAMAGERESISTANCE
+      damageMultiplier: 0
+      damageCause: FALL

@@ -15,7 +15,11 @@ public class PotionEffectData extends SkillData {
         if (potency != 0) {
             potency--;
         }
-        PotionEffectType type = PotionEffectType.getByName(configurationSection.getString("type").toUpperCase());
+        String potionType = configurationSection.getString("type", null);
+        if (potionType == null) {
+            return;
+        }
+        PotionEffectType type = PotionEffectType.getByName(potionType.toUpperCase());
         int duration = configurationSection.getInt("duration", 0);
         createPotion(type, duration, potency);
     }
