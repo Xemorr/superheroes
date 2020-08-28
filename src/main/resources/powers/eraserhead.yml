@@ -1,0 +1,8 @@
+Eraserhead:
+  colouredName: "&8&lEraserhead"
+  description: "You can erase other people's powers by sneaking."
+  skills:
+    eraser:
+      skill: ERASER
+      range: 30
+      message:

@@ -19,6 +19,7 @@ public class PowersHandler {
     FileConfiguration powersFile;
     Superheroes2 superheroes;
     ConfigHandler configHandler;
+    Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "They have no power");
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
 
 
@@ -64,7 +65,7 @@ public class PowersHandler {
 
     public void temporarilyRemovePower(Player player, Player remover) {
         final Superhero oldPower = uuidToPowers.get(player.getUniqueId());
-        uuidToPowers.remove(player.getUniqueId());
+        uuidToPowers.replace(player.getUniqueId(), erased);
         if (remover != null) {
             remover.sendMessage(ChatColor.BOLD + player.getName() + " has had their power erased temporarily!");
         }
@@ -74,7 +75,7 @@ public class PowersHandler {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (uuidToPowers.get(player.getUniqueId()) == null) {
+                if (uuidToPowers.get(player.getUniqueId()) == erased) {
                     PlayerGainedSuperheroEvent playerGainedPowerEvent = new PlayerGainedSuperheroEvent(player, oldPower);
                     Bukkit.getServer().getPluginManager().callEvent(playerGainedPowerEvent);
                     uuidToPowers.put(player.getUniqueId(), oldPower);

@@ -35,7 +35,8 @@ public final class Superheroes2 extends JavaPlugin {
                 new PickpocketSkill(powersHandler),
                 new StrongmanSkill(powersHandler),
                 new PhaseSkill(powersHandler),
-                new SlamSkill(powersHandler)
+                new SlamSkill(powersHandler),
+                new EraserSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);

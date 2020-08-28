@@ -31,6 +31,7 @@ public abstract class SkillData {
             case STRONGMAN: return new StrongmanData(skill, configurationSection);
             case PHASE: return new PhaseData(skill, configurationSection);
             case SLAM: return new SlamData(skill, configurationSection);
+            case ERASER: return new EraserData(skill, configurationSection);
             default:
                 return null;
         }
