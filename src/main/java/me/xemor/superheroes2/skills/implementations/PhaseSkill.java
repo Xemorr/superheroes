@@ -34,6 +34,7 @@ public class PhaseSkill extends SkillImplementation {
             Superhero superhero = powersHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.PHASE);
             for (SkillData ignored : skillDatas) {
+                player.setVelocity(new Vector(0, -0.1, 0));
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -47,7 +48,10 @@ public class PhaseSkill extends SkillImplementation {
                             player.setGravity(true);
                             player.setAllowFlight(false);
                             player.setFlying(false);
-                            player.setVelocity(player.getVelocity().normalize());
+                            try {
+                                player.setVelocity(player.getVelocity().normalize());
+                            }catch(IllegalArgumentException e) {
+                            }
                         }
                         else {
                             player.setGameMode(GameMode.SURVIVAL);

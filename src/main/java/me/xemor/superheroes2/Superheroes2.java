@@ -21,6 +21,18 @@ public final class Superheroes2 extends JavaPlugin {
         powersHandler = new PowersHandler(this);
         configHandler = new ConfigHandler(this, powersHandler);
         powersHandler.setConfigHandler(configHandler);
+        registerSkills();
+        Reroll reroll = new Reroll(powersHandler, configHandler);
+        this.getServer().getPluginManager().registerEvents(reroll, this);
+        this.getServer().getPluginManager().registerEvents(new JoinListener(powersHandler), this);
+        HeroCMD heroCMD = new HeroCMD(powersHandler);
+        PluginCommand command = this.getCommand("hero");
+        command.setExecutor(heroCMD);
+        command.setTabCompleter(heroCMD);
+        handleMetrics();
+    }
+
+    public void registerSkills() {
         skills = new SkillImplementation[]{
                 new PotionEffectSkill(powersHandler),
                 new InstantBreak(powersHandler),
@@ -36,17 +48,12 @@ public final class Superheroes2 extends JavaPlugin {
                 new StrongmanSkill(powersHandler),
                 new PhaseSkill(powersHandler),
                 new SlamSkill(powersHandler),
-                new EraserSkill(powersHandler)
+                new EraserSkill(powersHandler),
+                new CraftingSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
         }
-        this.getServer().getPluginManager().registerEvents(new JoinListener(powersHandler), this);
-        HeroCMD heroCMD = new HeroCMD(powersHandler);
-        PluginCommand command = this.getCommand("hero");
-        command.setExecutor(heroCMD);
-        command.setTabCompleter(heroCMD);
-        handleMetrics();
     }
 
     public void handleMetrics() {

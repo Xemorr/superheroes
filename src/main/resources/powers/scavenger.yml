@@ -1,0 +1,56 @@
+Scavenger:
+  colouredName: "&e&lScavenger"
+  description: "You unlock additional crafting recipes"
+  skills:
+    rotten_flesh:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        ==: org.bukkit.inventory.ItemStack #this must be here every time you make a result. do not forget it when making your own heroes.
+        type: LEATHER
+        amount: 1
+      ingredients:
+        ROTTEN_FLESH: 1
+    diamond_sword:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        ==: org.bukkit.inventory.ItemStack
+        type: DIAMOND_SWORD
+        amount: 1
+      ingredients:
+        IRON_SWORD: 1
+        DIAMOND: 1
+    diamond_axe:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        ==: org.bukkit.inventory.ItemStack
+        type: DIAMOND_AXE
+        amount: 1
+      ingredients:
+        IRON_AXE: 1
+        DIAMOND: 2
+    diamond_pickaxe:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        ==: org.bukkit.inventory.ItemStack
+        type: DIAMOND_PICKAXE
+        amount: 1
+      ingredients:
+        IRON_PICKAXE: 1
+        DIAMOND: 2
+    bow:
+      skill: CRAFTING
+      isShaped: true
+      result:
+        ==: org.bukkit.inventory.ItemStack
+        type: BOW
+        amount: 1
+      recipe:
+        - " SS"
+        - "S S"
+        - " SS"
+      recipeKeys:
+        STICK: "S"

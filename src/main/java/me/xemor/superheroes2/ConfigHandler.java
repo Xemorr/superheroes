@@ -5,8 +5,10 @@ import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
 import java.util.*;
@@ -18,11 +20,14 @@ public class ConfigHandler {
     private File currentPowersFile;
     private File dataFolder;
     private File superpowersFolder;
+    private FileConfiguration config;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
+    private final static String[] resources = new String[]{"scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
 
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {
+        superheroes2.saveDefaultConfig();
+        config = superheroes2.getConfig();
         this.powersHandler = powersHandler;
         dataFolder = superheroes2.getDataFolder();
         if (!dataFolder.exists()) {
@@ -138,6 +143,14 @@ public class ConfigHandler {
 
     public File getSuperpowersFolder() {
         return superpowersFolder;
+    }
+
+    public ItemStack getRerollItem() {
+        return config.getConfigurationSection("reroll").getItemStack("item");
+    }
+
+    public boolean isRerollEnabled() {
+        return config.getConfigurationSection("reroll").getBoolean("isEnabled");
     }
 
 }

@@ -1,0 +1,6 @@
+reroll:
+  item:
+    ==: org.bukkit.inventory.ItemStack #this must be here, don't remove it.
+    type: DIAMOND_BLOCK
+    amount: 1
+  isEnabled: true

@@ -42,7 +42,7 @@
                                 <relocation>
                                     <pattern>org.bstats</pattern>
                                     <!-- Replace this with your package! -->
-                                    <shadedPattern>me.xemor.superheroes</shadedPattern>
+                                    <shadedPattern>me.xemor.superheroes2</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

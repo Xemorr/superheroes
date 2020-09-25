@@ -32,6 +32,7 @@ public abstract class SkillData {
             case PHASE: return new PhaseData(skill, configurationSection);
             case SLAM: return new SlamData(skill, configurationSection);
             case ERASER: return new EraserData(skill, configurationSection);
+            case CRAFTING: return new CraftingData(skill, configurationSection);
             default:
                 return null;
         }
