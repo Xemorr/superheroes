@@ -49,7 +49,8 @@ public final class Superheroes2 extends JavaPlugin {
                 new PhaseSkill(powersHandler),
                 new SlamSkill(powersHandler),
                 new EraserSkill(powersHandler),
-                new CraftingSkill(powersHandler)
+                new CraftingSkill(powersHandler),
+                new TeleportSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);

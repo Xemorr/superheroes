@@ -6,7 +6,6 @@ Scavenger:
       skill: CRAFTING
       isShaped: false
       result:
-        ==: org.bukkit.inventory.ItemStack #this must be here every time you make a result. do not forget it when making your own heroes.
         type: LEATHER
         amount: 1
       ingredients:
@@ -15,7 +14,6 @@ Scavenger:
       skill: CRAFTING
       isShaped: false
       result:
-        ==: org.bukkit.inventory.ItemStack
         type: DIAMOND_SWORD
         amount: 1
       ingredients:
@@ -25,7 +23,6 @@ Scavenger:
       skill: CRAFTING
       isShaped: false
       result:
-        ==: org.bukkit.inventory.ItemStack
         type: DIAMOND_AXE
         amount: 1
       ingredients:
@@ -35,17 +32,60 @@ Scavenger:
       skill: CRAFTING
       isShaped: false
       result:
-        ==: org.bukkit.inventory.ItemStack
         type: DIAMOND_PICKAXE
         amount: 1
       ingredients:
         IRON_PICKAXE: 1
         DIAMOND: 2
+    diamond_helmet:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        type: DIAMOND_HELMET
+        amount: 1
+      ingredients:
+        IRON_HELMET: 1
+        DIAMOND: 2
+    diamond_chestplate:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        type: DIAMOND_CHESTPLATE
+        amount: 1
+      ingredients:
+        IRON_CHESTPLATE: 1
+        DIAMOND: 4
+    diamond_leggings:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        type: DIAMOND_LEGGINGS
+        amount: 1
+      ingredients:
+        IRON_LEGGINGS: 1
+        DIAMOND: 4
+    diamond_boots:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        type: DIAMOND_BOOTS
+        amount: 1
+      ingredients:
+        IRON_BOOTS: 1
+        DIAMOND: 2
+    diamond_shovel:
+      skill: CRAFTING
+      isShaped: false
+      result:
+        type: DIAMOND_SHOVEL
+        amount: 1
+      ingredients:
+        IRON_SHOVEL: 1
+        LAPIS_LAZULI: 1
     bow:
       skill: CRAFTING
       isShaped: true
       result:
-        ==: org.bukkit.inventory.ItemStack
         type: BOW
         amount: 1
       recipe:

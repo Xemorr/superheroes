@@ -22,7 +22,11 @@ public class CraftingData extends SkillData {
         super(skill, configurationSection);
         boolean isShaped = configurationSection.getBoolean("isShaped", true);
         NamespacedKey namespacedKey = new NamespacedKey(JavaPlugin.getPlugin(Superheroes2.class), UUID.randomUUID().toString());
-        ItemStack result = configurationSection.getItemStack("result");
+        ConfigurationSection resultSection = configurationSection.getConfigurationSection("result");
+        String typeStr = resultSection.getString("type", "STONE");
+        Material type = Material.valueOf(typeStr);
+        int amount = resultSection.getInt("amount", 1);
+        ItemStack result = new ItemStack(type, amount);
         if (isShaped) {
             ConfigurationSection recipeKeys = configurationSection.getConfigurationSection("recipeKeys");
             ShapedRecipe shapedRecipe = new ShapedRecipe(namespacedKey, result);

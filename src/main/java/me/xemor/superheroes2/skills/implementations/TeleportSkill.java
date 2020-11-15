@@ -1,0 +1,73 @@
+package me.xemor.superheroes2.skills.implementations;
+
+import me.xemor.superheroes2.CooldownHandler;
+import me.xemor.superheroes2.ParticleHandler;
+import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.skills.Skill;
+import me.xemor.superheroes2.skills.skilldata.PotionEffectData;
+import me.xemor.superheroes2.skills.skilldata.SkillData;
+import me.xemor.superheroes2.skills.skilldata.TeleportData;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.RayTraceResult;
+import org.bukkit.util.Vector;
+
+import java.util.Collection;
+
+public class TeleportSkill extends SkillImplementation {
+
+
+    CooldownHandler cooldownHandler = new CooldownHandler("");
+    public TeleportSkill(PowersHandler powersHandler) {
+        super(powersHandler);
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        Superhero superhero = getPowersHandler().getSuperhero(player);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.TELEPORT);
+        for (SkillData skillData : skillDatas) {
+            TeleportData teleportData = (TeleportData) skillData;
+            if (e.getAction() == Action.PHYSICAL) { return; }
+            if ((e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) == teleportData.isLeftClick()) {
+                if (cooldownHandler.isCooldownOver(player.getUniqueId(), teleportData.getTeleportCooldownMessage())) {
+                    doEnderTeleport(player, teleportData);
+                    cooldownHandler.startCooldown(teleportData.getCooldown(), player.getUniqueId());
+                }
+            }
+        }
+    }
+
+    public void doEnderTeleport(Player player, TeleportData teleportData) {
+        World world = player.getWorld();
+        Location eyeLoc = player.getEyeLocation().clone();
+        Vector travelVector = eyeLoc.getDirection().setY(eyeLoc.getDirection().getY() * teleportData.getyAxisMultiplier());
+        RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLoc, travelVector, teleportData.getDistance());
+        Vector hitPosition;
+        if (rayTraceResult == null || rayTraceResult.getHitPosition() == null) {
+            hitPosition = eyeLoc.toVector().add(travelVector.multiply(teleportData.getDistance()));
+        } else {
+            hitPosition = rayTraceResult.getHitPosition();
+        }
+        Location location = new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
+        Location eyeLocation = player.getEyeLocation();
+        location.setYaw(eyeLocation.getYaw());
+        location.setPitch(eyeLocation.getPitch());
+        player.teleport(location, teleportData.getTeleportCause());
+        ParticleHandler particleHandler = new ParticleHandler(player);
+        particleHandler.setupFromParticleData(teleportData.getParticleData());
+        particleHandler.runTaskTimer(powersHandler.getPlugin(), 0L, 5L);
+    }
+
+}

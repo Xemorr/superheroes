@@ -1,0 +1,17 @@
+Enderman:
+  colouredName: "&5&lEnderman"
+  description: "You can teleport by punching."
+  skills:
+    teleport:
+      skill: TELEPORT
+      leftClick: true
+      distance: 30
+      yAxisMultiplier: 0.75
+      teleportCause: ENDER_PEARL
+      cooldown: 10
+      teleportCooldownMessage: "&5&lTeleport &7has %s seconds until it can be used again!"
+      particle:
+        isHelix: true
+        radius: 1
+        duration: 2.5
+        particleType: PORTAL
