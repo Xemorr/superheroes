@@ -34,6 +34,7 @@ public abstract class SkillData {
             case ERASER: return new EraserData(skill, configurationSection);
             case CRAFTING: return new CraftingData(skill, configurationSection);
             case TELEPORT: return new TeleportData(skill, configurationSection);
+            case SUMMON: return new SummonData(skill, configurationSection);
             default:
                 return null;
         }

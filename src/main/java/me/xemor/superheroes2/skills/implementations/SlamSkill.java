@@ -54,32 +54,23 @@ public class SlamSkill extends SkillImplementation {
             @Override
             public void run() {
                 Block under = player.getWorld().getBlockAt(player.getLocation().subtract(0, 1, 0));
-                if (under.getType().isAir()) {
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            Block under = player.getWorld().getBlockAt(player.getLocation().subtract(0, 1, 0));
-                            if (!powersHandler.getSuperhero(player).equals(superhero)) {
-                                cancel();
-                                return;
-                            }
-                            if (!under.getType().isAir()) {
-                                World world = player.getWorld();
-                                Collection<Entity> entities = world.getNearbyEntities(player.getLocation(), slamData.getDiameterRadius(), 3, slamData.getDiameterRadius(), entity -> entity instanceof LivingEntity);
-                                for (Entity entity : entities) {
-                                    if (!player.equals(entity)) {
-                                        LivingEntity livingEntity = (LivingEntity) entity;
-                                        livingEntity.damage(slamData.getDamage(), player);
-                                    }
-                                }
-                                cooldownHandler.startCooldown(slamData.getLandCooldown(), player.getUniqueId());
-                                cancel();
-                            }
+                if (!powersHandler.getSuperhero(player).equals(superhero)) {
+                    cancel();
+                    return;
+                }
+                if (!under.getType().isAir()) {
+                    World world = player.getWorld();
+                    Collection<Entity> entities = world.getNearbyEntities(player.getLocation(), slamData.getDiameterRadius(), 3, slamData.getDiameterRadius(), entity -> entity instanceof LivingEntity);
+                    for (Entity entity : entities) {
+                        if (!player.equals(entity)) {
+                            LivingEntity livingEntity = (LivingEntity) entity;
+                            livingEntity.damage(slamData.getDamage(), player);
                         }
-                    }.runTaskTimer(powersHandler.getPlugin(), 2L, 2L);
+                    }
+                    cooldownHandler.startCooldown(slamData.getLandCooldown(), player.getUniqueId());
+                    cancel();
                 }
             }
-        }.runTaskLater(powersHandler.getPlugin(), 2L);
+        }.runTaskTimer(powersHandler.getPlugin(), 6L, 2L);
     }
-
 }

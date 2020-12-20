@@ -1,0 +1,23 @@
+IronGolem:
+  colouredName: "&f&lIron Golem"
+  description: "You're an iron golem"
+  skills:
+    ironFarm:
+      skill: EGGLAYER
+      type: IRON_INGOT
+      quantity: 1
+      delay: 60
+    slowness:
+      skill: POTIONEFFECT
+      type: SLOW
+      potency: 1
+    resistance:
+      skill: POTIONEFFECT
+      type: DAMAGE_RESISTANCE
+      potency: 1
+    noFall:
+      skill: DAMAGERESISTANCE
+      damageMultiplier: 0
+      damageCause:
+        - "FALL"
+

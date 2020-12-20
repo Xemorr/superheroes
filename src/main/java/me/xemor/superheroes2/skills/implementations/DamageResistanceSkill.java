@@ -28,7 +28,7 @@ public class DamageResistanceSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.DAMAGERESISTANCE);
         for (SkillData skillData : skillDatas) {
             DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;
-            if (damageResistanceData.getDamageCause() == null || e.getCause() == damageResistanceData.getDamageCause()) {
+            if (damageResistanceData.getDamageCause() == null || damageResistanceData.getDamageCause().contains(e.getCause())) {
                 e.setDamage(e.getDamage() * damageResistanceData.getDamageMultiplier());
                 if (damageResistanceData.getDamageMultiplier() == 0) {
                     e.setCancelled(true);

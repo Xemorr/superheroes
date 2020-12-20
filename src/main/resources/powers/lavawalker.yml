@@ -1,6 +1,6 @@
 LavaWalker:
   colouredName: "&c&lLava-Walker"
-  description: "You can walk on lava and are fire immune!"
+  description: "You can walk on lava and fire heals you!"
   skills:
     lavawalker:
       skill: WALKER
@@ -11,7 +11,13 @@ LavaWalker:
       isSneaking: false
       blocksDrop: true
       shouldRevert: false
-    fireResistance:
-      skill: POTIONEFFECT
-      type: FIRE_RESISTANCE
+    fireHealing:
+      skill: DAMAGERESISTANCE
+      type: REGENERATION
+      duration: 20
       potency: 1
+      damageMultiplier: 0
+      damageCause:
+        - "FIRE_TICK"
+        - "FIRE"
+        - "LAVA"

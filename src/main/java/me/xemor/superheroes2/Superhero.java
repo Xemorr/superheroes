@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class Superhero {
@@ -35,7 +36,8 @@ public class Superhero {
     }
 
     public Collection<SkillData> getSkillData(Skill skill) {
-        return skillToData.get(skill);
+        Collection<SkillData> skillData = skillToData.get(skill);
+        return skillData == null ? new ArrayList<>() : skillData;
     }
 
     public String getColouredName() {

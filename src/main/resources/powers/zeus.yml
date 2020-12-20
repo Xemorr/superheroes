@@ -1,0 +1,14 @@
+Zeus:
+  colouredName: "&e&lZeus"
+  description: "Punching causes you to strike lightning wherever you look."
+  skills:
+    lightning:
+      skill: SUMMON
+      entity: LIGHTNING
+      range: 30
+      repel: true
+      cooldown: 10
+      type: SLOW_FALLING
+      potency: 1
+      duration: 5
+      cooldownMessage: "&e&lZeus &fCooldown: %s seconds"

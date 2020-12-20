@@ -7,8 +7,10 @@ import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.PotionEffectData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,10 +25,10 @@ public class PotionEffectSkill extends SkillImplementation {
 
     @EventHandler
     public void onPowerGained(PlayerGainedSuperheroEvent e) {
-        dishoutPotionEffects(e.getPlayer());
+        givePotionEffects(e.getPlayer());
     }
 
-    public void dishoutPotionEffects(Player player) {
+    public void givePotionEffects(Player player) {
         Superhero superhero = powersHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.POTIONEFFECT);
         if (skillDatas != null) {
@@ -42,7 +44,7 @@ public class PotionEffectSkill extends SkillImplementation {
         new BukkitRunnable() {
             @Override
             public void run() {
-                dishoutPotionEffects(e.getPlayer());
+                givePotionEffects(e.getPlayer());
             }
         }.runTaskLater(powersHandler.getPlugin(), 5L);
     }
@@ -55,6 +57,18 @@ public class PotionEffectSkill extends SkillImplementation {
                 PotionEffectType type = PotionEffectType.getByName(skillData.getData().getString("type").toUpperCase());
                 e.getPlayer().removePotionEffect(type);
             }
+        }
+    }
+
+    @EventHandler
+    public void onMilkDrink(PlayerItemConsumeEvent e) {
+        if (e.getItem().getType() == Material.MILK_BUCKET) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    givePotionEffects(e.getPlayer());
+                }
+            }.runTaskLater(powersHandler.getPlugin(), 3L);
         }
     }
 }

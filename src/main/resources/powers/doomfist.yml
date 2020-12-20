@@ -15,4 +15,5 @@ Doomfist:
     noFallDamage:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
-      damageCause: FALL
+      damageCause:
+       - "FALL"

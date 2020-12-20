@@ -16,11 +16,13 @@ Robot:
       duration: 30
       potency: 2
       damageMultiplier: 0
-      damageCause: LIGHTNING
+      damageCause:
+       - "LIGHTNING"
     lightningStrike2:
       skill: DAMAGERESISTANCE
       type: GLOWING
       duration: 30
       potency: 1
       damageMultiplier: 0
-      damageCause: LIGHTNING
+      damageCause:
+       - "LIGHTNING"

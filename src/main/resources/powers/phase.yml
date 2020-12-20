@@ -8,8 +8,6 @@ Phase:
     noFallDamage:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
-      damageCause: FALL
-    noSuffocation:
-      skill: DAMAGERESISTANCE
-      damageMultiplier: 0
-      damageCause: SUFFOCATION
+      damageCause:
+       - "FALL"
+       - "SUFFOCATION"
