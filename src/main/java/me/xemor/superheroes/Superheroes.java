@@ -4,7 +4,11 @@ import me.xemor.superheroes.Commands.PowerCommand;
 import me.xemor.superheroes.Commands.Reroll;
 import me.xemor.superheroes.Superpowers.*;
 import me.xemor.superheroes.Superpowers.Sorcerer.Sorcerer;
+import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Level;
 
 public final class Superheroes extends JavaPlugin {
 
@@ -34,6 +38,10 @@ public final class Superheroes extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(recipeHandler, this);
         for (Superpower superpower : superpowers) {
             this.getServer().getPluginManager().registerEvents(superpower, this);
+        }
+        Metrics metrics = new Metrics(this, 8671);
+        if (!metrics.isEnabled()) {
+            Bukkit.getLogger().log(Level.WARNING, "[Superheroes] You have disabled bstats, this is very sad :(");
         }
     }
 

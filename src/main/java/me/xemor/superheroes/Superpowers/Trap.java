@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,7 +26,7 @@ import java.util.UUID;
 
 public class Trap extends Superpower {
 
-    ItemStack headItem = new ItemStack(Material.PLAYER_HEAD);
+
     ItemStack pinkLeatherTunic = new ItemStack(Material.LEATHER_CHESTPLATE);
     ItemStack pinkLeatherLegs = new ItemStack(Material.LEATHER_LEGGINGS);
     ItemStack pinkLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
@@ -55,6 +56,10 @@ public class Trap extends Superpower {
                 ArmorStand armorStand = world.spawn(player.getLocation(), ArmorStand.class);
                 armorStand.setBasePlate(false);
                 EntityEquipment equipment = armorStand.getEquipment();
+                ItemStack headItem = new ItemStack(Material.PLAYER_HEAD);
+                SkullMeta skullMeta = (SkullMeta) headItem.getItemMeta();
+                skullMeta.setOwningPlayer(player);
+                headItem.setItemMeta(skullMeta);
                 equipment.setHelmet(headItem);
                 equipment.setChestplate(pinkLeatherTunic);
                 equipment.setLeggings(pinkLeatherLegs);

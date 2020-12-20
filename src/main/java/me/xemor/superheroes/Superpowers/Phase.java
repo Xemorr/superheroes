@@ -75,7 +75,7 @@ public class Phase extends Superpower {
 
     @EventHandler
     public void teleport(PlayerTeleportEvent e) {
-        if (e.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+        if (e.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE && powersHandler.getPower(e.getPlayer()) == Power.Phase) {
             e.setCancelled(true);
         }
     }
