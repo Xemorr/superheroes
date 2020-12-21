@@ -8,6 +8,7 @@ import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.TeleportData;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,9 +36,11 @@ public class TeleportSkill extends SkillImplementation {
             TeleportData teleportData = (TeleportData) skillData;
             if (e.getAction() == Action.PHYSICAL) { return; }
             if ((e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) == teleportData.isLeftClick()) {
-                if (cooldownHandler.isCooldownOver(teleportData, player.getUniqueId(), teleportData.getTeleportCooldownMessage())) {
-                    doEnderTeleport(player, teleportData);
-                    cooldownHandler.startCooldown(teleportData, teleportData.getCooldown(), player.getUniqueId());
+                if ((e.getItem() == null ? Material.AIR : e.getItem().getType()) == teleportData.getTeleportItem()) {
+                    if (cooldownHandler.isCooldownOver(teleportData, player.getUniqueId(), teleportData.getTeleportCooldownMessage())) {
+                        doEnderTeleport(player, teleportData);
+                        cooldownHandler.startCooldown(teleportData, teleportData.getCooldown(), player.getUniqueId());
+                    }
                 }
             }
         }

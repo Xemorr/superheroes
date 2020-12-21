@@ -3,6 +3,7 @@ package me.xemor.superheroes2.skills.skilldata;
 import me.xemor.superheroes2.ParticleData;
 import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -15,6 +16,7 @@ public class TeleportData extends SkillData {
     private PlayerTeleportEvent.TeleportCause teleportCause;
     private ParticleData particleData;
     private String teleportCooldownMessage;
+    private Material teleportItem;
 
     protected TeleportData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
@@ -29,6 +31,7 @@ public class TeleportData extends SkillData {
             particleSection = configurationSection;
         }
         particleData = new ParticleData(particleSection);
+        teleportItem = Material.valueOf(configurationSection.getString("teleportItem", "AIR"));
     }
 
     public boolean isLeftClick() {
@@ -57,5 +60,9 @@ public class TeleportData extends SkillData {
 
     public ParticleData getParticleData() {
         return particleData;
+    }
+
+    public Material getTeleportItem() {
+        return teleportItem;
     }
 }
