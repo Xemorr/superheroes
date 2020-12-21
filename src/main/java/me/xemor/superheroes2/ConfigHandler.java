@@ -10,7 +10,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -22,7 +23,7 @@ public class ConfigHandler {
     private File superpowersFolder;
     private FileConfiguration config;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"irongolem", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
+    private final static String[] resources = new String[]{"irongolem", "speedster", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
 
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {

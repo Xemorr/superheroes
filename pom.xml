@@ -44,6 +44,10 @@
                                     <!-- Replace this with your package! -->
                                     <shadedPattern>me.xemor.superheroes2</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>io.papermc.lib</pattern>
+                                    <shadedPattern>me.xemor.superheroes2.paperlib</shadedPattern> <!-- Replace this -->
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -71,6 +75,10 @@
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
+        <repository>
+            <id>skullcreator-repo</id>
+            <url>https://dl.bintray.com/deanveloper/SkullCreator</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -84,6 +92,12 @@
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.7</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.dbassett</groupId>
+            <artifactId>skullcreator</artifactId>
+            <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

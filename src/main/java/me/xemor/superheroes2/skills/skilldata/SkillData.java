@@ -35,6 +35,7 @@ public abstract class SkillData {
             case CRAFTING: return new CraftingData(skill, configurationSection);
             case TELEPORT: return new TeleportData(skill, configurationSection);
             case SUMMON: return new SummonData(skill, configurationSection);
+            case DECOY: return new DecoyData(skill, configurationSection);
             default:
                 return null;
         }

@@ -7,4 +7,4 @@ Strongman:
       velocity: 2.5
       upwardsVelocity: 1.0
       tooMuscularMessage: " &fis too strong to sit in a vehicle!"
-      maxPassengers: 10
+      maxPassengers: 1000000000

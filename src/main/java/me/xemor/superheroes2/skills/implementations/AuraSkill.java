@@ -13,7 +13,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
@@ -47,6 +46,10 @@ public class AuraSkill extends SkillImplementation {
                     return;
                 }
                 Superhero superhero = powersHandler.getSuperhero(player);
+                if (superhero == null) {
+                    cancel();
+                    return;
+                }
                 Collection<SkillData> skillDatas = superhero.getSkillData(Skill.AURA);
                 if (skillDatas.isEmpty()) {
                     cancel();

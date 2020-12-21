@@ -1,0 +1,9 @@
+Speedster:
+  colouredName: "&b&lSpeedster"
+  description: "You have permanent speed IV"
+  skills:
+    slowness:
+      skill: POTIONEFFECT
+      type: SPEED
+      potency: 4
+

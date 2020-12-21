@@ -6,7 +6,6 @@ import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.StrongmanData;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -82,8 +81,8 @@ public class StrongmanSkill extends SkillImplementation {
                     velocity.setX(velocity.getX() * strongmanData.getVelocity());
                     velocity.setZ(velocity.getZ() * strongmanData.getVelocity());
                     velocity.setY(velocity.getY() * strongmanData.getUpwardsVelocity());
-                    topEntity.setVelocity(velocity);
                     topEntity.getVehicle().removePassenger(topEntity);
+                    topEntity.setVelocity(velocity);
                 }
             }
         }

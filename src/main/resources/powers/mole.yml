@@ -12,3 +12,7 @@ Mole:
     blindInLight:
       skill: LIGHT
       type: BLINDNESS
+    nightvision:
+      skill: POTIONEFFECT
+      type: NIGHT_VISION
+      potency: 1

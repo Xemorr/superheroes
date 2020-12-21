@@ -12,3 +12,8 @@ Zeus:
       potency: 1
       duration: 5
       cooldownMessage: "&e&lZeus &fCooldown: %s seconds"
+    noFall:
+      skill: DAMAGERESISTANCE
+      damageMultiplier: 0
+      damageCause:
+        - "LIGHTNING"
