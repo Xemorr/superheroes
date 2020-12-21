@@ -5,21 +5,14 @@ import me.xemor.superheroes2.ParticleHandler;
 import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
-import me.xemor.superheroes2.skills.skilldata.PotionEffectData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.TeleportData;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
@@ -42,9 +35,9 @@ public class TeleportSkill extends SkillImplementation {
             TeleportData teleportData = (TeleportData) skillData;
             if (e.getAction() == Action.PHYSICAL) { return; }
             if ((e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) == teleportData.isLeftClick()) {
-                if (cooldownHandler.isCooldownOver(player.getUniqueId(), teleportData.getTeleportCooldownMessage())) {
+                if (cooldownHandler.isCooldownOver(teleportData, player.getUniqueId(), teleportData.getTeleportCooldownMessage())) {
                     doEnderTeleport(player, teleportData);
-                    cooldownHandler.startCooldown(teleportData.getCooldown(), player.getUniqueId());
+                    cooldownHandler.startCooldown(teleportData, teleportData.getCooldown(), player.getUniqueId());
                 }
             }
         }

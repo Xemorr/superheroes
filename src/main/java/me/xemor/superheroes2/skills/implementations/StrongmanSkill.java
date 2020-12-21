@@ -6,6 +6,8 @@ import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.StrongmanData;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -34,7 +36,7 @@ public class StrongmanSkill extends SkillImplementation {
                 topEntity.addPassenger(e.getRightClicked());
             }
             if (e.getRightClicked() instanceof Vehicle) {
-                e.getPlayer().sendMessage(superhero.getColouredName() + strongmanData.getTooMuscularMessage());
+                e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(superhero.getColouredName() + strongmanData.getTooMuscularMessage()));
             }
         }
     }

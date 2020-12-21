@@ -23,7 +23,7 @@ public class ConfigHandler {
     private File superpowersFolder;
     private FileConfiguration config;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"irongolem", "speedster", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
+    private final static String[] resources = new String[]{"irongolem", "extraheartman", "floral", "speedster", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
 
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {

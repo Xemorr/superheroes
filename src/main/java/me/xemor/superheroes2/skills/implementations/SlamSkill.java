@@ -6,7 +6,6 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.SlamData;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -36,9 +35,9 @@ public class SlamSkill extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 SlamData slamData = (SlamData) skillData;
                 if (e.getPlayer().getInventory().getItemInMainHand().getType() == slamData.getHand()) {
-                    if (cooldownHandler.isCooldownOver(e.getPlayer().getUniqueId(), slamData.getCooldownMessage())) {
+                    if (cooldownHandler.isCooldownOver(slamData, e.getPlayer().getUniqueId(), slamData.getCooldownMessage())) {
                         if (e.getPlayer().getFoodLevel() > slamData.getMinimumFood()) {
-                            cooldownHandler.startCooldown(slamData.getAirCooldown(), e.getPlayer().getUniqueId());
+                            cooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), e.getPlayer().getUniqueId());
                             e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel() - slamData.getFoodCost());
                             doDoomfistJump(e.getPlayer(), superhero, slamData);
                         }
@@ -67,7 +66,7 @@ public class SlamSkill extends SkillImplementation {
                             livingEntity.damage(slamData.getDamage(), player);
                         }
                     }
-                    cooldownHandler.startCooldown(slamData.getLandCooldown(), player.getUniqueId());
+                    cooldownHandler.startCooldown(slamData, slamData.getLandCooldown(), player.getUniqueId());
                     cancel();
                 }
             }

@@ -1,0 +1,118 @@
+Floral:
+  colouredName: "&a&lFloral"
+  description: "Wherever you look, you create flowers. Right-clicking with flowers consumes them."
+  skills:
+    poppy:
+      skill: CONSUME
+      material: POPPY
+      type: REGENERATION
+      potency: 1
+      duration: 4
+      hunger: 1
+    dandelion:
+      skill: CONSUME
+      material: DANDELION
+      type: FAST_DIGGING
+      potency: 1
+      duration: 30
+      hunger: 1
+    blue_orchid:
+      skill: CONSUME
+      material: BLUE_ORCHID
+      type: SPEED
+      potency: 1
+      duration: 30
+      hunger: 1
+    oxeye_daisy:
+      skill: CONSUME
+      material: OXEYE_DAISY
+      type: SLOW_FALLING
+      duration: 15
+      potency: 1
+      hunger: 1
+    pink_tulip:
+      skill: CONSUME
+      material: PINK_TULIP
+      type: REGENERATION
+      potency: 3
+      duration: 1
+      hunger: 1
+    white_tulip:
+      skill: CONSUME
+      material: WHITE_TULIP
+      hunger: 4
+    red_tulip:
+      skill: CONSUME
+      material: RED_TULIP
+      type: HEALTH_BOOST
+      potency: 1
+      duration: 60
+      hunger: 1
+    orange_tulip:
+      skill: CONSUME
+      material: ORANGE_TULIP
+      type: FIRE_RESISTANCE
+      potency: 1
+      duration: 15
+      hunger: 1
+    lily_of_the_valley:
+      skill: CONSUME
+      material: LILY_OF_THE_VALLEY
+      type: NIGHT_VISION
+      potency: 1
+      duration: 30
+      hunger: 1
+    azure_bluet:
+      skill: CONSUME
+      material: AZURE_BLUET
+      type: SPEED
+      potency: 3
+      duration: 7.5
+      hunger: 1
+    allium:
+      skill: CONSUME
+      material: ALLIUM
+      type: LEVITATION
+      duration: 7.5
+      potency: 2
+      hunger: 1
+    flowerPlacer1:
+      skill: BLOCKRAY
+      blocksToPlace:
+        - POPPY
+        - DANDELION
+        - BLUE_ORCHID
+        - OXEYE_DAISY
+        - PINK_TULIP
+        - WHITE_TULIP
+        - RED_TULIP
+        - ORANGE_TULIP
+        - LILY_OF_THE_VALLEY
+        - AZURE_BLUET
+        - ALLIUM
+      blocksToReplace:
+        - GRASS_BLOCK
+        - DIRT
+        - AIR
+      blockRayMode: ABOVEBLOCK
+      maxDistance: 20
+    flowerPlacer2:
+      skill: BLOCKRAY
+      blocksToPlace:
+        - POPPY
+        - DANDELION
+        - BLUE_ORCHID
+        - OXEYE_DAISY
+        - PINK_TULIP
+        - WHITE_TULIP
+        - RED_TULIP
+        - ORANGE_TULIP
+        - LILY_OF_THE_VALLEY
+        - AZURE_BLUET
+        - ALLIUM
+      blocksToReplace:
+        - GRASS
+      blockRayMode: THEBLOCK
+      maxDistance: 20
+
+

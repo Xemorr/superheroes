@@ -36,6 +36,9 @@ public abstract class SkillData {
             case TELEPORT: return new TeleportData(skill, configurationSection);
             case SUMMON: return new SummonData(skill, configurationSection);
             case DECOY: return new DecoyData(skill, configurationSection);
+            case POTIONGIFTER: return new PotionGifterData(skill, configurationSection);
+            case CONSUME: return new ConsumeData(skill, configurationSection);
+            case BLOCKRAY: return new BlockRayData(skill, configurationSection);
             default:
                 return null;
         }

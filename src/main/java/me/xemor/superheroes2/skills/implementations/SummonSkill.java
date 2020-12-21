@@ -6,8 +6,6 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.SummonData;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -37,9 +35,9 @@ public class SummonSkill extends SkillImplementation {
             SummonData summonData = (SummonData) skillData;
             if (summonData.getAction().contains(e.getAction())) {
                 if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-                    if (cooldownHandler.isCooldownOver(player.getUniqueId(), summonData.getCooldownMessage())) {
+                    if (cooldownHandler.isCooldownOver(skillData, player.getUniqueId(), summonData.getCooldownMessage())) {
                         strikeLightning(player, summonData.getEntityType(), summonData.getRange());
-                        cooldownHandler.startCooldown(summonData.getCooldown(), player.getUniqueId());
+                        cooldownHandler.startCooldown(skillData, summonData.getCooldown(), player.getUniqueId());
                         if (summonData.doesRepel()) {
                             player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
                         }
