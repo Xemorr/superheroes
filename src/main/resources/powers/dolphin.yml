@@ -1,0 +1,26 @@
+Dolphin:
+  colouredName: "&9&lDolphin"
+  description: "You can swim at great speeds, nearby players are given dolphins grace! Ink Sacs are consumable."
+  skills:
+    dolphinsGrace:
+      skill: POTIONEFFECT
+      type: DOLPHINS_GRACE
+      potency: 4
+    waterBreathing:
+      skill: POTIONEFFECT
+      type: WATER_BREATHING
+      potency: 1
+    inkSacEat:
+      skill: CONSUME
+      type: REGENERATION
+      potency: 0
+      duration: 5
+      material: INK_SAC
+      hunger: 2
+    aura:
+      skill: AURA
+      type: DOLPHINS_GRACE
+      potency: 1
+      duration: 5
+      radius: 10
+      

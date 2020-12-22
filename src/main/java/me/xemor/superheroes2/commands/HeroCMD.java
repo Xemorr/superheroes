@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HeroCMD implements CommandExecutor, TabExecutor {
 
@@ -59,6 +60,8 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> heroesTabComplete = new ArrayList<>();
+        List<String> heroNames = powersHandler.getNameToSuperhero().values().stream().map(hero -> hero.getName()).collect(Collectors.toList());
+        heroNames.add("None");
         if (args.length == 1) {
             String firstArg = args[0];
             for (Superhero superhero : powersHandler.getNameToSuperhero().values()) {

@@ -1,5 +1,6 @@
 package me.xemor.superheroes2;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -15,8 +16,17 @@ public class JoinListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent e) {
+        ConfigurationSection powerOnStart = powersHandler.getPlugin().getConfig().getConfigurationSection("powerOnStart");
+        boolean enabled;
+        if (powerOnStart == null) enabled = true;
+        else enabled = powerOnStart.getBoolean("isEnabled");
         if (powersHandler.getSuperhero(e.getPlayer()) == null) {
-            powersHandler.setRandomHero(e.getPlayer());
+            if (enabled) {
+                powersHandler.setRandomHero(e.getPlayer());
+            }
+            else {
+                powersHandler.setHero(e.getPlayer(), powersHandler.getNoPower());
+            }
         }
     }
 

@@ -25,9 +25,6 @@ public class DamageResistanceSkill extends SkillImplementation {
         }
         Player player = (Player) e.getEntity();
         Superhero superhero = powersHandler.getSuperhero(player);
-        if (superhero == null) {
-            return;
-        }
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.DAMAGERESISTANCE);
         for (SkillData skillData : skillDatas) {
             DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;
@@ -37,7 +34,7 @@ public class DamageResistanceSkill extends SkillImplementation {
                     e.setCancelled(true);
                 }
                 if (damageResistanceData.getPotionEffect() != null) {
-                    if (player.hasPotionEffect(damageResistanceData.getPotionEffect().getType())) {
+                    if (!player.hasPotionEffect(damageResistanceData.getPotionEffect().getType())) {
                         player.addPotionEffect(damageResistanceData.getPotionEffect());
                     }
                 }

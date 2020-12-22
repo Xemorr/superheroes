@@ -14,6 +14,7 @@ import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -84,7 +85,12 @@ public class StrongmanSkill extends SkillImplementation {
                     velocity.setZ(velocity.getZ() * strongmanData.getVelocity());
                     velocity.setY(velocity.getY() * strongmanData.getUpwardsVelocity());
                     topEntity.getVehicle().removePassenger(topEntity);
-                    topEntity.setVelocity(velocity);
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            topEntity.setVelocity(velocity);
+                        }
+                    }.runTaskLater(powersHandler.getPlugin(), 1L);
                 }
             }
         }

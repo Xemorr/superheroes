@@ -4,7 +4,10 @@ import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 
 public class WalkerData extends SkillData {
 
@@ -14,6 +17,7 @@ public class WalkerData extends SkillData {
     boolean isSneaking;
     boolean blocksDrop;
     boolean shouldRevert;
+    boolean aboveFloor;
     long revertsAfter;
 
     protected WalkerData(Skill skill, ConfigurationSection configurationSection) {
@@ -30,6 +34,7 @@ public class WalkerData extends SkillData {
         blocksDrop = configurationSection.getBoolean("blocksDrop", true);
         shouldRevert = configurationSection.getBoolean("shouldRevert", false);
         revertsAfter = Math.round(configurationSection.getDouble("revertsAfter", 15) * 20);
+        aboveFloor = configurationSection.getBoolean("aboveFloor", false);
     }
 
     public Material getReplacementBlock() {
@@ -54,5 +59,9 @@ public class WalkerData extends SkillData {
 
     public long getRevertsAfter() {
         return revertsAfter;
+    }
+
+    public boolean isAboveFloor() {
+        return aboveFloor;
     }
 }

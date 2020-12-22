@@ -11,7 +11,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.UUID;
 
 public class PowersHandler {
 
@@ -19,7 +21,8 @@ public class PowersHandler {
     FileConfiguration powersFile;
     Superheroes2 superheroes;
     ConfigHandler configHandler;
-    Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "They have no power");
+    Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "Their power has been erased");
+    Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
 
 
@@ -34,6 +37,7 @@ public class PowersHandler {
 
     public void registerHeroes(HashMap<String, Superhero> nameToSuperhero) {
         this.nameToSuperhero = nameToSuperhero;
+        nameToSuperhero.put("NOPOWER", noPower);
     }
 
     public void setHeroes(HashMap<UUID, Superhero> playerHeroes) {
@@ -43,7 +47,7 @@ public class PowersHandler {
     public Superhero getSuperhero(Player player) {
         Superhero hero = uuidToPowers.get(player.getUniqueId());
         if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.PHASE)) {
-            return null;
+            return noPower;
         }
         return hero;
     }
@@ -55,7 +59,7 @@ public class PowersHandler {
             Bukkit.getServer().getPluginManager().callEvent(playerLostHeroEvent);
         }
         uuidToPowers.put(player.getUniqueId(), hero);
-        showOffPower(player, hero);
+        showPower(player, hero);
         configHandler.saveSuperhero(player, hero);
         if (currentHero != hero) {
             PlayerGainedSuperheroEvent playerGainedPowerEvent = new PlayerGainedSuperheroEvent(player, hero);
@@ -63,7 +67,7 @@ public class PowersHandler {
         }
     }
 
-    public void temporarilyRemovePower(Player player, Player remover) {
+    public void temporarilyRemovePower(Player player, Player remover, int timeInTicks) {
         final Superhero oldPower = uuidToPowers.get(player.getUniqueId());
         uuidToPowers.replace(player.getUniqueId(), erased);
         if (remover != null) {
@@ -72,6 +76,7 @@ public class PowersHandler {
         player.sendMessage(ChatColor.BOLD + player.getName() + " has had their power erased temporarily!");
         PlayerLostSuperheroEvent playerLostPowerEvent = new PlayerLostSuperheroEvent(player, oldPower);
         Bukkit.getServer().getPluginManager().callEvent(playerLostPowerEvent);
+        showPower(player, erased);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -80,9 +85,10 @@ public class PowersHandler {
                     Bukkit.getServer().getPluginManager().callEvent(playerGainedPowerEvent);
                     uuidToPowers.put(player.getUniqueId(), oldPower);
                     Bukkit.broadcastMessage(ChatColor.BOLD + player.getName() + " has had their powers reinstated!");
+                    showPower(player, oldPower);
                 }
             }
-        }.runTaskLater(superheroes, 300L);
+        }.runTaskLater(superheroes, timeInTicks);
     }
 
     public void setRandomHero(Player player) {
@@ -92,12 +98,16 @@ public class PowersHandler {
 
     public Superhero getRandomHero() {
         Object[] superheroes = nameToSuperhero.values().toArray();
-        Random random = new Random();
-        int rng = random.nextInt(superheroes.length);
-        return (Superhero) superheroes[rng];
+        Superhero superhero = noPower;
+        while (superhero == noPower) {
+            Random random = new Random();
+            int rng = random.nextInt(superheroes.length);
+            superhero = (Superhero) superheroes[rng];
+        }
+        return superhero;
     }
 
-    public void showOffPower(Player player, Superhero hero) {
+    public void showPower(Player player, Superhero hero) {
         player.sendTitle(hero.getColouredName(), hero.getDescription(), 10, 100, 10);
         player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5F, 1F);
         Bukkit.broadcastMessage(ChatColor.BOLD + player.getName() + " has gained the power of " + hero.getColouredName());
@@ -113,5 +123,9 @@ public class PowersHandler {
 
     public HashMap<String, Superhero> getNameToSuperhero() {
         return nameToSuperhero;
+    }
+
+    public Superhero getNoPower() {
+        return noPower;
     }
 }

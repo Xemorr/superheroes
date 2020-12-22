@@ -1,0 +1,24 @@
+Pyromaniac:
+  colouredName: "&c&lPyromaniac"
+  description: "You create fire trails!"
+  skills:
+    placeFireBehindYou:
+      skill: WALKER
+      blocksToPlace:
+        - "FIRE"
+      blocksToReplace:
+        - "AIR"
+        - "CAVE_AIR"
+        - "VOID_AIR"
+      isSneaking: false
+      blocksDrop: false
+      shouldRevert: true
+      revertsAfter: 10
+      aboveFloor: true
+    fireImmunity:
+      skill: DAMAGERESISTANCE
+      damageMultiplier: 0
+      damageCause:
+        - "FIRE_TICK"
+        - "FIRE"
+        - "LAVA"

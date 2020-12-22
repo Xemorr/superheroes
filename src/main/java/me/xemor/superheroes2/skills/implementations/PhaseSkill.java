@@ -58,7 +58,7 @@ public class PhaseSkill extends SkillImplementation {
                             player.removePotionEffect(PotionEffectType.BLINDNESS);
                             player.setVelocity(new Vector(0, 1.33, 0));
                             player.teleport(player.getEyeLocation().add(0, 0.35, 0));
-                            if (player.getWorld().getBlockAt(player.getEyeLocation()).isPassable()) {
+                            if (player.getWorld().getBlockAt(player.getLocation()).isPassable()) {
                                 cancel();
                             }
                         }

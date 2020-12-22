@@ -28,9 +28,6 @@ public class WalkerSkill extends SkillImplementation {
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = powersHandler.getSuperhero(player);
-        if (superhero == null) {
-            return;
-        }
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.WALKER);
         for (SkillData skillData : skillDatas) {
             WalkerData walkerData = (WalkerData) skillData;
@@ -39,7 +36,13 @@ public class WalkerSkill extends SkillImplementation {
             }
             Location location = e.getTo();
             World world = player.getWorld();
-            Block block = world.getBlockAt(location.clone().subtract(0, 1, 0));
+            Block block;
+            if (walkerData.isAboveFloor()) {
+                block = world.getBlockAt(location);
+            }
+            else {
+                block = world.getBlockAt(location.clone().subtract(0, 1, 0));
+            }
             Material originalMaterial = block.getType();
             if (walkerData.shouldReplace(block.getType())) {
                 block.setType(walkerData.getReplacementBlock());

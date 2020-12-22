@@ -11,3 +11,7 @@ Phase:
       damageCause:
        - "FALL"
        - "SUFFOCATION"
+    onSneak:
+      skill: SNEAKINGPOTION
+      type: BLINDNESS
+      potency: 1

@@ -1,5 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
+import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
@@ -21,6 +22,8 @@ public class EraserSkill extends SkillImplementation {
         super(powersHandler);
     }
 
+    CooldownHandler cooldownHandler = new CooldownHandler("");
+
     @EventHandler
     public void onSight(PlayerToggleSneakEvent e) {
         if (e.isSneaking()) {
@@ -29,14 +32,17 @@ public class EraserSkill extends SkillImplementation {
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.ERASER);
             for (SkillData skillData : skillDatas) {
                 EraserData eraserData = (EraserData) skillData;
-                World world = player.getWorld();
-                Location eyeLocation = player.getEyeLocation();
-                eyeLocation = eyeLocation.clone().add(eyeLocation.getDirection());
-                RayTraceResult rayTraceResult = world.rayTrace(eyeLocation, eyeLocation.getDirection(), eraserData.getRange(), FluidCollisionMode.NEVER, true, 1.0, entity -> entity instanceof Player && entity != player);
-                Entity entity = rayTraceResult.getHitEntity();
-                if (entity != null) {
-                    Player hitPlayer = (Player) entity;
-                    powersHandler.temporarilyRemovePower(hitPlayer, player);
+                if (cooldownHandler.isCooldownOver(skillData, player.getUniqueId())) {
+                    World world = player.getWorld();
+                    Location eyeLocation = player.getEyeLocation();
+                    eyeLocation = eyeLocation.clone().add(eyeLocation.getDirection());
+                    RayTraceResult rayTraceResult = world.rayTrace(eyeLocation, eyeLocation.getDirection(), eraserData.getRange(), FluidCollisionMode.NEVER, true, 1.0, entity -> entity instanceof Player && entity != player);
+                    Entity entity = rayTraceResult.getHitEntity();
+                    if (entity != null) {
+                        Player hitPlayer = (Player) entity;
+                        powersHandler.temporarilyRemovePower(hitPlayer, player, eraserData.getDuration());
+                        cooldownHandler.startCooldown(skillData, eraserData.getCooldown(), player.getUniqueId());
+                    }
                 }
             }
         }
