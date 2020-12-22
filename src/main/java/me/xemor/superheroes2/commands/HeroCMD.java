@@ -3,6 +3,7 @@ package me.xemor.superheroes2.commands;
 import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.Superhero;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,7 @@ import java.util.List;
 public class HeroCMD implements CommandExecutor, TabExecutor {
 
     private PowersHandler powersHandler;
+    private final String noPermission = ChatColor.translateAlternateColorCodes('&', "&4You do not have permission to use this power!");
     public HeroCMD(PowersHandler powersHandler) {
         this.powersHandler = powersHandler;
     }
@@ -26,6 +28,9 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
                 Superhero power = powersHandler.getSuperhero(args[0]);
                 if (power == null) {
                     return false;
+                }
+                if (!sender.hasPermission("superheroes.hero" + power.toString().toLowerCase())) {
+                    sender.sendMessage(noPermission);
                 }
                 Player player;
                 if (args.length >= 2) {
@@ -44,6 +49,9 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
                 }
                 powersHandler.setHero(player, power);
             }
+        }
+        else {
+            sender.sendMessage(noPermission);
         }
         return true;
     }

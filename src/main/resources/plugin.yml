@@ -11,6 +11,9 @@ commands:
   hero:
     description: Allows you to set your power
     usage: /hero <hero> <name>
+  heroreload:
+    description: Allows you to reload the plugin
+    usage: /heroreload
 permissions:
   superheroes.hero:
     description: Allows them to use /power

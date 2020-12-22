@@ -92,7 +92,6 @@ Floral:
         - ALLIUM
       blocksToReplace:
         - GRASS_BLOCK
-        - DIRT
         - AIR
       blockRayMode: ABOVEBLOCK
       maxDistance: 20

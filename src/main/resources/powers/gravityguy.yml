@@ -1,0 +1,12 @@
+GravityGuy:
+  colouredName: "&b&lGravityGuy"
+  description: "When you sneak, you go up, when you let go, you fall"
+  skills:
+    gravity:
+      skill: SNEAKINGPOTION
+      type: LEVITATION
+      potency: 2
+    slowfall:
+      skill: POTIONEFFECT
+      type: SLOW_FALLING
+      potency: 1
