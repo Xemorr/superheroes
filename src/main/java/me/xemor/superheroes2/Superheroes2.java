@@ -60,7 +60,8 @@ public final class Superheroes2 extends JavaPlugin {
                 new DecoySkill(powersHandler),
                 new PotionGifterSkill(powersHandler),
                 new ConsumeSkill(powersHandler),
-                new BlockRaySkill(powersHandler)
+                new BlockRaySkill(powersHandler),
+                new OHKOSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);

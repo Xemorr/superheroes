@@ -39,6 +39,7 @@ public abstract class SkillData {
             case POTIONGIFTER: return new PotionGifterData(skill, configurationSection);
             case CONSUME: return new ConsumeData(skill, configurationSection);
             case BLOCKRAY: return new BlockRayData(skill, configurationSection);
+            case OHKO: return new OHKOData(skill, configurationSection);
             default:
                 return null;
         }

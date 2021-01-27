@@ -1,5 +1,5 @@
-Trap:
-  colouredName: "&7&lTrap"
+Disguise:
+  colouredName: "&7&lDisguise"
   description: "You can trick players with your waifu disguise."
   skills:
     invisibility:

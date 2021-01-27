@@ -23,7 +23,7 @@ public class ConfigHandler {
     private File superpowersFolder;
     private FileConfiguration config;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"irongolem", "dolphin", "pyromaniac", "gravityguy", "extraheartman", "floral", "speedster", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "trap", "chicken", "frozone", "lavawalker"};
+    private final static String[] resources = new String[]{"irongolem", "dolphin", "pyromaniac", "gravityguy", "extraheartman", "floral", "speedster", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "disguise", "chicken", "frozone", "lavawalker"};
 
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {
@@ -85,7 +85,8 @@ public class ConfigHandler {
                     Skill skill = null;
                     try {
                         skill = Skill.valueOf(skillStr);
-                    }catch(IllegalArgumentException e) {
+                    }
+                    catch(IllegalArgumentException e) {
                         Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill name!");
                         e.printStackTrace();
                     }

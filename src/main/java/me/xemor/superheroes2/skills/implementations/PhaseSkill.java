@@ -50,7 +50,8 @@ public class PhaseSkill extends SkillImplementation {
                             player.setFlying(false);
                             try {
                                 player.setVelocity(player.getVelocity().normalize());
-                            }catch(IllegalArgumentException e) {
+                            }
+                            catch(IllegalArgumentException e) {
                             }
                         }
                         else {
