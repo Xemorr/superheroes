@@ -1,0 +1,11 @@
+Repulsion:
+  colouredName: "&b&lRepulsion"
+  description: "When you sneak, entities are repelled!"
+  skills:
+    repulsion:
+      skill: REPULSION
+      multiplier: 1 #set this to a negative number to attract.
+      range: 5
+      entityBlacklist:
+        - "ARMOR_STAND"
+

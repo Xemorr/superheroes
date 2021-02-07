@@ -40,6 +40,7 @@ public abstract class SkillData {
             case CONSUME: return new ConsumeData(skill, configurationSection);
             case BLOCKRAY: return new BlockRayData(skill, configurationSection);
             case OHKO: return new OHKOData(skill, configurationSection);
+            case REPULSION: return new RepulsionData(skill, configurationSection);
             default:
                 return null;
         }

@@ -23,10 +23,11 @@ public class ConfigHandler {
     private File superpowersFolder;
     private FileConfiguration config;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"irongolem", "dolphin", "pyromaniac", "gravityguy", "extraheartman", "floral", "speedster", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "disguise", "chicken", "frozone", "lavawalker"};
-
+    private final static String[] resources = new String[]{"irongolem", "repulsion", "dolphin", "pyromaniac", "gravityguy", "extraheartman", "floral", "speedster", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "disguise", "chicken", "frozone", "lavawalker"};
+    private Superheroes2 superheroes2;
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {
+        this.superheroes2 = superheroes2;
         superheroes2.saveDefaultConfig();
         config = superheroes2.getConfig();
         this.powersHandler = powersHandler;
@@ -43,6 +44,12 @@ public class ConfigHandler {
             }
         }
         currentPowersYAML = YamlConfiguration.loadConfiguration(currentPowersFile);
+        handleSuperpowersFolder();
+        loadSuperheroes();
+        loadPlayerHeroes();
+    }
+
+    public void handleSuperpowersFolder() {
         superpowersFolder = new File(dataFolder + File.separator + "powers" + File.separator);
         if (!superpowersFolder.exists()) {
             superpowersFolder.mkdir();
@@ -50,8 +57,6 @@ public class ConfigHandler {
                 superheroes2.saveResource("powers" + File.separator + resource + ".yml", false);
             }
         }
-        loadSuperheroes();
-        loadPlayerHeroes();
     }
 
     public List<ConfigurationSection> getSuperheroesConfigurationSection() {
@@ -105,6 +110,7 @@ public class ConfigHandler {
         saveCurrentPowers();
         powersHandler.getPlugin().reloadConfig();
         config = powersHandler.getPlugin().getConfig();
+        handleSuperpowersFolder();
         loadSuperheroes();
         loadPlayerHeroes();
     }
