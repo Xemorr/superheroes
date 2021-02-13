@@ -41,6 +41,7 @@ public abstract class SkillData {
             case BLOCKRAY: return new BlockRayData(skill, configurationSection);
             case OHKO: return new OHKOData(skill, configurationSection);
             case REPULSION: return new RepulsionData(skill, configurationSection);
+            case CREEPER: return new CreeperData(skill, configurationSection);
             default:
                 return null;
         }

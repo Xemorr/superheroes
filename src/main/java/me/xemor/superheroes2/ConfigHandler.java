@@ -12,8 +12,12 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.*;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Stream;
 
 public class ConfigHandler {
 
@@ -23,7 +27,6 @@ public class ConfigHandler {
     private File superpowersFolder;
     private FileConfiguration config;
     private PowersHandler powersHandler;
-    private final static String[] resources = new String[]{"irongolem", "repulsion", "dolphin", "pyromaniac", "gravityguy", "extraheartman", "floral", "speedster", "zeus", "enderman", "scavenger", "strongman", "doomfist", "eraserhead", "phase", "pickpocket", "superhuman", "mole", "robot", "slime", "aerosurfer", "disguise", "chicken", "frozone", "lavawalker"};
     private Superheroes2 superheroes2;
 
     public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {
@@ -53,8 +56,29 @@ public class ConfigHandler {
         superpowersFolder = new File(dataFolder + File.separator + "powers" + File.separator);
         if (!superpowersFolder.exists()) {
             superpowersFolder.mkdir();
-            for (String resource : resources) {
-                superheroes2.saveResource("powers" + File.separator + resource + ".yml", false);
+            try {
+                URI resources = null;
+                try {
+                    resources = this.getClass().getClassLoader().getResource("powers").toURI();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                Path myPath;
+                if (resources.getScheme().equals("jar")) {
+                    FileSystem fileSystem = FileSystems.newFileSystem(resources, Collections.emptyMap());
+                    myPath = fileSystem.getPath("powers");
+                } else {
+                    myPath = Paths.get(resources);
+                }
+                Stream<Path> walk = Files.walk(myPath, 1);
+                Iterator<Path> it = walk.iterator();
+                it.next();
+                while (it.hasNext()){
+                    String path = it.next().toString();
+                    superheroes2.saveResource(path.substring(1), false);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
