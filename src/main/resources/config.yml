@@ -4,5 +4,6 @@ reroll:
     type: DIAMOND_BLOCK
     amount: 1
   isEnabled: true
+  eachHeroRequiresPermissions: false
 powerOnStart:
   isEnabled: true

@@ -52,4 +52,6 @@ public class Superhero {
         return name;
     }
 
+    public String getPermission() { return "superheroes.hero." + getName().toLowerCase();}
+
 }

@@ -28,7 +28,7 @@ public final class Superheroes2 extends JavaPlugin {
         Reload reload = new Reload(configHandler);
         this.getCommand("heroreload").setExecutor(reload);
         this.getServer().getPluginManager().registerEvents(reroll, this);
-        this.getServer().getPluginManager().registerEvents(new JoinListener(powersHandler), this);
+        this.getServer().getPluginManager().registerEvents(powersHandler, this);
         HeroCMD heroCMD = new HeroCMD(powersHandler);
         PluginCommand command = this.getCommand("hero");
         command.setExecutor(heroCMD);
@@ -63,7 +63,9 @@ public final class Superheroes2 extends JavaPlugin {
                 new BlockRaySkill(powersHandler),
                 new OHKOSkill(powersHandler),
                 new RepulsionSkill(powersHandler),
-                new CreeperSkill(powersHandler)
+                new CreeperSkill(powersHandler),
+                new GiveItemSkill(powersHandler),
+                new GunSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);

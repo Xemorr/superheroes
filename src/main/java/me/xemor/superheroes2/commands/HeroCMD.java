@@ -30,7 +30,7 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
                 if (power == null) {
                     return false;
                 }
-                if (!sender.hasPermission("superheroes.hero" + power.toString().toLowerCase())) {
+                if (!sender.hasPermission("superheroes.hero." + power.toString().toLowerCase())) {
                     sender.sendMessage(noPermission);
                 }
                 Player player;
@@ -65,7 +65,7 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
         if (args.length == 1) {
             String firstArg = args[0];
             for (Superhero superhero : powersHandler.getNameToSuperhero().values()) {
-                if (superhero.getName().startsWith(firstArg)) {
+                if (superhero.getName().startsWith(firstArg) && sender.hasPermission("superheroes.hero." + superhero.getName().toLowerCase())) {
                     heroesTabComplete.add(superhero.getName());
                 }
             }

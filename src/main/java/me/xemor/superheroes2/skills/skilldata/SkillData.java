@@ -42,6 +42,8 @@ public abstract class SkillData {
             case OHKO: return new OHKOData(skill, configurationSection);
             case REPULSION: return new RepulsionData(skill, configurationSection);
             case CREEPER: return new CreeperData(skill, configurationSection);
+            case GIVEITEM: return new GiveItemData(skill, configurationSection);
+            case GUN: return new GunData(skill, configurationSection);
             default:
                 return null;
         }

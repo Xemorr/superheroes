@@ -49,7 +49,6 @@ public class ConfigHandler {
         currentPowersYAML = YamlConfiguration.loadConfiguration(currentPowersFile);
         handleSuperpowersFolder();
         loadSuperheroes();
-        loadPlayerHeroes();
     }
 
     public void handleSuperpowersFolder() {
@@ -136,24 +135,28 @@ public class ConfigHandler {
         config = powersHandler.getPlugin().getConfig();
         handleSuperpowersFolder();
         loadSuperheroes();
-        loadPlayerHeroes();
+        powersHandler.setHeroes(new HashMap<>());
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            loadPlayerHero(player);
+        }
     }
 
-    public void loadPlayerHeroes() {
-        HashMap<UUID, Superhero> playerHeroes = new HashMap<>();
-        for (Map.Entry<String, Object> entry :  currentPowersYAML.getValues(false).entrySet()) {
-            Superhero superhero = powersHandler.getSuperhero((String) entry.getValue());
-            UUID uuid = UUID.fromString(entry.getKey());
-            if (superhero == null) {
-                Superhero randomHero = powersHandler.getRandomHero();
-                saveSuperhero(uuid, randomHero);
-                playerHeroes.put(uuid, randomHero);
+    public Superhero loadPlayerHero(Player player) {
+        String heroString = currentPowersYAML.getString(player.getUniqueId().toString());
+        Superhero superhero = powersHandler.getSuperhero(heroString);
+        if (superhero == null) {
+            if (isRerollEnabled()) {
+                superhero = powersHandler.getRandomHero(player);
             }
             else {
-                playerHeroes.put(uuid, superhero);
+                superhero = powersHandler.noPower;
             }
+            powersHandler.setHero(player, superhero);
         }
-        powersHandler.setHeroes(playerHeroes);
+        else {
+            powersHandler.getUuidToPowers().put(player.getUniqueId(), superhero);
+        }
+        return superhero;
     }
 
     public void saveSuperhero(Player player, Superhero hero) {
@@ -190,7 +193,9 @@ public class ConfigHandler {
     }
 
     public boolean isRerollEnabled() {
-        return config.getConfigurationSection("reroll").getBoolean("isEnabled");
+        return config.getConfigurationSection("reroll").getBoolean("isEnabled", true);
     }
+
+    public boolean areHeroPermissionsRequired() {return config.getConfigurationSection("reroll").getBoolean("eachHeroRequiresPermissions", false); }
 
 }
