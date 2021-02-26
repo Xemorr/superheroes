@@ -2,6 +2,7 @@ package me.xemor.superheroes2.skills.skilldata;
 
 import jdk.internal.jline.internal.Nullable;
 import me.xemor.superheroes2.skills.Skill;
+import me.xemor.superheroes2.skills.skilldata.Spell.SpellData;
 import org.bukkit.configuration.ConfigurationSection;
 
 public abstract class SkillData {
@@ -46,6 +47,7 @@ public abstract class SkillData {
             case GUN: return new GunData(skill, configurationSection);
             case SNEAK: return new SneakData(skill, configurationSection);
             case SHIELD: return new ShieldData(skill, configurationSection);
+            case SPELL: return new SpellData(skill, configurationSection);
             default:
                 return null;
         }
