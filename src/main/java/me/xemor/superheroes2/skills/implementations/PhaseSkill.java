@@ -55,12 +55,14 @@ public class PhaseSkill extends SkillImplementation {
                             }
                         }
                         else {
-                            player.setGameMode(GameMode.SURVIVAL);
-                            player.removePotionEffect(PotionEffectType.BLINDNESS);
-                            player.setVelocity(new Vector(0, 1.33, 0));
-                            player.teleport(player.getEyeLocation().add(0, 0.35, 0));
-                            if (player.getWorld().getBlockAt(player.getLocation()).isPassable()) {
-                                cancel();
+                            if (!player.getAllowFlight()) {
+                                player.setGameMode(GameMode.SURVIVAL);
+                                player.removePotionEffect(PotionEffectType.BLINDNESS);
+                                player.setVelocity(new Vector(0, 1.33, 0));
+                                player.teleport(player.getEyeLocation().add(0, 0.35, 0));
+                                if (player.getWorld().getBlockAt(player.getLocation()).isPassable()) {
+                                    cancel();
+                                }
                             }
                         }
                     }

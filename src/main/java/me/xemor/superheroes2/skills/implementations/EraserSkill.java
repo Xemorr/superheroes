@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.EraserData;
@@ -22,7 +22,7 @@ public class EraserSkill extends SkillImplementation {
         super(powersHandler);
     }
 
-    CooldownHandler cooldownHandler = new CooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
 
     @EventHandler
     public void onSight(PlayerToggleSneakEvent e) {
@@ -32,7 +32,7 @@ public class EraserSkill extends SkillImplementation {
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.ERASER);
             for (SkillData skillData : skillDatas) {
                 EraserData eraserData = (EraserData) skillData;
-                if (cooldownHandler.isCooldownOver(skillData, player.getUniqueId())) {
+                if (skillCooldownHandler.isCooldownOver(skillData, player.getUniqueId())) {
                     World world = player.getWorld();
                     Location eyeLocation = player.getEyeLocation();
                     eyeLocation = eyeLocation.clone().add(eyeLocation.getDirection());
@@ -41,7 +41,7 @@ public class EraserSkill extends SkillImplementation {
                     if (entity != null) {
                         Player hitPlayer = (Player) entity;
                         powersHandler.temporarilyRemovePower(hitPlayer, player, eraserData.getDuration());
-                        cooldownHandler.startCooldown(skillData, eraserData.getCooldown(), player.getUniqueId());
+                        skillCooldownHandler.startCooldown(skillData, eraserData.getCooldown(), player.getUniqueId());
                     }
                 }
             }

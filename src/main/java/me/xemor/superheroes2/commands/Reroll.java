@@ -1,6 +1,7 @@
 package me.xemor.superheroes2.commands;
 
 import me.xemor.superheroes2.ConfigHandler;
+import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.PowersHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,14 +19,13 @@ public class Reroll implements Listener, CommandExecutor {
 
     PowersHandler powersHandler;
     ConfigHandler configHandler;
-    ItemStack rerollItem;
     boolean isEnabled;
     private final String noPermission = ChatColor.translateAlternateColorCodes('&', "&4You do not have permission to use this power!");
+    CooldownHandler cooldownHandler = new CooldownHandler("");
 
     public Reroll(PowersHandler powersHandler, ConfigHandler configHandler) {
         this.powersHandler = powersHandler;
         this.configHandler = configHandler;
-        rerollItem = configHandler.getRerollItem();
         isEnabled = configHandler.isRerollEnabled();
     }
 
@@ -33,11 +33,14 @@ public class Reroll implements Listener, CommandExecutor {
     public void onRightClick(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (isEnabled) {
-                if (rerollItem.isSimilar(item)) {
-                    item.setAmount(item.getAmount() - 1);
-                    powersHandler.setRandomHero(player);
+                if (configHandler.getRerollItem().isSimilar(item)) {
+                    if (cooldownHandler.isCooldownOver(e.getPlayer().getUniqueId())) {
+                        item.setAmount(item.getAmount() - 1);
+                        powersHandler.setRandomHero(player);
+                        cooldownHandler.startCooldown(configHandler.getRerollCooldown(), player.getUniqueId());
+                    }
                 }
             }
         }

@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.GunData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
@@ -25,7 +25,7 @@ import java.util.Collection;
 
 public class GunSkill extends SkillImplementation {
 
-    CooldownHandler cooldownHandler = new CooldownHandler("&8&lGun &7has %s seconds left until it can be used again!");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("&8&lGun &7has %s seconds left until it can be used again!");
 
     public GunSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -40,7 +40,7 @@ public class GunSkill extends SkillImplementation {
                 GunData gunData = (GunData) skillData;
                 ItemStack gun = gunData.getItemStackData().getItem();
                 if (gun.isSimilar(e.getItem())) {
-                    if (cooldownHandler.isCooldownOver(gunData, player.getUniqueId(), gunData.getCooldownMessage())) {
+                    if (skillCooldownHandler.isCooldownOver(gunData, player.getUniqueId(), gunData.getCooldownMessage())) {
                         Location currentLocation = player.getEyeLocation();
                         Vector increment = player.getEyeLocation().getDirection();
                         World world = player.getWorld();
@@ -48,7 +48,7 @@ public class GunSkill extends SkillImplementation {
                         world.playSound(player.getEyeLocation(), shootSound.getSound(), shootSound.getVolume(), shootSound.getPitch());
                         RayTraceResult rayTraceResult = world.rayTrace(currentLocation, increment, gunData.getMaxDistance(), FluidCollisionMode.NEVER, true, gunData.getBulletSize(),
                                 (entity) -> (entity instanceof LivingEntity || entity instanceof EnderCrystal)&& !player.equals(entity));
-                        cooldownHandler.startCooldown(gunData, gunData.getCooldown(), player.getUniqueId());
+                        skillCooldownHandler.startCooldown(gunData, gunData.getCooldown(), player.getUniqueId());
                         ParticleData trailData = gunData.getTrailParticle();
                         for (int i = 0; i < gunData.getMaxDistance(); i++) {
                             world.spawnParticle(trailData.getParticle(), currentLocation, trailData.getNumberOfParticles());

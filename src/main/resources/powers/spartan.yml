@@ -1,0 +1,23 @@
+Spartan:
+  colouredName: "&e&lSpartan"
+  description: "Your shield cannot be cancelled."
+  skills:
+    shield:
+      skill: SHIELD
+      cooldown: 0
+    shieldItem:
+      skill: GIVEITEM
+      canStore: true
+      canDrop: true
+      canLoseOnDeath: false
+      canDropOnDeath: false
+      loseItemOnHeroLoss: true
+      item:
+        material: SHIELD
+        amount: 1
+        specialID: 2
+        metadata:
+          displayName: "&e&lSpartan's &7&lShield"
+          isUnbreakable: true
+          lore:
+            - "&f&oThis shield shall not be knocked down!"

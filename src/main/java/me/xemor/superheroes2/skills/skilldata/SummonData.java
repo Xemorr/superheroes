@@ -13,6 +13,7 @@ public class SummonData extends PotionEffectData {
 
     private int range;
     private boolean repel;
+    private boolean mustSneak;
     private EntityType entityType;
     private HashSet<Action> action;
     private double cooldown;
@@ -28,6 +29,7 @@ public class SummonData extends PotionEffectData {
             action.add(Action.LEFT_CLICK_AIR);
             action.add(Action.LEFT_CLICK_BLOCK);
         }
+        mustSneak = configurationSection.getBoolean("mustSneak", true);
         repel = configurationSection.getBoolean("repel", false);
         cooldown = configurationSection.getDouble("cooldown", 10D);
         cooldownMessage = ChatColor.translateAlternateColorCodes('&', configurationSection.getString("cooldownMessage", "&e&lZeus &fCooldown: %s seconds"));
@@ -35,6 +37,10 @@ public class SummonData extends PotionEffectData {
 
     public int getRange() {
         return range;
+    }
+
+    public boolean mustSneak() {
+        return mustSneak;
     }
 
     public EntityType getEntityType() {

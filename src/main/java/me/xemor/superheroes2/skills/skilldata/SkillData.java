@@ -44,6 +44,8 @@ public abstract class SkillData {
             case CREEPER: return new CreeperData(skill, configurationSection);
             case GIVEITEM: return new GiveItemData(skill, configurationSection);
             case GUN: return new GunData(skill, configurationSection);
+            case SNEAK: return new SneakData(skill, configurationSection);
+            case SHIELD: return new ShieldData(skill, configurationSection);
             default:
                 return null;
         }

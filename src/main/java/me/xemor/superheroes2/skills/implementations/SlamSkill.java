@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
@@ -21,7 +21,7 @@ import java.util.Collection;
 
 public class SlamSkill extends SkillImplementation {
 
-    CooldownHandler cooldownHandler = new CooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
 
     public SlamSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -29,15 +29,15 @@ public class SlamSkill extends SkillImplementation {
 
     @EventHandler
     public void onPunch(PlayerInteractEvent e) {
-        if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) {
+        if (e.getAction() == Action.LEFT_CLICK_AIR) {
             Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SLAM);
             for (SkillData skillData : skillDatas) {
                 SlamData slamData = (SlamData) skillData;
                 if (e.getPlayer().getInventory().getItemInMainHand().getType() == slamData.getHand()) {
-                    if (cooldownHandler.isCooldownOver(slamData, e.getPlayer().getUniqueId(), slamData.getCooldownMessage())) {
+                    if (skillCooldownHandler.isCooldownOver(slamData, e.getPlayer().getUniqueId(), slamData.getCooldownMessage())) {
                         if (e.getPlayer().getFoodLevel() > slamData.getMinimumFood()) {
-                            cooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), e.getPlayer().getUniqueId());
+                            skillCooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), e.getPlayer().getUniqueId());
                             e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel() - slamData.getFoodCost());
                             doDoomfistJump(e.getPlayer(), superhero, slamData);
                         }
@@ -66,7 +66,7 @@ public class SlamSkill extends SkillImplementation {
                             livingEntity.damage(slamData.getDamage(), player);
                         }
                     }
-                    cooldownHandler.startCooldown(slamData, slamData.getLandCooldown(), player.getUniqueId());
+                    skillCooldownHandler.startCooldown(slamData, slamData.getLandCooldown(), player.getUniqueId());
                     cancel();
                 }
             }

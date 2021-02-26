@@ -11,8 +11,12 @@ Zeus:
       type: SLOW_FALLING
       potency: 1
       duration: 5
+      mustSneak: true
+      action:
+        - "LEFT_CLICK_AIR"
+        - "LEFT_CLICK_BLOCK"
       cooldownMessage: "&e&lZeus &fCooldown: %s seconds"
-    noFall:
+    lightningImmunity:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:

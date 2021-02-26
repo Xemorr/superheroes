@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
@@ -20,7 +20,7 @@ import java.util.Collection;
 
 public class SummonSkill extends SkillImplementation {
 
-    CooldownHandler cooldownHandler = new CooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
 
     public SummonSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -35,14 +35,16 @@ public class SummonSkill extends SkillImplementation {
             SummonData summonData = (SummonData) skillData;
             if (summonData.getAction().contains(e.getAction())) {
                 if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-                    if (cooldownHandler.isCooldownOver(skillData, player.getUniqueId(), summonData.getCooldownMessage())) {
-                        strikeLightning(player, summonData.getEntityType(), summonData.getRange());
-                        cooldownHandler.startCooldown(skillData, summonData.getCooldown(), player.getUniqueId());
-                        if (summonData.doesRepel()) {
-                            player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
-                        }
-                        if (summonData.getPotionEffect() != null) {
-                            player.addPotionEffect(summonData.getPotionEffect());
+                    if ((summonData.mustSneak() && player.isSneaking()) || !summonData.mustSneak()) {
+                        if (skillCooldownHandler.isCooldownOver(skillData, player.getUniqueId(), summonData.getCooldownMessage())) {
+                            strikeLightning(player, summonData.getEntityType(), summonData.getRange());
+                            skillCooldownHandler.startCooldown(skillData, summonData.getCooldown(), player.getUniqueId());
+                            if (summonData.doesRepel()) {
+                                player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
+                            }
+                            if (summonData.getPotionEffect() != null) {
+                                player.addPotionEffect(summonData.getPotionEffect());
+                            }
                         }
                     }
                 }

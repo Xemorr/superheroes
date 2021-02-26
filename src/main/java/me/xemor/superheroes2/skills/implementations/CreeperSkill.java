@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.skills.Skill;
@@ -22,7 +22,7 @@ import java.util.Collection;
 
 public class CreeperSkill extends SkillImplementation {
 
-    CooldownHandler cooldownHandler = new CooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
 
     public CreeperSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -39,7 +39,7 @@ public class CreeperSkill extends SkillImplementation {
                 if (isOnGround(player)) {
                     final int[] timer = {0};
                     World world = player.getWorld();
-                    if (cooldownHandler.isCooldownOver(creeperData, player.getUniqueId(), creeperData.getCooldownMessage())) {
+                    if (skillCooldownHandler.isCooldownOver(creeperData, player.getUniqueId(), creeperData.getCooldownMessage())) {
                         world.playSound(player.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 1.0F, 1.0F);
                         new BukkitRunnable() {
                             @Override
@@ -73,7 +73,7 @@ public class CreeperSkill extends SkillImplementation {
 
     public void explosion(CreeperData creeperData, Player player, World world) {
         world.createExplosion(player.getLocation(), creeperData.getCreeperPower(), false);
-        cooldownHandler.startCooldown(creeperData, creeperData.getCooldown(), player.getUniqueId());
+        skillCooldownHandler.startCooldown(creeperData, creeperData.getCooldown(), player.getUniqueId());
         player.setVelocity(new Vector(0, creeperData.getUpwardsVelocity(), 0));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, creeperData.getSlowfallDuration(), 0));
     }

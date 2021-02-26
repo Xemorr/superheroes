@@ -2,6 +2,10 @@ Disguise:
   colouredName: "&7&lDisguise"
   description: "You can trick players with your waifu disguise."
   skills:
+    sneak:
+      skill: SNEAK #stops mobs from targeting the player while they are meeting the below conditions.
+      needsInvisibility: true
+      mustSneak: true
     invisibility:
       skill: SNEAKINGPOTION
       type: INVISIBILITY
@@ -12,7 +16,7 @@ Disguise:
       potency: 2
     decoy:
       skill: DECOY
-      color:
+      color: #color of the leather armor
         red: 255
         green: 0
         blue: 255
