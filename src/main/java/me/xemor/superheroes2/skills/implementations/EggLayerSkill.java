@@ -43,6 +43,10 @@ public class EggLayerSkill extends SkillImplementation {
                         cancel();
                         return;
                     }
+                    if (!player.isOnline()) {
+                        cancel();
+                        return;
+                    }
                     World world = player.getWorld();
                     Location location = player.getLocation();
                     world.dropItemNaturally(location, eggLayerData.getToLay());
