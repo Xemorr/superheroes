@@ -70,7 +70,8 @@ public final class Superheroes2 extends JavaPlugin {
                 new ShieldSkill(powersHandler),
                 new SpellSkill(powersHandler),
                 new ThrowerSkill(powersHandler),
-                new ConvertSkill(powersHandler)
+                new ConvertItemSkill(powersHandler),
+                new ConvertBlockSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);

@@ -22,7 +22,7 @@ public class EraserSkill extends SkillImplementation {
         super(powersHandler);
     }
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler =new SkillCooldownHandler();
 
     @EventHandler
     public void onSight(PlayerToggleSneakEvent e) {
@@ -32,7 +32,7 @@ public class EraserSkill extends SkillImplementation {
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.ERASER);
             for (SkillData skillData : skillDatas) {
                 EraserData eraserData = (EraserData) skillData;
-                if (skillCooldownHandler.isCooldownOver(skillData, player.getUniqueId())) {
+                if (skillCooldownHandler.isCooldownOver(eraserData, player.getUniqueId())) {
                     World world = player.getWorld();
                     Location eyeLocation = player.getEyeLocation();
                     eyeLocation = eyeLocation.clone().add(eyeLocation.getDirection());
@@ -41,7 +41,7 @@ public class EraserSkill extends SkillImplementation {
                     if (entity != null) {
                         Player hitPlayer = (Player) entity;
                         powersHandler.temporarilyRemovePower(hitPlayer, player, eraserData.getDuration());
-                        skillCooldownHandler.startCooldown(skillData, eraserData.getCooldown(), player.getUniqueId());
+                        skillCooldownHandler.startCooldown(eraserData, eraserData.getCooldown(), player.getUniqueId());
                     }
                 }
             }

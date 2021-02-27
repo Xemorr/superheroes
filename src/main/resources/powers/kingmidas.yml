@@ -3,10 +3,26 @@ KingMidas:
   description: "You're cursed with the ability to turn items into gold!"
   skills:
     convertAppleToGoldenApple:
-      skill: CONVERT
+      skill: CONVERTITEM
       inputItem:
         material: APPLE
       outputItem:
         material: GOLDEN_APPLE
       chance: 1.0
-
+    convertIngotBlocks:
+      skill: CONVERTBLOCK
+      inputBlocks:
+        - "IRON_BLOCK"
+        - "DIAMOND_BLOCK"
+        - "NETHERITE_BLOCK"
+        - "COAL_BLOCK"
+        - "LAPIS_BLOCK"
+        - "REDSTONE_BLOCK"
+        - "EMERALD_BLOCK"
+      outputBlock: GOLD_BLOCK
+      chance: 1.0
+    dropsGoldNuggets:
+      skill: EGGLAYER
+      type: GOLD_NUGGET
+      quantity: 1
+      delay: 30

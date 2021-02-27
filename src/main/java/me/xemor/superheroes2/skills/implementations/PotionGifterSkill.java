@@ -18,7 +18,7 @@ import java.util.Collection;
 
 public class PotionGifterSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public PotionGifterSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -32,13 +32,13 @@ public class PotionGifterSkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             PotionGifterData gifterData = (PotionGifterData) skillData;
             Entity entity = e.getRightClicked();
-            if (skillCooldownHandler.isCooldownOver(skillData, player.getUniqueId(), gifterData.getCooldownMessage())) {
+            if (skillCooldownHandler.isCooldownOver(gifterData, player.getUniqueId())) {
                 if (entity instanceof LivingEntity) {
                     LivingEntity lEntity = (LivingEntity) entity;
                     World world = lEntity.getWorld();
                     world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
                     lEntity.addPotionEffect(gifterData.getPotionEffect());
-                    skillCooldownHandler.startCooldown(skillData, gifterData.getCooldown(), player.getUniqueId());
+                    skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
                 }
             }
         }

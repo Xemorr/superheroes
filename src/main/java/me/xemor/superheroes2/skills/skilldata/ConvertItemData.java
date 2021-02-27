@@ -5,13 +5,13 @@ import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
-public class ConvertData extends SkillData {
+public class ConvertItemData extends SkillData {
 
     private ItemStack inputItem;
     private ItemStack outputItem;
     private double chance;
 
-    protected ConvertData(Skill skill, ConfigurationSection configurationSection) {
+    protected ConvertItemData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         final ConfigurationSection inputItemSection = configurationSection.getConfigurationSection("inputItem");
         if (inputItemSection != null) {

@@ -9,7 +9,7 @@ Enderman:
       yAxisMultiplier: 0.75
       teleportCause: ENDER_PEARL
       cooldown: 10
-      teleportCooldownMessage: "&5&lTeleport &7has %s seconds until it can be used again!"
+      cooldownMessage: "&5&lTeleport &7has %s seconds until it can be used again!"
       particle:
         isHelix: true
         radius: 1

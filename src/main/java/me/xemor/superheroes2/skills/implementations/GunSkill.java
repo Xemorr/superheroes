@@ -25,7 +25,7 @@ import java.util.Collection;
 
 public class GunSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("&8&lGun &7has %s seconds left until it can be used again!");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public GunSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -40,7 +40,7 @@ public class GunSkill extends SkillImplementation {
                 GunData gunData = (GunData) skillData;
                 ItemStack gun = gunData.getItemStackData().getItem();
                 if (gun.isSimilar(e.getItem())) {
-                    if (skillCooldownHandler.isCooldownOver(gunData, player.getUniqueId(), gunData.getCooldownMessage())) {
+                    if (skillCooldownHandler.isCooldownOver(gunData, player.getUniqueId())) {
                         Location currentLocation = player.getEyeLocation();
                         Vector increment = player.getEyeLocation().getDirection();
                         World world = player.getWorld();

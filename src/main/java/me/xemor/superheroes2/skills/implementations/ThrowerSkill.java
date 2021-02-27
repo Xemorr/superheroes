@@ -19,7 +19,7 @@ import java.util.Collection;
 
 public class ThrowerSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public ThrowerSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -36,7 +36,7 @@ public class ThrowerSkill extends SkillImplementation {
                 if (item != null) {
                     if (item.getAmount() >= throwerData.getAmmoCost() && item.isSimilar(throwerData.getAmmo())) {
                         e.setCancelled(true);
-                        if (skillCooldownHandler.isCooldownOver(throwerData, player.getUniqueId(), throwerData.getCooldownMessage())) {
+                        if (skillCooldownHandler.isCooldownOver(throwerData, player.getUniqueId())) {
                             EntityType entityType = throwerData.getEntityType();
  /*               if (Projectile.class.isAssignableFrom(entityType.getEntityClass())) { //"isAssignableFrom" ensures that the argument is an instance of the class it's being used on.
                     player.launchProjectile((Class<? extends Projectile>) entityType.getEntityClass());

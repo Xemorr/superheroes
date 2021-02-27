@@ -22,7 +22,7 @@ import java.util.Collection;
 public class TeleportSkill extends SkillImplementation {
 
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
     public TeleportSkill(PowersHandler powersHandler) {
         super(powersHandler);
     }
@@ -36,7 +36,7 @@ public class TeleportSkill extends SkillImplementation {
             TeleportData teleportData = (TeleportData) skillData;
             if ((e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) == teleportData.isLeftClick()) {
                 if ((e.getItem() == null ? Material.AIR : e.getItem().getType()) == teleportData.getTeleportItem()) {
-                    if (skillCooldownHandler.isCooldownOver(teleportData, player.getUniqueId(), teleportData.getTeleportCooldownMessage())) {
+                    if (skillCooldownHandler.isCooldownOver(teleportData, player.getUniqueId())) {
                         doEnderTeleport(player, teleportData);
                         skillCooldownHandler.startCooldown(teleportData, teleportData.getCooldown(), player.getUniqueId());
                     }

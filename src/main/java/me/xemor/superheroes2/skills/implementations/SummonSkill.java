@@ -20,7 +20,7 @@ import java.util.Collection;
 
 public class SummonSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public SummonSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -36,9 +36,9 @@ public class SummonSkill extends SkillImplementation {
             if (summonData.getAction().contains(e.getAction())) {
                 if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                     if ((summonData.mustSneak() && player.isSneaking()) || !summonData.mustSneak()) {
-                        if (skillCooldownHandler.isCooldownOver(skillData, player.getUniqueId(), summonData.getCooldownMessage())) {
+                        if (skillCooldownHandler.isCooldownOver(summonData, player.getUniqueId())) {
                             strikeLightning(player, summonData.getEntityType(), summonData.getRange());
-                            skillCooldownHandler.startCooldown(skillData, summonData.getCooldown(), player.getUniqueId());
+                            skillCooldownHandler.startCooldown(summonData, player.getUniqueId());
                             if (summonData.doesRepel()) {
                                 player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
                             }

@@ -2,6 +2,7 @@ package me.xemor.superheroes2.skills.skilldata.Spell;
 
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,7 +10,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SpellData extends SkillData {
+public class SpellData extends SkillData implements Cooldown {
 
     private Spell spell;
     private Material fuel;

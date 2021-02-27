@@ -45,7 +45,7 @@ public class WalkerSkill extends SkillImplementation {
                 block = world.getBlockAt(location.clone().subtract(0, 1, 0));
             }
             if (!walkerData.canPlaceFloating()) {
-                if (block.getRelative(BlockFace.DOWN).getType().isAir()) {
+                if (block.getRelative(BlockFace.DOWN).getType().isSolid()) {
                     continue;
                 }
             }

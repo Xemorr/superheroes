@@ -1,6 +1,7 @@
 package me.xemor.superheroes2.skills.skilldata;
 
 import me.xemor.superheroes2.skills.Skill;
+import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -10,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class SummonData extends PotionEffectData {
+public class SummonData extends PotionEffectData implements Cooldown {
 
     private int range;
     private boolean repel;

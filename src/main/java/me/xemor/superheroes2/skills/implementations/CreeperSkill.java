@@ -22,7 +22,7 @@ import java.util.Collection;
 
 public class CreeperSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public CreeperSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -39,7 +39,7 @@ public class CreeperSkill extends SkillImplementation {
                 if (isOnGround(player)) {
                     final int[] timer = {0};
                     World world = player.getWorld();
-                    if (skillCooldownHandler.isCooldownOver(creeperData, player.getUniqueId(), creeperData.getCooldownMessage())) {
+                    if (skillCooldownHandler.isCooldownOver(creeperData, player.getUniqueId())) {
                         world.playSound(player.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 1.0F, 1.0F);
                         new BukkitRunnable() {
                             @Override

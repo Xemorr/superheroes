@@ -30,7 +30,7 @@ import java.util.Collection;
 
 public class SpellSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public SpellSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -70,7 +70,7 @@ public class SpellSkill extends SkillImplementation {
                             e.setUseItemInHand(Event.Result.DENY);
                             String displayName = itemMeta.getDisplayName();
                             if (displayName.equals(spellData.getDisplayName())) {
-                                if (skillCooldownHandler.isCooldownOver(spellData, player.getUniqueId(), spellData.getCooldownMessage())) {
+                                if (skillCooldownHandler.isCooldownOver(spellData, player.getUniqueId())) {
                                     handleSpells(player, spellData, e);
                                 }
                             }

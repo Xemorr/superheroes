@@ -21,7 +21,7 @@ import java.util.Collection;
 
 public class SlamSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler("");
+    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public SlamSkill(PowersHandler powersHandler) {
         super(powersHandler);
@@ -35,7 +35,7 @@ public class SlamSkill extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 SlamData slamData = (SlamData) skillData;
                 if (e.getPlayer().getInventory().getItemInMainHand().getType() == slamData.getHand()) {
-                    if (skillCooldownHandler.isCooldownOver(slamData, e.getPlayer().getUniqueId(), slamData.getCooldownMessage())) {
+                    if (skillCooldownHandler.isCooldownOver(slamData, e.getPlayer().getUniqueId())) {
                         if (e.getPlayer().getFoodLevel() > slamData.getMinimumFood()) {
                             skillCooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), e.getPlayer().getUniqueId());
                             e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel() - slamData.getFoodCost());
@@ -66,7 +66,7 @@ public class SlamSkill extends SkillImplementation {
                             livingEntity.damage(slamData.getDamage(), player);
                         }
                     }
-                    skillCooldownHandler.startCooldown(slamData, slamData.getLandCooldown(), player.getUniqueId());
+                    skillCooldownHandler.startCooldown(slamData, player.getUniqueId());
                     cancel();
                 }
             }
