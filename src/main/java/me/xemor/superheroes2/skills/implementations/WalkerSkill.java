@@ -51,21 +51,24 @@ public class WalkerSkill extends SkillImplementation {
             }
             Material originalMaterial = block.getType();
             if (walkerData.shouldReplace(block.getType())) {
-                block.setType(walkerData.getReplacementBlock());
+                Material newMaterial = walkerData.getReplacementBlock();
+                block.setType(newMaterial);
                 block.setMetadata("blockDrops", new FixedMetadataValue(powersHandler.getPlugin(), walkerData.doesBlockDrop()));
                 if (walkerData.shouldRevert()) {
-                    revertRunnable(walkerData, block, originalMaterial);
+                    revertRunnable(walkerData, block, newMaterial, originalMaterial);
                 }
             }
         }
     }
 
-    public void revertRunnable(WalkerData walkerData, Block block, Material originalMaterial) {
+    public void revertRunnable(WalkerData walkerData, Block block, Material newMaterial, Material originalMaterial) {
         new BukkitRunnable() {
             @Override
             public void run() {
-                block.setType(originalMaterial);
-                block.setMetadata("blockDrops", new FixedMetadataValue(powersHandler.getPlugin(), true));
+                if (newMaterial == block.getType()) {
+                    block.setType(originalMaterial);
+                    block.removeMetadata("blockDrops", powersHandler.getPlugin());
+                }
             }
         }.runTaskLater(powersHandler.getPlugin(), walkerData.getRevertsAfter());
     }
