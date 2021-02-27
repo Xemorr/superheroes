@@ -29,7 +29,7 @@ public class RepulsionSkill extends SkillImplementation {
                 public void run() {
                     if (player.isSneaking()) {
                         player.getNearbyEntities(radius, radius, radius).stream().filter(entity -> !entity.equals(player) && !repulsionData.inBlacklist(entity.getType())).forEach(
-                                entity -> entity.setVelocity(entity.getVelocity().add(entity.getLocation().subtract(player.getLocation()).toVector().multiply(multiplier)))
+                                entity -> entity.setVelocity(entity.getVelocity().add(entity.getLocation().subtract(player.getLocation()).toVector().normalize().multiply(multiplier)))
                         );
                     }
                 }
