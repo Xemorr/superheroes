@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.Action;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SummonData extends PotionEffectData {
@@ -15,7 +16,7 @@ public class SummonData extends PotionEffectData {
     private boolean repel;
     private boolean mustSneak;
     private EntityType entityType;
-    private HashSet<Action> action;
+    private Set<Action> action;
     private double cooldown;
     private String cooldownMessage;
 
@@ -23,7 +24,7 @@ public class SummonData extends PotionEffectData {
         super(skill, configurationSection);
         entityType = EntityType.valueOf(configurationSection.getString("entity", "LIGHTNING"));
         range = configurationSection.getInt("range");
-        action = configurationSection.getStringList("action").stream().map(str -> Action.valueOf(str)).collect(Collectors.toCollection(HashSet::new));
+        action = configurationSection.getStringList("action").stream().map(Action::valueOf).collect(Collectors.toCollection(HashSet::new));
         if (action.isEmpty()) {
             action = new HashSet<>();
             action.add(Action.LEFT_CLICK_AIR);
@@ -47,7 +48,7 @@ public class SummonData extends PotionEffectData {
         return entityType;
     }
 
-    public HashSet<Action> getAction() {
+    public Set<Action> getAction() {
         return action;
     }
 

@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -42,6 +43,11 @@ public class WalkerSkill extends SkillImplementation {
             }
             else {
                 block = world.getBlockAt(location.clone().subtract(0, 1, 0));
+            }
+            if (!walkerData.canPlaceFloating()) {
+                if (block.getRelative(BlockFace.DOWN).getType().isAir()) {
+                    continue;
+                }
             }
             Material originalMaterial = block.getType();
             if (walkerData.shouldReplace(block.getType())) {

@@ -18,6 +18,7 @@ public class WalkerData extends SkillData {
     boolean blocksDrop;
     boolean shouldRevert;
     boolean aboveFloor;
+    boolean canPlaceFloating;
     long revertsAfter;
 
     protected WalkerData(Skill skill, ConfigurationSection configurationSection) {
@@ -35,6 +36,7 @@ public class WalkerData extends SkillData {
         shouldRevert = configurationSection.getBoolean("shouldRevert", false);
         revertsAfter = Math.round(configurationSection.getDouble("revertsAfter", 15) * 20);
         aboveFloor = configurationSection.getBoolean("aboveFloor", false);
+        canPlaceFloating = configurationSection.getBoolean("canPlaceFloating", true);
     }
 
     public Material getReplacementBlock() {
@@ -63,5 +65,9 @@ public class WalkerData extends SkillData {
 
     public boolean isAboveFloor() {
         return aboveFloor;
+    }
+
+    public boolean canPlaceFloating() {
+        return canPlaceFloating;
     }
 }

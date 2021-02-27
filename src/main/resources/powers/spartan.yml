@@ -7,7 +7,7 @@ Spartan:
       cooldown: 0
     shieldItem:
       skill: GIVEITEM
-      canStore: true
+      canStore: false
       canDrop: true
       canLoseOnDeath: false
       canDropOnDeath: false
@@ -21,3 +21,14 @@ Spartan:
           isUnbreakable: true
           lore:
             - "&f&oThis shield shall not be knocked down!"
+    throwableArrows:
+      skill: THROWER
+      item:
+        material: ARROW
+      ammoCost: 1
+      projectile: ARROW
+      canPickUp: true #if this is not an arrow, this field does nothing. (Tridents count as arrows)
+      cooldown: 1
+      cooldownMessage: "Your spear has %s seconds remaining before it can be used again!"
+      velocity: 1.4
+      damage: 3 #Similarly to pickUp, it only works on arrows.

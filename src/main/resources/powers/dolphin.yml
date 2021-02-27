@@ -23,4 +23,8 @@ Dolphin:
       potency: 1
       duration: 5
       radius: 10
+    OHKOSquid:
+      skill: OHKO
+      entityTypes:
+        - "SQUID"
       

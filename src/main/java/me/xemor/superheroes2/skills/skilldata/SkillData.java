@@ -48,6 +48,8 @@ public abstract class SkillData {
             case SNEAK: return new SneakData(skill, configurationSection);
             case SHIELD: return new ShieldData(skill, configurationSection);
             case SPELL: return new SpellData(skill, configurationSection);
+            case THROWER: return new ThrowerData(skill, configurationSection);
+            case CONVERT: return new ConvertData(skill, configurationSection);
             default:
                 return null;
         }

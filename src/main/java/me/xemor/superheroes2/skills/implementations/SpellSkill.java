@@ -85,7 +85,8 @@ public class SpellSkill extends SkillImplementation {
         Spell spell = spellData.getSpell();
         int cost = spellData.getCost();
         double cooldown = spellData.getCooldown();
-        if (player.getInventory().containsAtLeast(new ItemStack(Material.REDSTONE), cost)) {
+        Material fuel = spellData.getFuel();
+        if (player.getInventory().containsAtLeast(new ItemStack(spellData.getFuel()), cost)) {
             if (spell == Spell.FIREBALL) {
                 player.launchProjectile(Fireball.class);
             }
@@ -131,7 +132,7 @@ public class SpellSkill extends SkillImplementation {
                 cost = 0;
                 cooldown = 0;
             }
-            payUpThen(player, cost);
+            payUpThen(player, cost, fuel);
             skillCooldownHandler.startCooldown(spellData, cooldown, player.getUniqueId());
         }
         else {
@@ -139,13 +140,13 @@ public class SpellSkill extends SkillImplementation {
         }
     }
 
-    public void payUpThen(Player player, int cost) {
+    public void payUpThen(Player player, int cost, Material fuel) {
         int paidFor = 0;
         for (ItemStack item : player.getInventory()) {
             if (item == null) {
                 continue;
             }
-            if (item.getType() == Material.REDSTONE) {
+            if (item.getType() == fuel) {
                 if (item.getAmount() >= (cost - paidFor)) {
                     item.setAmount(item.getAmount() - (cost - paidFor));
                     break;

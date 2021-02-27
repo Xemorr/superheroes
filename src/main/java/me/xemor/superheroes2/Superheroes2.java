@@ -68,7 +68,9 @@ public final class Superheroes2 extends JavaPlugin {
                 new GunSkill(powersHandler),
                 new SneakSkill(powersHandler),
                 new ShieldSkill(powersHandler),
-                new SpellSkill(powersHandler)
+                new SpellSkill(powersHandler),
+                new ThrowerSkill(powersHandler),
+                new ConvertSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
