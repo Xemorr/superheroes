@@ -1,0 +1,31 @@
+Speleologist:
+  colouredName: "&7&lSpeleologist"
+  description: "Instantly smelt and double ores!"
+  skills:
+    dropConverter:
+      skill: CONVERTDROPS
+      convertMap:
+        IRON_ORE:
+          material: "IRON_INGOT"
+          amount: 2
+        GOLD_ORE:
+          material: "GOLD_INGOT"
+          amount: 2
+        DIAMOND:
+          material: "DIAMOND"
+          amount: 2
+        ANCIENT_DEBRIS:
+          material: "NETHERITE_SCRAP"
+          amount: 2
+        COAL:
+          material: "COAL"
+          amount: 2
+        LAPIS_LAZULI:
+          material: "LAPIS_LAZULI"
+          amount: 2
+        REDSTONE:
+          material: "REDSTONE"
+          amount: 2
+        EMERALD:
+          material: "EMERALD"
+          amount: 2

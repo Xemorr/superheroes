@@ -52,6 +52,7 @@ public abstract class SkillData {
             case CONVERTITEM: return new ConvertItemData(skill, configurationSection);
             case CONVERTBLOCK: return new ConvertBlockData(skill, configurationSection);
             case REMOTEDETONATION: return new RemoteDetonationData(skill, configurationSection);
+            case CONVERTDROPS: return new ConvertDropsData(skill, configurationSection);
             default:
                 return null;
         }

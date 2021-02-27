@@ -72,7 +72,8 @@ public final class Superheroes2 extends JavaPlugin {
                 new ThrowerSkill(powersHandler),
                 new ConvertItemSkill(powersHandler),
                 new ConvertBlockSkill(powersHandler),
-                new RemoteDetonationSkill(powersHandler)
+                new RemoteDetonationSkill(powersHandler),
+                new ConvertDropsSkill(powersHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
