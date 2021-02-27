@@ -10,6 +10,16 @@ Creeper:
       upwards_velocity: 2.5
       cooldown_message: "&2&lCreeper &fCooldown: %s seconds"
       slowfall_duration: 7
+    remoteDetonation:
+      skill: REMOTEDETONATION
+      cooldown: 10
+      cooldownMessage: "&7You have %s seconds until you can remote detonate again!"
+      explosionStrength: 3
+      explodable:
+        - "CREEPER"
+      spawnsFire: false
+      breakBlocks: true
+      removeDetonatedEntity: true
     explosionImmunity:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
