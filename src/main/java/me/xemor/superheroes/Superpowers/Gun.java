@@ -101,7 +101,7 @@ public class Gun extends Superpower {
                         if (rayTraceResult.getHitEntity() instanceof EnderCrystal) {
                             EnderCrystal enderCrystal = (EnderCrystal) rayTraceResult.getHitEntity();
                             enderCrystal.remove();
-                            world.spawnParticle(Particle.EXPLOSION_LARGE, enderCrystal.getLocation(), 1);
+                            world.createExplosion(enderCrystal.getLocation(), 6);
                             return;
                         }
                         LivingEntity livingEntity = (LivingEntity) rayTraceResult.getHitEntity();
@@ -110,7 +110,6 @@ public class Gun extends Superpower {
                         }
                         if (livingEntity instanceof EnderDragon) {
                             livingEntity.setHealth(livingEntity.getHealth() - 5);
-                            return;
                         }
                         livingEntity.damage(5.0, player); //doesn't work on edragon for some reason
                         world.spawnParticle(Particle.EXPLOSION_NORMAL, livingEntity.getLocation().add(0, 1, 0), 1);

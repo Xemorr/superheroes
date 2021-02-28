@@ -6,7 +6,7 @@
 
     <groupId>me.xemor</groupId>
     <artifactId>Superheroes</artifactId>
-    <version>1.4.1</version>
+    <version>1.4.6</version>
     <packaging>jar</packaging>
 
     <name>Superheroes</name>
@@ -15,7 +15,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dir>D:\Holder\1.16.1 test server\plugins</dir>
+        <dir>D:\Holder\More Knockback Spigot Server\plugins</dir>
     </properties>
 
     <build>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

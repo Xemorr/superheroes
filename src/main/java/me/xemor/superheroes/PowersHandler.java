@@ -109,6 +109,9 @@ public class PowersHandler {
 
     public void loadPowers() {
         for (Map.Entry<String, Object> entry :  powersFile.getValues(false).entrySet()) {
+            if ("Trap".equalsIgnoreCase((String) entry.getValue())) {
+                uuidToPowers.put(UUID.fromString(entry.getKey()), Power.Disguise);
+            }
             uuidToPowers.put(UUID.fromString(entry.getKey()), Power.valueOf((String) entry.getValue()));
         }
     }

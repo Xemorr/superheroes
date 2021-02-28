@@ -10,7 +10,7 @@ public enum Power {
     GravityGuy("&b&lGravity Guy", "When you sneak, gravity is inverted."),
     Floral("&a&lFloral", "Wherever you look, you create flowers. Right-clicking with flowers consumes them."),
     Phase("&3&lPhase", "You can phase through the ground whenever you sneak."),
-    Trap("&7&lTrap", "You can trick players with your waifu disguise."),
+    Disguise("&7&lDisguise", "You can trick players with your waifu disguise."),
     Strongman("&c&lStrongman", "You can pick up mobs and throw them."),
     Speedster("&b&lSpeedster", "You have Speed IV, 'gotta go fast'"),
     Gun("&8&lGun", "You have a gun."),

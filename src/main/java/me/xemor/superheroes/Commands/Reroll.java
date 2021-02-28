@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 public class Reroll implements CommandExecutor {
 
-
     PowersHandler powersHandler;
     public Reroll(PowersHandler powersHandler) {
         this.powersHandler = powersHandler;

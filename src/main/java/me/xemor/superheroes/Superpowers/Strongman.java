@@ -50,8 +50,8 @@ public class Strongman extends Superpower {
                     Vector velocity = player.getEyeLocation().getDirection().normalize();
                     velocity.setX(velocity.getX() * 2.5);
                     velocity.setZ(velocity.getZ() * 2.5);
-                    topEntity.setVelocity(velocity);
                     topEntity.getVehicle().removePassenger(topEntity);
+                    topEntity.setVelocity(velocity);
                 }
             }
         }

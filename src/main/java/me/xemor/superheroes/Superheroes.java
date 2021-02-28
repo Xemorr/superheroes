@@ -6,8 +6,11 @@ import me.xemor.superheroes.Superpowers.*;
 import me.xemor.superheroes.Superpowers.Sorcerer.Sorcerer;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 public final class Superheroes extends JavaPlugin {
@@ -20,7 +23,7 @@ public final class Superheroes extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         this.saveDefaultConfig();
-        superpowers = new Superpower[]{new Pickpocket(powersHandler), new Sorcerer(powersHandler, recipeHandler, this), new Scavenger(powersHandler, recipeHandler, this), new Zeus(powersHandler), new Slime(powersHandler), new Doomfist(powersHandler, this), new Speleologist(powersHandler), new Robot(powersHandler, this), new CreeperPower(powersHandler), new Strongman(powersHandler), new Eraserhead(powersHandler), new Enderman(powersHandler), new Snowman(powersHandler), new Repulsion(powersHandler), new Frozone(powersHandler), new LavaWalker(powersHandler, this, recipeHandler), new NoFire(powersHandler), new Pyromaniac(powersHandler), new Gun(powersHandler), new Trap(powersHandler, this), new Phase(powersHandler), new KingMidas(powersHandler), new Mole(powersHandler), new Aerosurfer(powersHandler, this), new GravityGuy(powersHandler), new Floral(powersHandler), new ExtraHeartMan(powersHandler)};
+        superpowers = new Superpower[]{new Pickpocket(powersHandler), new Sorcerer(powersHandler, recipeHandler, this), new Scavenger(powersHandler, recipeHandler, this), new Zeus(powersHandler), new Slime(powersHandler), new Doomfist(powersHandler, this), new Speleologist(powersHandler), new Robot(powersHandler, this), new CreeperPower(powersHandler), new Strongman(powersHandler), new Eraserhead(powersHandler), new Enderman(powersHandler), new Snowman(powersHandler), new Repulsion(powersHandler), new Frozone(powersHandler), new LavaWalker(powersHandler, this, recipeHandler), new NoFire(powersHandler), new Pyromaniac(powersHandler), new Gun(powersHandler), new Disguise(powersHandler, this), new Phase(powersHandler), new KingMidas(powersHandler), new Mole(powersHandler), new Aerosurfer(powersHandler, this), new GravityGuy(powersHandler), new Floral(powersHandler), new ExtraHeartMan(powersHandler)};
         PotionEffectPowers potionEffectPowers = new PotionEffectPowers(powersHandler);
         potionEffectPowers.runTaskTimer(this, 100L, 50L);
         Chicken chicken = new Chicken(powersHandler);
@@ -39,10 +42,24 @@ public final class Superheroes extends JavaPlugin {
         for (Superpower superpower : superpowers) {
             this.getServer().getPluginManager().registerEvents(superpower, this);
         }
+        handleMetrics();
+    }
+
+    public void handleMetrics() {
         Metrics metrics = new Metrics(this, 8671);
         if (!metrics.isEnabled()) {
             Bukkit.getLogger().log(Level.WARNING, "[Superheroes] You have disabled bstats, this is very sad :(");
         }
+        metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_superhero", () -> {
+            Map<String, Integer> valueMap = new HashMap<>();
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                String powerName = powersHandler.getPower(player).name();
+                int currentCount = valueMap.getOrDefault(powerName, 0);
+                currentCount++;
+                valueMap.put(powerName, currentCount);
+            }
+            return valueMap;
+        }));
     }
 
     @Override

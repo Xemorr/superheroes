@@ -21,6 +21,7 @@ public class Speleologist extends Superpower {
         super(powersHandler);
         instantSmelt.put(Material.GOLD_ORE, Material.GOLD_INGOT);
         instantSmelt.put(Material.IRON_ORE, Material.IRON_INGOT);
+        instantSmelt.put(Material.ANCIENT_DEBRIS, Material.NETHERITE_SCRAP);
         toDouble.add(Material.DIAMOND);
         toDouble.add(Material.EMERALD);
         toDouble.add(Material.COAL);

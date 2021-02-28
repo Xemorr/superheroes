@@ -24,14 +24,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Trap extends Superpower {
+public class Disguise extends Superpower {
 
 
     ItemStack pinkLeatherTunic = new ItemStack(Material.LEATHER_CHESTPLATE);
     ItemStack pinkLeatherLegs = new ItemStack(Material.LEATHER_LEGGINGS);
     ItemStack pinkLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
 
-    public Trap(PowersHandler powersHandler, Superheroes superheroes) {
+    public Disguise(PowersHandler powersHandler, Superheroes superheroes) {
         super(powersHandler);
         new BukkitRunnable() {
             @Override
@@ -50,7 +50,7 @@ public class Trap extends Superpower {
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        if (powersHandler.getPower(player) == Power.Trap) {
+        if (powersHandler.getPower(player) == Power.Disguise) {
             if (e.isSneaking()) {
                 World world = player.getWorld();
                 ArmorStand armorStand = world.spawn(player.getLocation(), ArmorStand.class);
@@ -92,7 +92,7 @@ public class Trap extends Superpower {
 
     @EventHandler
     public void onLost(PlayerLostPowerEvent e) {
-        if (e.getPower() == Power.Trap) {
+        if (e.getPower() == Power.Disguise) {
             Player player = e.getPlayer();
             UUID armorstandUUID = playerToTrap.get(player.getUniqueId());
             if (armorstandUUID != null) {
@@ -107,7 +107,7 @@ public class Trap extends Superpower {
     public void onTarget(EntityTargetLivingEntityEvent e) {
         if (e.getTarget() instanceof Player) {
             Player player = (Player) e.getTarget();
-            if (powersHandler.getPower(player) == Power.Trap) {
+            if (powersHandler.getPower(player) == Power.Disguise) {
                 if (player.getPotionEffect(PotionEffectType.INVISIBILITY) != null) {
                     e.setCancelled(true);
                     e.setTarget(Bukkit.getEntity(playerToTrap.get(player.getUniqueId())));
