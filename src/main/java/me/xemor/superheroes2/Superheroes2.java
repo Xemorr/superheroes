@@ -7,8 +7,11 @@ import me.xemor.superheroes2.skills.implementations.*;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 public final class Superheroes2 extends JavaPlugin {
@@ -85,6 +88,16 @@ public final class Superheroes2 extends JavaPlugin {
         if (!metrics.isEnabled()) {
             Bukkit.getLogger().log(Level.WARNING, "[Superheroes] You have disabled bstats, this is very sad :(");
         }
+        metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_superhero", () -> {
+            Map<String, Integer> valueMap = new HashMap<>();
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                String powerName = powersHandler.getSuperhero(player).getName();
+                int currentCount = valueMap.getOrDefault(powerName, 0);
+                currentCount++;
+                valueMap.put(powerName, currentCount);
+            }
+            return valueMap;
+        }));
     }
 
     @Override
