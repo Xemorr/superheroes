@@ -74,7 +74,10 @@ public class ConfigHandler {
                 it.next();
                 while (it.hasNext()){
                     String path = it.next().toString();
-                    superheroes2.saveResource(path.substring(1), false);
+                    if (path.charAt(0) == '/') {
+                        path = path.substring(1);
+                    }
+                    superheroes2.saveResource(path, false);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
