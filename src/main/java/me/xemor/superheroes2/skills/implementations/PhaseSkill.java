@@ -3,14 +3,24 @@ package me.xemor.superheroes2.skills.implementations;
 import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
+import me.xemor.superheroes2.skills.skilldata.PhaseData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import net.minecraft.server.v1_16_R3.BlockPosition;
+import net.minecraft.server.v1_16_R3.EntityPlayer;
+import net.minecraft.server.v1_16_R3.PacketPlayOutBlockChange;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_16_R3.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.potion.PotionEffectType;
@@ -87,5 +97,34 @@ public class PhaseSkill extends SkillImplementation {
             e.setCancelled(true);
         }
     }
+
+    @EventHandler
+    public void onRightClick(PlayerInteractEvent e) {
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
+            Player player = e.getPlayer();
+            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.PHASE);
+            for (SkillData skillData : skillDatas) {
+                PhaseData phaseData = (PhaseData) skillData;
+                Block block = player.getLocation().getBlock();
+                CraftBlock craftBlock = (CraftBlock) block;
+                Block block2 = block.getRelative(BlockFace.DOWN);
+                CraftBlock craftBlock2 = (CraftBlock) block2;
+                CraftPlayer craftPlayer = (CraftPlayer) player;
+                EntityPlayer handle = craftPlayer.getHandle();
+                handle.noclip = true;
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        handle.noclip = true;
+                    }
+                }.runTaskTimer(powersHandler.getPlugin(), 0L, 1L);
+                PacketPlayOutBlockChange packetPlayOutBlockBreak = new PacketPlayOutBlockChange(new BlockPosition(block.getX(), block.getY(), block.getZ()), CraftMagicNumbers.getBlock(Material.AIR, (byte) 0));
+                PacketPlayOutBlockChange packetPlayOutBlockBreak2 = new PacketPlayOutBlockChange(new BlockPosition(block.getX(), block.getY() - 1, block.getZ()), CraftMagicNumbers.getBlock(Material.AIR, (byte) 0));
+                handle.playerConnection.sendPacket(packetPlayOutBlockBreak);
+                handle.playerConnection.sendPacket(packetPlayOutBlockBreak2);
+            }
+        }
+    }
+
 
 }

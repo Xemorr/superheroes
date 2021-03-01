@@ -52,22 +52,22 @@ public class ConfigHandler {
     }
 
     public void handleSuperpowersFolder() {
-        superpowersFolder = new File(dataFolder + File.separator + "powers" + File.separator);
-        if (!superpowersFolder.exists()) {
-            superpowersFolder.mkdir();
+        superpowersFolder = new File(dataFolder, "powers");
+        if (superpowersFolder.mkdir()) { //if the folder is generated, then add all the powers in.
             try {
-                URI resources = null;
+                URI powers;
                 try {
-                    resources = this.getClass().getClassLoader().getResource("powers").toURI();
+                    powers = this.getClass().getClassLoader().getResource("powers").toURI();
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
+                    return;
                 }
                 Path myPath;
-                if (resources.getScheme().equals("jar")) {
-                    FileSystem fileSystem = FileSystems.newFileSystem(resources, Collections.emptyMap());
+                if (powers.getScheme().equals("jar")) {
+                    FileSystem fileSystem = FileSystems.newFileSystem(powers, Collections.emptyMap());
                     myPath = fileSystem.getPath("powers");
                 } else {
-                    myPath = Paths.get(resources);
+                    myPath = Paths.get(powers);
                 }
                 Stream<Path> walk = Files.walk(myPath, 1);
                 Iterator<Path> it = walk.iterator();
