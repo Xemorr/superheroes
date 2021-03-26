@@ -1,6 +1,7 @@
 Phase:
   colouredName: "&5&lPhase"
   description: "You can phase through the ground by sneaking!"
+  heroInfo: ""
   skills:
     phase:
       skill: PHASE

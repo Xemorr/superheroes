@@ -24,8 +24,8 @@ public class PowersHandler implements Listener {
     FileConfiguration powersFile;
     Superheroes2 superheroes;
     ConfigHandler configHandler;
-    Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "Their power has been erased");
-    Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
+    Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "Their power has been erased", "");
+    Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power", "");
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
 
     @EventHandler(priority = EventPriority.LOWEST)

@@ -1,6 +1,7 @@
 Enderman:
   colouredName: "&5&lEnderman"
   description: "You can teleport by punching."
+  heroInfo: ""
   skills:
     teleport:
       skill: TELEPORT

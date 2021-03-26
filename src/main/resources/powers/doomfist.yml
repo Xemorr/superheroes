@@ -1,6 +1,7 @@
 Doomfist:
   colouredName: "&8&lDoomfist"
   description: "You are Doomfist."
+  heroInfo: ""
   skills:
     punch:
       skill: SLAM

@@ -1,6 +1,7 @@
 KingMidas:
   colouredName: "&6&lKing Midas"
   description: "You're cursed with the ability to turn items into gold!"
+  heroInfo: ""
   skills:
     convertAppleToGoldenApple:
       skill: CONVERTITEM

@@ -1,6 +1,7 @@
 Snowman:
   colouredName: "&f&lSnowman"
   description: "You create snow trails!"
+  heroInfo: ""
   skills:
     placeSnowBehindYou:
       skill: WALKER

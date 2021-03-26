@@ -1,6 +1,7 @@
 Pyromaniac:
   colouredName: "&c&lPyromaniac"
   description: "You create fire trails!"
+  heroInfo: ""
   skills:
     placeFireBehindYou:
       skill: WALKER

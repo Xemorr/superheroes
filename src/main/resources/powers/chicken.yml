@@ -1,6 +1,7 @@
 Chicken:
   colouredName: "&e&lChicken"
   description: "You're a chicken."
+  heroInfo: ""
   skills:
     eggLayer:
       skill: EGGLAYER

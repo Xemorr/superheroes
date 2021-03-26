@@ -1,6 +1,7 @@
 Sorcerer:
   colouredName: "&5&lSorcerer"
   description: "You can create magical spell books and wield them using redstone"
+  heroInfo: ""
   skills:
     recyclable_book:
       skill: CRAFTING

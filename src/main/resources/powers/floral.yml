@@ -1,6 +1,7 @@
 Floral:
   colouredName: "&a&lFloral"
   description: "Wherever you look, you create flowers. Right-clicking with flowers consumes them."
+  heroInfo: ""
   skills:
     poppy:
       skill: CONSUME

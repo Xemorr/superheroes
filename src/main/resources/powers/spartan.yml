@@ -1,6 +1,7 @@
 Spartan:
   colouredName: "&e&lSpartan"
   description: "Your shield cannot be cancelled."
+  heroInfo: ""
   skills:
     shield:
       skill: SHIELD

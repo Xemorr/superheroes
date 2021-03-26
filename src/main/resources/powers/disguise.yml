@@ -1,6 +1,7 @@
 Disguise:
   colouredName: "&7&lDisguise"
   description: "You can trick players with your waifu disguise."
+  heroInfo: ""
   skills:
     sneak:
       skill: SNEAK #stops mobs from targeting the player while they are meeting the below conditions.

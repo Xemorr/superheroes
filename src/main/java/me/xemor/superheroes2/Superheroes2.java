@@ -3,6 +3,7 @@ package me.xemor.superheroes2;
 import me.xemor.superheroes2.commands.HeroCMD;
 import me.xemor.superheroes2.commands.Reload;
 import me.xemor.superheroes2.commands.Reroll;
+import me.xemor.superheroes2.commands.Info;
 import me.xemor.superheroes2.skills.implementations.*;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -36,6 +37,10 @@ public final class Superheroes2 extends JavaPlugin {
         PluginCommand command = this.getCommand("hero");
         command.setExecutor(heroCMD);
         command.setTabCompleter(heroCMD);
+        PluginCommand infocommand = this.getCommand("heroinfo");
+        Info Info = new Info(powersHandler);
+        infocommand.setExecutor(Info);
+        this.getServer().getPluginManager().registerEvents(Info, this);
         this.getCommand("reroll").setExecutor(reroll);
         handleMetrics();
     }

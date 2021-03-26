@@ -1,6 +1,7 @@
 Creeper:
   colouredName: "&2&lCreeper"
   description: "You're a creeper."
+  heroInfo: ""
   skills:
     explosion:
       skill: CREEPER

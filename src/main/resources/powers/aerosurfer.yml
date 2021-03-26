@@ -1,6 +1,13 @@
 Aerosurfer:
   colouredName: "&7&lAerosurfer"
   description: "You can create platforms under you by sneak + jumping"
+  heroInfo: "
+              &7&lAerosurfer&r can create platforms under you by sneak + jumping&r\n
+              &7&l[Details]:&r\n
+              This class has two skills: &e&lWALKER&r and &e&lSNEAKINGPOTION\n
+              &e&lWalker:&r allows Aerosurfer to place glass blocks underneath its feet in order to be able to pseudo-fly whenever it is sneaking.\n
+              &e&lSneaking Potion:&r means while sneaking, gain speed 2
+            "
   skills:
     aerosurfer:
       skill: WALKER

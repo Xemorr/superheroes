@@ -1,6 +1,7 @@
 Frozone:
   colouredName: "&b&lFrozone"
   description: "You can walk on water, and slow others near you."
+  heroInfo: ""
   skills:
     aura:
       skill: AURA

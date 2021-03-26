@@ -107,7 +107,8 @@ public class ConfigHandler {
             String superheroName = superheroSection.getName();
             String colouredSuperheroName = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("colouredName", superheroName));
             String superheroDescription = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("description", superheroName + " description"));
-            Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
+            String superheroHeroInfo = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("heroInfo", superheroName));
+            Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription, superheroHeroInfo);
             ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
             for (Map.Entry<String, Object> keyValuePair : skillsSection.getValues(false).entrySet()) {
                 if (keyValuePair.getValue() instanceof ConfigurationSection) {
@@ -197,6 +198,10 @@ public class ConfigHandler {
 
     public boolean isRerollEnabled() {
         return config.getConfigurationSection("reroll").getBoolean("isEnabled", true);
+    }
+
+    public boolean isInfoEnabled() {
+        return config.getConfigurationSection("info").getBoolean("isEnabled", true);
     }
 
     public double getRerollCooldown() { return config.getConfigurationSection("reroll").getDouble("cooldown", 1.0);}

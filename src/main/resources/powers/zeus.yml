@@ -1,6 +1,7 @@
 Zeus:
   colouredName: "&e&lZeus"
   description: "Punching causes you to strike lightning wherever you look."
+  heroInfo: ""
   skills:
     lightning:
       skill: SUMMON

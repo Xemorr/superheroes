@@ -1,6 +1,7 @@
 Speleologist:
   colouredName: "&7&lSpeleologist"
   description: "Instantly smelt and double ores!"
+  heroInfo: ""
   skills:
     dropConverter:
       skill: CONVERTDROPS

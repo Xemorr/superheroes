@@ -1,6 +1,7 @@
 Speedster:
   colouredName: "&b&lSpeedster"
   description: "You have permanent speed IV"
+  heroInfo: ""
   skills:
     slowness:
       skill: POTIONEFFECT

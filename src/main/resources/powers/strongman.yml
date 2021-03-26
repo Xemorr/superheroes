@@ -1,6 +1,7 @@
 Strongman:
   colouredName: "&7&lStrongman"
   description: "You can pickup and throw entities!"
+  heroInfo: ""
   skills:
     strongman:
       skill: STRONGMAN

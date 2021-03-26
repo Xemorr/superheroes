@@ -1,6 +1,7 @@
 LavaWalker:
   colouredName: "&c&lLava-Walker"
   description: "You can walk on lava and fire heals you!"
+  heroInfo: ""
   skills:
     lavawalker:
       skill: WALKER

@@ -1,6 +1,7 @@
 Slime:
   colouredName: "&a&lSlime"
   description: "You can bounce along the floor"
+  heroInfo: ""
   skills:
     slimeboots:
       skill: SLIME

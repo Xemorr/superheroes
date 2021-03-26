@@ -1,6 +1,7 @@
 ExtraHeartMan:
   colouredName: "&e&lExtraHeartMan"
   description: "Has extra hearts and can give extra hearts to others"
+  heroInfo: ""
   skills:
     AbsorptionGiver:
       skill: POTIONGIFTER

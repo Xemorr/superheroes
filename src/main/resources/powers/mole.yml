@@ -1,6 +1,7 @@
 Mole:
   colouredName: "&6&lThe Mole"
   description: "You can instant break certain blocks"
+  heroInfo: ""
   skills:
     instantbreak:
       skill: INSTANTBREAK

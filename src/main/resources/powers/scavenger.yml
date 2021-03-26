@@ -1,6 +1,7 @@
 Scavenger:
   colouredName: "&e&lScavenger"
   description: "You unlock additional crafting recipes"
+  heroInfo: ""
   skills:
     rotten_flesh:
       skill: CRAFTING

@@ -1,6 +1,7 @@
 GravityGuy:
   colouredName: "&b&lGravityGuy"
   description: "When you sneak, you go up, when you let go, you fall"
+  heroInfo: ""
   skills:
     gravity:
       skill: SNEAKINGPOTION

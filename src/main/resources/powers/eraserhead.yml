@@ -1,6 +1,7 @@
 Eraserhead:
   colouredName: "&8&lEraserhead"
   description: "You can erase other people's powers by sneaking."
+  heroInfo: ""
   skills:
     eraser:
       skill: ERASER

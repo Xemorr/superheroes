@@ -13,12 +13,15 @@ public class Superhero {
     protected String name;
     protected String colouredName;
     protected String description;
+    protected String heroInfo;
+
     protected Multimap<Skill, SkillData> skillToData = HashMultimap.create();
 
-    public Superhero(String name, String colouredName, String description) {
+    public Superhero(String name, String colouredName, String description, String heroInfo) {
         this.name = name;
         this.colouredName = colouredName;
         this.description = description;
+        this.heroInfo = heroInfo;
     }
 
     public void addSkill(SkillData skill) {
@@ -46,6 +49,10 @@ public class Superhero {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getHeroInfo() {
+        return heroInfo;
     }
 
     public String getName() {

@@ -1,6 +1,7 @@
 Robot:
   colouredName: "&7&lThe Robot"
   description: "You're a robot"
+  heroInfo: ""
   skills:
     nohunger:
       skill: NOHUNGER

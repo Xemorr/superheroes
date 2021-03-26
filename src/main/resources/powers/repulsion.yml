@@ -1,6 +1,7 @@
 Repulsion:
   colouredName: "&b&lRepulsion"
   description: "When you sneak, entities are repelled!"
+  heroInfo: ""
   skills:
     repulsion:
       skill: REPULSION
