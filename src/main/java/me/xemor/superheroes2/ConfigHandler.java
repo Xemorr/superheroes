@@ -107,8 +107,8 @@ public class ConfigHandler {
             String superheroName = superheroSection.getName();
             String colouredSuperheroName = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("colouredName", superheroName));
             String superheroDescription = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("description", superheroName + " description"));
-            String superheroHeroInfo = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("heroInfo", superheroName));
-            Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription, superheroHeroInfo);
+            String superheroInfo = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("heroInfo", superheroName));
+            Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription, superheroInfo);
             ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
             for (Map.Entry<String, Object> keyValuePair : skillsSection.getValues(false).entrySet()) {
                 if (keyValuePair.getValue() instanceof ConfigurationSection) {
