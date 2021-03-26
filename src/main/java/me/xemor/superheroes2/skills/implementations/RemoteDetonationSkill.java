@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.RemoteDetonationData;
@@ -22,15 +22,15 @@ public class RemoteDetonationSkill extends SkillImplementation {
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    public RemoteDetonationSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public RemoteDetonationSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onShift(PlayerToggleSneakEvent e) {
         if (e.isSneaking()) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.REMOTEDETONATION);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.REMOTEDETONATION);
             for (SkillData skillData : skillDatas) {
                 RemoteDetonationData remoteDetonationData = (RemoteDetonationData) skillData;
                 if (skillCooldownHandler.isCooldownOver(remoteDetonationData, player.getUniqueId())) {

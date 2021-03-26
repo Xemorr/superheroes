@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.BlockRayData;
@@ -19,14 +19,14 @@ import java.util.Collection;
 
 public class BlockRaySkill extends SkillImplementation {
 
-    public BlockRaySkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public BlockRaySkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onLookChange(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.BLOCKRAY);
         for (SkillData skillData : skillDatas) {
             BlockRayData blockRayData = (BlockRayData) skillData;

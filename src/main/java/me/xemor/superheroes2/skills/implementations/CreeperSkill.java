@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
@@ -24,15 +24,15 @@ public class CreeperSkill extends SkillImplementation {
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    public CreeperSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public CreeperSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
         if (e.isSneaking()) {
             Player player = e.getPlayer();
-            Superhero superhero = powersHandler.getSuperhero(player);
+            Superhero superhero = heroHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.CREEPER);
             for (SkillData skillData : skillDatas) {
                 final CreeperData creeperData = (CreeperData) skillData;
@@ -47,7 +47,7 @@ public class CreeperSkill extends SkillImplementation {
                                 if (!player.isSneaking()) {
                                     cancel(); return;
                                 }
-                                if (powersHandler.getSuperhero(player).getSkillData(Skill.CREEPER).isEmpty()) {
+                                if (heroHandler.getSuperhero(player).getSkillData(Skill.CREEPER).isEmpty()) {
                                     cancel(); return;
                                 }
                                 if (!isOnGround(player)) {

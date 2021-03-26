@@ -2,7 +2,7 @@ package me.xemor.superheroes2.commands;
 
 import me.xemor.superheroes2.ConfigHandler;
 import me.xemor.superheroes2.CooldownHandler;
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -17,14 +17,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class Reroll implements Listener, CommandExecutor {
 
-    PowersHandler powersHandler;
+    HeroHandler heroHandler;
     ConfigHandler configHandler;
     boolean isEnabled;
     private final String noPermission = ChatColor.translateAlternateColorCodes('&', "&4You do not have permission to use this power!");
     CooldownHandler cooldownHandler = new CooldownHandler("");
 
-    public Reroll(PowersHandler powersHandler, ConfigHandler configHandler) {
-        this.powersHandler = powersHandler;
+    public Reroll(HeroHandler heroHandler, ConfigHandler configHandler) {
+        this.heroHandler = heroHandler;
         this.configHandler = configHandler;
         isEnabled = configHandler.isRerollEnabled();
     }
@@ -38,7 +38,7 @@ public class Reroll implements Listener, CommandExecutor {
                 if (configHandler.getRerollItem().isSimilar(item)) {
                     if (cooldownHandler.isCooldownOver(e.getPlayer().getUniqueId())) {
                         item.setAmount(item.getAmount() - 1);
-                        powersHandler.setRandomHero(player);
+                        heroHandler.setRandomHero(player);
                         cooldownHandler.startCooldown(configHandler.getRerollCooldown(), player.getUniqueId());
                     }
                 }
@@ -64,7 +64,7 @@ public class Reroll implements Listener, CommandExecutor {
                     return false;
                 }
             }
-            powersHandler.setRandomHero(player);
+            heroHandler.setRandomHero(player);
         }
         else {
             sender.sendMessage(noPermission);

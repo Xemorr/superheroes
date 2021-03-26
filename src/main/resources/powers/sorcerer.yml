@@ -25,13 +25,13 @@ Sorcerer:
       cost: 3
       cooldown: 6
       spellName: Arrow
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     snowball:
       skill: SPELL
       spell: SNOWBALL
@@ -39,13 +39,13 @@ Sorcerer:
       cost: 0
       cooldown: 0
       spellName: Snowball
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     trident:
       skill: SPELL
       spell: TRIDENT
@@ -53,13 +53,13 @@ Sorcerer:
       cost: 4
       cooldown: 10
       spellName: Trident
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     egg:
       skill: SPELL
       spell: EGG
@@ -67,13 +67,13 @@ Sorcerer:
       cost: 1
       cooldown: 1
       spellName: Egg
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     fireball:
       skill: SPELL
       spell: FIREBALL
@@ -81,13 +81,13 @@ Sorcerer:
       cost: 4
       cooldown: 6
       spellName: Fireball
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     lightning:
       skill: SPELL
       spell: LIGHTNING
@@ -95,13 +95,13 @@ Sorcerer:
       cost: 6
       cooldown: 15
       spellName: Lightning
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     water:
       skill: SPELL
       spell: WATER
@@ -109,13 +109,13 @@ Sorcerer:
       cost: 0
       cooldown: 3
       spellName: Water
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     lava:
       skill: SPELL
       spell: LAVA
@@ -123,13 +123,13 @@ Sorcerer:
       cost: 4
       cooldown: 5
       spellName: Lava
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     fire:
       skill: SPELL
       spell: FIRE
@@ -137,13 +137,13 @@ Sorcerer:
       cost: 1
       cooldown: 1
       spellName: Fire
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     explosion:
       skill: SPELL
       spell: EXPLOSION
@@ -151,13 +151,13 @@ Sorcerer:
       cost: 12
       cooldown: 20
       spellName: Explosion
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
     transmutation:
       skill: SPELL
       spell: TRANSMUTATION
@@ -165,13 +165,13 @@ Sorcerer:
       cost: 0
       cooldown: 60
       spellName: Transmutation
-      cooldownMessage: "&7{spellName} has %s seconds remaining."
-      moreFuelMessage: "&7This spell needs %s more {fuel}"
-      displayNameFormat: "&5{spellName}"
+      cooldownMessage: "&7%spellName% has %currentcooldown% seconds remaining."
+      moreFuelMessage: "&7This spell needs %fuelneeded% more %fuel%"
+      displayNameFormat: "&5%spellName%"
       loreFormat:
         - "&fThis is a spell book, right-click to use!"
-        - "&f{fuel}: {cost}"
-        - "&fcooldown: {cooldown}"
+        - "&f%fuel%: %cost%"
+        - "&fcooldown: %cooldown%"
       transmutationData:
         resultantBlock: "REDSTONE_BLOCK"
         transmutableBlocks:

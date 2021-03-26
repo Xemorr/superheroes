@@ -4,6 +4,8 @@ Speleologist:
   skills:
     dropConverter:
       skill: CONVERTDROPS
+      ignoredBlocks:
+        - "REDSTONE"
       convertMap:
         IRON_ORE:
           material: "IRON_INGOT"

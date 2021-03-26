@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -21,14 +21,14 @@ import java.util.Collection;
 
 public class StrongmanSkill extends SkillImplementation {
 
-    public StrongmanSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public StrongmanSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.STRONGMAN);
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
@@ -73,7 +73,7 @@ public class StrongmanSkill extends SkillImplementation {
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.STRONGMAN);
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
@@ -90,7 +90,7 @@ public class StrongmanSkill extends SkillImplementation {
                         public void run() {
                             topEntity.setVelocity(velocity);
                         }
-                    }.runTaskLater(powersHandler.getPlugin(), 1L);
+                    }.runTaskLater(heroHandler.getPlugin(), 1L);
                 }
             }
         }
@@ -99,7 +99,7 @@ public class StrongmanSkill extends SkillImplementation {
     @EventHandler
     public void onLostPower(PlayerLostSuperheroEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.STRONGMAN);
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;

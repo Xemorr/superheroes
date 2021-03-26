@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
@@ -17,14 +17,14 @@ import java.util.Collection;
 
 public class SlimeSkill extends SkillImplementation {
 
-    public SlimeSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public SlimeSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SLIME);
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
@@ -42,7 +42,7 @@ public class SlimeSkill extends SkillImplementation {
                                     e.getPlayer().setVelocity(velocity);
                                 }
                             }
-                        }.runTaskLater(powersHandler.getPlugin(), 2L);
+                        }.runTaskLater(heroHandler.getPlugin(), 2L);
                     }
                 }
             }

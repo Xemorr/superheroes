@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
@@ -23,14 +23,14 @@ public class SlamSkill extends SkillImplementation {
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    public SlamSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public SlamSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onPunch(PlayerInteractEvent e) {
         if (e.getAction() == Action.LEFT_CLICK_AIR) {
-            Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
+            Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SLAM);
             for (SkillData skillData : skillDatas) {
                 SlamData slamData = (SlamData) skillData;
@@ -53,7 +53,7 @@ public class SlamSkill extends SkillImplementation {
             @Override
             public void run() {
                 Block under = player.getWorld().getBlockAt(player.getLocation().subtract(0, 1, 0));
-                if (!powersHandler.getSuperhero(player).equals(superhero)) {
+                if (!heroHandler.getSuperhero(player).equals(superhero)) {
                     cancel();
                     return;
                 }
@@ -70,6 +70,6 @@ public class SlamSkill extends SkillImplementation {
                     cancel();
                 }
             }
-        }.runTaskTimer(powersHandler.getPlugin(), 6L, 2L);
+        }.runTaskTimer(heroHandler.getPlugin(), 6L, 2L);
     }
 }

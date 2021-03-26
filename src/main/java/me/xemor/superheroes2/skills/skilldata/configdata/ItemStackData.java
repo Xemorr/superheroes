@@ -13,11 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ItemStackData {
 
     private ItemStack item;
-    /*Special ID is equal to -1 if empty.*/
-    private int specialID;
 
     public ItemStackData(ConfigurationSection configurationSection) {
-        Material material = Material.valueOf(configurationSection.getString("material", "STONE").toUpperCase());
+        Material material = Material.valueOf(configurationSection.getString("type", "STONE").toUpperCase());
         int amount = configurationSection.getInt("amount", 1);
         item = new ItemStack(material, amount);
         ConfigurationSection metadataSection = configurationSection.getConfigurationSection("metadata");

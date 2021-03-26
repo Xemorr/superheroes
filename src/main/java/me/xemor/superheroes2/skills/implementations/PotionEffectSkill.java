@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
@@ -19,8 +19,8 @@ import java.util.Collection;
 
 public class PotionEffectSkill extends SkillImplementation {
 
-    public PotionEffectSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public PotionEffectSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
@@ -29,7 +29,7 @@ public class PotionEffectSkill extends SkillImplementation {
     }
 
     public void givePotionEffects(Player player) {
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.POTIONEFFECT);
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
@@ -46,7 +46,7 @@ public class PotionEffectSkill extends SkillImplementation {
             public void run() {
                 givePotionEffects(e.getPlayer());
             }
-        }.runTaskLater(powersHandler.getPlugin(), 5L);
+        }.runTaskLater(heroHandler.getPlugin(), 5L);
     }
 
     @EventHandler
@@ -68,7 +68,7 @@ public class PotionEffectSkill extends SkillImplementation {
                 public void run() {
                     givePotionEffects(e.getPlayer());
                 }
-            }.runTaskLater(powersHandler.getPlugin(), 3L);
+            }.runTaskLater(heroHandler.getPlugin(), 3L);
         }
     }
 }

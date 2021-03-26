@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
@@ -22,14 +22,14 @@ public class SummonSkill extends SkillImplementation {
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    public SummonSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public SummonSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onPunch(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SUMMON);
         for (SkillData skillData : skillDatas) {
             SummonData summonData = (SummonData) skillData;

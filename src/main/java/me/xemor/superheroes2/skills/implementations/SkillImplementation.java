@@ -1,18 +1,18 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import org.bukkit.event.Listener;
 
 public abstract class SkillImplementation implements Listener {
 
-    protected PowersHandler powersHandler;
+    protected HeroHandler heroHandler;
 
-    public SkillImplementation(PowersHandler powersHandler) {
-        this.powersHandler = powersHandler;
+    public SkillImplementation(HeroHandler heroHandler) {
+        this.heroHandler = heroHandler;
     }
 
-    public PowersHandler getPowersHandler() {
-        return powersHandler;
+    public HeroHandler getPowersHandler() {
+        return heroHandler;
     }
 
 }

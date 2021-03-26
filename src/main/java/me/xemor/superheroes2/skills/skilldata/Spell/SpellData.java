@@ -31,15 +31,14 @@ public class SpellData extends SkillData implements Cooldown {
         cooldown = configurationSection.getDouble("cooldown", 1);
         cost = configurationSection.getInt("cost", 1);
         spellName = configurationSection.getString("spellName", spell.toString());
-        cooldownMessage = ChatColor.translateAlternateColorCodes('&',configurationSection.getString("cooldownMessage", "{spellName} has %s seconds remaining."));
+        cooldownMessage = configurationSection.getString("cooldownMessage", "%spellName% has %currentcooldown% seconds remaining.");
         cooldownMessage = replaceVariables(cooldownMessage);
-        moreFuelMessage = ChatColor.translateAlternateColorCodes('&', configurationSection.getString("moreFuelMessage", "This spell needs %s more {fuel}"));
+        moreFuelMessage = configurationSection.getString("moreFuelMessage", "This spell needs %fuelneeded% more %fuel%");
         moreFuelMessage = replaceVariables(moreFuelMessage);
         final String displayNameFormat = ChatColor.translateAlternateColorCodes('&', configurationSection.getString("displayNameFormat", "&5{spellName}"));
         displayName = replaceVariables(displayNameFormat);
         final List<String> loreFormat = configurationSection.getStringList("loreFormat");
         lore = loreFormat.stream()
-                .map(string -> ChatColor.translateAlternateColorCodes('&', string))
                 .map(this::replaceVariables)
                 .collect(Collectors.toList());
         final ConfigurationSection transmutationSection = configurationSection.getConfigurationSection("transmutationData");
@@ -49,10 +48,11 @@ public class SpellData extends SkillData implements Cooldown {
     }
 
     private String replaceVariables(String input) {
-        input = input.replaceAll("\\{spellName}", spellName);
-        input = input.replaceAll("\\{cooldown}", Double.toString(cooldown));
-        input = input.replaceAll("\\{fuel}", fuel.toString().toLowerCase());
-        input = input.replaceAll("\\{cost}", Integer.toString(cost));
+        input = ChatColor.translateAlternateColorCodes('&', input);
+        input = input.replaceAll("%spellName%", spellName);
+        input = input.replaceAll("%cooldown%", Double.toString(cooldown));
+        input = input.replaceAll("%fuel%", fuel.toString().toLowerCase());
+        input = input.replaceAll("%cost%", Integer.toString(cost));
         return input;
     }
 

@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
@@ -20,14 +20,14 @@ public class PotionGifterSkill extends SkillImplementation {
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    public PotionGifterSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public PotionGifterSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.POTIONGIFTER);
         for (SkillData skillData : skillDatas) {
             PotionGifterData gifterData = (PotionGifterData) skillData;
@@ -39,6 +39,10 @@ public class PotionGifterSkill extends SkillImplementation {
                     world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
                     lEntity.addPotionEffect(gifterData.getPotionEffect());
                     skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
+                    player.spigot().sendMessage(gifterData.getGiverMessage());
+                    if (entity instanceof Player) {
+                        entity.spigot().sendMessage(gifterData.getReceiverMessage());
+                    }
                 }
             }
         }

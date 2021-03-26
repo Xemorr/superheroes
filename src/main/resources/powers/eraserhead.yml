@@ -5,5 +5,5 @@ Eraserhead:
     eraser:
       skill: ERASER
       range: 30
-      cooldownMessage: "You must wait %s seconds until you can erase someone's power again!"
+      cooldownMessage: "You must wait %currentcooldown% seconds until you can erase someone's power again!"
       cooldown: 10

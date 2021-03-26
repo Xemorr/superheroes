@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -16,8 +16,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Collection;
 
 public class EggLayerSkill extends SkillImplementation {
-    public EggLayerSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public EggLayerSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
@@ -31,19 +31,19 @@ public class EggLayerSkill extends SkillImplementation {
     }
 
     public void startRunnable(Player player) {
-        Superhero superhero = powersHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.EGGLAYER);
+        Superhero superhero = heroHandler.getSuperhero(player);
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.EGGLAYER);
         for (SkillData skillData : skillDatas) {
             EggLayerData eggLayerData = (EggLayerData) skillData;
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    Superhero currentPower = powersHandler.getSuperhero(player);
-                    if (!currentPower.equals(superhero)) {
+                    Superhero currentPower = heroHandler.getSuperhero(player);
+                    if (!player.isOnline()) {
                         cancel();
                         return;
                     }
-                    if (!player.isOnline()) {
+                    if (!superhero.equals(currentPower)) {
                         cancel();
                         return;
                     }
@@ -51,7 +51,7 @@ public class EggLayerSkill extends SkillImplementation {
                     Location location = player.getLocation();
                     world.dropItemNaturally(location, eggLayerData.getToLay());
                 }
-            }.runTaskTimer(powersHandler.getPlugin(), 0L, eggLayerData.getTickDelay());
+            }.runTaskTimer(heroHandler.getPlugin(), 0L, eggLayerData.getTickDelay());
         }
 
     }

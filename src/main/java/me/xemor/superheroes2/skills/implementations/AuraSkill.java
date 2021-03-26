@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -19,8 +19,8 @@ import java.util.Collection;
 
 public class AuraSkill extends SkillImplementation {
 
-    public AuraSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public AuraSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
@@ -45,7 +45,7 @@ public class AuraSkill extends SkillImplementation {
                     cancel();
                     return;
                 }
-                Superhero superhero = powersHandler.getSuperhero(player);
+                Superhero superhero = heroHandler.getSuperhero(player);
                 if (superhero == null) {
                     cancel();
                     return;
@@ -67,7 +67,7 @@ public class AuraSkill extends SkillImplementation {
                     }
                 }
             }
-        }.runTaskTimer(powersHandler.getPlugin(), 10L, 10L);
+        }.runTaskTimer(heroHandler.getPlugin(), 10L, 10L);
 
     }
 }

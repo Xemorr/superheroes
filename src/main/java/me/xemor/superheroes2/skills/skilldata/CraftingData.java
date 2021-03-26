@@ -2,6 +2,7 @@ package me.xemor.superheroes2.skills.skilldata;
 
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.skills.Skill;
+import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -12,7 +13,9 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class CraftingData extends SkillData {
 
@@ -23,10 +26,13 @@ public class CraftingData extends SkillData {
         boolean isShaped = configurationSection.getBoolean("isShaped", true);
         NamespacedKey namespacedKey = new NamespacedKey(JavaPlugin.getPlugin(Superheroes2.class), UUID.randomUUID().toString());
         ConfigurationSection resultSection = configurationSection.getConfigurationSection("result");
-        String typeStr = resultSection.getString("type", "STONE");
-        Material type = Material.valueOf(typeStr);
-        int amount = resultSection.getInt("amount", 1);
-        ItemStack result = new ItemStack(type, amount);
+        ItemStack result;
+        if (resultSection != null) {
+            result = new ItemStackData(resultSection).getItem();
+        }
+        else {
+            result = new ItemStack(Material.STONE, 1);
+        }
         if (isShaped) {
             ConfigurationSection recipeKeys = configurationSection.getConfigurationSection("recipeKeys");
             ShapedRecipe shapedRecipe = new ShapedRecipe(namespacedKey, result);

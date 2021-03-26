@@ -1,7 +1,5 @@
 package me.xemor.superheroes2;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -27,11 +25,11 @@ import java.util.List;
 public class RecipeHandler implements Listener {
 
     private HashMap<NamespacedKey, Superhero> recipeToPower = new HashMap<>();
-    private PowersHandler powersHandler;
+    private HeroHandler heroHandler;
 
 
-    public RecipeHandler(PowersHandler powersHandler) {
-        this.powersHandler = powersHandler;
+    public RecipeHandler(HeroHandler heroHandler) {
+        this.heroHandler = heroHandler;
     }
 
     @EventHandler
@@ -49,7 +47,7 @@ public class RecipeHandler implements Listener {
         for (HumanEntity humanEntity : viewers) {
             if (humanEntity instanceof Player) {
                 Player player = (Player) humanEntity;
-                if (power.equals(powersHandler.getSuperhero(player))) {
+                if (power.equals(heroHandler.getSuperhero(player))) {
                     e.getInventory().setResult(eventRecipe.getResult());
                 }
             }

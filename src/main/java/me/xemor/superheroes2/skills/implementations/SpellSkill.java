@@ -1,6 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import de.themoep.minedown.MineDown;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
@@ -32,15 +33,15 @@ public class SpellSkill extends SkillImplementation {
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    public SpellSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public SpellSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void bookWrite(PlayerEditBookEvent e) {
         if (e.isSigning()) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.SPELL);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.SPELL);
             for (SkillData skillData : skillDatas) {
                 SpellData spellData = (SpellData) skillData;
                 BookMeta bookMeta = e.getNewBookMeta();
@@ -48,7 +49,7 @@ public class SpellSkill extends SkillImplementation {
                     bookMeta.setTitle(spellData.getSpellName());
                     bookMeta.setDisplayName(spellData.getDisplayName());
                     bookMeta.setLore(spellData.getLore());
-                    bookMeta.getPersistentDataContainer().set(new NamespacedKey(powersHandler.getPlugin(), spellData.getSpellName()), PersistentDataType.INTEGER, 1);
+                    bookMeta.getPersistentDataContainer().set(new NamespacedKey(heroHandler.getPlugin(), spellData.getSpellName()), PersistentDataType.INTEGER, 1);
                     e.setNewBookMeta(bookMeta);
                 }
             }
@@ -59,7 +60,7 @@ public class SpellSkill extends SkillImplementation {
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.SPELL);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.SPELL);
             for (SkillData skillData : skillDatas) {
                 SpellData spellData = (SpellData) skillData;
                 ItemStack item = player.getInventory().getItemInMainHand();
@@ -136,7 +137,8 @@ public class SpellSkill extends SkillImplementation {
             skillCooldownHandler.startCooldown(spellData, cooldown, player.getUniqueId());
         }
         else {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(String.format(spellData.getMoreFuelMessage(), cost)));
+            MineDown getMoreFuel = new MineDown(spellData.getMoreFuelMessage()).replace("fuelneeded", new TextComponent(String.valueOf(cost)));
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, getMoreFuel.toComponent());
         }
     }
 
@@ -176,9 +178,10 @@ public class SpellSkill extends SkillImplementation {
         Vector travelVector = eyeLoc.getDirection();
         RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLoc, travelVector, blocksToTravel);
         Vector hitPosition;
-        if (rayTraceResult == null || rayTraceResult.getHitPosition() == null) {
+        if (rayTraceResult == null) {
             hitPosition = eyeLoc.toVector().add(travelVector.multiply(blocksToTravel));
         } else {
+            rayTraceResult.getHitPosition();
             hitPosition = rayTraceResult.getHitPosition();
         }
         return new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());

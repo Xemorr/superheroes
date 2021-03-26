@@ -1,26 +1,16 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
-import me.xemor.superheroes2.skills.skilldata.PhaseData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
-import net.minecraft.server.v1_16_R3.BlockPosition;
-import net.minecraft.server.v1_16_R3.EntityPlayer;
-import net.minecraft.server.v1_16_R3.PacketPlayOutBlockChange;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_16_R3.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_16_R3.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.potion.PotionEffectType;
@@ -30,8 +20,8 @@ import org.bukkit.util.Vector;
 import java.util.Collection;
 
 public class PhaseSkill extends SkillImplementation {
-    public PhaseSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public PhaseSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
@@ -41,14 +31,14 @@ public class PhaseSkill extends SkillImplementation {
                 return;
             }
             Player player = e.getPlayer();
-            Superhero superhero = powersHandler.getSuperhero(player);
+            Superhero superhero = heroHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.PHASE);
             for (SkillData ignored : skillDatas) {
                 player.setVelocity(new Vector(0, -0.1, 0));
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if (!powersHandler.getSuperhero(player).equals(superhero)) {
+                        if (!heroHandler.getSuperhero(player).equals(superhero)) {
                             cancel();
                             player.setGameMode(GameMode.SURVIVAL);
                             return;
@@ -76,7 +66,7 @@ public class PhaseSkill extends SkillImplementation {
                             }
                         }
                     }
-                }.runTaskTimer(powersHandler.getPlugin(), 0L, 3L);
+                }.runTaskTimer(heroHandler.getPlugin(), 0L, 3L);
             }
         }
     }
@@ -93,11 +83,12 @@ public class PhaseSkill extends SkillImplementation {
 
     @EventHandler
     public void teleport(PlayerTeleportEvent e) {
-        if (e.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE && powersHandler.getSuperhero(e.getPlayer()).hasSkill(Skill.PHASE)) {
+        if (e.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE && heroHandler.getSuperhero(e.getPlayer()).hasSkill(Skill.PHASE)) {
             e.setCancelled(true);
         }
     }
 
+/*
     @EventHandler
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
@@ -125,6 +116,6 @@ public class PhaseSkill extends SkillImplementation {
             }
         }
     }
-
+*/
 
 }

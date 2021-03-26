@@ -3,7 +3,6 @@ package me.xemor.superheroes2;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,34 +20,18 @@ import java.util.stream.Stream;
 
 public class ConfigHandler {
 
-    private YamlConfiguration currentPowersYAML;
-    private File currentPowersFile;
+
     private File dataFolder;
     private File superpowersFolder;
     private FileConfiguration config;
-    private PowersHandler powersHandler;
     private Superheroes2 superheroes2;
 
-    public ConfigHandler(Superheroes2 superheroes2, PowersHandler powersHandler) {
+    public ConfigHandler(Superheroes2 superheroes2) {
         this.superheroes2 = superheroes2;
         superheroes2.saveDefaultConfig();
         config = superheroes2.getConfig();
-        this.powersHandler = powersHandler;
         dataFolder = superheroes2.getDataFolder();
-        if (!dataFolder.exists()) {
-            dataFolder.mkdir();
-        }
-        currentPowersFile = new File(dataFolder, "data.yml");
-        if (!currentPowersFile.exists()) {
-            try {
-                currentPowersFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        currentPowersYAML = YamlConfiguration.loadConfiguration(currentPowersFile);
         handleSuperpowersFolder();
-        loadSuperheroes();
     }
 
     public void handleSuperpowersFolder() {
@@ -100,13 +83,13 @@ public class ConfigHandler {
         return sections;
     }
 
-    public void loadSuperheroes() {
+    public void loadSuperheroes(HeroHandler heroHandler) {
         List<ConfigurationSection> sections = getSuperheroesConfigurationSection();
         HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
         for (ConfigurationSection superheroSection : sections) {
             String superheroName = superheroSection.getName();
-            String colouredSuperheroName = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("colouredName", superheroName));
-            String superheroDescription = ChatColor.translateAlternateColorCodes('&', superheroSection.getString("description", superheroName + " description"));
+            String colouredSuperheroName = superheroSection.getString("colouredName", superheroName);
+            String superheroDescription = superheroSection.getString("description", superheroName + " description");
             Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
             ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
             for (Map.Entry<String, Object> keyValuePair : skillsSection.getValues(false).entrySet()) {
@@ -129,58 +112,18 @@ public class ConfigHandler {
             }
             nameToSuperhero.put(superheroName, superhero);
         }
-        powersHandler.registerHeroes(nameToSuperhero);
+        heroHandler.registerHeroes(nameToSuperhero);
     }
 
-    public void reloadConfig() {
-        saveCurrentPowers();
-        powersHandler.getPlugin().reloadConfig();
-        config = powersHandler.getPlugin().getConfig();
+    public void reloadConfig(HeroHandler heroHandler) {
+        superheroes2.reloadConfig();
+        config = superheroes2.getConfig();
         handleSuperpowersFolder();
-        loadSuperheroes();
-        powersHandler.setHeroes(new HashMap<>());
+        loadSuperheroes(heroHandler);
+        heroHandler.setHeroesIntoMemory(new HashMap<>());
         for (Player player : Bukkit.getOnlinePlayers()) {
-            loadPlayerHero(player);
+            heroHandler.loadPlayerHero(player);
         }
-    }
-
-    public Superhero loadPlayerHero(Player player) {
-        String heroString = currentPowersYAML.getString(player.getUniqueId().toString());
-        Superhero superhero = powersHandler.getSuperhero(heroString);
-        if (superhero == null) {
-            if (isRerollEnabled()) {
-                superhero = powersHandler.getRandomHero(player);
-            }
-            else {
-                superhero = powersHandler.noPower;
-            }
-            powersHandler.setHero(player, superhero);
-        }
-        else {
-            powersHandler.getUuidToPowers().put(player.getUniqueId(), superhero);
-        }
-        return superhero;
-    }
-
-    public void saveSuperhero(Player player, Superhero hero) {
-        saveSuperhero(player.getUniqueId(), hero);
-    }
-
-    public void saveSuperhero(UUID uuid, Superhero hero) {
-        currentPowersYAML.set(String.valueOf(uuid), hero.getName());
-        saveCurrentPowers();
-    }
-
-    public void saveCurrentPowers() {
-        try {
-            currentPowersYAML.save(currentPowersFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public YamlConfiguration getCurrentPowersYAML() {
-        return currentPowersYAML;
     }
 
     public File getDataFolder() {

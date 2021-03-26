@@ -13,7 +13,7 @@ Spartan:
       canDropOnDeath: false
       loseItemOnHeroLoss: true
       item:
-        material: SHIELD
+        type: SHIELD
         amount: 1
         specialID: 2
         metadata:

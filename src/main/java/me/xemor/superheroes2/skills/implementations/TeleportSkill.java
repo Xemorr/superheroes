@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.ParticleHandler;
-import me.xemor.superheroes2.PowersHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
@@ -23,8 +23,8 @@ public class TeleportSkill extends SkillImplementation {
 
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
-    public TeleportSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public TeleportSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
@@ -63,7 +63,7 @@ public class TeleportSkill extends SkillImplementation {
         player.teleport(location, teleportData.getTeleportCause());
         ParticleHandler particleHandler = new ParticleHandler(player);
         particleHandler.setupFromParticleData(teleportData.getParticleData());
-        particleHandler.runTaskTimer(powersHandler.getPlugin(), 0L, 5L);
+        particleHandler.runTaskTimer(heroHandler.getPlugin(), 0L, 5L);
     }
 
 }

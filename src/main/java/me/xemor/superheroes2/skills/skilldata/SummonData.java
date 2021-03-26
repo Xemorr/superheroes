@@ -2,7 +2,6 @@ package me.xemor.superheroes2.skills.skilldata;
 
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.Action;
@@ -34,7 +33,7 @@ public class SummonData extends PotionEffectData implements Cooldown {
         mustSneak = configurationSection.getBoolean("mustSneak", true);
         repel = configurationSection.getBoolean("repel", false);
         cooldown = configurationSection.getDouble("cooldown", 10D);
-        cooldownMessage = ChatColor.translateAlternateColorCodes('&', configurationSection.getString("cooldownMessage", "&e&lZeus &fCooldown: %s seconds"));
+        cooldownMessage = configurationSection.getString("cooldownMessage", "&e&lZeus &fCooldown: %s seconds");
     }
 
     public int getRange() {

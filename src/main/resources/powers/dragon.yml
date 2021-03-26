@@ -1,0 +1,38 @@
+Dragon:
+  colouredName: "&5&lDragon"
+  description: "You can throw fireballs."
+  skills:
+    fireballItem:
+      skill: GIVEITEM
+      canStore: false
+      canDrop: false
+      canLoseOnDeath: false
+      canDropOnDeath: false
+      loseItemOnHeroLoss: false
+      item:
+        material: FIRE_CHARGE
+        amount: 1
+        specialID: 3
+        metadata:
+          displayName: "&5&lDragon &7&lFireball"
+          isUnbreakable: true
+          lore:
+            - "&f&oYou can use this to throw dragon fireballs!"
+    throwableFireballs:
+      skill: THROWER
+      item:
+        material: FIRE_CHARGE
+        amount: 1
+        specialID: 3
+        metadata:
+          displayName: "&5&lDragon &7&lFireball"
+          isUnbreakable: true
+          lore:
+            - "&f&oYou can use this to throw dragon fireballs!"
+      ammoCost: 0
+      projectile: DRAGON_FIREBALL
+      canPickUp: true #if this is not an arrow, this field does nothing. (Tridents count as arrows)
+      cooldown: 30
+      cooldownMessage: "Your fireball has %s seconds remaining before it can be used again!"
+      velocity: 0.5
+      damage: 3 #Similarly to pickUp, it only works on arrows.

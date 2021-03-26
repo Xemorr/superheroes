@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -30,9 +30,9 @@ public class DecoySkill extends SkillImplementation {
     HashMap<SkillData, HashMap<UUID, UUID>> playerToDecoy = new HashMap<>();
     NamespacedKey namespacedKey;
 
-    public DecoySkill(PowersHandler powersHandler) {
-        super(powersHandler);
-        namespacedKey = new NamespacedKey(powersHandler.getPlugin(), "decoy");
+    public DecoySkill(HeroHandler heroHandler) {
+        super(heroHandler);
+        namespacedKey = new NamespacedKey(heroHandler.getPlugin(), "decoy");
     }
 
     @EventHandler
@@ -46,7 +46,7 @@ public class DecoySkill extends SkillImplementation {
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.DECOY);
         for (SkillData skillData : skillDatas) {
             DecoyData decoyData = (DecoyData) skillData;

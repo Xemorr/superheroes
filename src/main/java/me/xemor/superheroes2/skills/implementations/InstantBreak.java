@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.InstantBreakData;
@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Collection;
 
 public class InstantBreak extends SkillImplementation {
-    public InstantBreak(PowersHandler powersHandler) {
-        super(powersHandler);
+    public InstantBreak(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler

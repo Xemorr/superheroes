@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.SneakData;
@@ -12,15 +12,15 @@ import java.util.Collection;
 
 public class SneakSkill extends SkillImplementation {
 
-    public SneakSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public SneakSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onSneak(EntityTargetLivingEntityEvent e) {
         if (e.getTarget() instanceof Player) {
             Player player = (Player) e.getTarget();
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.SNEAK);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.SNEAK);
             for (SkillData skillData : skillDatas) {
                 SneakData sneakData = (SneakData) skillData;
                 if ((sneakData.mustSneak() && player.isSneaking()) || !sneakData.mustSneak()) {

@@ -12,10 +12,10 @@ public class PotionEffectData extends SkillData {
     protected PotionEffectData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         int potency = configurationSection.getInt("potency", 0);
-        if (potency != 0) {
+        if (potency > 0) {
             potency--;
         }
-        String potionType = configurationSection.getString("type", null);
+        String potionType = configurationSection.getString("type", "REGENERATION");
         if (potionType != null) {
             PotionEffectType type = PotionEffectType.getByName(potionType.toUpperCase());
             double duration = configurationSection.getDouble("duration", 0D);

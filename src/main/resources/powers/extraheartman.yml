@@ -10,7 +10,7 @@ ExtraHeartMan:
       cooldown: 10
       receiverMessage: "&7&oYou have received free absorption hearts!"
       giverMessage: "&7&oYou have gave absorption hearts!"
-      cooldownMessage: "&7&oYou have %s seconds until you can give absorption again!"
+      cooldownMessage: "&7&oYou have %currentcooldown% seconds until you can give absorption again!"
     ExtraHearts:
       skill: POTIONEFFECT
       type: HEALTH_BOOST

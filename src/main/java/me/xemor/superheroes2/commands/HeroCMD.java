@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.commands;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,17 +16,17 @@ import java.util.stream.Collectors;
 
 public class HeroCMD implements CommandExecutor, TabExecutor {
 
-    private PowersHandler powersHandler;
+    private HeroHandler heroHandler;
     private final String noPermission = ChatColor.translateAlternateColorCodes('&', "&4You do not have permission to use this power!");
-    public HeroCMD(PowersHandler powersHandler) {
-        this.powersHandler = powersHandler;
+    public HeroCMD(HeroHandler heroHandler) {
+        this.heroHandler = heroHandler;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("superheroes.hero")) {
             if (args.length >= 1) {
-                Superhero power = powersHandler.getSuperhero(args[0]);
+                Superhero power = heroHandler.getSuperhero(args[0]);
                 if (power == null) {
                     return false;
                 }
@@ -48,7 +48,7 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
                         return false;
                     }
                 }
-                powersHandler.setHero(player, power);
+                heroHandler.setHero(player, power);
             }
         }
         else {
@@ -60,11 +60,11 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> heroesTabComplete = new ArrayList<>();
-        List<String> heroNames = powersHandler.getNameToSuperhero().values().stream().map(hero -> hero.getName()).collect(Collectors.toList());
+        List<String> heroNames = heroHandler.getNameToSuperhero().values().stream().map(hero -> hero.getName()).collect(Collectors.toList());
         heroNames.add("None");
         if (args.length == 1) {
             String firstArg = args[0];
-            for (Superhero superhero : powersHandler.getNameToSuperhero().values()) {
+            for (Superhero superhero : heroHandler.getNameToSuperhero().values()) {
                 if (superhero.getName().startsWith(firstArg) && sender.hasPermission("superheroes.hero." + superhero.getName().toLowerCase())) {
                     heroesTabComplete.add(superhero.getName());
                 }

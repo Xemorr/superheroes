@@ -7,45 +7,48 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-public class PowersHandler implements Listener {
+public class HeroHandler implements Listener {
 
     private HashMap<UUID, Superhero> uuidToPowers = new HashMap<>();
-    FileConfiguration powersFile;
-    Superheroes2 superheroes;
-    ConfigHandler configHandler;
-    Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "Their power has been erased");
-    Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
+    Superheroes2 superheroes;
+    private YamlConfiguration currentDataYAML;
+    private File currentDataFile;
+    private final ConfigHandler configHandler;
+    Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent e) {
-        configHandler.loadPlayerHero(e.getPlayer());
+        loadPlayerHero(e.getPlayer());
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        configHandler.saveCurrentPowers();
         uuidToPowers.remove(e.getPlayer().getUniqueId());
     }
 
-    public PowersHandler(Superheroes2 superheroes) {
-        this.superheroes = superheroes;
-    }
-
-    public void setConfigHandler(ConfigHandler configHandler) {
+    public HeroHandler(Superheroes2 superheroes, ConfigHandler configHandler) {
         this.configHandler = configHandler;
-        powersFile = configHandler.getCurrentPowersYAML();
+        this.superheroes = superheroes;
+        currentDataFile = new File(superheroes.getDataFolder(), "data.yml");
+        try {
+            currentDataFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currentDataYAML = YamlConfiguration.loadConfiguration(currentDataFile);
     }
 
     public void registerHeroes(HashMap<String, Superhero> nameToSuperhero) {
@@ -53,7 +56,7 @@ public class PowersHandler implements Listener {
         nameToSuperhero.put("NOPOWER", noPower);
     }
 
-    public void setHeroes(HashMap<UUID, Superhero> playerHeroes) {
+    public void setHeroesIntoMemory(HashMap<UUID, Superhero> playerHeroes) {
         this.uuidToPowers = playerHeroes;
     }
 
@@ -65,8 +68,18 @@ public class PowersHandler implements Listener {
         return hero;
     }
 
+    public Superhero getSuperhero(UUID uuid) {
+        Superhero hero = uuidToPowers.get(uuid);
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null && player.isOnline()) {
+            if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.PHASE)) {
+                return noPower;
+            }
+        }
+        return hero;
+    }
 
-    public void setHero(Player player, Superhero hero) {
+    public void setHeroInMemory(Player player, Superhero hero) {
         Superhero currentHero = uuidToPowers.get(player.getUniqueId());
         if (currentHero != null) {
             PlayerLostSuperheroEvent playerLostHeroEvent = new PlayerLostSuperheroEvent(player, currentHero);
@@ -74,35 +87,51 @@ public class PowersHandler implements Listener {
         }
         uuidToPowers.put(player.getUniqueId(), hero);
         showHero(player, hero);
-        configHandler.saveSuperhero(player, hero);
         if (currentHero != hero) {
             PlayerGainedSuperheroEvent playerGainedPowerEvent = new PlayerGainedSuperheroEvent(player, hero);
             Bukkit.getServer().getPluginManager().callEvent(playerGainedPowerEvent);
         }
     }
 
-    public void temporarilyRemovePower(Player player, Player remover, int timeInTicks) {
-        final Superhero oldPower = uuidToPowers.get(player.getUniqueId());
-        uuidToPowers.replace(player.getUniqueId(), erased);
-        if (remover != null) {
-            remover.sendMessage(ChatColor.BOLD + player.getName() + " has had their power erased temporarily!");
-        }
-        player.sendMessage(ChatColor.BOLD + player.getName() + " has had their power erased temporarily!");
-        PlayerLostSuperheroEvent playerLostPowerEvent = new PlayerLostSuperheroEvent(player, oldPower);
-        Bukkit.getServer().getPluginManager().callEvent(playerLostPowerEvent);
-        showHero(player, erased);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (uuidToPowers.get(player.getUniqueId()) == erased) {
-                    PlayerGainedSuperheroEvent playerGainedPowerEvent = new PlayerGainedSuperheroEvent(player, oldPower);
-                    Bukkit.getServer().getPluginManager().callEvent(playerGainedPowerEvent);
-                    uuidToPowers.put(player.getUniqueId(), oldPower);
-                    Bukkit.broadcastMessage(ChatColor.BOLD + player.getName() + " has had their powers reinstated!");
-                    showHero(player, oldPower);
-                }
+    public void setHero(Player player, Superhero hero) {
+        setHeroInMemory(player, hero);
+        saveSuperhero(player);
+    }
+
+    public Superhero loadPlayerHero(Player player) {
+        String heroString = currentDataYAML.getString(player.getUniqueId().toString());
+        Superhero superhero = getSuperhero(heroString);
+        if (superhero == null) {
+            if (configHandler.isRerollEnabled()) {
+                superhero = getRandomHero(player);
             }
-        }.runTaskLater(superheroes, timeInTicks);
+            else {
+                superhero = noPower;
+            }
+            setHero(player, superhero);
+        }
+        else {
+            uuidToPowers.put(player.getUniqueId(), superhero);
+        }
+        return superhero;
+    }
+
+    public void saveSuperhero(Player player) {
+        currentDataYAML.set(String.valueOf(player.getUniqueId()), getSuperhero(player).getName());
+        try {
+            currentDataYAML.save(currentDataFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveSuperhero(UUID uuid) {
+        currentDataYAML.set(String.valueOf(uuid), getSuperhero(uuid).getName());
+        try {
+            currentDataYAML.save(currentDataFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setRandomHero(Player player) {
@@ -130,10 +159,6 @@ public class PowersHandler implements Listener {
         Bukkit.broadcastMessage(ChatColor.BOLD + player.getName() + " has gained the power of " + hero.getColouredName());
     }
 
-    public HashMap<UUID, Superhero> getUuidToPowers() {
-        return uuidToPowers;
-    }
-
     public Superhero getSuperhero(String name) {
         return nameToSuperhero.get(name);
     }
@@ -144,9 +169,5 @@ public class PowersHandler implements Listener {
 
     public HashMap<String, Superhero> getNameToSuperhero() {
         return nameToSuperhero;
-    }
-
-    public Superhero getNoPower() {
-        return noPower;
     }
 }

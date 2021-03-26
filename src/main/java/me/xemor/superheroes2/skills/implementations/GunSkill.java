@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.GunData;
@@ -27,14 +27,14 @@ public class GunSkill extends SkillImplementation {
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    public GunSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public GunSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void useGun(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(e.getPlayer()).getSkillData(Skill.GUN);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(e.getPlayer()).getSkillData(Skill.GUN);
             Player player = e.getPlayer();
             for (SkillData skillData : skillDatas) {
                 GunData gunData = (GunData) skillData;

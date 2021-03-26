@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,81 +18,102 @@ import java.util.logging.Level;
 public final class Superheroes2 extends JavaPlugin {
 
     ConfigHandler configHandler;
-    PowersHandler powersHandler;
+    HeroHandler heroHandler;
     SkillImplementation[] skills;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        powersHandler = new PowersHandler(this);
-        configHandler = new ConfigHandler(this, powersHandler);
-        powersHandler.setConfigHandler(configHandler);
+        configHandler = new ConfigHandler(this);
+        heroHandler = new HeroHandler(this, configHandler);
+        configHandler.loadSuperheroes(heroHandler);
         registerSkills();
-        Reroll reroll = new Reroll(powersHandler, configHandler);
-        Reload reload = new Reload(configHandler);
+        Reroll reroll = new Reroll(heroHandler, configHandler);
+        Reload reload = new Reload(heroHandler, configHandler);
         this.getCommand("heroreload").setExecutor(reload);
         this.getServer().getPluginManager().registerEvents(reroll, this);
-        this.getServer().getPluginManager().registerEvents(powersHandler, this);
-        HeroCMD heroCMD = new HeroCMD(powersHandler);
+        this.getServer().getPluginManager().registerEvents(heroHandler, this);
+        HeroCMD heroCMD = new HeroCMD(heroHandler);
         PluginCommand command = this.getCommand("hero");
         command.setExecutor(heroCMD);
         command.setTabCompleter(heroCMD);
         this.getCommand("reroll").setExecutor(reroll);
         handleMetrics();
+        checkForNewUpdate();
     }
 
     public void registerSkills() {
         skills = new SkillImplementation[]{
-                new PotionEffectSkill(powersHandler),
-                new InstantBreak(powersHandler),
-                new LightSkill(powersHandler),
-                new NoHungerSkill(powersHandler),
-                new DamageResistanceSkill(powersHandler),
-                new SlimeSkill(powersHandler),
-                new SneakingPotionSkill(powersHandler),
-                new EggLayerSkill(powersHandler),
-                new WalkerSkill(powersHandler),
-                new AuraSkill(powersHandler),
-                new PickpocketSkill(powersHandler),
-                new StrongmanSkill(powersHandler),
-                new PhaseSkill(powersHandler),
-                new SlamSkill(powersHandler),
-                new EraserSkill(powersHandler),
-                new CraftingSkill(powersHandler),
-                new TeleportSkill(powersHandler),
-                new SummonSkill(powersHandler),
-                new DecoySkill(powersHandler),
-                new PotionGifterSkill(powersHandler),
-                new ConsumeSkill(powersHandler),
-                new BlockRaySkill(powersHandler),
-                new OHKOSkill(powersHandler),
-                new RepulsionSkill(powersHandler),
-                new CreeperSkill(powersHandler),
-                new GiveItemSkill(powersHandler),
-                new GunSkill(powersHandler),
-                new SneakSkill(powersHandler),
-                new ShieldSkill(powersHandler),
-                new SpellSkill(powersHandler),
-                new ThrowerSkill(powersHandler),
-                new ConvertItemSkill(powersHandler),
-                new ConvertBlockSkill(powersHandler),
-                new RemoteDetonationSkill(powersHandler),
-                new ConvertDropsSkill(powersHandler)
+                new PotionEffectSkill(heroHandler),
+                new InstantBreak(heroHandler),
+                new LightSkill(heroHandler),
+                new NoHungerSkill(heroHandler),
+                new DamageResistanceSkill(heroHandler),
+                new SlimeSkill(heroHandler),
+                new SneakingPotionSkill(heroHandler),
+                new EggLayerSkill(heroHandler),
+                new WalkerSkill(heroHandler),
+                new AuraSkill(heroHandler),
+                new PickpocketSkill(heroHandler),
+                new StrongmanSkill(heroHandler),
+                new PhaseSkill(heroHandler),
+                new SlamSkill(heroHandler),
+                new EraserSkill(heroHandler),
+                new CraftingSkill(heroHandler),
+                new TeleportSkill(heroHandler),
+                new SummonSkill(heroHandler),
+                new DecoySkill(heroHandler),
+                new PotionGifterSkill(heroHandler),
+                new ConsumeSkill(heroHandler),
+                new BlockRaySkill(heroHandler),
+                new OHKOSkill(heroHandler),
+                new RepulsionSkill(heroHandler),
+                new CreeperSkill(heroHandler),
+                new GiveItemSkill(heroHandler),
+                new GunSkill(heroHandler),
+                new SneakSkill(heroHandler),
+                new ShieldSkill(heroHandler),
+                new SpellSkill(heroHandler),
+                new ThrowerSkill(heroHandler),
+                new ConvertItemSkill(heroHandler),
+                new ConvertBlockSkill(heroHandler),
+                new RemoteDetonationSkill(heroHandler),
+                new ConvertDropsSkill(heroHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
         }
     }
 
+    public void checkForNewUpdate() {
+        UpdateChecker.init(this, 79766);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (UpdateChecker.isInitialized()) {
+                    UpdateChecker updateChecker = UpdateChecker.get();
+                    updateChecker.requestUpdateCheck().thenAccept(result -> {
+                        if (result.requiresUpdate()) {
+                            getLogger().warning("This server is still running " + getDescription().getVersion() + " of Superheroes");
+                            getLogger().warning("The latest version is " + result.getNewestVersion());
+                            getLogger().warning("Updating is important to ensure there are not any bugs or vulnerabilities.");
+                            getLogger().warning("As well as ensuring your players have the best time when using the superheroes!");
+                        }
+                    });
+                }
+            }
+        }.runTaskTimer(this, 0L, 432000L);
+    }
+
     public void handleMetrics() {
         Metrics metrics = new Metrics(this, 8671);
         if (!metrics.isEnabled()) {
-            Bukkit.getLogger().log(Level.WARNING, "[Superheroes] You have disabled bstats, this is very sad :(");
+            getLogger().log(Level.WARNING, "[Superheroes] You have disabled bstats, this is very sad :(");
         }
         metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_superhero", () -> {
             Map<String, Integer> valueMap = new HashMap<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
-                String powerName = powersHandler.getSuperhero(player).getName();
+                String powerName = heroHandler.getSuperhero(player).getName();
                 int currentCount = valueMap.getOrDefault(powerName, 0);
                 currentCount++;
                 valueMap.put(powerName, currentCount);

@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
@@ -28,8 +28,8 @@ import java.util.HashMap;
 
 public class GiveItemSkill extends SkillImplementation {
 
-    public GiveItemSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public GiveItemSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
@@ -60,7 +60,7 @@ public class GiveItemSkill extends SkillImplementation {
     @EventHandler
     public void itemDropped(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             if (!giveItemData.canDrop()) {
@@ -86,7 +86,7 @@ public class GiveItemSkill extends SkillImplementation {
             }
             Player player = (Player) possiblePlayer;
             System.out.println(player.getName());
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (!giveItemData.canStore()) {
@@ -108,12 +108,15 @@ public class GiveItemSkill extends SkillImplementation {
             if (e.getCurrentItem() == null) {
                 return;
             }
+            if (e.getViewers().isEmpty()) {
+                return;
+            }
             Entity possiblePlayer = e.getViewers().get(0);
             if (!(possiblePlayer instanceof Player)) {
                 return;
             }
             Player player = (Player) possiblePlayer;
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (!giveItemData.canStore()) {
@@ -134,7 +137,7 @@ public class GiveItemSkill extends SkillImplementation {
                 return;
             }
             Player player = (Player) possiblePlayer;
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (!giveItemData.canStore()) {
@@ -154,7 +157,7 @@ public class GiveItemSkill extends SkillImplementation {
             @Override
             public void run() {
                 Player player = e.getPlayer();
-                Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
+                Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
                 for (SkillData skillData : skillDatas) {
                     GiveItemData giveItemData = (GiveItemData) skillData;
                     if (!giveItemData.canLoseOnDeath()) {

@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
@@ -15,13 +15,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Collection;
 
 public class LightSkill extends SkillImplementation {
-    public LightSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public LightSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onGain(PlayerGainedSuperheroEvent e) {
-        Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
+        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         if (superhero.hasSkill(Skill.LIGHT)) {
             runnable(e.getPlayer());
         }
@@ -29,7 +29,7 @@ public class LightSkill extends SkillImplementation {
 
     @EventHandler
     public void onLost(PlayerLostSuperheroEvent e) {
-        Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
+        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.LIGHT);
         for (SkillData skillData : skillDatas) {
             LightData lightData = (LightData) skillData;
@@ -39,7 +39,7 @@ public class LightSkill extends SkillImplementation {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
+        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         if (superhero.hasSkill(Skill.LIGHT)) {
             runnable(e.getPlayer());
         }
@@ -49,7 +49,7 @@ public class LightSkill extends SkillImplementation {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Superhero superhero1 = powersHandler.getSuperhero(player);
+                Superhero superhero1 = heroHandler.getSuperhero(player);
                 Collection<SkillData> data = superhero1.getSkillData(Skill.LIGHT);
                 if (data.isEmpty()) {
                     this.cancel();
@@ -65,7 +65,7 @@ public class LightSkill extends SkillImplementation {
                     }
                 }
             }
-        }.runTaskTimer(powersHandler.getPlugin(), 0L, 20L);
+        }.runTaskTimer(heroHandler.getPlugin(), 0L, 20L);
     }
 
 

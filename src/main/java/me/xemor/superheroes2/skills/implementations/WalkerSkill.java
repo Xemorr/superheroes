@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
@@ -21,14 +21,14 @@ import java.util.Collection;
 
 public class WalkerSkill extends SkillImplementation {
 
-    public WalkerSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public WalkerSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.WALKER);
         for (SkillData skillData : skillDatas) {
             WalkerData walkerData = (WalkerData) skillData;
@@ -53,7 +53,7 @@ public class WalkerSkill extends SkillImplementation {
             if (walkerData.shouldReplace(block.getType())) {
                 Material newMaterial = walkerData.getReplacementBlock();
                 block.setType(newMaterial);
-                block.setMetadata("blockDrops", new FixedMetadataValue(powersHandler.getPlugin(), walkerData.doesBlockDrop()));
+                block.setMetadata("blockDrops", new FixedMetadataValue(heroHandler.getPlugin(), walkerData.doesBlockDrop()));
                 if (walkerData.shouldRevert()) {
                     revertRunnable(walkerData, block, newMaterial, originalMaterial);
                 }
@@ -67,10 +67,10 @@ public class WalkerSkill extends SkillImplementation {
             public void run() {
                 if (newMaterial == block.getType()) {
                     block.setType(originalMaterial);
-                    block.removeMetadata("blockDrops", powersHandler.getPlugin());
+                    block.removeMetadata("blockDrops", heroHandler.getPlugin());
                 }
             }
-        }.runTaskLater(powersHandler.getPlugin(), walkerData.getRevertsAfter());
+        }.runTaskLater(heroHandler.getPlugin(), walkerData.getRevertsAfter());
     }
 
     @EventHandler

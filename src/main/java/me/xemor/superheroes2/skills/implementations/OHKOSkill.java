@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.OHKOData;
@@ -13,15 +13,15 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import java.util.Collection;
 
 public class OHKOSkill extends SkillImplementation {
-    public OHKOSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public OHKOSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player && e.getEntity() instanceof LivingEntity) {
             Player player = (Player) e.getDamager();
-            Superhero superhero = powersHandler.getSuperhero(player);
+            Superhero superhero = heroHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.OHKO);
             for (SkillData skillData : skillDatas) {
                 OHKOData ohkoData = (OHKOData) skillData;

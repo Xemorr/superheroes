@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -15,8 +15,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Collection;
 
 public class SneakingPotionSkill extends SkillImplementation {
-    public SneakingPotionSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public SneakingPotionSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler

@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.ConvertBlockData;
@@ -17,15 +17,15 @@ public class ConvertBlockSkill extends SkillImplementation {
 
     SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    public ConvertBlockSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public ConvertBlockSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.CONVERTBLOCK);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.CONVERTBLOCK);
             for (SkillData skillData : skillDatas) {
                 ConvertBlockData convertBlockData = (ConvertBlockData) skillData;
                 Block block = e.getClickedBlock();

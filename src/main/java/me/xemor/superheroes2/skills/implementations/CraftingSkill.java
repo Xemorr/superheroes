@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
@@ -22,13 +22,13 @@ import java.util.Collection;
 import java.util.List;
 
 public class CraftingSkill extends SkillImplementation {
-    public CraftingSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public CraftingSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onPowerGain(PlayerGainedSuperheroEvent e) {
-        Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
+        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
@@ -39,7 +39,7 @@ public class CraftingSkill extends SkillImplementation {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
+        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
@@ -50,7 +50,7 @@ public class CraftingSkill extends SkillImplementation {
 
     @EventHandler
     public void onPowerLost(PlayerLostSuperheroEvent e) {
-        Superhero superhero = powersHandler.getSuperhero(e.getPlayer());
+        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
@@ -77,7 +77,7 @@ public class CraftingSkill extends SkillImplementation {
         for (HumanEntity humanEntity : viewers) {
             if (humanEntity instanceof Player) {
                 Player player = (Player) humanEntity;
-                Superhero superhero = powersHandler.getSuperhero(player);
+                Superhero superhero = heroHandler.getSuperhero(player);
                 Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
                 if (eventRecipe == null) {
                     return;

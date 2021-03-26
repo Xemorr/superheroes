@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.ConvertItemData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
@@ -14,15 +14,15 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class ConvertItemSkill extends SkillImplementation {
-    public ConvertItemSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public ConvertItemSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
     public void onPickup(EntityPickupItemEvent e) {
         if (e.getEntity() instanceof Player) {
             Player player = (Player) e.getEntity();
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.CONVERTITEM);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.CONVERTITEM);
             for (SkillData skillData : skillDatas) {
                 ConvertItemData convertItemData = (ConvertItemData) skillData;
                 ItemStack itemStack = e.getItem().getItemStack();

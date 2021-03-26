@@ -13,7 +13,7 @@ Creeper:
     remoteDetonation:
       skill: REMOTEDETONATION
       cooldown: 10
-      cooldownMessage: "&7You have %s seconds until you can remote detonate again!"
+      cooldownMessage: "&7You have %currentcooldown% seconds until you can remote detonate again!"
       explosionStrength: 3
       explodable:
         - "CREEPER"

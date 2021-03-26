@@ -10,7 +10,7 @@ Gun:
       canDropOnDeath: false
       loseItemOnHeroLoss: true
       item:
-        material: STONE_HOE
+        type: STONE_HOE
         amount: 1
         specialID: 1
         metadata:
@@ -22,11 +22,11 @@ Gun:
       skill: GUN
       damage: 5.0
       cooldown: 2.0
-      cooldownMessage: "&8&lGun &7has %s seconds left until it can be used again!"
+      cooldownMessage: "&8&lGun &7has %currentcooldown% seconds left until it can be used again!"
       maxDistance: 64
       bulletSize: 1.0
       item:
-        material: STONE_HOE
+        type: STONE_HOE
         amount: 1
         specialID: 1
         metadata:

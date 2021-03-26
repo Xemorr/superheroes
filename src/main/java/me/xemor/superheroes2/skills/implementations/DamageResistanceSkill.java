@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.PowersHandler;
+import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -14,8 +14,8 @@ import java.util.Collection;
 
 public class DamageResistanceSkill extends SkillImplementation {
 
-    public DamageResistanceSkill(PowersHandler powersHandler) {
-        super(powersHandler);
+    public DamageResistanceSkill(HeroHandler heroHandler) {
+        super(heroHandler);
     }
 
     @EventHandler
@@ -24,7 +24,7 @@ public class DamageResistanceSkill extends SkillImplementation {
             return;
         }
         Player player = (Player) e.getEntity();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.DAMAGERESISTANCE);
         for (SkillData skillData : skillDatas) {
             DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;
@@ -45,7 +45,7 @@ public class DamageResistanceSkill extends SkillImplementation {
     @EventHandler
     public void onPowerLoss(PlayerLostSuperheroEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = powersHandler.getSuperhero(player);
+        Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.DAMAGERESISTANCE);
         if (!skillDatas.isEmpty()) {
             for (SkillData skillData : skillDatas) {
