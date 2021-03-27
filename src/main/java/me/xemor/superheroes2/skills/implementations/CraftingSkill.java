@@ -79,9 +79,6 @@ public class CraftingSkill extends SkillImplementation {
                 Player player = (Player) humanEntity;
                 Superhero superhero = heroHandler.getSuperhero(player);
                 Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
-                if (eventRecipe == null) {
-                    return;
-                }
                 for (SkillData skill : skills) {
                     CraftingData craftingData = (CraftingData) skill;
                     NamespacedKey namespacedKey = ((Keyed)craftingData.getRecipe()).getKey();

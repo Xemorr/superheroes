@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
@@ -66,7 +67,10 @@ public class DecoySkill extends SkillImplementation {
         HashMap<UUID, UUID> hashMap = playerToDecoy.getOrDefault(decoyData, new HashMap<>());
         UUID armorStandUUID = hashMap.get(player.getUniqueId());
         if (armorStandUUID != null) {
-            Bukkit.getEntity(armorStandUUID).remove();
+            Entity entity = Bukkit.getEntity(armorStandUUID);
+            if (entity != null) {
+                entity.remove();
+            }
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
             player.removePotionEffect(PotionEffectType.SPEED);
             hashMap.remove(player.getUniqueId());

@@ -55,7 +55,7 @@ public class CreeperSkill extends SkillImplementation {
                                 }
                                 if (timer[0] >= creeperData.getFuse()) {
                                     explosion(creeperData, player, world);
-                                    cancel(); return;
+                                    cancel();
                                 } else {
                                     timer[0]++;
                                 }

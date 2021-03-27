@@ -1,12 +1,17 @@
 package me.xemor.superheroes2.skills.implementations;
 
+import de.themoep.minedown.MineDown;
 import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.EraserData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
-import org.bukkit.*;
+import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.ChatColor;
+import org.bukkit.FluidCollisionMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,18 +42,14 @@ public class EraserSkill extends SkillImplementation {
                     Location eyeLocation = player.getEyeLocation();
                     eyeLocation = eyeLocation.clone().add(eyeLocation.getDirection());
                     RayTraceResult rayTraceResult = world.rayTrace(eyeLocation, eyeLocation.getDirection(), eraserData.getRange(), FluidCollisionMode.NEVER, true, 1.0,
-                            entity -> {
-                        boolean one = entity instanceof Player;
-                        boolean two = !entity.equals(player);
-                        return one && two;
-                    });
+                            entity -> entity instanceof Player && !entity.equals(player));
                     if (rayTraceResult == null) {
                         continue;
                     }
                     Entity entity = rayTraceResult.getHitEntity();
                     if (entity != null) {
                         Player hitPlayer = (Player) entity;
-                        temporarilyRemoveHero(hitPlayer, player, eraserData.getDuration());
+                        temporarilyRemoveHero(hitPlayer, player, eraserData);
                         skillCooldownHandler.startCooldown(eraserData, eraserData.getCooldown(), player.getUniqueId());
                     }
                 }
@@ -56,21 +57,26 @@ public class EraserSkill extends SkillImplementation {
         }
     }
 
-    public void temporarilyRemoveHero(Player player, Player remover, int timeInTicks) {
+    public void temporarilyRemoveHero(Player player, Player remover, EraserData eraserData) {
         final Superhero oldPower = heroHandler.getSuperhero(player);
         heroHandler.setHeroInMemory(player, erased);
+        BaseComponent[] removedMessage = new MineDown(eraserData.getRemovedMessage()).replace("player", player.getDisplayName()).toComponent();
         if (remover != null) {
-            remover.sendMessage(ChatColor.BOLD + player.getName() + " has had their power erased temporarily!");
+            remover.spigot().sendMessage(removedMessage);
         }
-        player.sendMessage(ChatColor.BOLD + player.getName() + " has had their power erased temporarily!");
+        player.spigot().sendMessage(removedMessage);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (heroHandler.getSuperhero(player) == erased) {
                     heroHandler.setHeroInMemory(player, oldPower);
-                    Bukkit.broadcastMessage(ChatColor.BOLD + player.getName() + " has had their powers reinstated!");
+                    BaseComponent[] returnedMessage = new MineDown(eraserData.getReturnedMessage()).replace("player", player.getDisplayName()).toComponent();
+                    if (remover != null) {
+                        remover.spigot().sendMessage(returnedMessage);
+                    }
+                    player.spigot().sendMessage(returnedMessage);
                 }
             }
-        }.runTaskLater(heroHandler.getPlugin(), timeInTicks);
+        }.runTaskLater(heroHandler.getPlugin(), eraserData.getDuration());
     }
 }

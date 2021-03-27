@@ -1,9 +1,9 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import jdk.internal.jline.internal.Nullable;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.Spell.SpellData;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class SkillData {
 
