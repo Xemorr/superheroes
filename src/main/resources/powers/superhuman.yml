@@ -1,7 +1,16 @@
 Superhuman:
   colouredName: "&c&lSuperhuman"
   description: "You are a more powerful human"
-  heroInfo: ""
+  heroInfo: "
+              &7&lSuperhuman&r is a bit stronger than average&r\n
+              &7&l[Details]:&r\n
+              This class has 4 skills: &e&lPOTIONEFFECT&r\n
+              &e&lPotion Effect:&r\n
+                &e&lDamage Resistance I:&r You take less damage\n
+                &e&lSpeed I:&r Your a bit faster\n 
+                &e&lJump 2:&r You jump higher (2 blocks high)\n
+                &e&lFast Digging:&r You destroy blocks faster
+            "
   skills:
     resistance:
       skill: POTIONEFFECT

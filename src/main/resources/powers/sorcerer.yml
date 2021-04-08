@@ -1,7 +1,24 @@
 Sorcerer:
   colouredName: "&5&lSorcerer"
   description: "You can create magical spell books and wield them using redstone"
-  heroInfo: ""
+  heroInfo: "
+              &7&lSorcerer&r can create magical spell books and wield them using redstone\n
+              &7&l[Details]:&r\n
+              This class has one skill: &e&lCRAFTING&r\n
+              &e&lCRAFTING:&r allows Sorcerer to obtain a magic book by renaming a written book with one of those names: 'FIREBALL,SNOWBALL,ARROW,LIGHTNING,EGG,WATER,LAVA,FIRE,EXPLOSION,TRIDENT,TRANSMUTATION'\n
+
+              &7&lSorcerer&r is a hero composed of many different spells and is a hero going for the 'jack of all trades, master of none' paradigm, the sorcerer can shoot arrows, snowballs, tridents, eggs, fireballs, lightning and TNT. While, Zeus can shoot lightning more often and without cost, this is made up for in the variety of abilities the Sorcerer has.\n
+              The sorcerer can also place water, lava and fire and transmute ingot blocks into redstone blocks.\n
+              How is this balanced? The sorcerer must spend redstone to execute many of these spells and many of the spells have a cooldown. \n
+              You also need to craft the spell books yourself, although the recipe for a book and quill is cheaper as a Sorcerer, only requiring three paper and they can be recycled by just putting them into a crafting table.\n
+              
+              To use the Spells as Sorcerer, you need Spellbooks to execute them and Redstone as energy\n
+              The available Book Namings are &e&lFIREBALL&r,&e&lSNOWBALL&r,&e&lARROW&r,&e&lLIGHTNING&r,&e&lEGG&r,&e&lWATER&r,&e&lLAVA&r,&e&lFIRE&r,&e&lEXPLOSION&r,&e&lTRIDENT&r,&e&lTRANSMUTATION&r\n
+              
+              How to Create a Spellbook?\n
+              Take a 'Book and Quill', write something inside and sign it with one of those names above\n
+              Like if you want to create a Spellbook for Fireball, you write a random text in the book, sign it with the name 'Fireball'(spelling doesnt matter, just the word must be written correctly) and then you can use it with rightclick.\n
+            "
   skills:
     recyclable_book:
       skill: CRAFTING

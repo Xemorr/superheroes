@@ -1,7 +1,12 @@
 Eraserhead:
   colouredName: "&8&lEraserhead"
   description: "You can erase other people's powers by sneaking."
-  heroInfo: ""
+  heroInfo: "
+              &7&lEraserhead&r you can look at people and sneak, they lose their power. You can see additional information about your opponents.\n
+              &7&l[Details]:&r\n
+              This class has one skill: &e&lEraser&r\n
+              &e&lEraser:&r allows Eraserhead to disable the ability of a player in range by sneaking and show the infos like hp and abilitys of enemy the enemy.\n
+            "
   skills:
     eraser:
       skill: ERASER

@@ -5,9 +5,6 @@ api-version: 1.16
 authors: [Xemor_]
 description: Adds superheroes to your world - these can be customized completely and are extremely modular.
 commands:
-  heroinfo:
-      description: Gives you more info about an ability with /heroinfo <ability>
-      usage: /heroinfo <ability>
   reroll:
     description: Allows you to reroll someone's power
     usage: /reroll <name>
@@ -17,6 +14,9 @@ commands:
   heroreload:
     description: Allows you to reload the plugin
     usage: /heroreload
+  heroinfo:
+      description: Gives you more information about a hero's skills with /heroinfo <ability>
+      usage: /heroinfo <ability>
 permissions:
   superheroes.hero:
     description: Allows them to use /power

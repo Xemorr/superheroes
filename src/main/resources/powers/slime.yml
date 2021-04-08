@@ -1,7 +1,12 @@
 Slime:
   colouredName: "&a&lSlime"
   description: "You can bounce along the floor"
-  heroInfo: ""
+  heroInfo: "
+              &7&lSlime&r can create platforms under you by sneak + jumping&r\n
+              &7&l[Details]:&r\n
+              This class has two skills: &e&lWALKER&r and &e&lSNEAKINGPOTION\n
+              &e&lSlime:&r allows Slime to bounce on the floor instead of taking fall damage.
+            "
   skills:
     slimeboots:
       skill: SLIME

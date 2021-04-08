@@ -1,7 +1,15 @@
 Dolphin:
   colouredName: "&9&lDolphin"
   description: "You can swim at great speeds, nearby players are given dolphins grace! Ink Sacs are consumable."
-  heroInfo: ""
+  heroInfo: "
+              &7&lDolphin&r is your stereotypical water power, you can move quickly through water using Dolphin's Grace IV and you can never drown! However, it has the extra flare of being able to eat ink sacs for regeneration and hunger!&r\n
+              &7&l[Details]:&r\n
+              This class has five skills: &e&lConsume&r, &e&lAura&r, &e&lOHKOSquid&r and &e&lPotion Effect&r\n
+              &e&lConsume:&r allows Dolphin to consume ink sacs to restore 2 hunger and gain a short regeneration.\n
+              &e&lAura:&r give players near you a dolphins grace I buff to swimm faster.\n
+              &e&lOHKOSquid:&r allows you to oneshoot squids.\n
+              &e&lPotion Effect:&r Dolphin's Grace IV makes you swim faster and water breathing makes you breath underwater.
+            "
   skills:
     dolphinsGrace:
       skill: POTIONEFFECT

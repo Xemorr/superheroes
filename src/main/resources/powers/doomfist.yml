@@ -1,7 +1,13 @@
 Doomfist:
   colouredName: "&8&lDoomfist"
   description: "You are Doomfist."
-  heroInfo: ""
+  heroInfo: "
+              &7&lDoomfist&r can dash forward and use his abilitys by left clicking&r\n
+              &7&l[Details]:&r\n
+              This class has two skills: &e&lPunch&r and &e&lDamageresistance\n
+              &e&lPunch:&r While using left click you dash forward, consuming your food. You can dash until your food runs out, if it does you fall to the ground creating damage around the area. This also occurs while dashing torwards the ground.\n
+              &e&lDamageresistance:&r means no fall damage
+              "
   skills:
     punch:
       skill: SLAM

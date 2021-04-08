@@ -1,7 +1,13 @@
 Zeus:
   colouredName: "&e&lZeus"
   description: "Punching causes you to strike lightning wherever you look."
-  heroInfo: ""
+  heroInfo: "
+              &7&lZeus&r summons lightning by sneak + left clicking&r\n
+              &7&l[Details]:&r\n
+              This class has two skills: &e&lLightning&r and &e&Lightning Immunity&r\n
+              &e&lLightning:&r allows Zeus to summon a lightning by sneak + left clicking. Hitting yourself recoils you and gives you temorary fire resistance and slowfalling.\n
+              &e&lLightning Immunity:&r you take no damage from lightnings
+            "
   skills:
     lightning:
       skill: SUMMON

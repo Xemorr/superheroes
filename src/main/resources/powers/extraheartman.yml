@@ -1,7 +1,13 @@
 ExtraHeartMan:
   colouredName: "&e&lExtraHeartMan"
   description: "Has extra hearts and can give extra hearts to others"
-  heroInfo: ""
+  heroInfo: "
+              &7&lExtraHeartMan&r can grant absorbtion hearts and starts with bonus hearts.\n
+              &7&l[Details]:&r\n
+              This class has two skills: &e&lAbsorptionGiver&r and &e&lPotion Effect\n
+              &e&lAbsorptionGiver:&r allows ExtraHeartMan to give absorbtion hearts by right clicking.\n
+              &e&lPotion Effect:&r gives you a Health Boost based on the defined potency.
+            "
   skills:
     AbsorptionGiver:
       skill: POTIONGIFTER

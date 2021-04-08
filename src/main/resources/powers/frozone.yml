@@ -1,7 +1,13 @@
 Frozone:
   colouredName: "&b&lFrozone"
   description: "You can walk on water, and slow others near you."
-  heroInfo: ""
+  heroInfo: "
+              &7&lFrozone&r can walk on water by turning it into ice and every entity around you is slowed.\n
+              &7&l[Details]:&r\n
+              This class has two skills: &e&lWalker&r and &e&lAura&r\n
+              &e&lWalker:&r allows Frozone to walk over water by replacing water with frosted ice.\n
+              &e&lAura:&r grants entitys in a range of 5 blocks around you a slow I buff for the defined duration.
+            "
   skills:
     aura:
       skill: AURA

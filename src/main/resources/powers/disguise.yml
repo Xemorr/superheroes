@@ -1,7 +1,14 @@
 Disguise:
   colouredName: "&7&lDisguise"
   description: "You can trick players with your waifu disguise."
-  heroInfo: ""
+  heroInfo: "
+              &7&lDisguise&r when shifting an armourstand will spawn in the original place of the player, while the player will gain true invisibility and speed.&r\n
+              &7&l[Details]:&r\n
+              This class has one ability consisting of three skills: &e&lSneak&r, &e&lDecoy&r and &e&lSneaking Potion&r\n
+              &e&lSneak:&r mobs wont attack you while sneaking.\n
+              &e&lDecoy:&r summons a armor stand at the place where the player started to sneak.\n
+              &e&lSneaking Potion:&r turns invisible while sneaking and gain speed.
+            "
   skills:
     sneak:
       skill: SNEAK #stops mobs from targeting the player while they are meeting the below conditions.

@@ -1,7 +1,13 @@
 GravityGuy:
   colouredName: "&b&lGravityGuy"
   description: "When you sneak, you go up, when you let go, you fall"
-  heroInfo: ""
+  heroInfo: "
+              &7&lGravityGuy&r can float while sneaking.&r\n
+              &7&l[Details]:&r\n
+              This class has two skills: &e&lLevitation&r and &e&lPotion Effect&r\n
+              &e&lLevitation:&r When you sneak, gravity is inverted. (you fly around but slowly)\n
+              &e&lPotion Effect:&r Slow Falling I makes you fall slower.
+            "
   skills:
     gravity:
       skill: SNEAKINGPOTION

@@ -1,7 +1,14 @@
 Robot:
   colouredName: "&7&lThe Robot"
   description: "You're a robot"
-  heroInfo: ""
+  heroInfo: "
+              &7&lRobot&r You're never hungry, you have resistance and night vision but you are damaged by water. Being struck by lightning 'powers' you up&r\n
+              &7&l[Details]:&r\n
+              This class has three skills: &e&lLightningStrike&r, &e&lNoHunger&r and &e&lPotion Effect&r \n
+              &e&lLightningStrike:&r When lightning hits you, you gain speed 2 and glowing.\n
+              &e&lNoHunger:&r You never get hungry.\n
+              &e&lPotion Effect:&r gain Night Vision and Resistance
+            "
   skills:
     nohunger:
       skill: NOHUNGER

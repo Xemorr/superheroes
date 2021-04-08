@@ -1,7 +1,13 @@
 Chicken:
   colouredName: "&e&lChicken"
   description: "You're a chicken."
-  heroInfo: ""
+  heroInfo: "
+              &7&Chicken&r is mostly a joke, but its Speed II shouldn't be underestimated.\n
+              &7&l[Details]:&r\n
+              This class has two skills: &e&lEgglayer&r and &e&lPotion Effect&r\n
+              &e&lEgglayer:&r lays eggs every 15 seconds.\n
+              &e&lPotion Effect:&r slowfalling potion effect and speed 2.
+            "
   skills:
     eggLayer:
       skill: EGGLAYER

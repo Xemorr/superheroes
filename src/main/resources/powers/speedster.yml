@@ -1,10 +1,14 @@
 Speedster:
   colouredName: "&b&lSpeedster"
   description: "You have permanent speed IV"
-  heroInfo: ""
+  heroInfo: "
+              &7&lSpeedster&r can run faster&r\n
+              &7&l[Details]:&r\n
+              This class has one skill: &e&lPotion Effect&r\n
+              &e&lPotion Effect:&r Speed 4 makes you run faster.
+            "
   skills:
     slowness:
       skill: POTIONEFFECT
       type: SPEED
       potency: 4
-

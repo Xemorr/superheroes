@@ -1,7 +1,14 @@
 Creeper:
   colouredName: "&2&lCreeper"
   description: "You're a creeper."
-  heroInfo: ""
+  heroInfo: "
+              &7&lCreeper&r if you hold sneak for two seconds, you will explode and be launched upwards&r\n
+              &7&l[Details]:&r\n
+              This class has one ability consisting of three skills: &e&lExplusion&r, &e&lRemote Detonation&r and &e&lDamage Resistance&r\n
+              &e&lExplusion:&r causes an explosion at the hero's feet after a sneaking for 2 seconds (default) damaging anyone nearby and sending the hero flying into the air.\n
+              &e&lRemote Detonation:&r allows the hero to detonate any creeper it looks at by sneaking\n
+              &e&lDamage Resistance:&r prevents the hero from being damaged by explosions.
+              "
   skills:
     explosion:
       skill: CREEPER
