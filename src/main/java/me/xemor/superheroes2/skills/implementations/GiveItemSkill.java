@@ -80,12 +80,14 @@ public class GiveItemSkill extends SkillImplementation {
             if (e.getCursor() == null) {
                 return;
             }
+            if (e.getViewers().size() == 0) {
+                return;
+            }
             Entity possiblePlayer = e.getViewers().get(0);
             if (!(possiblePlayer instanceof Player)) {
                 return;
             }
             Player player = (Player) possiblePlayer;
-            System.out.println(player.getName());
             Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.GIVEITEM);
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
@@ -149,7 +151,7 @@ public class GiveItemSkill extends SkillImplementation {
             }
         }
     }
-//End of Functions
+//end
 
     @EventHandler
     public void onDeath(PlayerRespawnEvent e) {

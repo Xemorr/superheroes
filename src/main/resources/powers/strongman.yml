@@ -6,5 +6,5 @@ Strongman:
       skill: STRONGMAN
       velocity: 2.5
       upwardsVelocity: 1.0
-      tooMuscularMessage: " &fis too strong to sit in a vehicle!"
+      tooMuscularMessage: "%player% &fis too strong to sit in a vehicle!"
       maxPassengers: 1000000000

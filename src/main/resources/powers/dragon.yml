@@ -10,7 +10,7 @@ Dragon:
       canDropOnDeath: false
       loseItemOnHeroLoss: false
       item:
-        material: FIRE_CHARGE
+        type: FIRE_CHARGE
         amount: 1
         specialID: 3
         metadata:
@@ -21,7 +21,7 @@ Dragon:
     throwableFireballs:
       skill: THROWER
       item:
-        material: FIRE_CHARGE
+        type: FIRE_CHARGE
         amount: 1
         specialID: 3
         metadata:
@@ -31,8 +31,6 @@ Dragon:
             - "&f&oYou can use this to throw dragon fireballs!"
       ammoCost: 0
       projectile: DRAGON_FIREBALL
-      canPickUp: true #if this is not an arrow, this field does nothing. (Tridents count as arrows)
       cooldown: 30
-      cooldownMessage: "Your fireball has %s seconds remaining before it can be used again!"
+      cooldownMessage: "&#000-#300&&lFireball &fCooldown: %currentcooldown% seconds"
       velocity: 0.5
-      damage: 3 #Similarly to pickUp, it only works on arrows.

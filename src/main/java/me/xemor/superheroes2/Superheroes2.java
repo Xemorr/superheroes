@@ -3,6 +3,7 @@ package me.xemor.superheroes2;
 import me.xemor.superheroes2.commands.HeroCMD;
 import me.xemor.superheroes2.commands.Reload;
 import me.xemor.superheroes2.commands.Reroll;
+import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.implementations.*;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -117,6 +119,18 @@ public final class Superheroes2 extends JavaPlugin {
                 int currentCount = valueMap.getOrDefault(powerName, 0);
                 currentCount++;
                 valueMap.put(powerName, currentCount);
+            }
+            return valueMap;
+        }));
+        metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_skill", () -> {
+            Map<String, Integer> valueMap = new HashMap<>();
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Collection<Skill> skills = heroHandler.getSuperhero(player).getSkills();
+                for (Skill skill : skills) {
+                    int currentCount = valueMap.getOrDefault(skill.name(), 0);
+                    currentCount++;
+                    valueMap.put(skill.name(), currentCount);
+                }
             }
             return valueMap;
         }));

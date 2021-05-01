@@ -15,3 +15,5 @@ ExtraHeartMan:
       skill: POTIONEFFECT
       type: HEALTH_BOOST
       potency: 2
+      receiverMessage: "&7&oYou have received a potion effect."
+      giverMessage: "&7&oYou gave them a potion effect."

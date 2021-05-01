@@ -51,7 +51,7 @@ public class TeleportSkill extends SkillImplementation {
         Vector travelVector = eyeLoc.getDirection().setY(eyeLoc.getDirection().getY() * teleportData.getyAxisMultiplier());
         RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLoc, travelVector, teleportData.getDistance());
         Vector hitPosition;
-        if (rayTraceResult == null || rayTraceResult.getHitPosition() == null) {
+        if (rayTraceResult == null) {
             hitPosition = eyeLoc.toVector().add(travelVector.multiply(teleportData.getDistance()));
         } else {
             hitPosition = rayTraceResult.getHitPosition();

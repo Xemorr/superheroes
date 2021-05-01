@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 public class RepulsionData extends SkillData {
 
-    private double multiplier = 1;
-    private double radius = 5;
-    private Set<EntityType> blacklist;
+    private double multiplier;
+    private double radius;
+    private final Set<EntityType> blacklist;
 
     protected RepulsionData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

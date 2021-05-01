@@ -15,7 +15,7 @@ Zeus:
       action:
         - "LEFT_CLICK_AIR"
         - "LEFT_CLICK_BLOCK"
-      cooldownMessage: "&e&lZeus &fCooldown: %s seconds"
+      cooldownMessage: "&e&lZeus &fCooldown: %currentcooldown% seconds"
     lightningImmunity:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0

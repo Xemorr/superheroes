@@ -8,7 +8,7 @@ Creeper:
       fuse: 2
       creeper_power: 1
       upwards_velocity: 2.5
-      cooldown_message: "&2&lCreeper &fCooldown: %s seconds"
+      cooldownMessage: "&2&lCreeper &fCooldown: %currentcooldown% seconds"
       slowfall_duration: 7
     remoteDetonation:
       skill: REMOTEDETONATION

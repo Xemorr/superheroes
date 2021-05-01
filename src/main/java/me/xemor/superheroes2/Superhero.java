@@ -40,6 +40,10 @@ public class Superhero {
         return skillData == null ? new ArrayList<>() : skillData;
     }
 
+    public Collection<Skill> getSkills() {
+        return skillToData.keys();
+    }
+
     public String getColouredName() {
         return colouredName;
     }

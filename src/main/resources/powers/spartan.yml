@@ -24,7 +24,7 @@ Spartan:
     throwableArrows:
       skill: THROWER
       item:
-        material: ARROW
+        type: ARROW
       ammoCost: 1
       projectile: ARROW
       canPickUp: true #if this is not an arrow, this field does nothing. (Tridents count as arrows)

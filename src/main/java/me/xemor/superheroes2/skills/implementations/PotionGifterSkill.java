@@ -1,11 +1,13 @@
 package me.xemor.superheroes2.skills.implementations;
 
+import de.themoep.minedown.MineDown;
 import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.PotionGifterData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -39,9 +41,12 @@ public class PotionGifterSkill extends SkillImplementation {
                     world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
                     lEntity.addPotionEffect(gifterData.getPotionEffect());
                     skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
-                    player.spigot().sendMessage(gifterData.getGiverMessage());
+                    BaseComponent[] giverMessage = new MineDown(gifterData.getGiverMessage()).replace("player", player.getDisplayName()).toComponent();
+                    player.spigot().sendMessage(giverMessage);
                     if (entity instanceof Player) {
-                        entity.spigot().sendMessage(gifterData.getReceiverMessage());
+                        Player receiver = (Player) entity;
+                        BaseComponent[] receiverMessage = new MineDown(gifterData.getReceiverMessage()).replace("player", receiver.getDisplayName(), "gifter", player.getDisplayName()).toComponent();
+                        entity.spigot().sendMessage(receiverMessage);
                     }
                 }
             }

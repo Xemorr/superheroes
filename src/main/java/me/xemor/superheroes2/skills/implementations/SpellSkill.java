@@ -66,6 +66,9 @@ public class SpellSkill extends SkillImplementation {
                 ItemStack item = player.getInventory().getItemInMainHand();
                 if (item.hasItemMeta()) {
                     ItemMeta itemMeta = item.getItemMeta();
+                    if (itemMeta == null) {
+                        return;
+                    }
                     if (itemMeta.hasDisplayName()) {
                         if (item.getType() == Material.WRITTEN_BOOK) {
                             e.setUseItemInHand(Event.Result.DENY);

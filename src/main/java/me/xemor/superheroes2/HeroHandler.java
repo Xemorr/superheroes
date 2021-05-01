@@ -1,8 +1,10 @@
 package me.xemor.superheroes2;
 
+import de.themoep.minedown.MineDown;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -80,13 +82,19 @@ public class HeroHandler implements Listener {
     }
 
     public void setHeroInMemory(Player player, Superhero hero) {
+        setHeroInMemory(player, hero, true);
+    }
+
+    public void setHeroInMemory(Player player, Superhero hero, boolean show) {
         Superhero currentHero = uuidToPowers.get(player.getUniqueId());
         if (currentHero != null) {
             PlayerLostSuperheroEvent playerLostHeroEvent = new PlayerLostSuperheroEvent(player, currentHero);
             Bukkit.getServer().getPluginManager().callEvent(playerLostHeroEvent);
         }
         uuidToPowers.put(player.getUniqueId(), hero);
-        showHero(player, hero);
+        if (show) {
+            showHero(player, hero);
+        }
         if (currentHero != hero) {
             PlayerGainedSuperheroEvent playerGainedPowerEvent = new PlayerGainedSuperheroEvent(player, hero);
             Bukkit.getServer().getPluginManager().callEvent(playerGainedPowerEvent);
@@ -94,7 +102,11 @@ public class HeroHandler implements Listener {
     }
 
     public void setHero(Player player, Superhero hero) {
-        setHeroInMemory(player, hero);
+        setHero(player, hero, true);
+    }
+
+    public void setHero(Player player, Superhero hero, boolean show) {
+        setHeroInMemory(player, hero, show);
         saveSuperhero(player);
     }
 
@@ -102,13 +114,15 @@ public class HeroHandler implements Listener {
         String heroString = currentDataYAML.getString(player.getUniqueId().toString());
         Superhero superhero = getSuperhero(heroString);
         if (superhero == null) {
-            if (configHandler.isRerollEnabled()) {
+            if (configHandler.isPowerOnStartEnabled()) {
                 superhero = getRandomHero(player);
             }
             else {
                 superhero = noPower;
             }
-            setHero(player, superhero);
+            if (configHandler.shouldShowHeroOnStart()) {
+                setHero(player, superhero);
+            }
         }
         else {
             uuidToPowers.put(player.getUniqueId(), superhero);
@@ -154,9 +168,11 @@ public class HeroHandler implements Listener {
     }
 
     public void showHero(Player player, Superhero hero) {
-        player.sendTitle(hero.getColouredName(), hero.getDescription(), 10, 100, 10);
+        String colouredName = ChatColor.translateAlternateColorCodes('&', hero.getColouredName());
+        player.sendTitle(colouredName, ChatColor.translateAlternateColorCodes('&', hero.getDescription()), 10, 100, 10);
         player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5F, 1F);
-        Bukkit.broadcastMessage(ChatColor.BOLD + player.getName() + " has gained the power of " + hero.getColouredName());
+        BaseComponent[] heroGainedMessage = new MineDown(configHandler.getHeroGainedMessage()).replace("hero", colouredName).replace("player", player.getDisplayName()).toComponent();
+        Bukkit.spigot().broadcast(heroGainedMessage);
     }
 
     public Superhero getSuperhero(String name) {

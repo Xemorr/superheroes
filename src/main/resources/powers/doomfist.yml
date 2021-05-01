@@ -11,7 +11,7 @@ Doomfist:
       minimumFood: 6
       diameterRadius: 5
       damage: 8
-      cooldownMessage: "&8&lSlam &fCooldown: %currentcooldown% seconds"
+      cooldownMessage: "&#f0f-#000&&lSlam &fCooldown: %currentcooldown% seconds"
     noFallDamage:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0

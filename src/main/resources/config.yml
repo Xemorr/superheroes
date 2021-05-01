@@ -8,3 +8,5 @@ reroll:
   cooldown: 1
 powerOnStart:
   isEnabled: true
+  showHero: true
+

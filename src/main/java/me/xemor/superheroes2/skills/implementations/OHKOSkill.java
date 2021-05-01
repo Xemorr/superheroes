@@ -26,7 +26,7 @@ public class OHKOSkill extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 OHKOData ohkoData = (OHKOData) skillData;
                 LivingEntity livingEntity = (LivingEntity) e.getEntity();
-                if (ohkoData.getDisplayName() == null || livingEntity.getCustomName().equals(ohkoData.getDisplayName())) {
+                if (ohkoData.getDisplayName() == null || ohkoData.getDisplayName().equals(livingEntity.getCustomName())) {
                     if (ohkoData.getEntityTypes().contains(e.getEntity().getType())) {
                         livingEntity.damage(livingEntity.getHealth(), e.getDamager());
                     }

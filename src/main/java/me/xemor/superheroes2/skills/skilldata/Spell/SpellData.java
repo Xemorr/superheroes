@@ -35,7 +35,7 @@ public class SpellData extends SkillData implements Cooldown {
         cooldownMessage = replaceVariables(cooldownMessage);
         moreFuelMessage = configurationSection.getString("moreFuelMessage", "This spell needs %fuelneeded% more %fuel%");
         moreFuelMessage = replaceVariables(moreFuelMessage);
-        final String displayNameFormat = ChatColor.translateAlternateColorCodes('&', configurationSection.getString("displayNameFormat", "&5{spellName}"));
+        final String displayNameFormat = ChatColor.translateAlternateColorCodes('&', configurationSection.getString("displayNameFormat", "&5%spellName%"));
         displayName = replaceVariables(displayNameFormat);
         final List<String> loreFormat = configurationSection.getStringList("loreFormat");
         lore = loreFormat.stream()

@@ -23,6 +23,8 @@ public class ConfigHandler {
 
     private File dataFolder;
     private File superpowersFolder;
+    private File languageFile;
+    private YamlConfiguration language;
     private FileConfiguration config;
     private Superheroes2 superheroes2;
 
@@ -31,6 +33,9 @@ public class ConfigHandler {
         superheroes2.saveDefaultConfig();
         config = superheroes2.getConfig();
         dataFolder = superheroes2.getDataFolder();
+        superheroes2.saveResource("language.yml", false);
+        languageFile = new File(dataFolder, "language.yml");
+        language = YamlConfiguration.loadConfiguration(languageFile);
         handleSuperpowersFolder();
     }
 
@@ -121,6 +126,7 @@ public class ConfigHandler {
         handleSuperpowersFolder();
         loadSuperheroes(heroHandler);
         heroHandler.setHeroesIntoMemory(new HashMap<>());
+        language = YamlConfiguration.loadConfiguration(languageFile);
         for (Player player : Bukkit.getOnlinePlayers()) {
             heroHandler.loadPlayerHero(player);
         }
@@ -140,6 +146,18 @@ public class ConfigHandler {
 
     public boolean isRerollEnabled() {
         return config.getConfigurationSection("reroll").getBoolean("isEnabled", true);
+    }
+
+    public boolean isPowerOnStartEnabled() {
+        return config.getBoolean("powerOnStart.isEnabled", true);
+    }
+
+    public boolean shouldShowHeroOnStart() {
+        return config.getBoolean("powerOnStart.showHero", true);
+    }
+
+    public String getHeroGainedMessage() {
+        return language.getString("Chat.gainedHero", "&l%player% has gained the power of %hero%");
     }
 
     public double getRerollCooldown() { return config.getConfigurationSection("reroll").getDouble("cooldown", 1.0);}

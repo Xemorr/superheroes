@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -94,7 +95,7 @@ public class DecoySkill extends SkillImplementation {
         return armorStand;
     }
 
-    public ItemStack createLeatherGear(Material leatherArmor, DecoyData decoyData) {
+    public ItemStack createLeatherGear(@NotNull Material leatherArmor, DecoyData decoyData) {
         ItemStack itemStack = new ItemStack(leatherArmor);
         LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) itemStack.getItemMeta();
         leatherArmorMeta.setColor(decoyData.getColor());

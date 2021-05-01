@@ -30,12 +30,18 @@ public class WalkerSkill extends SkillImplementation {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.WALKER);
+        if (player.isInsideVehicle()) {
+            return;
+        }
         for (SkillData skillData : skillDatas) {
             WalkerData walkerData = (WalkerData) skillData;
             if (walkerData.isSneaking() != e.getPlayer().isSneaking()) {
                 continue;
             }
             Location location = e.getTo();
+            if (e.getTo() == null) {
+                continue;
+            }
             World world = player.getWorld();
             Block block;
             if (walkerData.isAboveFloor()) {
@@ -45,7 +51,7 @@ public class WalkerSkill extends SkillImplementation {
                 block = world.getBlockAt(location.clone().subtract(0, 1, 0));
             }
             if (!walkerData.canPlaceFloating()) {
-                if (block.getRelative(BlockFace.DOWN).getType().isSolid()) {
+                if (!block.getRelative(BlockFace.DOWN).getType().isSolid()) {
                     continue;
                 }
             }

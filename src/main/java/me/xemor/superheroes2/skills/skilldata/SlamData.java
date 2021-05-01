@@ -15,7 +15,7 @@ public class SlamData extends CooldownData {
     private double damage;
 
     protected SlamData(Skill skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "&8&lSlam &fCooldown: %s seconds", 10);
+        super(skill, configurationSection, "&8&lSlam &fCooldown: %currentcooldown% seconds", 10);
         hand = Material.valueOf(configurationSection.getString("item", "AIR").toUpperCase());
         airCooldown = configurationSection.getDouble("airCooldown", 1);
         foodCost = configurationSection.getInt("foodCost", 0);
