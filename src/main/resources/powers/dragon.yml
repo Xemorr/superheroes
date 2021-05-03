@@ -32,5 +32,5 @@ Dragon:
       ammoCost: 0
       projectile: DRAGON_FIREBALL
       cooldown: 30
-      cooldownMessage: "&#000-#300&&lFireball &fCooldown: %currentcooldown% seconds"
+      cooldownMessage: "&#100-#300&&lFireball &fCooldown: %currentcooldown% seconds"
       velocity: 0.5

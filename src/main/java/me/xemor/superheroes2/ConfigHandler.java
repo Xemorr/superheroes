@@ -2,6 +2,7 @@ package me.xemor.superheroes2;
 
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,12 +28,26 @@ public class ConfigHandler {
     private YamlConfiguration language;
     private FileConfiguration config;
     private Superheroes2 superheroes2;
+    private ItemStack item;
 
     public ConfigHandler(Superheroes2 superheroes2) {
         this.superheroes2 = superheroes2;
         superheroes2.saveDefaultConfig();
-        config = superheroes2.getConfig();
         dataFolder = superheroes2.getDataFolder();
+        config = superheroes2.getConfig();
+        ItemStack itemStack = config.getItemStack("reroll.item");
+        if (itemStack != null) {
+            config.set("reroll.item.type", "DIAMOND_BLOCK");
+            config.set("reroll.item.amount", 1);
+            try {
+                config.save(new File(dataFolder, "config.yml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        ConfigurationSection itemConfig = config.getConfigurationSection("reroll.item");
+        ItemStackData itemStackData = new ItemStackData(itemConfig);
+        item = itemStackData.getItem();
         superheroes2.saveResource("language.yml", false);
         languageFile = new File(dataFolder, "language.yml");
         language = YamlConfiguration.loadConfiguration(languageFile);
@@ -127,6 +142,8 @@ public class ConfigHandler {
         loadSuperheroes(heroHandler);
         heroHandler.setHeroesIntoMemory(new HashMap<>());
         language = YamlConfiguration.loadConfiguration(languageFile);
+        ItemStackData itemStackData = new ItemStackData(config.getConfigurationSection("reroll.item"));
+        item = itemStackData.getItem();
         for (Player player : Bukkit.getOnlinePlayers()) {
             heroHandler.loadPlayerHero(player);
         }
@@ -141,7 +158,7 @@ public class ConfigHandler {
     }
 
     public ItemStack getRerollItem() {
-        return config.getConfigurationSection("reroll").getItemStack("item");
+        return item;
     }
 
     public boolean isRerollEnabled() {

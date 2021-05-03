@@ -6,7 +6,7 @@
 
     <groupId>me.xemor</groupId>
     <artifactId>Superheroes2</artifactId>
-    <version>UNRELEASED</version>
+    <version>2.1.0</version>
     <packaging>jar</packaging>
 
     <name>Superheroes2</name>
