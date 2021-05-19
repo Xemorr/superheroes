@@ -24,3 +24,6 @@ permissions:
   superheroes.hero.others:
     description: Allows them to use /hero on other people
     default: op
+  superheroes.hero.bypasscooldown:
+    description: Allows them to use /hero regardless of whether it is on cooldown or not
+    default: op

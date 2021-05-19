@@ -184,7 +184,15 @@ public class ConfigHandler {
         return language.getString("Chat.currentHero", "&l%player%, you are currently %hero%");
     }
 
-    public double getRerollCooldown() { return config.getConfigurationSection("reroll").getDouble("cooldown", 1.0);}
+    public String getHeroCooldownMessage() {
+        return language.getString("Chat.heroCommandCooldown", "&l%player%, /hero is currently on cooldown. You need to wait %currentcooldown%/%cooldown% more seconds!");
+    }
+
+    public double getHeroCommandCooldown() {
+        return config.getDouble("heroCommand.cooldown", 0);
+    }
+
+    public double getRerollCooldown() { return config.getDouble("reroll.cooldown", 1.0);}
 
     public boolean areHeroPermissionsRequired() {return config.getConfigurationSection("reroll").getBoolean("eachHeroRequiresPermissions", false); }
 

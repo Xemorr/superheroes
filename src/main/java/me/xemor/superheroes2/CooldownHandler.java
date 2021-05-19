@@ -1,7 +1,7 @@
 package me.xemor.superheroes2;
 
+import de.themoep.minedown.MineDown;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class CooldownHandler {
 
-    private HashMap<UUID, Long> cooldownMap = new HashMap<>();
-    private String cooldownMessage;
+    private final HashMap<UUID, Long> cooldownMap = new HashMap<>();
+    private final String cooldownMessage;
 
     public CooldownHandler(String cooldownMsg) {
         cooldownMessage = ChatColor.translateAlternateColorCodes('&', cooldownMsg);
@@ -30,18 +30,23 @@ public class CooldownHandler {
     }
 
     public boolean isCooldownOver(UUID uuid, String cooldownMessage) {
+        long seconds = getCurrentCooldown(uuid);
+        if (!cooldownMessage.equals("")) {
+            Bukkit.getPlayer(uuid).spigot().sendMessage(ChatMessageType.ACTION_BAR, MineDown.parse(cooldownMessage, "currentcooldown", String.valueOf(seconds)));
+        }
+        return seconds <= 0;
+    }
+
+    public long getCurrentCooldown(UUID uuid) {
         if (cooldownMap.containsKey(uuid)) {
-            if (cooldownMap.get(uuid) <= System.currentTimeMillis()) {
-                return true;
+            long timeAtCooldownStart = cooldownMap.get(uuid);
+            if (timeAtCooldownStart <= System.currentTimeMillis()) {
+                return 0;
             }
-            long seconds = ((cooldownMap.get(uuid) - System.currentTimeMillis()) / 1000);
-            if (!cooldownMessage.equals("")) {
-                Bukkit.getPlayer(uuid).spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(String.format(cooldownMessage, seconds)));
-            }
-            return false;
+            return ((timeAtCooldownStart - System.currentTimeMillis()) / 1000);
         }
         else {
-            return true;
+            return 0;
         }
     }
 
