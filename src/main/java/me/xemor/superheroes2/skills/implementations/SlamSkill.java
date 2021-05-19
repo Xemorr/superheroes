@@ -6,6 +6,7 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.SlamData;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -14,10 +15,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public class SlamSkill extends SkillImplementation {
 
@@ -30,16 +33,22 @@ public class SlamSkill extends SkillImplementation {
     @EventHandler
     public void onPunch(PlayerInteractEvent e) {
         if (e.getAction() == Action.LEFT_CLICK_AIR) {
-            Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
+            Player player = e.getPlayer();
+            Superhero superhero = heroHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SLAM);
             for (SkillData skillData : skillDatas) {
                 SlamData slamData = (SlamData) skillData;
-                if (e.getPlayer().getInventory().getItemInMainHand().getType() == slamData.getHand()) {
-                    if (skillCooldownHandler.isCooldownOver(slamData, e.getPlayer().getUniqueId())) {
-                        if (e.getPlayer().getFoodLevel() > slamData.getMinimumFood()) {
-                            skillCooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), e.getPlayer().getUniqueId());
-                            e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel() - slamData.getFoodCost());
-                            doDoomfistJump(e.getPlayer(), superhero, slamData);
+                ItemStack currentHand = player.getInventory().getItemInMainHand();
+                if (currentHand.getType().equals(Material.AIR)) {
+                    currentHand = new ItemStack(Material.AIR);
+                }
+                if (currentHand.isSimilar(slamData.getHand())) {
+                    UUID uuid = player.getUniqueId();
+                    if (skillCooldownHandler.isCooldownOver(slamData, uuid)) {
+                        if (player.getFoodLevel() > slamData.getMinimumFood()) {
+                            skillCooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), uuid);
+                            player.setFoodLevel(player.getFoodLevel() - slamData.getFoodCost());
+                            doDoomfistJump(player, superhero, slamData);
                         }
                     }
                 }

@@ -5,7 +5,6 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.ConsumeData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -35,7 +34,7 @@ public class ConsumeSkill extends SkillImplementation {
                 }
                 player.setFoodLevel(player.getFoodLevel() + consumeData.getHunger());
                 if (item.getAmount() == 1) {
-                    player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                    player.getInventory().setItemInMainHand(null);
                 }
                 item.setAmount(item.getAmount() - 1);
             }

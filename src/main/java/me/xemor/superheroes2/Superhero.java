@@ -5,8 +5,8 @@ import com.google.common.collect.Multimap;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class Superhero {
 
@@ -37,7 +37,7 @@ public class Superhero {
 
     public Collection<SkillData> getSkillData(Skill skill) {
         Collection<SkillData> skillData = skillToData.get(skill);
-        return skillData == null ? new ArrayList<>() : skillData;
+        return skillData == null ? Collections.emptyList() : skillData;
     }
 
     public Collection<Skill> getSkills() {

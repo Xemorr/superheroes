@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 
 public class ConfigHandler {
 
-
     private File dataFolder;
     private File superpowersFolder;
     private File languageFile;
@@ -175,6 +174,14 @@ public class ConfigHandler {
 
     public String getHeroGainedMessage() {
         return language.getString("Chat.gainedHero", "&l%player% has gained the power of %hero%");
+    }
+
+    public String getNoPermissionMessage() {
+        return language.getString("Chat.noPermission", "&4You do not have permission to execute this command!");
+    }
+
+    public String getCurrentHeroMessage() {
+        return language.getString("Chat.currentHero", "&l%player%, you are currently %hero%");
     }
 
     public double getRerollCooldown() { return config.getConfigurationSection("reroll").getDouble("cooldown", 1.0);}

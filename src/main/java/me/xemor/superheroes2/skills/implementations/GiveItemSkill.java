@@ -134,6 +134,9 @@ public class GiveItemSkill extends SkillImplementation {
     @EventHandler
     public void onDrag(InventoryDragEvent e) {
         if (!(e.getInventory() instanceof PlayerInventory)) {
+            if (e.getViewers().size() == 0) {
+                return;
+            }
             Entity possiblePlayer = e.getViewers().get(0);
             if (!(possiblePlayer instanceof Player)) {
                 return;

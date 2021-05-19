@@ -16,8 +16,11 @@ commands:
     usage: /heroreload
 permissions:
   superheroes.hero:
-    description: Allows them to use /power
+    description: Allows them to use /hero
     default: op
   superheroes.reroll:
     description: Allows them to use /reroll
+    default: op
+  superheroes.hero.others:
+    description: Allows them to use /hero on other people
     default: op

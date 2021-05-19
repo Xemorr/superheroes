@@ -1,2 +1,4 @@
 Chat:
   gainedHero: "&l%player% has gained the power of %hero%"
+  noPermission: "&4You do not have permission to use this power!"
+  currentHero: "&l%player%, you are currently %hero%"

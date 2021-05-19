@@ -9,9 +9,9 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class GunData extends CooldownData {
 
-    private double damage;
-    private double maxDistance;
-    private double bulletSize;
+    private final double damage;
+    private final double maxDistance;
+    private final double bulletSize;
     private ItemStackData itemStackData;
     private SoundData shootSoundData;
     private ParticleData trailParticle;

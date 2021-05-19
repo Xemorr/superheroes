@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class HeroHandler implements Listener {
         this.uuidToPowers = playerHeroes;
     }
 
+    @NotNull
     public Superhero getSuperhero(Player player) {
         Superhero hero = uuidToPowers.get(player.getUniqueId());
         if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.PHASE)) {
@@ -70,6 +72,7 @@ public class HeroHandler implements Listener {
         return hero;
     }
 
+    @NotNull
     public Superhero getSuperhero(UUID uuid) {
         Superhero hero = uuidToPowers.get(uuid);
         Player player = Bukkit.getPlayer(uuid);
@@ -81,6 +84,11 @@ public class HeroHandler implements Listener {
         return hero;
     }
 
+    /**
+     * Executes setHeroInMemory with show as true.
+     * @param player
+     * @param hero
+     */
     public void setHeroInMemory(Player player, Superhero hero) {
         setHeroInMemory(player, hero, true);
     }
@@ -121,12 +129,10 @@ public class HeroHandler implements Listener {
                 superhero = noPower;
             }
             if (configHandler.shouldShowHeroOnStart()) {
-                setHero(player, superhero);
+                showHero(player, superhero);
             }
         }
-        else {
-            uuidToPowers.put(player.getUniqueId(), superhero);
-        }
+        uuidToPowers.put(player.getUniqueId(), superhero);
         return superhero;
     }
 

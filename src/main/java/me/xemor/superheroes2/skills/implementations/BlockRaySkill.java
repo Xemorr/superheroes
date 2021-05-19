@@ -7,12 +7,14 @@ import me.xemor.superheroes2.skills.skilldata.BlockRayData;
 import me.xemor.superheroes2.skills.skilldata.BlockRayMode;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
 
 import java.util.Collection;
@@ -34,18 +36,36 @@ public class BlockRaySkill extends SkillImplementation {
             Location eyeLocation = player.getEyeLocation();
             RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLocation, eyeLocation.getDirection(), blockRayData.getMaxDistance());
             if (rayTraceResult == null) {
-                return;
+                continue;
             }
             Block block = rayTraceResult.getHitBlock();
-            if (blockRayData.getBlocksToReplace().contains(block.getType()) && blockRayData.getBlockRayMode() == BlockRayMode.THEBLOCK) {
-                block.setType(blockRayData.getRandomBlockToPlace());
-                return;
+            if (block == null) {
+                continue;
             }
-            if (blockRayData.getBlocksToReplace().contains(block.getType()) && blockRayData.getBlockRayMode() == BlockRayMode.ABOVEBLOCK) {
-                Block aboveBlock = block.getRelative(BlockFace.UP);
-                if (blockRayData.getBlocksToReplace().contains(aboveBlock.getType())) {
-                    aboveBlock.setType(blockRayData.getRandomBlockToPlace());
+            if (blockRayData.getBlocksToReplace().contains(block.getType())) {
+                final Block toChange;
+                if (blockRayData.getBlockRayMode() == BlockRayMode.ABOVEBLOCK) {
+                    toChange = block.getRelative(BlockFace.UP);
                 }
+                else {
+                    toChange = block;
+                }
+                if (blockRayData.getBlocksToReplace().contains(toChange.getType()) && blockRayData.getBlocksToReplace().contains(block.getType())) {
+                    final Material originalType = toChange.getType();
+                    final Material newType = blockRayData.getRandomBlockToPlace();
+                    toChange.setType(newType);
+                    if (blockRayData.shouldRevert()) {
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if (toChange.getType() == newType) {
+                                    toChange.setType(originalType);
+                                }
+                            }
+                        }.runTaskLater(heroHandler.getPlugin(), blockRayData.getRevertsAfter());
+                    }
+                }
+
             }
         }
     }

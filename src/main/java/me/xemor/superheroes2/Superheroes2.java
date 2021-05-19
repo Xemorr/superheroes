@@ -35,7 +35,7 @@ public final class Superheroes2 extends JavaPlugin {
         this.getCommand("heroreload").setExecutor(reload);
         this.getServer().getPluginManager().registerEvents(reroll, this);
         this.getServer().getPluginManager().registerEvents(heroHandler, this);
-        HeroCMD heroCMD = new HeroCMD(heroHandler);
+        HeroCMD heroCMD = new HeroCMD(heroHandler, configHandler);
         PluginCommand command = this.getCommand("hero");
         command.setExecutor(heroCMD);
         command.setTabCompleter(heroCMD);

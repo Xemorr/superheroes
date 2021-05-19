@@ -4,7 +4,8 @@ Doomfist:
   skills:
     punch:
       skill: SLAM
-      item: "AIR"
+      item:
+        type: AIR
       landCooldown: 10
       airCooldown: 1
       foodCost: 3

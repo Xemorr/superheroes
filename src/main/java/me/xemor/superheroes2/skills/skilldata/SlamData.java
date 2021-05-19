@@ -2,12 +2,14 @@ package me.xemor.superheroes2.skills.skilldata;
 
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
+import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 public class SlamData extends CooldownData {
 
-    private Material hand;
+    private ItemStack hand;
     private double airCooldown;
     private int foodCost;
     private int minimumFood;
@@ -16,7 +18,13 @@ public class SlamData extends CooldownData {
 
     protected SlamData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "&8&lSlam &fCooldown: %currentcooldown% seconds", 10);
-        hand = Material.valueOf(configurationSection.getString("item", "AIR").toUpperCase());
+        ConfigurationSection handSection = configurationSection.getConfigurationSection("item");
+        if (handSection == null) {
+            hand = new ItemStack(Material.AIR);
+        }
+        else {
+            hand = new ItemStackData(handSection, "AIR").getItem();
+        }
         airCooldown = configurationSection.getDouble("airCooldown", 1);
         foodCost = configurationSection.getInt("foodCost", 0);
         minimumFood = configurationSection.getInt("minimumFood", 0);
@@ -24,7 +32,7 @@ public class SlamData extends CooldownData {
         damage = configurationSection.getDouble("damage", 0);
     }
 
-    public Material getHand() {
+    public ItemStack getHand() {
         return hand;
     }
 

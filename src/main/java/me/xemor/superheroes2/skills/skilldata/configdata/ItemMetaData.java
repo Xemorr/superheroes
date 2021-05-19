@@ -2,6 +2,7 @@ package me.xemor.superheroes2.skills.skilldata.configdata;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
@@ -22,6 +23,11 @@ public class ItemMetaData {
         itemMeta.setLore(lore);
         boolean isUnbreakable = configurationSection.getBoolean("isUnbreakable", false);
         itemMeta.setUnbreakable(isUnbreakable);
+        int durability = configurationSection.getInt("durability", 0);
+        if (durability != 0 && itemMeta instanceof Damageable) {
+            Damageable damageable = (Damageable) itemMeta;
+            damageable.setDamage(durability);
+        }
     }
 
     public ItemMeta getItemMeta()

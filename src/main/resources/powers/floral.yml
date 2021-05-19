@@ -91,10 +91,12 @@ Floral:
         - AZURE_BLUET
         - ALLIUM
       blocksToReplace:
-        - GRASS_BLOCK
         - AIR
+        - GRASS_BLOCK
       blockRayMode: ABOVEBLOCK
       maxDistance: 20
+      shouldRevert: true
+      revertsAfter: 15
     flowerPlacer2:
       skill: BLOCKRAY
       blocksToPlace:
@@ -113,5 +115,7 @@ Floral:
         - GRASS
       blockRayMode: THEBLOCK
       maxDistance: 20
+      shouldRevert: true
+      revertsAfter: 15
 
 

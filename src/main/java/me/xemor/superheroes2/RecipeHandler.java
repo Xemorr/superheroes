@@ -5,7 +5,6 @@ import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.CraftingData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
-import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -74,13 +73,5 @@ public class RecipeHandler implements Listener {
     public void onPowerLost(PlayerLostSuperheroEvent e) {
         Collection<NamespacedKey> recipeKeys = getRecipesFromSuperhero(e.getHero());
         e.getPlayer().undiscoverRecipes(recipeKeys);
-    }
-
-    public void registerRecipe(Recipe recipe, Superhero superhero) {
-        if (recipe instanceof Keyed) {
-            NamespacedKey key = ((Keyed)recipe).getKey();
-            recipeToPower.put(key, superhero);
-        }
-        Bukkit.addRecipe(recipe);
     }
 }

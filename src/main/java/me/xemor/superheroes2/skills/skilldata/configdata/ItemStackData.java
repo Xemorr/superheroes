@@ -14,22 +14,39 @@ public class ItemStackData {
 
     private ItemStack item;
 
+    public ItemStackData(ConfigurationSection configurationSection, String defaultMaterial) {
+        init(configurationSection, defaultMaterial);
+    }
+
     public ItemStackData(ConfigurationSection configurationSection) {
-        Material material = Material.valueOf(configurationSection.getString("type", "STONE").toUpperCase());
+        init(configurationSection, "STONE");
+    }
+
+    public void init(ConfigurationSection configurationSection, String defaultMaterial) {
+        Material material = Material.valueOf(configurationSection.getString("type", defaultMaterial).toUpperCase());
         int amount = configurationSection.getInt("amount", 1);
         item = new ItemStack(material, amount);
         ConfigurationSection metadataSection = configurationSection.getConfigurationSection("metadata");
-        item.setItemMeta(Bukkit.getItemFactory().getItemMeta(material));
         if (metadataSection != null) {
-            ItemMetaData itemMetaData = new ItemMetaData(metadataSection, item.getItemMeta());
-            item.setItemMeta(itemMetaData.getItemMeta());
+            ItemMeta meta = Bukkit.getItemFactory().getItemMeta(material);
+            if (meta != null) {
+                ItemMetaData itemMetaData = new ItemMetaData(metadataSection, meta);
+                item.setItemMeta(itemMetaData.getItemMeta());
+            }
         }
         long specialID = configurationSection.getLong("specialID", -1);
         if (specialID != -1) {
             ItemMeta itemMeta = item.getItemMeta();
+            if (itemMeta == null) {
+                itemMeta = Bukkit.getItemFactory().getItemMeta(material);
+            }
             itemMeta.getPersistentDataContainer().set(new NamespacedKey(JavaPlugin.getPlugin(Superheroes2.class), "specialID"), PersistentDataType.LONG, specialID);
             item.setItemMeta(itemMeta);
         }
+    }
+
+    public boolean isEqual(ItemStack item) {
+        return item.getType() == this.item.getType() && item.hasItemMeta() == this.item.hasItemMeta() && (!item.hasItemMeta() || Bukkit.getItemFactory().equals(item.getItemMeta(), this.item.getItemMeta()));
     }
 
     public ItemStack getItem()
