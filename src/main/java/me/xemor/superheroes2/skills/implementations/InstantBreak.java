@@ -5,10 +5,12 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.InstantBreakData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,8 +29,20 @@ public class InstantBreak extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 InstantBreakData instantBreakData = (InstantBreakData) skillData;
                 Block block = e.getClickedBlock();
+                ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+                ItemStack toBreakWith = new ItemStack(instantBreakData.getBreakUsing());
+                item.getEnchantments().forEach(toBreakWith::addEnchantment);
                 if (instantBreakData.canBreak(block.getType())) {
-                    block.breakNaturally(new ItemStack(Material.DIAMOND_PICKAXE));
+                    BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, e.getPlayer());
+                    Bukkit.getServer().getPluginManager().callEvent(blockBreakEvent);
+                    if (!blockBreakEvent.isCancelled()) {
+                        if (blockBreakEvent.isDropItems()) {
+                            block.breakNaturally(toBreakWith);
+                        }
+                        else {
+                            block.setType(Material.AIR);
+                        }
+                    }
                 }
             }
         }

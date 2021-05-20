@@ -5,7 +5,7 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
-import me.xemor.superheroes2.skills.skilldata.PotionEffectData;
+import me.xemor.superheroes2.skills.skilldata.PotionEffectSkillData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,8 +33,8 @@ public class PotionEffectSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.POTIONEFFECT);
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
-                PotionEffectData potionEffectData = (PotionEffectData) skillData;
-                player.addPotionEffect(potionEffectData.getPotionEffect());
+                PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
+                player.addPotionEffect(potionEffectSkillData.getPotionEffect());
             }
         }
     }

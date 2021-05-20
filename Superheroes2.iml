@@ -21,6 +21,22 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: de.themoep:minedown-adventure:1.7.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-platform-api:4.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-api:4.7.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-key:4.7.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-text-serializer-craftbukkit:4.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: net.kyori:adventure-text-serializer-gson-legacy-impl:4.7.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-text-serializer-bungeecord:4.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-text-serializer-legacy:4.7.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-nbt:4.7.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:examination-api:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:examination-string:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.checkerframework:checker-qual:3.11.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-text-serializer-gson:4.7.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: net.kyori:adventure-platform-facet:4.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: net.kyori:adventure-platform-viaversion:4.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.guava:guava:21.0" level="project" />

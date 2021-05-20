@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class SummonData extends PotionEffectData implements Cooldown {
+public class SummonSkillData extends PotionEffectSkillData implements Cooldown {
 
     private int range;
     private boolean repel;
@@ -20,7 +20,7 @@ public class SummonData extends PotionEffectData implements Cooldown {
     private double cooldown;
     private String cooldownMessage;
 
-    protected SummonData(Skill skill, ConfigurationSection configurationSection) {
+    protected SummonSkillData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         entityType = EntityType.valueOf(configurationSection.getString("entity", "LIGHTNING"));
         range = configurationSection.getInt("range");

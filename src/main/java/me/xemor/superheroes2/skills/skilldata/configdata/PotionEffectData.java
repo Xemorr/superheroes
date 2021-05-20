@@ -1,25 +1,25 @@
-package me.xemor.superheroes2.skills.skilldata;
+package me.xemor.superheroes2.skills.skilldata.configdata;
 
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class PotionEffectData extends SkillData {
+public class PotionEffectData {
 
-    PotionEffect potionEffect;
+    private PotionEffect potionEffect;
 
-    protected PotionEffectData(Skill skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        int potency = configurationSection.getInt("potency", 0);
+    public PotionEffectData(ConfigurationSection configurationSection, PotionEffectType defaultType, int defaultDuration, int defaultPotency) {
+        int potency = configurationSection.getInt("potency", defaultPotency);
         if (potency > 0) {
             potency--;
         }
-        String potionType = configurationSection.getString("type", "REGENERATION");
+        PotionEffectType potionType = PotionEffectType.getByName(configurationSection.getString("type", "d").toUpperCase());
+        if (potionType == null) {
+            potionType = defaultType;
+        }
         if (potionType != null) {
-            PotionEffectType type = PotionEffectType.getByName(potionType.toUpperCase());
-            double duration = configurationSection.getDouble("duration", 0D);
-            createPotion(type, duration, potency);
+            double duration = configurationSection.getDouble("duration", defaultDuration);
+            createPotion(potionType, duration, potency);
         }
     }
 
@@ -38,4 +38,5 @@ public class PotionEffectData extends SkillData {
             potionEffect = new PotionEffect(type, Integer.MAX_VALUE, potency);
         }
     }
+
 }

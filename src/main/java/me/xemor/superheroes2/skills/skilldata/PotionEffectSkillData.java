@@ -6,22 +6,18 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class AuraData extends SkillData {
+public class PotionEffectSkillData extends SkillData {
 
-    private double diameter;
-    private PotionEffectData potionData;
+    PotionEffectData potionData;
 
-    protected AuraData(Skill skill, ConfigurationSection configurationSection) {
+    protected PotionEffectSkillData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-        diameter = configurationSection.getDouble("radius", 5) * 2;
-        potionData = new PotionEffectData(configurationSection, PotionEffectType.REGENERATION, 200, 0);
+        potionData = new PotionEffectData(configurationSection, PotionEffectType.REGENERATION, 0, 0);
+
     }
 
     public PotionEffect getPotionEffect() {
         return potionData.getPotionEffect();
     }
 
-    public double getDiameter() {
-        return diameter;
-    }
 }

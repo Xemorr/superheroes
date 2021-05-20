@@ -29,6 +29,6 @@ Spartan:
       projectile: ARROW
       canPickUp: true #if this is not an arrow, this field does nothing. (Tridents count as arrows)
       cooldown: 1
-      cooldownMessage: "Your spear has %s seconds remaining before it can be used again!"
+      cooldownMessage: "Your spear has %currentcooldown% seconds remaining before it can be used again!"
       velocity: 1.4
       damage: 3 #Similarly to pickUp, it only works on arrows.

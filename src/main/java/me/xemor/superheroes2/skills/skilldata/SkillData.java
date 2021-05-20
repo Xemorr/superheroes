@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class SkillData {
 
-    private Skill skill;
+    private final Skill skill;
     private ConfigurationSection configurationSection;
 
     protected SkillData(Skill skill, ConfigurationSection configurationSection) {
@@ -20,8 +20,8 @@ public abstract class SkillData {
         switch (skill) {
             case INSTANTBREAK: return new InstantBreakData(skill, configurationSection);
             case POTIONEFFECT:
-            case SNEAKINGPOTION: return new PotionEffectData(skill, configurationSection);
-            case LIGHT: return new LightData(skill, configurationSection);
+            case SNEAKINGPOTION: return new PotionEffectSkillData(skill, configurationSection);
+            case LIGHT: return new LightSkillData(skill, configurationSection);
             case NOHUNGER: return new BlankData(skill, configurationSection);
             case DAMAGERESISTANCE: return new DamageResistanceData(skill, configurationSection);
             case SLIME: return new SlimeData(skill, configurationSection);
@@ -35,10 +35,10 @@ public abstract class SkillData {
             case ERASER: return new EraserData(skill, configurationSection);
             case CRAFTING: return new CraftingData(skill, configurationSection);
             case TELEPORT: return new TeleportData(skill, configurationSection);
-            case SUMMON: return new SummonData(skill, configurationSection);
+            case SUMMON: return new SummonSkillData(skill, configurationSection);
             case DECOY: return new DecoyData(skill, configurationSection);
-            case POTIONGIFTER: return new PotionGifterData(skill, configurationSection);
-            case CONSUME: return new ConsumeData(skill, configurationSection);
+            case POTIONGIFTER: return new PotionGifterSkillData(skill, configurationSection);
+            case CONSUME: return new ConsumeSkillData(skill, configurationSection);
             case BLOCKRAY: return new BlockRayData(skill, configurationSection);
             case OHKO: return new OHKOData(skill, configurationSection);
             case REPULSION: return new RepulsionData(skill, configurationSection);
@@ -52,7 +52,7 @@ public abstract class SkillData {
             case CONVERTITEM: return new ConvertItemData(skill, configurationSection);
             case CONVERTBLOCK: return new ConvertBlockData(skill, configurationSection);
             case REMOTEDETONATION: return new RemoteDetonationData(skill, configurationSection);
-            case CONVERTDROPS: return new ConvertDropsData(skill, configurationSection);
+            case BLOCKDROPS: return new BlockDropsData(skill, configurationSection);
             default:
                 return null;
         }

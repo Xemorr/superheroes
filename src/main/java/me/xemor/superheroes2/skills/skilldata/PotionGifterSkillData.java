@@ -4,14 +4,14 @@ import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class PotionGifterData extends PotionEffectData implements Cooldown {
+public class PotionGifterSkillData extends PotionEffectSkillData implements Cooldown {
 
     private double cooldown;
     private String receiverMessage;
     private String giverMessage;
     private String cooldownMessage;
 
-    protected PotionGifterData(Skill skill, ConfigurationSection configurationSection) {
+    protected PotionGifterSkillData(Skill skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         cooldown = configurationSection.getDouble("cooldown", 10);
         receiverMessage = configurationSection.getString("receiverMessage", "&7&oYou have received a potion effect.");

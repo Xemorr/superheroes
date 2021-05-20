@@ -5,7 +5,7 @@ import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
-import me.xemor.superheroes2.skills.skilldata.PotionGifterData;
+import me.xemor.superheroes2.skills.skilldata.PotionGifterSkillData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Particle;
@@ -32,7 +32,7 @@ public class PotionGifterSkill extends SkillImplementation {
         Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.POTIONGIFTER);
         for (SkillData skillData : skillDatas) {
-            PotionGifterData gifterData = (PotionGifterData) skillData;
+            PotionGifterSkillData gifterData = (PotionGifterSkillData) skillData;
             Entity entity = e.getRightClicked();
             if (skillCooldownHandler.isCooldownOver(gifterData, player.getUniqueId())) {
                 if (entity instanceof LivingEntity) {
@@ -43,10 +43,11 @@ public class PotionGifterSkill extends SkillImplementation {
                     skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
                     BaseComponent[] giverMessage = new MineDown(gifterData.getGiverMessage()).replace("player", player.getDisplayName()).toComponent();
                     player.spigot().sendMessage(giverMessage);
-                    if (entity instanceof Player) {
-                        Player receiver = (Player) entity;
-                        BaseComponent[] receiverMessage = new MineDown(gifterData.getReceiverMessage()).replace("player", receiver.getDisplayName(), "gifter", player.getDisplayName()).toComponent();
-                        entity.spigot().sendMessage(receiverMessage);
+                    if (lEntity instanceof Player) {
+                        Player receiver = (Player) lEntity;
+                        MineDown mineDown = new MineDown(gifterData.getReceiverMessage());
+                        mineDown = mineDown.replaceFirst(true).replace("gifter", player.getDisplayName());
+                        receiver.spigot().sendMessage(mineDown.toComponent());
                     }
                 }
             }

@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +70,9 @@ public class HeroHandler implements Listener {
         if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.PHASE)) {
             return noPower;
         }
+        if (hero == null) {
+            return noPower;
+        }
         return hero;
     }
 
@@ -118,7 +122,7 @@ public class HeroHandler implements Listener {
         saveSuperhero(player);
     }
 
-    public Superhero loadPlayerHero(Player player) {
+    public Superhero loadPlayerHero(@NotNull Player player) {
         String heroString = currentDataYAML.getString(player.getUniqueId().toString());
         Superhero superhero = getSuperhero(heroString);
         if (superhero == null) {
@@ -181,6 +185,7 @@ public class HeroHandler implements Listener {
         Bukkit.spigot().broadcast(heroGainedMessage);
     }
 
+    @Nullable
     public Superhero getSuperhero(String name) {
         return nameToSuperhero.get(name);
     }

@@ -38,9 +38,6 @@ public class ThrowerSkill extends SkillImplementation {
                         e.setCancelled(true);
                         if (skillCooldownHandler.isCooldownOver(throwerData, player.getUniqueId())) {
                             EntityType entityType = throwerData.getEntityType();
- /*               if (Projectile.class.isAssignableFrom(entityType.getEntityClass())) { //"isAssignableFrom" ensures that the argument is an instance of the class it's being used on.
-                    player.launchProjectile((Class<? extends Projectile>) entityType.getEntityClass());
-                }*/
                             World world = player.getWorld();
                             Entity entity = world.spawnEntity(player.getEyeLocation(), entityType);
                             entity.setVelocity(player.getEyeLocation().getDirection().multiply(throwerData.getVelocity()));

@@ -5,7 +5,7 @@ import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
-import me.xemor.superheroes2.skills.skilldata.SummonData;
+import me.xemor.superheroes2.skills.skilldata.SummonSkillData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -32,7 +32,7 @@ public class SummonSkill extends SkillImplementation {
         Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SUMMON);
         for (SkillData skillData : skillDatas) {
-            SummonData summonData = (SummonData) skillData;
+            SummonSkillData summonData = (SummonSkillData) skillData;
             if (summonData.getAction().contains(e.getAction())) {
                 if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                     if ((summonData.mustSneak() && player.isSneaking()) || !summonData.mustSneak()) {

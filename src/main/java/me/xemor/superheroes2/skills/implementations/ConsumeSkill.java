@@ -3,7 +3,7 @@ package me.xemor.superheroes2.skills.implementations;
 import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.skills.Skill;
-import me.xemor.superheroes2.skills.skilldata.ConsumeData;
+import me.xemor.superheroes2.skills.skilldata.ConsumeSkillData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +26,7 @@ public class ConsumeSkill extends SkillImplementation {
         Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.CONSUME);
         for (SkillData skillData : skillDatas) {
-            ConsumeData consumeData = (ConsumeData) skillData;
+            ConsumeSkillData consumeData = (ConsumeSkillData) skillData;
             ItemStack item = player.getInventory().getItemInMainHand();
             if (item.getType() == consumeData.getMaterial()) {
                 if (consumeData.getPotionEffect() != null) {
