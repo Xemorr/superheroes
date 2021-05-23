@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -13,7 +12,7 @@ public class GiveItemData extends SkillData {
     private boolean canDropOnDeath;
     private boolean loseItemOnHeroLoss;
 
-    protected GiveItemData(Skill skill, ConfigurationSection configurationSection) {
+    public GiveItemData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         canStore = configurationSection.getBoolean("canStore", true);
         canDrop = configurationSection.getBoolean("canDrop", true);

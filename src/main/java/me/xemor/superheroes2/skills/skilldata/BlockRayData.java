@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -18,7 +17,7 @@ public class BlockRayData extends SkillData {
     private long revertsAfter;
 
 
-    protected BlockRayData(Skill skill, ConfigurationSection configurationSection) {
+    public BlockRayData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         blocksToPlace = configurationSection.getStringList("blocksToPlace").stream().map(str -> Material.valueOf(str)).collect(Collectors.toList());
         blocksToReplace = configurationSection.getStringList("blocksToReplace").stream().map(str -> Material.valueOf(str)).collect(Collectors.toList());

@@ -28,6 +28,16 @@ public class ItemMetaData {
             Damageable damageable = (Damageable) itemMeta;
             damageable.setDamage(durability);
         }
+        ConfigurationSection attributeSection = configurationSection.getConfigurationSection("attributes");
+        if (attributeSection != null) {
+            AttributeData attributeData = new AttributeData(attributeSection);
+            attributeData.applyAttributes(itemMeta);
+        }
+        ConfigurationSection enchantSection = configurationSection.getConfigurationSection("enchants");
+        if (enchantSection != null) {
+            EnchantmentData enchantmentData = new EnchantmentData(enchantSection);
+            enchantmentData.applyEnchantments(itemMeta);
+        }
     }
 
     public ItemMeta getItemMeta()

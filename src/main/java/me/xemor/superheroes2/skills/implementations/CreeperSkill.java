@@ -33,7 +33,7 @@ public class CreeperSkill extends SkillImplementation {
         if (e.isSneaking()) {
             Player player = e.getPlayer();
             Superhero superhero = heroHandler.getSuperhero(player);
-            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.CREEPER);
+            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CREEPER"));
             for (SkillData skillData : skillDatas) {
                 final CreeperData creeperData = (CreeperData) skillData;
                 if (isOnGround(player)) {
@@ -47,7 +47,7 @@ public class CreeperSkill extends SkillImplementation {
                                 if (!player.isSneaking()) {
                                     cancel(); return;
                                 }
-                                if (heroHandler.getSuperhero(player).getSkillData(Skill.CREEPER).isEmpty()) {
+                                if (heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CREEPER")).isEmpty()) {
                                     cancel(); return;
                                 }
                                 if (!isOnGround(player)) {

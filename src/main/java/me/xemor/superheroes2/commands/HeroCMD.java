@@ -1,11 +1,10 @@
 package me.xemor.superheroes2.commands;
 
-import de.themoep.minedown.MineDown;
-import me.xemor.superheroes2.ConfigHandler;
-import me.xemor.superheroes2.CooldownHandler;
-import me.xemor.superheroes2.HeroHandler;
-import me.xemor.superheroes2.Superhero;
-import net.md_5.bungee.api.chat.BaseComponent;
+import de.themoep.minedown.adventure.MineDown;
+import me.xemor.superheroes2.*;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,20 +25,21 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
     public HeroCMD(HeroHandler heroHandler, ConfigHandler configHandler) {
         this.heroHandler = heroHandler;
         this.configHandler = configHandler;
-        cooldownHandler = new CooldownHandler("");
+        cooldownHandler = new CooldownHandler("", ChatMessageType.ACTION_BAR);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Audience audience = Superheroes2.getBukkitAudiences().sender(sender);
         if (!sender.hasPermission("superheroes.hero")) {
-            sender.spigot().sendMessage(MineDown.parse(configHandler.getNoPermissionMessage(), "player", sender.getName()));
+            audience.sendMessage(MineDown.parse(configHandler.getNoPermissionMessage(), "player", sender.getName()));
             return true;
         }
         if (args.length == 0) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 Superhero superhero = heroHandler.getSuperhero(player);
-                player.spigot().sendMessage(MineDown.parse(configHandler.getCurrentHeroMessage(), "player", player.getName(), "hero", superhero.getName()));
+                audience.sendMessage(MineDown.parse(configHandler.getCurrentHeroMessage(), "player", player.getName(), "hero", superhero.getName()));
                 return true;
             }
             else {
@@ -51,18 +51,18 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
             return false;
         }
         if (!sender.hasPermission("superheroes.hero." + power.getName().toLowerCase())) {
-            sender.spigot().sendMessage(MineDown.parse(configHandler.getNoPermissionMessage(), "player", sender.getName()));
+            audience.sendMessage(MineDown.parse(configHandler.getNoPermissionMessage(), "player", sender.getName()));
             return true;
         }
         if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player) {
             Player senderPlayer = (Player) sender;
             long seconds = cooldownHandler.getCurrentCooldown(senderPlayer.getUniqueId());
             if (seconds > 0) {
-                BaseComponent[] message = MineDown.parse(configHandler.getHeroCooldownMessage(),
+                Component message = MineDown.parse(configHandler.getHeroCooldownMessage(),
                         "player", senderPlayer.getDisplayName(),
                         "currentcooldown", String.valueOf(seconds),
                         "cooldown", String.valueOf(configHandler.getHeroCommandCooldown()));
-                senderPlayer.spigot().sendMessage(message);
+                audience.sendMessage(message);
                 return true;
             }
         }

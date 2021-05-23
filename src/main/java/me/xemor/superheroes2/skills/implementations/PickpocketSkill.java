@@ -24,7 +24,7 @@ public class PickpocketSkill extends SkillImplementation {
     public void onRightClick(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.PICKPOCKET);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("PICKPOCKET"));
         if (e.getRightClicked() instanceof Player) {
             for (SkillData skillData : skillDatas) {
                 PickpocketData pickpocketData = (PickpocketData) skillData;

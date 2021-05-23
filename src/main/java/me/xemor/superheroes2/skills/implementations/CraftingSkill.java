@@ -29,7 +29,7 @@ public class CraftingSkill extends SkillImplementation {
     @EventHandler
     public void onPowerGain(PlayerGainedSuperheroEvent e) {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
+        Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
             NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
@@ -40,7 +40,7 @@ public class CraftingSkill extends SkillImplementation {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
+        Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
             NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
@@ -51,7 +51,7 @@ public class CraftingSkill extends SkillImplementation {
     @EventHandler
     public void onPowerLost(PlayerLostSuperheroEvent e) {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
+        Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
             NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
@@ -78,7 +78,7 @@ public class CraftingSkill extends SkillImplementation {
             if (humanEntity instanceof Player) {
                 Player player = (Player) humanEntity;
                 Superhero superhero = heroHandler.getSuperhero(player);
-                Collection<SkillData> skills = superhero.getSkillData(Skill.CRAFTING);
+                Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
                 for (SkillData skill : skills) {
                     CraftingData craftingData = (CraftingData) skill;
                     NamespacedKey namespacedKey = ((Keyed)craftingData.getRecipe()).getKey();

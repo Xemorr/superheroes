@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -21,7 +20,7 @@ public class WalkerData extends SkillData {
     boolean canPlaceFloating;
     long revertsAfter;
 
-    protected WalkerData(Skill skill, ConfigurationSection configurationSection) {
+    public WalkerData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         List<String> blocksToReplaceStr = configurationSection.getStringList("blocksToReplace");
         for (String blockToReplaceStr : blocksToReplaceStr) {

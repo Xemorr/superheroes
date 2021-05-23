@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
 import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.Material;
@@ -16,7 +15,7 @@ public class SlamData extends CooldownData {
     private double diameterRadius;
     private double damage;
 
-    protected SlamData(Skill skill, ConfigurationSection configurationSection) {
+    public SlamData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "&8&lSlam &fCooldown: %currentcooldown% seconds", 10);
         ConfigurationSection handSection = configurationSection.getConfigurationSection("item");
         if (handSection == null) {

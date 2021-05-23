@@ -3,38 +3,32 @@ Speleologist:
   description: "Instantly smelt and double ores!"
   skills:
     dropConverter:
-      skill: BLOCKDROPS
-      replaceDrops: false
+      skill: CONVERTDROPS
+      ignoreSilkTouch: false
+      ignoredBlocks:
+        - "REDSTONE"
       convertMap:
         IRON_ORE:
-          iron:
-            type: "IRON_INGOT"
-            amount: 1
+          type: "IRON_INGOT"
+          amount: 2
         GOLD_ORE:
-          gold:
-            type: "GOLD_INGOT"
-            amount: 1
-        DIAMOND_ORE:
-          diamond:
-            type: "DIAMOND"
-            amount: 1
+          type: "GOLD_INGOT"
+          amount: 2
+        DIAMOND:
+          type: "DIAMOND"
+          amount: 2
         ANCIENT_DEBRIS:
-          netherite:
-            type: "NETHERITE_SCRAP"
-            amount: 1
-        COAL_ORE:
-          coal:
-            type: "COAL"
-            amount: 1
-        LAPIS_ORE:
-          lapis:
-            type: "LAPIS_LAZULI"
-            amount: 1
-        REDSTONE_ORE:
-          redstone:
-            type: "REDSTONE"
-            amount: 1
-        EMERALD_ORE:
-          emerald:
-            type: "EMERALD"
-            amount: 1
+          type: "NETHERITE_SCRAP"
+          amount: 2
+        COAL:
+          type: "COAL"
+          amount: 2
+        LAPIS_LAZULI:
+          type: "LAPIS_LAZULI"
+          amount: 2
+        REDSTONE:
+          type: "REDSTONE"
+          amount: 2
+        EMERALD:
+          type: "EMERALD"
+          amount: 2

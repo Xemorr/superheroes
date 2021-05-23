@@ -31,7 +31,7 @@ public class TeleportSkill extends SkillImplementation {
     public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = getPowersHandler().getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.TELEPORT);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("TELEPORT"));
         for (SkillData skillData : skillDatas) {
             TeleportData teleportData = (TeleportData) skillData;
             if ((e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) == teleportData.isLeftClick()) {

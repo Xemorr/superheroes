@@ -16,7 +16,7 @@ public class NoHungerSkill extends SkillImplementation {
         if (e.getEntity() instanceof Player) {
             Player player = (Player) e.getEntity();
             if (e.getFoodLevel() <= player.getFoodLevel()) {
-                if (heroHandler.getSuperhero(player).hasSkill(Skill.NOHUNGER)) {
+                if (heroHandler.getSuperhero(player).hasSkill(Skill.getSkill("NOHUNGER"))) {
                     e.setCancelled(true);
                 }
             }

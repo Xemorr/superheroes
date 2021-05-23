@@ -1,13 +1,14 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import de.themoep.minedown.MineDown;
+import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.PotionGifterSkillData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
-import net.md_5.bungee.api.chat.BaseComponent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -30,7 +31,7 @@ public class PotionGifterSkill extends SkillImplementation {
     public void onPlayerInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.POTIONGIFTER);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("POTIONGIFTER"));
         for (SkillData skillData : skillDatas) {
             PotionGifterSkillData gifterData = (PotionGifterSkillData) skillData;
             Entity entity = e.getRightClicked();
@@ -41,13 +42,13 @@ public class PotionGifterSkill extends SkillImplementation {
                     world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
                     lEntity.addPotionEffect(gifterData.getPotionEffect());
                     skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
-                    BaseComponent[] giverMessage = new MineDown(gifterData.getGiverMessage()).replace("player", player.getDisplayName()).toComponent();
-                    player.spigot().sendMessage(giverMessage);
+                    Component giverMessage = new MineDown(gifterData.getGiverMessage()).replaceFirst(true).replace("player", player.getDisplayName()).toComponent();
+                    Superheroes2.getBukkitAudiences().player(player).sendMessage(giverMessage);
                     if (lEntity instanceof Player) {
                         Player receiver = (Player) lEntity;
-                        MineDown mineDown = new MineDown(gifterData.getReceiverMessage());
-                        mineDown = mineDown.replaceFirst(true).replace("gifter", player.getDisplayName());
-                        receiver.spigot().sendMessage(mineDown.toComponent());
+                        Component receiverMessage = new MineDown(gifterData.getReceiverMessage()).replaceFirst(true)
+                                .replace("gifter", player.getDisplayName()).replace("player", receiver.getDisplayName()).toComponent();
+                        Superheroes2.getBukkitAudiences().player(player).sendMessage(receiverMessage);
                     }
                 }
             }

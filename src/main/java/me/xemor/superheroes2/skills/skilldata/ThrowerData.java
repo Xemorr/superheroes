@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
 import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.configuration.ConfigurationSection;
@@ -22,7 +21,7 @@ public class ThrowerData extends CooldownData {
     private double velocity;
     private double damage;
 
-    protected ThrowerData(Skill skill, ConfigurationSection configurationSection) {
+    public ThrowerData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "&7Your projectile has %s seconds remaining!", 0);
         ammoCost = configurationSection.getInt("ammoCost", 1);
         final ConfigurationSection ammoItemSection = configurationSection.getConfigurationSection("item");

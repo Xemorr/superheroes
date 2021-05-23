@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -12,7 +11,7 @@ public class InstantBreakData extends SkillData {
     private HashSet<Material> instantBreakMaterials = new HashSet<>();
     private Material breakUsing;
 
-    protected InstantBreakData(Skill skill, ConfigurationSection configurationSection) {
+    public InstantBreakData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         List<String> instantBreakMaterialsStr = configurationSection.getStringList("blocks");
         if (instantBreakMaterialsStr == null) {

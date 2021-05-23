@@ -25,7 +25,7 @@ public class ConvertBlockSkill extends SkillImplementation {
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.CONVERTBLOCK);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CONVERTBLOCK"));
             for (SkillData skillData : skillDatas) {
                 ConvertBlockData convertBlockData = (ConvertBlockData) skillData;
                 Block block = e.getClickedBlock();

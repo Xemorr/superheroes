@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -11,7 +10,7 @@ public class CreeperData extends CooldownData {
     private double upwardsVelocity;
     private int slowfallDuration;
 
-    protected CreeperData(Skill skill, ConfigurationSection configurationSection) {
+    public CreeperData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "&2&lCreeper &fCooldown: %s seconds", 10);
         creeperPower = (float) configurationSection.getDouble("creeper_power", 1);
         fuse = (int) Math.ceil(configurationSection.getDouble("fuse", 2) * 20);

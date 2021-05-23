@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.PotionEffectData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -16,7 +15,7 @@ public class DamageResistanceData extends SkillData {
     private PotionEffect potionEffect;
     private HashSet<EntityDamageEvent.DamageCause> damageCauses;
 
-    protected DamageResistanceData(Skill skill, ConfigurationSection configurationSection) {
+    public DamageResistanceData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         damageMultiplier = configurationSection.getDouble("damageMultiplier", 0);
         List<String> damageCausesStr = configurationSection.getStringList("damageCause");

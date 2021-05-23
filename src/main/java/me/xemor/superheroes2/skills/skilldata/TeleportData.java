@@ -1,7 +1,6 @@
 package me.xemor.superheroes2.skills.skilldata;
 
 import me.xemor.superheroes2.ParticleData;
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,7 +15,7 @@ public class TeleportData extends CooldownData {
     private ParticleData particleData;
     private Material teleportItem;
 
-    protected TeleportData(Skill skill, ConfigurationSection configurationSection) {
+    public TeleportData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "&5&lTeleport &7has %s seconds until it can be used again!", 10);
         leftClick = configurationSection.getBoolean("leftClick", true);
         distance = configurationSection.getInt("distance", 30);

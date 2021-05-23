@@ -28,7 +28,7 @@ public class ThrowerSkill extends SkillImplementation {
     @EventHandler
     public void onThrow(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.THROWER);
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("THROWER"));
         for (SkillData skillData : skillDatas) {
             ThrowerData throwerData = (ThrowerData) skillData;
             if (throwerData.getActions().contains(e.getAction())) {

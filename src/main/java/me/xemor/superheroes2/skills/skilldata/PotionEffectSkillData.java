@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.PotionEffectData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
@@ -10,7 +9,7 @@ public class PotionEffectSkillData extends SkillData {
 
     PotionEffectData potionData;
 
-    protected PotionEffectSkillData(Skill skill, ConfigurationSection configurationSection) {
+    public PotionEffectSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         potionData = new PotionEffectData(configurationSection, PotionEffectType.REGENERATION, 0, 0);
 

@@ -30,7 +30,7 @@ public class PotionEffectSkill extends SkillImplementation {
 
     public void givePotionEffects(Player player) {
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.POTIONEFFECT);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("POTIONEFFECT"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
@@ -51,7 +51,7 @@ public class PotionEffectSkill extends SkillImplementation {
 
     @EventHandler
     public void onPowerLost(PlayerLostSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getHero().getSkillData(Skill.POTIONEFFECT);
+        Collection<SkillData> skillDatas = e.getHero().getSkillData(Skill.getSkill("POTIONEFFECT"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 PotionEffectType type = PotionEffectType.getByName(skillData.getData().getString("type").toUpperCase());

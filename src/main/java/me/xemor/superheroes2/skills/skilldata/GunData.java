@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
 import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import me.xemor.superheroes2.skills.skilldata.configdata.ParticleData;
@@ -17,7 +16,7 @@ public class GunData extends CooldownData {
     private ParticleData trailParticle;
     private ParticleData hitParticle;
 
-    protected GunData(Skill skill, ConfigurationSection configurationSection) {
+    public GunData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "&8&lGun &7has %s seconds left until it can be used again!", 2);
         maxDistance = configurationSection.getDouble("maxDistance", 64);
         bulletSize = configurationSection.getDouble("bulletSize", 1.0);

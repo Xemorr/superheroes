@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,7 +12,7 @@ public class ConvertBlockData extends CooldownData {
     private List<Material> inputBlocks;
     private Material outputBlock;
 
-    protected ConvertBlockData(Skill skill, ConfigurationSection configurationSection) {
+    public ConvertBlockData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "There are %s seconds before you can transmutate the block again!", 0);
         outputBlock = Material.valueOf(configurationSection.getString("outputBlock", "GOLD_BLOCK"));
         inputBlocks = configurationSection.getStringList("inputBlocks").stream().map(Material::valueOf).collect(Collectors.toList());

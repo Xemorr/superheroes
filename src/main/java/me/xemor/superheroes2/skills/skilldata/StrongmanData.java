@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class StrongmanData extends SkillData {
@@ -10,7 +9,7 @@ public class StrongmanData extends SkillData {
     private String tooMuscularMessage;
     private int maxPassengers;
 
-    protected StrongmanData(Skill skill, ConfigurationSection configurationSection) {
+    public StrongmanData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         velocity = configurationSection.getDouble("velocity", 2.5);
         upwardsVelocity = configurationSection.getDouble("upwardsVelocity", 1);

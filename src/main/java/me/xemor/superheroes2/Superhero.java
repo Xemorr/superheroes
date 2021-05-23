@@ -2,7 +2,6 @@ package me.xemor.superheroes2;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 
 import java.util.Collection;
@@ -13,7 +12,7 @@ public class Superhero {
     protected String name;
     protected String colouredName;
     protected String description;
-    protected Multimap<Skill, SkillData> skillToData = HashMultimap.create();
+    protected Multimap<Integer, SkillData> skillToData = HashMultimap.create();
 
     public Superhero(String name, String colouredName, String description) {
         this.name = name;
@@ -31,16 +30,16 @@ public class Superhero {
         }
     }
 
-    public boolean hasSkill(Skill skill) {
+    public boolean hasSkill(int skill) {
         return skillToData.containsKey(skill);
     }
 
-    public Collection<SkillData> getSkillData(Skill skill) {
+    public Collection<SkillData> getSkillData(int skill) {
         Collection<SkillData> skillData = skillToData.get(skill);
         return skillData == null ? Collections.emptyList() : skillData;
     }
 
-    public Collection<Skill> getSkills() {
+    public Collection<Integer> getSkills() {
         return skillToData.keys();
     }
 

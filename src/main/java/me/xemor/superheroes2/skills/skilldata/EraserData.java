@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -11,7 +10,7 @@ public class EraserData extends CooldownData {
     private String returnedMessage;
     private int duration;
 
-    protected EraserData(Skill skill, ConfigurationSection configurationSection) {
+    public EraserData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "You need to wait %currentcooldown% seconds before you can erase their power again!", 10);
         removedMessage = configurationSection.getString("removedMessage", "%player% has had their power erased temporarily!");
         returnedMessage = configurationSection.getString("returnedMessage", "%player% has had their power reinstated!");

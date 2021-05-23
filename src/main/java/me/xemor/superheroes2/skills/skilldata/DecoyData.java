@@ -1,7 +1,6 @@
 package me.xemor.superheroes2.skills.skilldata;
 
 import dev.dbassett.skullcreator.SkullCreator;
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,7 +13,7 @@ public class DecoyData extends SkillData {
     private Color color;
     private ItemStack skull;
 
-    protected DecoyData(Skill skill, ConfigurationSection configurationSection) {
+    public DecoyData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         ConfigurationSection colorSection = configurationSection.getConfigurationSection("color");
         int red = colorSection.getInt("red", 0);

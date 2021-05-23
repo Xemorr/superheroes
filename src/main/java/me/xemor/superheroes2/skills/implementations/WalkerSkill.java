@@ -29,7 +29,7 @@ public class WalkerSkill extends SkillImplementation {
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.WALKER);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("WALKER"));
         if (player.isInsideVehicle()) {
             return;
         }

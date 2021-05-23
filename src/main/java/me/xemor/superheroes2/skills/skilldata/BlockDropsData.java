@@ -2,7 +2,6 @@ package me.xemor.superheroes2.skills.skilldata;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,7 +15,7 @@ public class BlockDropsData extends SkillData {
     private Multimap<Material, ItemStack> dropToNewDrop = HashMultimap.create();
     private final boolean replaceDrops;
 
-    protected BlockDropsData(Skill skill, ConfigurationSection configurationSection) {
+    public BlockDropsData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         final ConfigurationSection convertMapSection = configurationSection.getConfigurationSection("convertMap");
         replaceDrops = configurationSection.getBoolean("replaceDrops", false);

@@ -25,7 +25,7 @@ public class SlimeSkill extends SkillImplementation {
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SLIME);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SLIME"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 if (skillData instanceof SlimeData) {

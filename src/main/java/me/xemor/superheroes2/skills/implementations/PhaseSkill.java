@@ -32,7 +32,7 @@ public class PhaseSkill extends SkillImplementation {
             }
             Player player = e.getPlayer();
             Superhero superhero = heroHandler.getSuperhero(player);
-            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.PHASE);
+            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("PHASE"));
             for (SkillData ignored : skillDatas) {
                 player.setVelocity(new Vector(0, -0.1, 0));
                 new BukkitRunnable() {
@@ -83,7 +83,7 @@ public class PhaseSkill extends SkillImplementation {
 
     @EventHandler
     public void teleport(PlayerTeleportEvent e) {
-        if (e.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE && heroHandler.getSuperhero(e.getPlayer()).hasSkill(Skill.PHASE)) {
+        if (e.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE && heroHandler.getSuperhero(e.getPlayer()).hasSkill(Skill.getSkill("PHASE"))) {
             e.setCancelled(true);
         }
     }

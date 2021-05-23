@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata.Spell;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
 import org.bukkit.ChatColor;
@@ -24,7 +23,7 @@ public class SpellData extends SkillData implements Cooldown {
     private TransmutationData transmutationData;
 
 
-    public SpellData(Skill skill, ConfigurationSection configurationSection) {
+    public SpellData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         spell = Spell.valueOf(configurationSection.getString("spell", "SNOWBALL"));
         fuel = Material.valueOf(configurationSection.getString("fuel", "REDSTONE"));

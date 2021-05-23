@@ -3,6 +3,7 @@ package me.xemor.superheroes2.commands;
 import me.xemor.superheroes2.ConfigHandler;
 import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.HeroHandler;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -21,7 +22,7 @@ public class Reroll implements Listener, CommandExecutor {
     ConfigHandler configHandler;
     boolean isEnabled;
     private final String noPermission = ChatColor.translateAlternateColorCodes('&', "&4You do not have permission to use this power!");
-    CooldownHandler cooldownHandler = new CooldownHandler("");
+    CooldownHandler cooldownHandler = new CooldownHandler("", ChatMessageType.ACTION_BAR);
 
     public Reroll(HeroHandler heroHandler, ConfigHandler configHandler) {
         this.heroHandler = heroHandler;

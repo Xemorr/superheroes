@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
@@ -12,7 +11,7 @@ public class OHKOData extends SkillData {
     private Set<EntityType> entityTypes;
     private String displayName;
 
-    protected OHKOData(Skill skill, ConfigurationSection configurationSection) {
+    public OHKOData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         entityTypes = configurationSection.getStringList("entityTypes").stream().map(string -> EntityType.valueOf(string.toUpperCase())).collect(Collectors.toSet());
         displayName = configurationSection.getString("displayName");

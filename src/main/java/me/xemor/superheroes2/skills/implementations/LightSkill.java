@@ -22,7 +22,7 @@ public class LightSkill extends SkillImplementation {
     @EventHandler
     public void onGain(PlayerGainedSuperheroEvent e) {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        if (superhero.hasSkill(Skill.LIGHT)) {
+        if (superhero.hasSkill(Skill.getSkill("LIGHT"))) {
             runnable(e.getPlayer());
         }
     }
@@ -30,7 +30,7 @@ public class LightSkill extends SkillImplementation {
     @EventHandler
     public void onLost(PlayerLostSuperheroEvent e) {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.LIGHT);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("LIGHT"));
         for (SkillData skillData : skillDatas) {
             LightSkillData lightData = (LightSkillData) skillData;
             e.getPlayer().removePotionEffect(lightData.getPotionEffect().getType());
@@ -40,7 +40,7 @@ public class LightSkill extends SkillImplementation {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        if (superhero.hasSkill(Skill.LIGHT)) {
+        if (superhero.hasSkill(Skill.getSkill("LIGHT"))) {
             runnable(e.getPlayer());
         }
     }
@@ -50,7 +50,7 @@ public class LightSkill extends SkillImplementation {
             @Override
             public void run() {
                 Superhero superhero1 = heroHandler.getSuperhero(player);
-                Collection<SkillData> data = superhero1.getSkillData(Skill.LIGHT);
+                Collection<SkillData> data = superhero1.getSkillData(Skill.getSkill("LIGHT"));
                 if (data.isEmpty()) {
                     this.cancel();
                     return;

@@ -1,14 +1,15 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import de.themoep.minedown.MineDown;
+import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.Spell.Spell;
 import me.xemor.superheroes2.skills.skilldata.Spell.SpellData;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -41,7 +42,7 @@ public class SpellSkill extends SkillImplementation {
     public void bookWrite(PlayerEditBookEvent e) {
         if (e.isSigning()) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.SPELL);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("SPELL"));
             for (SkillData skillData : skillDatas) {
                 SpellData spellData = (SpellData) skillData;
                 BookMeta bookMeta = e.getNewBookMeta();
@@ -60,7 +61,7 @@ public class SpellSkill extends SkillImplementation {
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.SPELL);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("SPELL"));
             for (SkillData skillData : skillDatas) {
                 SpellData spellData = (SpellData) skillData;
                 ItemStack item = player.getInventory().getItemInMainHand();
@@ -140,8 +141,9 @@ public class SpellSkill extends SkillImplementation {
             skillCooldownHandler.startCooldown(spellData, cooldown, player.getUniqueId());
         }
         else {
-            MineDown getMoreFuel = new MineDown(spellData.getMoreFuelMessage()).replace("fuelneeded", new TextComponent(String.valueOf(cost)));
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, getMoreFuel.toComponent());
+            Component moreFuelNeeded = new MineDown(spellData.getMoreFuelMessage()).replace("fuelneeded", String.valueOf(cost)).toComponent();
+            Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
+            playerAudience.sendActionBar(moreFuelNeeded);
         }
     }
 

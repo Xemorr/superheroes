@@ -1,14 +1,15 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import de.themoep.minedown.MineDown;
+import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.StrongmanData;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -30,7 +31,7 @@ public class StrongmanSkill extends SkillImplementation {
     public void onInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.STRONGMAN);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("STRONGMAN"));
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
             Entity topEntity = getTopEntity(e.getPlayer());
@@ -38,8 +39,9 @@ public class StrongmanSkill extends SkillImplementation {
                 topEntity.addPassenger(e.getRightClicked());
             }
             if (e.getRightClicked() instanceof Vehicle) {
-                BaseComponent[] tooMuscular = new MineDown(strongmanData.getTooMuscularMessage()).replace("player", player.getDisplayName()).toComponent();
-                e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, tooMuscular);
+                Component tooMuscular = new MineDown(strongmanData.getTooMuscularMessage()).replace("player", player.getDisplayName()).toComponent();
+                Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
+                playerAudience.sendActionBar(tooMuscular);
             }
         }
     }
@@ -76,7 +78,7 @@ public class StrongmanSkill extends SkillImplementation {
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.STRONGMAN);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("STRONGMAN"));
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
             if (e.isSneaking()) {
@@ -102,7 +104,7 @@ public class StrongmanSkill extends SkillImplementation {
     public void onLostPower(PlayerLostSuperheroEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.STRONGMAN);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("STRONGMAN"));
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
             while (player.getPassengers().size() > 0) {

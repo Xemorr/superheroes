@@ -1,7 +1,6 @@
 package me.xemor.superheroes2.skills.skilldata;
 
 import me.xemor.superheroes2.Superheroes2;
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -21,7 +20,7 @@ public class CraftingData extends SkillData {
 
     private Recipe recipe;
 
-    protected CraftingData(Skill skill, ConfigurationSection configurationSection) {
+    public CraftingData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         boolean isShaped = configurationSection.getBoolean("isShaped", true);
         NamespacedKey namespacedKey = new NamespacedKey(JavaPlugin.getPlugin(Superheroes2.class), UUID.randomUUID().toString());

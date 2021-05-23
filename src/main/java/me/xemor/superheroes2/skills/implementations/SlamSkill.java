@@ -35,7 +35,7 @@ public class SlamSkill extends SkillImplementation {
         if (e.getAction() == Action.LEFT_CLICK_AIR) {
             Player player = e.getPlayer();
             Superhero superhero = heroHandler.getSuperhero(player);
-            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SLAM);
+            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SLAM"));
             for (SkillData skillData : skillDatas) {
                 SlamData slamData = (SlamData) skillData;
                 ItemStack currentHand = player.getInventory().getItemInMainHand();

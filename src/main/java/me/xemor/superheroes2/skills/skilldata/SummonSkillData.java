@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -20,7 +19,7 @@ public class SummonSkillData extends PotionEffectSkillData implements Cooldown {
     private double cooldown;
     private String cooldownMessage;
 
-    protected SummonSkillData(Skill skill, ConfigurationSection configurationSection) {
+    public SummonSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         entityType = EntityType.valueOf(configurationSection.getString("entity", "LIGHTNING"));
         range = configurationSection.getInt("range");

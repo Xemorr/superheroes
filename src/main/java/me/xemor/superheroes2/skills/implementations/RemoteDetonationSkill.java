@@ -30,7 +30,7 @@ public class RemoteDetonationSkill extends SkillImplementation {
     public void onShift(PlayerToggleSneakEvent e) {
         if (e.isSneaking()) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.REMOTEDETONATION);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("REMOTEDETONATION"));
             for (SkillData skillData : skillDatas) {
                 RemoteDetonationData remoteDetonationData = (RemoteDetonationData) skillData;
                 if (skillCooldownHandler.isCooldownOver(remoteDetonationData, player.getUniqueId())) {

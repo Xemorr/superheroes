@@ -32,7 +32,7 @@ public class EggLayerSkill extends SkillImplementation {
 
     public void startRunnable(Player player) {
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.EGGLAYER);
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("EGGLAYER"));
         for (SkillData skillData : skillDatas) {
             EggLayerData eggLayerData = (EggLayerData) skillData;
             new BukkitRunnable() {

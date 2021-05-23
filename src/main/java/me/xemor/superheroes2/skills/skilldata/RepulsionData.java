@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
@@ -13,7 +12,7 @@ public class RepulsionData extends SkillData {
     private double radius;
     private final Set<EntityType> blacklist;
 
-    protected RepulsionData(Skill skill, ConfigurationSection configurationSection) {
+    public RepulsionData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         this.multiplier = configurationSection.getDouble("multiplier", 1);
         this.radius = configurationSection.getDouble("radius", 5.0);

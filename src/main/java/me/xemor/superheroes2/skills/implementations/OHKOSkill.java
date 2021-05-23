@@ -22,7 +22,7 @@ public class OHKOSkill extends SkillImplementation {
         if (e.getDamager() instanceof Player && e.getEntity() instanceof LivingEntity) {
             Player player = (Player) e.getDamager();
             Superhero superhero = heroHandler.getSuperhero(player);
-            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.OHKO);
+            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("OHKO"));
             for (SkillData skillData : skillDatas) {
                 OHKOData ohkoData = (OHKOData) skillData;
                 LivingEntity livingEntity = (LivingEntity) e.getEntity();

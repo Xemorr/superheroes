@@ -34,7 +34,7 @@ public class GunSkill extends SkillImplementation {
     @EventHandler
     public void useGun(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(e.getPlayer()).getSkillData(Skill.GUN);
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(e.getPlayer()).getSkillData(Skill.getSkill("GUN"));
             Player player = e.getPlayer();
             for (SkillData skillData : skillDatas) {
                 GunData gunData = (GunData) skillData;

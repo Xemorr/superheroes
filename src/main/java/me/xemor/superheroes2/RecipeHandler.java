@@ -60,7 +60,7 @@ public class RecipeHandler implements Listener {
     }
 
     public Collection<NamespacedKey> getRecipesFromSuperhero(Superhero superhero) {
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.CRAFTING);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CRAFTING"));
         List<NamespacedKey> recipes = new ArrayList<>();
         for (SkillData skillData : skillDatas) {
             CraftingData craftingData = (CraftingData) skillData;

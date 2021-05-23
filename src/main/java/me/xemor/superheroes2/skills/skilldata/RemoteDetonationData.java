@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -16,7 +15,7 @@ public class RemoteDetonationData extends CooldownData {
     final private float explosionStrength;
     final private List<EntityType> explodable;
 
-    protected RemoteDetonationData(Skill skill, ConfigurationSection configurationSection) {
+    public RemoteDetonationData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "You have %s seconds remaining before you can remote detonate again", 10);
         explosionStrength = (float) configurationSection.getDouble("explosionStrength", 1);
         explodable = configurationSection.getStringList("explodable").stream().map(EntityType::valueOf).collect(Collectors.toList());

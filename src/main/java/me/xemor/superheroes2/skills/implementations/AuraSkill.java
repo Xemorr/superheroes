@@ -50,7 +50,7 @@ public class AuraSkill extends SkillImplementation {
                     cancel();
                     return;
                 }
-                Collection<SkillData> skillDatas = superhero.getSkillData(Skill.AURA);
+                Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("AURA"));
                 if (skillDatas.isEmpty()) {
                     cancel();
                     return;

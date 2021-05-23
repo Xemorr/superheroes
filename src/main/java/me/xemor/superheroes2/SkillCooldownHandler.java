@@ -1,8 +1,8 @@
 package me.xemor.superheroes2;
 
-import de.themoep.minedown.MineDown;
+import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
-import net.md_5.bungee.api.ChatMessageType;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
@@ -29,9 +29,8 @@ public class SkillCooldownHandler {
                 return true;
             }
             long seconds = ((hashMap.get(uuid) - System.currentTimeMillis()) / 1000);
-            MineDown cooldownMessage = new MineDown(skillData.getCooldownMessage());
-            cooldownMessage = cooldownMessage.replace("currentcooldown", String.valueOf(seconds));
-            Bukkit.getPlayer(uuid).spigot().sendMessage(ChatMessageType.ACTION_BAR, cooldownMessage.toComponent());
+            Component cooldownMessage = new MineDown(skillData.getCooldownMessage()).replace("currentcooldown", String.valueOf(seconds)).toComponent();
+            Superheroes2.getBukkitAudiences().player(Bukkit.getPlayer(uuid)).sendActionBar(cooldownMessage);
             return false;
         }
         else {

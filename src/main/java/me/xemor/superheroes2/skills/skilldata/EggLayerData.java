@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.skills.Skill;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +9,7 @@ public class EggLayerData extends SkillData {
     private ItemStack toLay;
     private long tickDelay;
 
-    protected EggLayerData(Skill skill, ConfigurationSection configurationSection) {
+    public EggLayerData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         String materialStr = configurationSection.getString("type", "EGG");
         int quantity = configurationSection.getInt("quantity", 1);

@@ -5,10 +5,14 @@ import me.xemor.superheroes2.commands.Reload;
 import me.xemor.superheroes2.commands.Reroll;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.implementations.*;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,23 +21,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-public final class Superheroes2 extends JavaPlugin {
+public final class Superheroes2 extends JavaPlugin implements Listener {
 
-    ConfigHandler configHandler;
-    HeroHandler heroHandler;
-    SkillImplementation[] skills;
+    private ConfigHandler configHandler;
+    private HeroHandler heroHandler;
+    private static BukkitAudiences bukkitAudiences;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         configHandler = new ConfigHandler(this);
         heroHandler = new HeroHandler(this, configHandler);
-        configHandler.loadSuperheroes(heroHandler);
         registerSkills();
         Reroll reroll = new Reroll(heroHandler, configHandler);
         Reload reload = new Reload(heroHandler, configHandler);
         this.getCommand("heroreload").setExecutor(reload);
         this.getServer().getPluginManager().registerEvents(reroll, this);
+        this.getServer().getPluginManager().registerEvents(this, this);
         this.getServer().getPluginManager().registerEvents(heroHandler, this);
         HeroCMD heroCMD = new HeroCMD(heroHandler, configHandler);
         PluginCommand command = this.getCommand("hero");
@@ -42,10 +46,20 @@ public final class Superheroes2 extends JavaPlugin {
         this.getCommand("reroll").setExecutor(reroll);
         handleMetrics();
         checkForNewUpdate();
+        bukkitAudiences = BukkitAudiences.create(this);
+    }
+
+    public static BukkitAudiences getBukkitAudiences() {
+        return bukkitAudiences;
+    }
+
+    @EventHandler
+    public void onLoad(ServerLoadEvent e) {
+        configHandler.loadSuperheroes(heroHandler);
     }
 
     public void registerSkills() {
-        skills = new SkillImplementation[]{
+        SkillImplementation[] skills = new SkillImplementation[]{
                 new PotionEffectSkill(heroHandler),
                 new InstantBreak(heroHandler),
                 new LightSkill(heroHandler),
@@ -80,7 +94,8 @@ public final class Superheroes2 extends JavaPlugin {
                 new ConvertItemSkill(heroHandler),
                 new ConvertBlockSkill(heroHandler),
                 new RemoteDetonationSkill(heroHandler),
-                new BlockDropsSkill(heroHandler)
+                new BlockDropsSkill(heroHandler),
+                new ConvertDropsSkill(heroHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
@@ -125,11 +140,11 @@ public final class Superheroes2 extends JavaPlugin {
         metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_skill", () -> {
             Map<String, Integer> valueMap = new HashMap<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Collection<Skill> skills = heroHandler.getSuperhero(player).getSkills();
-                for (Skill skill : skills) {
-                    int currentCount = valueMap.getOrDefault(skill.name(), 0);
+                Collection<Integer> skills = heroHandler.getSuperhero(player).getSkills();
+                for (int skill : skills) {
+                    int currentCount = valueMap.getOrDefault(Skill.getName(skill), 0);
                     currentCount++;
-                    valueMap.put(skill.name(), currentCount);
+                    valueMap.put(Skill.getName(skill), currentCount);
                 }
             }
             return valueMap;
@@ -139,5 +154,13 @@ public final class Superheroes2 extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public ConfigHandler getConfigHandler() {
+        return configHandler;
+    }
+
+    public HeroHandler getHeroHandler() {
+        return heroHandler;
     }
 }

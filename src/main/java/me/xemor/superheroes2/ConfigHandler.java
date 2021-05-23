@@ -111,17 +111,18 @@ public class ConfigHandler {
             String superheroDescription = superheroSection.getString("description", superheroName + " description");
             Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
             ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
-            for (Map.Entry<String, Object> keyValuePair : skillsSection.getValues(false).entrySet()) {
-                if (keyValuePair.getValue() instanceof ConfigurationSection) {
-                    ConfigurationSection configurationSection = (ConfigurationSection) keyValuePair.getValue();
+            for (Object value : skillsSection.getValues(false).values()) {
+                if (value instanceof ConfigurationSection) {
+                    ConfigurationSection configurationSection = (ConfigurationSection) value;
                     String skillStr = configurationSection.getString("skill");
-                    Skill skill = null;
+                    int skill;
                     try {
-                        skill = Skill.valueOf(skillStr);
+                        skill = Skill.getSkill(skillStr);
                     }
                     catch(IllegalArgumentException e) {
-                        Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill name!");
+                        Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill name!: " + skillStr);
                         e.printStackTrace();
+                        continue;
                     }
                     superhero.addSkill(SkillData.create(skill, configurationSection));
                 }

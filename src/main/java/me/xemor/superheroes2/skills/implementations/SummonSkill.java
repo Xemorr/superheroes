@@ -30,7 +30,7 @@ public class SummonSkill extends SkillImplementation {
     public void onPunch(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.SUMMON);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SUMMON"));
         for (SkillData skillData : skillDatas) {
             SummonSkillData summonData = (SummonSkillData) skillData;
             if (summonData.getAction().contains(e.getAction())) {

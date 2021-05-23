@@ -1,10 +1,13 @@
 package me.xemor.superheroes2;
 
-import de.themoep.minedown.MineDown;
+import de.themoep.minedown.adventure.MineDown;
+import me.xemor.superheroes2.events.HeroBlockBreakEvent;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
-import net.md_5.bungee.api.chat.BaseComponent;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -14,20 +17,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
 
 public class HeroHandler implements Listener {
 
     private HashMap<UUID, Superhero> uuidToPowers = new HashMap<>();
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
-    Superheroes2 superheroes;
+    Superheroes2 superheroes2;
     private YamlConfiguration currentDataYAML;
     private File currentDataFile;
     private final ConfigHandler configHandler;
@@ -43,10 +49,17 @@ public class HeroHandler implements Listener {
         uuidToPowers.remove(e.getPlayer().getUniqueId());
     }
 
-    public HeroHandler(Superheroes2 superheroes, ConfigHandler configHandler) {
+    @EventHandler
+    public void onBlockBroken(BlockBreakEvent e) {
+        Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
+        HeroBlockBreakEvent heroBlockBreakEvent = new HeroBlockBreakEvent(e.getBlock(), e.getPlayer(), drops);
+        heroBlockBreakEvent.callEvent();
+    }
+
+    public HeroHandler(Superheroes2 superheroes2, ConfigHandler configHandler) {
         this.configHandler = configHandler;
-        this.superheroes = superheroes;
-        currentDataFile = new File(superheroes.getDataFolder(), "data.yml");
+        this.superheroes2 = superheroes2;
+        currentDataFile = new File(superheroes2.getDataFolder(), "data.yml");
         try {
             currentDataFile.createNewFile();
         } catch (IOException e) {
@@ -67,7 +80,7 @@ public class HeroHandler implements Listener {
     @NotNull
     public Superhero getSuperhero(Player player) {
         Superhero hero = uuidToPowers.get(player.getUniqueId());
-        if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.PHASE)) {
+        if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.getSkill("PHASE"))) {
             return noPower;
         }
         if (hero == null) {
@@ -81,7 +94,7 @@ public class HeroHandler implements Listener {
         Superhero hero = uuidToPowers.get(uuid);
         Player player = Bukkit.getPlayer(uuid);
         if (player != null && player.isOnline()) {
-            if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.PHASE)) {
+            if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.getSkill("PHASE"))) {
                 return noPower;
             }
         }
@@ -178,11 +191,14 @@ public class HeroHandler implements Listener {
     }
 
     public void showHero(Player player, Superhero hero) {
-        String colouredName = ChatColor.translateAlternateColorCodes('&', hero.getColouredName());
-        player.sendTitle(colouredName, ChatColor.translateAlternateColorCodes('&', hero.getDescription()), 10, 100, 10);
+        Component colouredName = new MineDown(hero.getColouredName()).toComponent();
+        Component description = new MineDown(hero.getDescription()).toComponent();
+        Title title = Title.title(colouredName, description, Title.Times.of(Duration.ofMillis(500), Duration.ofMillis(5000), Duration.ofMillis(500)));
+        Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
+        playerAudience.showTitle(title);
         player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5F, 1F);
-        BaseComponent[] heroGainedMessage = new MineDown(configHandler.getHeroGainedMessage()).replace("hero", colouredName).replace("player", player.getDisplayName()).toComponent();
-        Bukkit.spigot().broadcast(heroGainedMessage);
+        Component heroGainedMessage = new MineDown(configHandler.getHeroGainedMessage()).replace("hero", colouredName).replace("player", player.getDisplayName()).toComponent();
+        playerAudience.sendMessage(heroGainedMessage);
     }
 
     @Nullable
@@ -191,7 +207,7 @@ public class HeroHandler implements Listener {
     }
 
     public Superheroes2 getPlugin() {
-        return superheroes;
+        return superheroes2;
     }
 
     public HashMap<String, Superhero> getNameToSuperhero() {
