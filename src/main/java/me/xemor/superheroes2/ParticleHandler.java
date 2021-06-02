@@ -3,7 +3,6 @@ package me.xemor.superheroes2;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -46,7 +45,7 @@ public class ParticleHandler extends BukkitRunnable {
     public void doHelix(int currentDuration) {
         Location location = player.getLocation();
         for (double y = 0; y <= 5; y+=0.15) {
-            Double trigInput = 4 * (y + currentDuration);
+            double trigInput = 4 * (y + currentDuration);
             double x = radius * Math.cos(trigInput);
             double z = radius * Math.sin(trigInput);
             World world = player.getWorld();

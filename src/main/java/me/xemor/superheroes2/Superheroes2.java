@@ -95,7 +95,9 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
                 new ConvertBlockSkill(heroHandler),
                 new RemoteDetonationSkill(heroHandler),
                 new BlockDropsSkill(heroHandler),
-                new ConvertDropsSkill(heroHandler)
+                new ConvertDropsSkill(heroHandler),
+                new LifestealSkill(heroHandler),
+
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
@@ -154,6 +156,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        bukkitAudiences.close();
     }
 
     public ConfigHandler getConfigHandler() {

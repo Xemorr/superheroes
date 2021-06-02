@@ -14,9 +14,9 @@
     <description>Adds superheroes2 to your world - these can be customized completely and are extremely modular.
     </description>
     <properties>
-        <java.version>15</java.version>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <dir>E:\Holder\1.16.5 Test Server\plugins</dir>
     </properties>
@@ -45,7 +45,7 @@
                                     <shadedPattern>me.xemor.superheroes2</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>de.themoep.minedown</pattern>
+                                    <pattern>de.themoep.minedown-adventure</pattern>
                                     <shadedPattern>me.xemor.superheroes2</shadedPattern> <!-- Replace this -->
                                 </relocation>
                             </relocations>

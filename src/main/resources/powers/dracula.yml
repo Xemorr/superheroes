@@ -1,0 +1,7 @@
+Dracula:
+  colouredName: "&c&lDracula"
+  description: "You absorb the life force of your foes!"
+  skills:
+    punch:
+      skill: LIFESTEAL
+      lifestealPercentage: 5

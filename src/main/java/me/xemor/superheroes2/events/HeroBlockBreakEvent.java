@@ -14,7 +14,7 @@ import java.util.Collection;
 public class HeroBlockBreakEvent extends BlockBreakEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
-    private Collection<ItemStack> drops;
+    private final Collection<ItemStack> drops;
 
     public HeroBlockBreakEvent(@NotNull Block theBlock, @NotNull Player player, @NotNull Collection<ItemStack> drops) {
         super(theBlock, player);

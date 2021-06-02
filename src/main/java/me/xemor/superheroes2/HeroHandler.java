@@ -21,6 +21,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,11 +50,13 @@ public class HeroHandler implements Listener {
         uuidToPowers.remove(e.getPlayer().getUniqueId());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBroken(BlockBreakEvent e) {
-        Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
-        HeroBlockBreakEvent heroBlockBreakEvent = new HeroBlockBreakEvent(e.getBlock(), e.getPlayer(), drops);
-        heroBlockBreakEvent.callEvent();
+        if (!e.isCancelled() && e.isDropItems()) {
+            Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
+            HeroBlockBreakEvent heroBlockBreakEvent = new HeroBlockBreakEvent(e.getBlock(), e.getPlayer(), drops);
+            heroBlockBreakEvent.callEvent();
+        }
     }
 
     public HeroHandler(Superheroes2 superheroes2, ConfigHandler configHandler) {
@@ -155,20 +158,16 @@ public class HeroHandler implements Listener {
 
     public void saveSuperhero(Player player) {
         currentDataYAML.set(String.valueOf(player.getUniqueId()), getSuperhero(player).getName());
-        try {
-            currentDataYAML.save(currentDataFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void saveSuperhero(UUID uuid) {
-        currentDataYAML.set(String.valueOf(uuid), getSuperhero(uuid).getName());
-        try {
-            currentDataYAML.save(currentDataFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    currentDataYAML.save(currentDataFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(superheroes2);
     }
 
     public void setRandomHero(Player player) {

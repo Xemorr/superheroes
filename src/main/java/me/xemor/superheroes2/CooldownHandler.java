@@ -35,7 +35,7 @@ public class CooldownHandler {
 
     public boolean isCooldownOver(UUID uuid, String cooldownMessage) {
         long seconds = getCurrentCooldown(uuid);
-        if (!cooldownMessage.equals("")) {
+        if (!cooldownMessage.equals("") && seconds > 0) {
             Component component = MineDown.parse(cooldownMessage, "currentcooldown", String.valueOf(seconds));
             Audience player = Superheroes2.getBukkitAudiences().player(Bukkit.getPlayer(uuid));
             if (chatMessageType == ChatMessageType.ACTION_BAR) {

@@ -58,7 +58,7 @@ public class WalkerSkill extends SkillImplementation {
             Material originalMaterial = block.getType();
             if (walkerData.shouldReplace(block.getType())) {
                 Material newMaterial = walkerData.getReplacementBlock();
-                block.setType(newMaterial);
+                block.setType(newMaterial, false);
                 block.setMetadata("blockDrops", new FixedMetadataValue(heroHandler.getPlugin(), walkerData.doesBlockDrop()));
                 if (walkerData.shouldRevert()) {
                     revertRunnable(walkerData, block, newMaterial, originalMaterial);
