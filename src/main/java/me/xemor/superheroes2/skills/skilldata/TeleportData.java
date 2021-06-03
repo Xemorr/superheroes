@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.skilldata;
 
-import me.xemor.superheroes2.ParticleData;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
+import me.xemor.superheroes2.skills.skilldata.configdata.ParticleData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.player.PlayerTeleportEvent;

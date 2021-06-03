@@ -1,5 +1,6 @@
 package me.xemor.superheroes2;
 
+import me.xemor.superheroes2.skills.skilldata.configdata.ParticleData;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
