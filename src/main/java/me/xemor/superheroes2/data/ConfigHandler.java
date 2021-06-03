@@ -1,5 +1,7 @@
-package me.xemor.superheroes2;
+package me.xemor.superheroes2.data;
 
+import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;

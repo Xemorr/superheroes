@@ -3,6 +3,8 @@ package me.xemor.superheroes2;
 import me.xemor.superheroes2.commands.HeroCMD;
 import me.xemor.superheroes2.commands.Reload;
 import me.xemor.superheroes2.commands.Reroll;
+import me.xemor.superheroes2.data.ConfigHandler;
+import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.implementations.*;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -97,6 +99,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
                 new BlockDropsSkill(heroHandler),
                 new ConvertDropsSkill(heroHandler),
                 new LifestealSkill(heroHandler),
+                new DamagePotionSkill(heroHandler)
 
         };
         for (SkillImplementation skill : skills) {
@@ -117,6 +120,14 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
                             getLogger().warning("The latest version is " + result.getNewestVersion());
                             getLogger().warning("Updating is important to ensure there are not any bugs or vulnerabilities.");
                             getLogger().warning("As well as ensuring your players have the best time when using the superheroes!");
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                if (player.hasPermission("superheroes.notify")) {
+                                    player.sendMessage("This server is still running " + getDescription().getVersion() + " of Superheroes");
+                                    player.sendMessage("The latest version is " + result.getNewestVersion());
+                                    player.sendMessage("Updating is important to ensure there are not any bugs or vulnerabilities.");
+                                    player.sendMessage("As well as ensuring your players have the best time when using the superheroes!");
+                                }
+                            }
                         }
                     });
                 }

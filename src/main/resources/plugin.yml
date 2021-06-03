@@ -27,3 +27,6 @@ permissions:
   superheroes.hero.bypasscooldown:
     description: Allows them to use /hero regardless of whether it is on cooldown or not
     default: op
+  superheroes.notify:
+    description: Get informed about new updates to the Superheroes2 plugin!
+    default: op

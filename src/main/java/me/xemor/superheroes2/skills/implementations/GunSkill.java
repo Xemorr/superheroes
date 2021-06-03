@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import me.xemor.superheroes2.HeroHandler;
 import me.xemor.superheroes2.SkillCooldownHandler;
+import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.GunData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;

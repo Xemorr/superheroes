@@ -7,8 +7,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class AuraData extends SkillData {
 
-    private double diameter;
-    private PotionEffectData potionData;
+    private final double diameter;
+    private final PotionEffectData potionData;
 
     public AuraData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

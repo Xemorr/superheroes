@@ -1,7 +1,11 @@
 package me.xemor.superheroes2.commands;
 
 import de.themoep.minedown.adventure.MineDown;
-import me.xemor.superheroes2.*;
+import me.xemor.superheroes2.CooldownHandler;
+import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.Superheroes2;
+import me.xemor.superheroes2.data.ConfigHandler;
+import me.xemor.superheroes2.data.HeroHandler;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;

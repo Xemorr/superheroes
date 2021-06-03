@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.commands;
 
-import me.xemor.superheroes2.ConfigHandler;
-import me.xemor.superheroes2.HeroHandler;
+import me.xemor.superheroes2.data.ConfigHandler;
+import me.xemor.superheroes2.data.HeroHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

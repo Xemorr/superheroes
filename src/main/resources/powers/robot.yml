@@ -10,19 +10,22 @@ Robot:
     nightvision:
       skill: POTIONEFFECT
       type: NIGHT_VISION
-    lightningStrike:
+    noLightningDamage:
       skill: DAMAGERESISTANCE
+      damageMultiplier: 0
+      damageCause:
+        - "LIGHTNING"
+    lightningSpeed:
+      skill: DAMAGEPOTION
       type: SPEED
       duration: 30
       potency: 2
-      damageMultiplier: 0
       damageCause:
        - "LIGHTNING"
-    lightningStrike2:
-      skill: DAMAGERESISTANCE
+    lightningGlow:
+      skill: DAMAGEPOTION
       type: GLOWING
       duration: 30
       potency: 1
-      damageMultiplier: 0
       damageCause:
        - "LIGHTNING"

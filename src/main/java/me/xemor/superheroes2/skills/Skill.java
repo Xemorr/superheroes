@@ -50,6 +50,7 @@ public class Skill {
         registerSkill("PICKPOCKET", PickpocketData.class);
         registerSkill("CONVERTDROPS", ConvertDropsData.class);
         registerSkill("LIFESTEAL", LifestealData.class);
+        registerSkill("DAMAGEPOTION", DamagePotionData.class);
     }
 
     public static void registerSkill(String name, Class<? extends SkillData> effectDataClass) {

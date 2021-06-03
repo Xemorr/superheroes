@@ -1,5 +1,6 @@
 package me.xemor.superheroes2;
 
+import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;

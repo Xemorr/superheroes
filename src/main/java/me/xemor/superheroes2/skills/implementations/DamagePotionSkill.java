@@ -4,6 +4,7 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
+import me.xemor.superheroes2.skills.skilldata.DamagePotionData;
 import me.xemor.superheroes2.skills.skilldata.DamageResistanceData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.entity.Player;
@@ -12,9 +13,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.Collection;
 
-public class DamageResistanceSkill extends SkillImplementation {
+public class DamagePotionSkill extends SkillImplementation {
 
-    public DamageResistanceSkill(HeroHandler heroHandler) {
+    public DamagePotionSkill(HeroHandler heroHandler) {
         super(heroHandler);
     }
 
@@ -25,17 +26,13 @@ public class DamageResistanceSkill extends SkillImplementation {
         }
         Player player = (Player) e.getEntity();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGERESISTANCE"));
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGEPOTION"));
         for (SkillData skillData : skillDatas) {
-            DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;
-            if (damageResistanceData.getDamageCause() == null || damageResistanceData.getDamageCause().contains(e.getCause())) {
-                e.setDamage(e.getDamage() * damageResistanceData.getDamageMultiplier());
-                if (damageResistanceData.getDamageMultiplier() == 0) {
-                    e.setCancelled(true);
-                }
-                if (damageResistanceData.getPotionEffect() != null) {
-                    if (!player.hasPotionEffect(damageResistanceData.getPotionEffect().getType())) {
-                        player.addPotionEffect(damageResistanceData.getPotionEffect());
+            DamagePotionData damagePotionData = (DamagePotionData) skillData;
+            if (damagePotionData.getDamageCause() == null || damagePotionData.getDamageCause().contains(e.getCause())) {
+                if (damagePotionData.getPotionEffect() != null) {
+                    if (!player.hasPotionEffect(damagePotionData.getPotionEffect().getType())) {
+                        player.addPotionEffect(damagePotionData.getPotionEffect());
                     }
                 }
             }

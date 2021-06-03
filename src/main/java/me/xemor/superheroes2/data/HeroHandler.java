@@ -1,6 +1,8 @@
-package me.xemor.superheroes2;
+package me.xemor.superheroes2.data;
 
 import de.themoep.minedown.adventure.MineDown;
+import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.events.HeroBlockBreakEvent;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
@@ -52,6 +54,9 @@ public class HeroHandler implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBroken(BlockBreakEvent e) {
+        if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+            return;
+        }
         if (!e.isCancelled() && e.isDropItems()) {
             Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
             HeroBlockBreakEvent heroBlockBreakEvent = new HeroBlockBreakEvent(e.getBlock(), e.getPlayer(), drops);

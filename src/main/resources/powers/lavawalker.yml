@@ -12,12 +12,20 @@ LavaWalker:
       blocksDrop: true
       shouldRevert: false
     fireHealing:
-      skill: DAMAGERESISTANCE
+      skill: DAMAGEPOTION
       type: REGENERATION
       duration: 20
       potency: 1
+      damageCause:
+        - "FIRE_TICK"
+        - "FIRE"
+        - "LAVA"
+    noFireDamage:
+      skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
         - "FIRE_TICK"
         - "FIRE"
         - "LAVA"
+
+
