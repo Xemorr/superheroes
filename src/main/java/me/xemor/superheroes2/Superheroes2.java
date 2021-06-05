@@ -1,7 +1,6 @@
 package me.xemor.superheroes2;
 
-import me.xemor.superheroes2.commands.HeroCMD;
-import me.xemor.superheroes2.commands.Reload;
+import me.xemor.superheroes2.commands.HeroCommand;
 import me.xemor.superheroes2.commands.Reroll;
 import me.xemor.superheroes2.data.ConfigHandler;
 import me.xemor.superheroes2.data.HeroHandler;
@@ -36,16 +35,13 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
         heroHandler = new HeroHandler(this, configHandler);
         registerSkills();
         Reroll reroll = new Reroll(heroHandler, configHandler);
-        Reload reload = new Reload(heroHandler, configHandler);
-        this.getCommand("heroreload").setExecutor(reload);
         this.getServer().getPluginManager().registerEvents(reroll, this);
         this.getServer().getPluginManager().registerEvents(this, this);
         this.getServer().getPluginManager().registerEvents(heroHandler, this);
-        HeroCMD heroCMD = new HeroCMD(heroHandler, configHandler);
+        HeroCommand heroCommand = new HeroCommand(heroHandler, reroll);
         PluginCommand command = this.getCommand("hero");
-        command.setExecutor(heroCMD);
-        command.setTabCompleter(heroCMD);
-        this.getCommand("reroll").setExecutor(reroll);
+        command.setExecutor(heroCommand);
+        command.setTabCompleter(heroCommand);
         handleMetrics();
         checkForNewUpdate();
         bukkitAudiences = BukkitAudiences.create(this);

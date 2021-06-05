@@ -10,7 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -34,15 +35,21 @@ public class LegacyStorage implements Storage {
         currentDataYAML = YamlConfiguration.loadConfiguration(currentDataFile);
     }
 
-    public Map<UUID, SuperheroPlayer> getValues() {
-        Map<UUID, SuperheroPlayer> map = new HashMap<>();
+    @Override
+    public List<SuperheroPlayer> exportSuperheroPlayers() {
+        List<SuperheroPlayer> players = new ArrayList<>();
         for (Map.Entry<String, Object> item : currentDataYAML.getValues(false).entrySet()) {
             if (item.getValue() instanceof String) {
                 UUID uuid = UUID.fromString(item.getKey());
-                map.put(uuid, loadSuperheroPlayer(uuid));
+                players.add(loadSuperheroPlayer(uuid));
             }
         }
-        return map;
+        return players;
+    }
+
+    @Override
+    public CompletableFuture<Void> importSuperheroPlayers(List<SuperheroPlayer> imports) {
+        return CompletableFuture.allOf();
     }
 
     public File getCurrentDataFile() {
@@ -54,7 +61,14 @@ public class LegacyStorage implements Storage {
      * @param superheroPlayer
      */
     @Override
-    public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) { }
+    public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {}
+
+    @Override
+    public CompletableFuture<Object> saveSuperheroPlayerAsync(@NotNull SuperheroPlayer superheroPlayer) {
+        CompletableFuture<Object> completableFuture = new CompletableFuture<>();
+        completableFuture.complete(null);
+        return completableFuture;
+    }
 
     @Override
     public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {

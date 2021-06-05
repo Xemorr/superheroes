@@ -5,15 +5,9 @@ api-version: 1.16
 authors: [Xemor_]
 description: Adds superheroes to your world - these can be customized completely and are extremely modular.
 commands:
-  reroll:
-    description: Allows you to reroll someone's power
-    usage: /reroll <name>
   hero:
-    description: Allows you to set your power
+    description: The root command of all of the commands within Superheroes2
     usage: /hero <hero> <name>
-  heroreload:
-    description: Allows you to reload the plugin
-    usage: /heroreload
 permissions:
   superheroes.hero:
     description: Allows them to use /hero

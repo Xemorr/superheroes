@@ -3,3 +3,6 @@ Chat:
   noPermission: "&4You do not have permission to use this power!"
   currentHero: "&l%player%, you are currently %hero%"
   heroCommandCooldown: "&l%player%, /hero is currently on cooldown. You need to wait %currentcooldown%/%cooldown% more seconds!"
+  invalidHeroMessage: "&l%player%, You have entered an invalid hero name!"
+  invalidPlayerName: "&l%player%, You have entered an invalid player name!"
+  invalidCommandMessage: "&l%player%, You have entered an invalid subcommand name!"

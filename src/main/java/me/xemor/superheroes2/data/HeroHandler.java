@@ -70,15 +70,27 @@ public class HeroHandler implements Listener {
         this.superheroes2 = superheroes2;
     }
 
+    public CompletableFuture<Void> importFiles() {
+        YAMLStorage yamlStorage = new YAMLStorage(this);
+        List<SuperheroPlayer> superheroPlayers = yamlStorage.exportSuperheroPlayers();
+        return storage.importSuperheroPlayers(superheroPlayers);
+    }
+
+    public void exportFiles() {
+        List<SuperheroPlayer> superheroPlayers = storage.exportSuperheroPlayers();
+        YAMLStorage yamlStorage = new YAMLStorage(this);
+        yamlStorage.importSuperheroPlayers(superheroPlayers);
+    }
+
     public void handlePlayerData() {
         String databaseType = configHandler.getDatabaseType();
         if (databaseType.equalsIgnoreCase("LEGACY")) {
             LegacyStorage legacy = new LegacyStorage(this);
-            Map<UUID, SuperheroPlayer> values = legacy.getValues();
+            List<SuperheroPlayer> values = legacy.exportSuperheroPlayers();
             File file = legacy.getCurrentDataFile();
             file.renameTo(new File(superheroes2.getDataFolder(), "old_data.yml"));
             storage = new YAMLStorage(this);
-            for (SuperheroPlayer superheroPlayer: values.values()) {
+            for (SuperheroPlayer superheroPlayer: values) {
                 storage.saveSuperheroPlayer(superheroPlayer);
             }
             configHandler.setDatabaseType("YAML");
@@ -184,7 +196,7 @@ public class HeroHandler implements Listener {
     }
 
     public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {
-        storage.saveSuperheroPlayer(superheroPlayer);
+        storage.saveSuperheroPlayerAsync(superheroPlayer);
     }
 
     public void setRandomHero(Player player) {

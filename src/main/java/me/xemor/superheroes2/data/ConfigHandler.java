@@ -141,11 +141,12 @@ public class ConfigHandler {
         superheroes2.reloadConfig();
         config = superheroes2.getConfig();
         handleSuperpowersFolder();
+        heroHandler.handlePlayerData();
         loadSuperheroes(heroHandler);
-        heroHandler.setHeroesIntoMemory(new HashMap<>());
         language = YamlConfiguration.loadConfiguration(languageFile);
         ItemStackData itemStackData = new ItemStackData(config.getConfigurationSection("reroll.item"));
         item = itemStackData.getItem();
+        heroHandler.setHeroesIntoMemory(new HashMap<>());
         for (Player player : Bukkit.getOnlinePlayers()) {
             heroHandler.loadSuperheroPlayer(player);
         }
@@ -193,6 +194,18 @@ public class ConfigHandler {
 
     public String getHeroCooldownMessage() {
         return language.getString("Chat.heroCommandCooldown", "&l%player%, /hero is currently on cooldown. You need to wait %currentcooldown%/%cooldown% more seconds!");
+    }
+
+    public String getInvalidHeroMessage() {
+        return language.getString("Chat.invalidHeroMessage", "&l%player%, You have entered an invalid hero name!");
+    }
+
+    public String getInvalidPlayerMessage() {
+        return language.getString("Chat.invalidPlayerMessage", "&l%player%, You have entered an invalid player name!");
+    }
+
+    public String getInvalidCommandMessage() {
+        return language.getString("Chat.invalidCommandMessage", "&l%player%, You have entered an invalid subcommand name!");
     }
 
     public long getHeroCommandCooldown() {
