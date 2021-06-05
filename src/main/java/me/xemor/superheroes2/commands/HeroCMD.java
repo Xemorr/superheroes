@@ -1,14 +1,13 @@
 package me.xemor.superheroes2.commands;
 
 import de.themoep.minedown.adventure.MineDown;
-import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.ConfigHandler;
 import me.xemor.superheroes2.data.HeroHandler;
+import me.xemor.superheroes2.data.SuperheroPlayer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,18 +17,15 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class HeroCMD implements CommandExecutor, TabExecutor {
 
     private final HeroHandler heroHandler;
     private final ConfigHandler configHandler;
-    private final CooldownHandler cooldownHandler;
 
     public HeroCMD(HeroHandler heroHandler, ConfigHandler configHandler) {
         this.heroHandler = heroHandler;
         this.configHandler = configHandler;
-        cooldownHandler = new CooldownHandler("", ChatMessageType.ACTION_BAR);
     }
 
     @Override
@@ -60,11 +56,12 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
         }
         if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player) {
             Player senderPlayer = (Player) sender;
-            long seconds = cooldownHandler.getCurrentCooldown(senderPlayer.getUniqueId());
-            if (seconds > 0) {
+            SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(senderPlayer);
+            long seconds = getCooldownLeft(superheroPlayer) / 1000;
+            if (!isCooldownOver(superheroPlayer)) {
                 Component message = MineDown.parse(configHandler.getHeroCooldownMessage(),
                         "player", senderPlayer.getDisplayName(),
-                        "currentcooldown", String.valueOf(seconds),
+                        "currentcooldown", String.valueOf(Math.round(seconds)),
                         "cooldown", String.valueOf(configHandler.getHeroCommandCooldown()));
                 audience.sendMessage(message);
                 return true;
@@ -86,14 +83,13 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
             }
         }
         heroHandler.setHero(player, power);
-        if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player) {
-            UUID uuid = ((Player) sender).getUniqueId();
-            cooldownHandler.startCooldown(configHandler.getHeroCommandCooldown(), uuid);
+        if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player && sender == player) {
+            SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(player);
+            superheroPlayer.setHeroCommandTimestamp(System.currentTimeMillis());
+            heroHandler.saveSuperheroPlayer(superheroPlayer);
         }
         return true;
     }
-
-
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
@@ -109,4 +105,14 @@ public class HeroCMD implements CommandExecutor, TabExecutor {
         }
         return null;
     }
+
+    public boolean isCooldownOver(SuperheroPlayer superheroPlayer) {
+        return getCooldownLeft(superheroPlayer) <= 0;
+    }
+
+    public long getCooldownLeft(SuperheroPlayer superheroPlayer) {
+        long cooldown = configHandler.getHeroCommandCooldown() * 1000;
+        return cooldown - (System.currentTimeMillis() - superheroPlayer.getHeroCommandTimestamp());
+    }
+
 }

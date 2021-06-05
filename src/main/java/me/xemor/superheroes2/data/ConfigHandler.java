@@ -147,8 +147,12 @@ public class ConfigHandler {
         ItemStackData itemStackData = new ItemStackData(config.getConfigurationSection("reroll.item"));
         item = itemStackData.getItem();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            heroHandler.loadPlayerHero(player);
+            heroHandler.loadSuperheroPlayer(player);
         }
+    }
+
+    public void saveConfig() {
+        Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> superheroes2.saveConfig());
     }
 
     public File getDataFolder() {
@@ -191,12 +195,47 @@ public class ConfigHandler {
         return language.getString("Chat.heroCommandCooldown", "&l%player%, /hero is currently on cooldown. You need to wait %currentcooldown%/%cooldown% more seconds!");
     }
 
-    public double getHeroCommandCooldown() {
-        return config.getDouble("heroCommand.cooldown", 0);
+    public long getHeroCommandCooldown() {
+        return config.getLong("heroCommand.cooldown", 0);
     }
 
     public double getRerollCooldown() { return config.getDouble("reroll.cooldown", 1.0);}
 
     public boolean areHeroPermissionsRequired() {return config.getConfigurationSection("reroll").getBoolean("eachHeroRequiresPermissions", false); }
+
+    public String getDatabaseType() {
+        return config.getString("database.type", "LEGACY");
+    }
+
+    public void setDatabaseType(String newType) {
+        ConfigurationSection databaseSection = getDatabaseSection();
+        databaseSection.set("type", newType);
+        config.set("database", databaseSection);
+        saveConfig();
+    }
+
+    public String getDatabaseHost() {
+        return config.getString("database.host", "");
+    }
+
+    public String getDatabaseName() {
+        return config.getString("database.name", "");
+    }
+
+    public int getDatabasePort() {
+        return config.getInt("database.port", 3306);
+    }
+
+    public String getDatabaseUsername() {
+        return config.getString("database.username", "");
+    }
+
+    public String getDatabasePassword() {
+        return config.getString("database.password", "");
+    }
+
+    private ConfigurationSection getDatabaseSection() {
+        return config.getConfigurationSection("database");
+    }
 
 }

@@ -15,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -106,6 +107,15 @@ public class DecoySkill extends SkillImplementation {
     @EventHandler
     public void onLost(PlayerLostSuperheroEvent e) {
         Superhero superhero = e.getHero();
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DECOY"));
+        for (SkillData skillData : skillDatas) {
+            removeArmorStand(e.getPlayer(), (DecoyData) skillData);
+        }
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DECOY"));
         for (SkillData skillData : skillDatas) {
             removeArmorStand(e.getPlayer(), (DecoyData) skillData);

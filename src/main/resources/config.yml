@@ -1,3 +1,5 @@
+database:
+  type: YAML
 reroll:
   item:
     type: DIAMOND_BLOCK

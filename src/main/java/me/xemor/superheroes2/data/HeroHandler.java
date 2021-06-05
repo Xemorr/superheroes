@@ -3,6 +3,10 @@ package me.xemor.superheroes2.data;
 import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
+import me.xemor.superheroes2.data.storage.LegacyStorage;
+import me.xemor.superheroes2.data.storage.MySQLStorage;
+import me.xemor.superheroes2.data.storage.Storage;
+import me.xemor.superheroes2.data.storage.YAMLStorage;
 import me.xemor.superheroes2.events.HeroBlockBreakEvent;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
@@ -14,7 +18,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,33 +26,31 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class HeroHandler implements Listener {
 
-    private HashMap<UUID, Superhero> uuidToPowers = new HashMap<>();
+    private final HashMap<UUID, SuperheroPlayer> uuidToData = new HashMap<>();
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
     Superheroes2 superheroes2;
-    private YamlConfiguration currentDataYAML;
-    private File currentDataFile;
     private final ConfigHandler configHandler;
-    Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
+    private final Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
+    Storage storage;
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent e) {
-        loadPlayerHero(e.getPlayer());
+        loadSuperheroPlayer(e.getPlayer());
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        uuidToPowers.remove(e.getPlayer().getUniqueId());
+        uuidToData.remove(e.getPlayer().getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -67,13 +68,30 @@ public class HeroHandler implements Listener {
     public HeroHandler(Superheroes2 superheroes2, ConfigHandler configHandler) {
         this.configHandler = configHandler;
         this.superheroes2 = superheroes2;
-        currentDataFile = new File(superheroes2.getDataFolder(), "data.yml");
-        try {
-            currentDataFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+    }
+
+    public void handlePlayerData() {
+        String databaseType = configHandler.getDatabaseType();
+        if (databaseType.equalsIgnoreCase("LEGACY")) {
+            LegacyStorage legacy = new LegacyStorage(this);
+            Map<UUID, SuperheroPlayer> values = legacy.getValues();
+            File file = legacy.getCurrentDataFile();
+            file.renameTo(new File(superheroes2.getDataFolder(), "old_data.yml"));
+            storage = new YAMLStorage(this);
+            for (SuperheroPlayer superheroPlayer: values.values()) {
+                storage.saveSuperheroPlayer(superheroPlayer);
+            }
+            configHandler.setDatabaseType("YAML");
         }
-        currentDataYAML = YamlConfiguration.loadConfiguration(currentDataFile);
+        else if (databaseType.equalsIgnoreCase("YAML")) {
+            storage = new YAMLStorage(this);
+        }
+        else if (databaseType.equalsIgnoreCase("MySQL")) {
+            storage = new MySQLStorage(this);
+        }
+        else {
+            Bukkit.getLogger().severe("Invalid database type specified!");
+        }
     }
 
     public void registerHeroes(HashMap<String, Superhero> nameToSuperhero) {
@@ -81,17 +99,23 @@ public class HeroHandler implements Listener {
         nameToSuperhero.put("NOPOWER", noPower);
     }
 
-    public void setHeroesIntoMemory(HashMap<UUID, Superhero> playerHeroes) {
-        this.uuidToPowers = playerHeroes;
+    public void setHeroesIntoMemory(HashMap<UUID, SuperheroPlayer> playerHeroes) {
+        this.uuidToData.clear();
+        this.uuidToData.putAll(playerHeroes);
+    }
+
+    public SuperheroPlayer getSuperheroPlayer(Player player) {
+        return uuidToData.get(player.getUniqueId());
     }
 
     @NotNull
     public Superhero getSuperhero(Player player) {
-        Superhero hero = uuidToPowers.get(player.getUniqueId());
-        if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.getSkill("PHASE"))) {
+        SuperheroPlayer heroPlayer = uuidToData.get(player.getUniqueId());
+        if (heroPlayer == null) {
             return noPower;
         }
-        if (hero == null) {
+        Superhero hero = heroPlayer.getSuperhero();
+        if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.getSkill("PHASE"))) {
             return noPower;
         }
         return hero;
@@ -99,14 +123,8 @@ public class HeroHandler implements Listener {
 
     @NotNull
     public Superhero getSuperhero(UUID uuid) {
-        Superhero hero = uuidToPowers.get(uuid);
         Player player = Bukkit.getPlayer(uuid);
-        if (player != null && player.isOnline()) {
-            if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.getSkill("PHASE"))) {
-                return noPower;
-            }
-        }
-        return hero;
+        return getSuperhero(player);
     }
 
     /**
@@ -119,12 +137,11 @@ public class HeroHandler implements Listener {
     }
 
     public void setHeroInMemory(Player player, Superhero hero, boolean show) {
-        Superhero currentHero = uuidToPowers.get(player.getUniqueId());
-        if (currentHero != null) {
-            PlayerLostSuperheroEvent playerLostHeroEvent = new PlayerLostSuperheroEvent(player, currentHero);
-            Bukkit.getServer().getPluginManager().callEvent(playerLostHeroEvent);
-        }
-        uuidToPowers.put(player.getUniqueId(), hero);
+        SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
+        Superhero currentHero = superheroPlayer.getSuperhero();
+        superheroPlayer.setSuperhero(hero);
+        PlayerLostSuperheroEvent playerLostHeroEvent = new PlayerLostSuperheroEvent(player, currentHero);
+        Bukkit.getServer().getPluginManager().callEvent(playerLostHeroEvent);
         if (show) {
             showHero(player, hero);
         }
@@ -140,39 +157,34 @@ public class HeroHandler implements Listener {
 
     public void setHero(Player player, Superhero hero, boolean show) {
         setHeroInMemory(player, hero, show);
-        saveSuperhero(player);
+        saveSuperheroPlayer(getSuperheroPlayer(player));
     }
 
-    public Superhero loadPlayerHero(@NotNull Player player) {
-        String heroString = currentDataYAML.getString(player.getUniqueId().toString());
-        Superhero superhero = getSuperhero(heroString);
-        if (superhero == null) {
-            if (configHandler.isPowerOnStartEnabled()) {
-                superhero = getRandomHero(player);
-            }
-            else {
-                superhero = noPower;
-            }
-            if (configHandler.shouldShowHeroOnStart()) {
-                showHero(player, superhero);
-            }
-        }
-        uuidToPowers.put(player.getUniqueId(), superhero);
-        return superhero;
-    }
-
-    public void saveSuperhero(Player player) {
-        currentDataYAML.set(String.valueOf(player.getUniqueId()), getSuperhero(player).getName());
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    currentDataYAML.save(currentDataFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
+    public void loadSuperheroPlayer(@NotNull Player player) {
+        CompletableFuture<SuperheroPlayer> future = storage.loadSuperheroPlayerAsync(player.getUniqueId());
+        future.thenAccept((superheroPlayer) -> {
+            Bukkit.getScheduler().runTask(superheroes2, () -> {
+                if (superheroPlayer == null) {
+                    Superhero superhero;
+                    if (configHandler.isPowerOnStartEnabled()) {
+                        superhero = getRandomHero(player);
+                    }
+                    else {
+                        superhero = noPower;
+                    }
+                    if (configHandler.shouldShowHeroOnStart()) {
+                        showHero(player, superhero);
+                    }
+                    uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), superhero, 0));
                 }
-            }
-        }.runTaskAsynchronously(superheroes2);
+                else uuidToData.put(player.getUniqueId(), superheroPlayer);
+            });
+        });
+
+    }
+
+    public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {
+        storage.saveSuperheroPlayer(superheroPlayer);
     }
 
     public void setRandomHero(Player player) {
@@ -216,5 +228,9 @@ public class HeroHandler implements Listener {
 
     public HashMap<String, Superhero> getNameToSuperhero() {
         return nameToSuperhero;
+    }
+
+    public Superhero getNoPower() {
+        return noPower;
     }
 }

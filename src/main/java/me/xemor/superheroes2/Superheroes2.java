@@ -58,6 +58,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
     @EventHandler
     public void onLoad(ServerLoadEvent e) {
         configHandler.loadSuperheroes(heroHandler);
+        heroHandler.handlePlayerData();
     }
 
     public void registerSkills() {
