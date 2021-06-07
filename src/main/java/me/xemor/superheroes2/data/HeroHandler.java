@@ -181,26 +181,34 @@ public class HeroHandler implements Listener {
     }
 
     public void loadSuperheroPlayer(@NotNull Player player) {
+        uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), noPower, 0));
         CompletableFuture<SuperheroPlayer> future = storage.loadSuperheroPlayerAsync(player.getUniqueId());
-        future.thenAccept((superheroPlayer) -> {
-            Bukkit.getScheduler().runTask(superheroes2, () -> {
-                if (superheroPlayer == null) {
-                    Superhero superhero;
-                    if (configHandler.isPowerOnStartEnabled()) {
-                        superhero = getRandomHero(player);
-                    }
-                    else {
-                        superhero = noPower;
-                    }
-                    if (configHandler.shouldShowHeroOnStart()) {
-                        showHero(player, superhero);
-                    }
-                    uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), superhero, 0));
+        future.thenAccept((superheroPlayer) -> Bukkit.getScheduler().runTask(superheroes2, () -> {
+            System.out.println(superheroPlayer);
+            if (superheroPlayer == null) {
+                Superhero superhero;
+                System.out.println("Reached line 189 of HeroHandler");
+                if (configHandler.isPowerOnStartEnabled()) {
+                    System.out.println("Reached line 191 of HeroHandler");
+                    superhero = getRandomHero(player);
                 }
-                else uuidToData.put(player.getUniqueId(), superheroPlayer);
-            });
-        });
-
+                else {
+                    System.out.println("Reached line 195 of HeroHandler");
+                    superhero = noPower;
+                }
+                if (configHandler.shouldShowHeroOnStart()) {
+                    System.out.println("Reached line 199 of HeroHandler");
+                    showHero(player, superhero);
+                }
+                System.out.println("Reached line 202 of HeroHandler");
+                uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), superhero, 0));
+            }
+            else {
+                System.out.println("Reached line 207 of HeroHandler");
+                System.out.println(superheroPlayer.getSuperhero());
+                uuidToData.put(player.getUniqueId(), superheroPlayer);
+            }
+        }));
     }
 
     public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {

@@ -75,6 +75,7 @@ public class YAMLStorage implements Storage {
         yamlLock.lock();
         ConfigurationSection section = getSection(uuid);
         if (section == null) {
+            yamlLock.unlock();
             return null;
         }
         Superhero superhero = heroHandler.getSuperhero(section.getString("hero", "NOPOWER"));
