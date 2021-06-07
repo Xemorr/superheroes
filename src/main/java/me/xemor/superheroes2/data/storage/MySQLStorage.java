@@ -52,8 +52,11 @@ public class MySQLStorage implements Storage {
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
         Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> {
             lock.lock();
-            saveSuperheroPlayer(superheroPlayer);
-            lock.unlock();
+            try {
+                saveSuperheroPlayer(superheroPlayer);
+            } finally {
+                lock.unlock();
+            }
             completableFuture.complete(null);
         });
         return completableFuture;
