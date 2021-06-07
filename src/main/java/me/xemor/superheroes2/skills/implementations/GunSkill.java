@@ -67,9 +67,11 @@ public class GunSkill extends SkillImplementation {
                         if (livingEntity == null) {
                             return;
                         }
+                        if (!skillData.areConditionsTrue(player, livingEntity)) {
+                            return;
+                        }
                         if (livingEntity instanceof EnderDragon) {
                             livingEntity.setHealth(livingEntity.getHealth() - gunData.getDamage());
-                            return;
                         }
                         livingEntity.damage(gunData.getDamage(), player); //doesn't work on edragon for some reason
                         ParticleData hitParticle = gunData.getHitParticle();

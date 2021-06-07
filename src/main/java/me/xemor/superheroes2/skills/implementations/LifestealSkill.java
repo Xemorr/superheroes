@@ -28,6 +28,9 @@ public class LifestealSkill extends SkillImplementation {
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("LIFESTEAL"));
             for (SkillData skillData : skillDatas) {
                 LifestealData lifestealData = (LifestealData) skillData;
+                if (!lifestealData.areConditionsTrue(player, e.getEntity())) {
+                    return;
+                }
                 double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
                 if (player.getHealth() >= maxHealth) {
                     return;

@@ -40,6 +40,9 @@ public class CreeperSkill extends SkillImplementation {
                     final int[] timer = {0};
                     World world = player.getWorld();
                     if (skillCooldownHandler.isCooldownOver(creeperData, player.getUniqueId())) {
+                        if (!creeperData.areConditionsTrue(player)) {
+                            return;
+                        }
                         world.playSound(player.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 1.0F, 1.0F);
                         new BukkitRunnable() {
                             @Override

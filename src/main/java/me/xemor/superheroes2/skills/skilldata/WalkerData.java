@@ -13,6 +13,7 @@ public class WalkerData extends SkillData {
     Random random = new Random();
     List<Material> blocksToPlace = new ArrayList<>();
     HashSet<Material> blocksToReplace = new HashSet<>();
+    HashSet<Material> blocksToPlaceOn = new HashSet<>();
     boolean isSneaking;
     boolean blocksDrop;
     boolean shouldRevert;
@@ -29,6 +30,10 @@ public class WalkerData extends SkillData {
         List<String> blocksToPlaceStr = configurationSection.getStringList("blocksToPlace");
         for (String blockToPlaceStr : blocksToPlaceStr) {
             blocksToPlace.add(Material.valueOf(blockToPlaceStr));
+        }
+        List<String> blocksToPlaceOnStr = configurationSection.getStringList("blocksToPlaceOn");
+        for (String blockToPlaceStr : blocksToPlaceOnStr) {
+            blocksToPlaceOn.add(Material.valueOf(blockToPlaceStr));
         }
         isSneaking = configurationSection.getBoolean("isSneaking", false);
         blocksDrop = configurationSection.getBoolean("blocksDrop", true);
@@ -68,5 +73,9 @@ public class WalkerData extends SkillData {
 
     public boolean canPlaceFloating() {
         return canPlaceFloating;
+    }
+
+    public boolean canPlaceOn(Material type) {
+        return blocksToPlaceOn.size() == 0 || blocksToPlaceOn.contains(type);
     }
 }

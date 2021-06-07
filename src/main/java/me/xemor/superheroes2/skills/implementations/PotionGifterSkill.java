@@ -38,17 +38,19 @@ public class PotionGifterSkill extends SkillImplementation {
             if (skillCooldownHandler.isCooldownOver(gifterData, player.getUniqueId())) {
                 if (entity instanceof LivingEntity) {
                     LivingEntity lEntity = (LivingEntity) entity;
-                    World world = lEntity.getWorld();
-                    world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
-                    lEntity.addPotionEffect(gifterData.getPotionEffect());
-                    skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
-                    Component giverMessage = new MineDown(gifterData.getGiverMessage()).replaceFirst(true).replace("player", player.getDisplayName()).toComponent();
-                    Superheroes2.getBukkitAudiences().player(player).sendMessage(giverMessage);
-                    if (lEntity instanceof Player) {
-                        Player receiver = (Player) lEntity;
-                        Component receiverMessage = new MineDown(gifterData.getReceiverMessage()).replaceFirst(true)
-                                .replace("gifter", player.getDisplayName()).replace("player", receiver.getDisplayName()).toComponent();
-                        Superheroes2.getBukkitAudiences().player(player).sendMessage(receiverMessage);
+                    if (skillData.areConditionsTrue(player, lEntity)) {
+                        World world = lEntity.getWorld();
+                        world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
+                        lEntity.addPotionEffect(gifterData.getPotionEffect());
+                        skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
+                        Component giverMessage = new MineDown(gifterData.getGiverMessage()).replaceFirst(true).replace("player", player.getDisplayName()).toComponent();
+                        Superheroes2.getBukkitAudiences().player(player).sendMessage(giverMessage);
+                        if (lEntity instanceof Player) {
+                            Player receiver = (Player) lEntity;
+                            Component receiverMessage = new MineDown(gifterData.getReceiverMessage()).replaceFirst(true)
+                                    .replace("gifter", player.getDisplayName()).replace("player", receiver.getDisplayName()).toComponent();
+                            Superheroes2.getBukkitAudiences().player(player).sendMessage(receiverMessage);
+                        }
                     }
                 }
             }

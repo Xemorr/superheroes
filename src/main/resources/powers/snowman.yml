@@ -11,7 +11,7 @@ Snowman:
         - "CAVE_AIR"
         - "VOID_AIR"
       isSneaking: false
-      blocksDrop: false
+      blocksDrop: true
       shouldRevert: false
       revertsAfter: 10
       aboveFloor: true

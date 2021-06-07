@@ -129,7 +129,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
                     });
                 }
             }
-        }.runTaskTimer(this, 0L, 432000L);
+        }.runTaskTimer(this, 6000L, 432000L);
     }
 
     public void handleMetrics() {

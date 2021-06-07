@@ -50,18 +50,24 @@ public class WalkerSkill extends SkillImplementation {
             else {
                 block = world.getBlockAt(location.clone().subtract(0, 1, 0));
             }
+            Material belowBlock = block.getRelative(BlockFace.DOWN).getType();
             if (!walkerData.canPlaceFloating()) {
-                if (!block.getRelative(BlockFace.DOWN).getType().isSolid()) {
+                if (!belowBlock.isSolid()) {
                     continue;
                 }
             }
+            if (!walkerData.canPlaceOn(belowBlock)) {
+                continue;
+            }
             Material originalMaterial = block.getType();
             if (walkerData.shouldReplace(block.getType())) {
-                Material newMaterial = walkerData.getReplacementBlock();
-                block.setType(newMaterial, false);
-                block.setMetadata("blockDrops", new FixedMetadataValue(heroHandler.getPlugin(), walkerData.doesBlockDrop()));
-                if (walkerData.shouldRevert()) {
-                    revertRunnable(walkerData, block, newMaterial, originalMaterial);
+                if (skillData.areConditionsTrue(player, block)) {
+                    Material newMaterial = walkerData.getReplacementBlock();
+                    block.setType(newMaterial, false);
+                    block.setMetadata("blockDrops", new FixedMetadataValue(heroHandler.getPlugin(), walkerData.doesBlockDrop()));
+                    if (walkerData.shouldRevert()) {
+                        revertRunnable(walkerData, block, newMaterial, originalMaterial);
+                    }
                 }
             }
         }

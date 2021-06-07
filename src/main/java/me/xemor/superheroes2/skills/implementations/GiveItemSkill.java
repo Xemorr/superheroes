@@ -40,8 +40,10 @@ public class GiveItemSkill extends SkillImplementation {
             HashMap<Integer, ItemStack> leftovers = e.getPlayer().getInventory().addItem(giveItemData.getItemStackData().getItem());
             World world = e.getPlayer().getWorld();
             Location location = e.getPlayer().getLocation();
-            for (ItemStack items : leftovers.values()) {
-                world.dropItem(location, items);
+            if (skillData.areConditionsTrue(e.getPlayer())) {
+                for (ItemStack items : leftovers.values()) {
+                    world.dropItem(location, items);
+                }
             }
         }
     }

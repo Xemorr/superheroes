@@ -46,10 +46,6 @@ public class AuraSkill extends SkillImplementation {
                     return;
                 }
                 Superhero superhero = heroHandler.getSuperhero(player);
-                if (superhero == null) {
-                    cancel();
-                    return;
-                }
                 Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("AURA"));
                 if (skillDatas.isEmpty()) {
                     cancel();
@@ -62,8 +58,10 @@ public class AuraSkill extends SkillImplementation {
                     double diameter = auraData.getDiameter();
                     Collection<Entity> nearbyLivingEntities = world.getNearbyEntities(location, diameter, diameter, diameter, (entity) -> !player.equals(entity) && entity instanceof LivingEntity);
                     for (Entity entity : nearbyLivingEntities) {
-                        LivingEntity livingEntity = (LivingEntity) entity;
-                        livingEntity.addPotionEffect(auraData.getPotionEffect());
+                        if (skillData.areConditionsTrue(player, entity)) {
+                            LivingEntity livingEntity = (LivingEntity) entity;
+                            livingEntity.addPotionEffect(auraData.getPotionEffect());
+                        }
                     }
                 }
             }

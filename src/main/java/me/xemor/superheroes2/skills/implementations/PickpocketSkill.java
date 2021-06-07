@@ -32,31 +32,32 @@ public class PickpocketSkill extends SkillImplementation {
                     return;
                 }
                 Player otherPlayer = (Player) e.getRightClicked();
-                player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1F, 0.5F);
-                otherPlayer.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1F, 0.5F);
-                Inventory inventory =  otherPlayer.getInventory();
-                InventoryView inventoryView = player.openInventory(inventory);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (inventoryView == null) {
-                            inventoryView.close();
-                            cancel();
-                            return;
+                if (skillData.areConditionsTrue(player, otherPlayer)) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1F, 0.5F);
+                    otherPlayer.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1F, 0.5F);
+                    Inventory inventory =  otherPlayer.getInventory();
+                    InventoryView inventoryView = player.openInventory(inventory);
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            if (inventoryView == null) {
+                                inventoryView.close();
+                                cancel();
+                                return;
+                            }
+                            if (!superhero.equals(heroHandler.getSuperhero(player))) {
+                                inventoryView.close();
+                                cancel();
+                                return;
+                            }
+                            if (otherPlayer.getLocation().distanceSquared(player.getLocation()) > pickpocketData.getRangeSquared()) {
+                                inventoryView.close();
+                                cancel();
+                                return;
+                            }
                         }
-                        if (!superhero.equals(heroHandler.getSuperhero(player))) {
-                            inventoryView.close();
-                            cancel();
-                            return;
-                        }
-                        if (otherPlayer.getLocation().distanceSquared(player.getLocation()) > pickpocketData.getRangeSquared()) {
-                            inventoryView.close();
-                            cancel();
-                            return;
-                        }
-                    }
-                }.runTaskTimer(heroHandler.getPlugin(), 0L, 4L);
-
+                    }.runTaskTimer(heroHandler.getPlugin(), 0L, 4L);
+                }
             }
         }
     }

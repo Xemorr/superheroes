@@ -6,6 +6,7 @@ import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.PotionEffectSkillData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import me.xemor.superheroes2.skills.skilldata.SneakingPotionData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -25,12 +26,14 @@ public class SneakingPotionSkill extends SkillImplementation {
         Superhero superhero = getPowersHandler().getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SNEAKINGPOTION"));
         for (SkillData skillData : skillDatas) {
-            PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
+            SneakingPotionData sneakingPotionData = (SneakingPotionData) skillData;
             if (e.isSneaking()) {
-                e.getPlayer().addPotionEffect(potionEffectSkillData.getPotionEffect());
+                if (skillData.areConditionsTrue(player)) {
+                    e.getPlayer().addPotionEffect(sneakingPotionData.getPotionEffect());
+                }
             }
             else {
-                e.getPlayer().removePotionEffect(potionEffectSkillData.getPotionEffect().getType());
+                e.getPlayer().removePotionEffect(sneakingPotionData.getPotionEffect().getType());
             }
         }
     }
@@ -40,7 +43,7 @@ public class SneakingPotionSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = e.getHero().getSkillData(Skill.getSkill("SNEAKINGPOTION"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
-                PotionEffectSkillData sneakingPotionSkill = (PotionEffectSkillData) skillData;
+                SneakingPotionData sneakingPotionSkill = (SneakingPotionData) skillData;
                 PotionEffectType type = sneakingPotionSkill.getPotionEffect().getType();
                 e.getPlayer().removePotionEffect(type);
             }

@@ -16,13 +16,10 @@ public class PotionEffectData {
         }
         PotionEffectType potionType = PotionEffectType.getByName(configurationSection.getString("type", "d").toUpperCase());
         if (potionType == null) {
-            if (defaultType == null) return;
             potionType = defaultType;
         }
-        if (potionType != null) {
-            double duration = configurationSection.getDouble("duration", defaultDuration);
-            createPotion(potionType, duration, potency);
-        }
+        double duration = configurationSection.getDouble("duration", defaultDuration);
+        createPotion(potionType, duration, potency);
     }
 
     public PotionEffect getPotionEffect() {

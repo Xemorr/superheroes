@@ -5,13 +5,13 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class PotionEffectSkillData extends SkillData {
+public class SneakingPotionData extends SkillData {
 
     PotionEffectData potionData;
 
-    public PotionEffectSkillData(int skill, ConfigurationSection configurationSection) {
+    public SneakingPotionData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-        potionData = new PotionEffectData(configurationSection, PotionEffectType.REGENERATION, 3, 0);
+        potionData = new PotionEffectData(configurationSection, PotionEffectType.REGENERATION, 100000000, 0);
 
     }
 

@@ -27,16 +27,18 @@ public class ConsumeSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CONSUME"));
         for (SkillData skillData : skillDatas) {
             ConsumeSkillData consumeData = (ConsumeSkillData) skillData;
-            ItemStack item = player.getInventory().getItemInMainHand();
-            if (item.getType() == consumeData.getMaterial()) {
-                if (consumeData.getPotionEffect() != null) {
-                    player.addPotionEffect(consumeData.getPotionEffect());
+            if (consumeData.areConditionsTrue(player)) {
+                ItemStack item = player.getInventory().getItemInMainHand();
+                if (item.getType() == consumeData.getMaterial()) {
+                    if (consumeData.getPotionEffect() != null) {
+                        player.addPotionEffect(consumeData.getPotionEffect());
+                    }
+                    player.setFoodLevel(player.getFoodLevel() + consumeData.getHunger());
+                    if (item.getAmount() == 1) {
+                        player.getInventory().setItemInMainHand(null);
+                    }
+                    item.setAmount(item.getAmount() - 1);
                 }
-                player.setFoodLevel(player.getFoodLevel() + consumeData.getHunger());
-                if (item.getAmount() == 1) {
-                    player.getInventory().setItemInMainHand(null);
-                }
-                item.setAmount(item.getAmount() - 1);
             }
         }
     }

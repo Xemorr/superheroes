@@ -53,7 +53,7 @@ public class DecoySkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DECOY"));
         for (SkillData skillData : skillDatas) {
             DecoyData decoyData = (DecoyData) skillData;
-            if (e.isSneaking()) {
+            if (e.isSneaking() && decoyData.areConditionsTrue(player)) {
                 ArmorStand armorStand = createArmorStand(player, decoyData);
                 HashMap<UUID, UUID> hashMap = playerToDecoy.getOrDefault(decoyData, new HashMap<>());
                 hashMap.put(player.getUniqueId(), armorStand.getUniqueId());

@@ -83,7 +83,9 @@ public class CraftingSkill extends SkillImplementation {
                     CraftingData craftingData = (CraftingData) skill;
                     NamespacedKey namespacedKey = ((Keyed)craftingData.getRecipe()).getKey();
                     if (namespacedKey.equals(eventKey)) {
-                        e.getInventory().setResult(new ItemStack(eventRecipe.getResult()));
+                        if (craftingData.areConditionsTrue(player)) {
+                            e.getInventory().setResult(new ItemStack(eventRecipe.getResult()));
+                        }
                     }
                 }
             }

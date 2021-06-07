@@ -53,8 +53,10 @@ public class EraserSkill extends SkillImplementation {
                     Entity entity = rayTraceResult.getHitEntity();
                     if (entity != null) {
                         Player hitPlayer = (Player) entity;
-                        temporarilyRemoveHero(hitPlayer, player, eraserData);
-                        skillCooldownHandler.startCooldown(eraserData, eraserData.getCooldown(), player.getUniqueId());
+                        if (skillData.areConditionsTrue(player, hitPlayer)) {
+                            temporarilyRemoveHero(hitPlayer, player, eraserData);
+                            skillCooldownHandler.startCooldown(eraserData, eraserData.getCooldown(), player.getUniqueId());
+                        }
                     }
                 }
             }

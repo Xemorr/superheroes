@@ -40,6 +40,9 @@ public class ConvertDropsSkill extends SkillImplementation{
                 ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
                 if (item.containsEnchantment(Enchantment.SILK_TOUCH)) return;
             }
+            if (!skillData.areConditionsTrue(player, block)) {
+                return;
+            }
             e.setDropItems(false);
             Collection<ItemStack> drops = e.getDrops();
             Map<Material, ItemStack> dropToNewDrop = convertDropsData.getDropToNewDrop();

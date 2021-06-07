@@ -7,6 +7,7 @@ import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.PotionEffectSkillData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +22,11 @@ public class PotionEffectSkill extends SkillImplementation {
 
     public PotionEffectSkill(HeroHandler heroHandler) {
         super(heroHandler);
+        Bukkit.getScheduler().runTaskTimer(heroHandler.getPlugin(), () -> {
+           for (Player player : Bukkit.getOnlinePlayers()) {
+                givePotionEffects(player);
+           }
+        }, 0, 10);
     }
 
     @EventHandler
@@ -33,8 +39,10 @@ public class PotionEffectSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("POTIONEFFECT"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
-                PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
-                player.addPotionEffect(potionEffectSkillData.getPotionEffect());
+                if (skillData.areConditionsTrue(player)) {
+                    PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
+                    player.addPotionEffect(potionEffectSkillData.getPotionEffect());
+                }
             }
         }
     }
