@@ -63,8 +63,11 @@ public class YAMLStorage implements Storage {
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
         Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> {
             yamlLock.lock();
-            saveSuperheroPlayer(superheroPlayer);
-            yamlLock.unlock();
+            try {
+                saveSuperheroPlayer(superheroPlayer);
+            } finally {
+                yamlLock.unlock();
+            }
             completableFuture.complete(null);
         });
         return completableFuture;
@@ -73,14 +76,17 @@ public class YAMLStorage implements Storage {
     @Override
     public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {
         yamlLock.lock();
-        ConfigurationSection section = getSection(uuid);
-        if (section == null) {
-            return null;
+        try {
+            ConfigurationSection section = getSection(uuid);
+            if (section == null) {
+                return null;
+            }
+            Superhero superhero = heroHandler.getSuperhero(section.getString("hero", "NOPOWER"));
+            long heroCommandTimestamp = section.getLong("hero_cmd_timestamp", 0);
+            return new SuperheroPlayer(uuid, superhero, heroCommandTimestamp);
+        } finally {
+            yamlLock.unlock();
         }
-        Superhero superhero = heroHandler.getSuperhero(section.getString("hero", "NOPOWER"));
-        long heroCommandTimestamp = section.getLong("hero_cmd_timestamp", 0);
-        yamlLock.unlock();
-        return new SuperheroPlayer(uuid, superhero, heroCommandTimestamp);
     }
 
     @Override
