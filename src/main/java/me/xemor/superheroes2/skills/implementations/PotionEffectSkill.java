@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -41,6 +42,13 @@ public class PotionEffectSkill extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 if (skillData.areConditionsTrue(player)) {
                     PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
+                    PotionEffect effectToApply = potionEffectSkillData.getPotionEffect();
+                    if (effectToApply.getType().equals(PotionEffectType.HEALTH_BOOST)) {
+                        PotionEffect potionEffect = player.getPotionEffect(effectToApply.getType());
+                        if (potionEffect != null && potionEffect.getDuration() > 2) {
+                            continue;
+                        }
+                    }
                     player.addPotionEffect(potionEffectSkillData.getPotionEffect());
                 }
             }

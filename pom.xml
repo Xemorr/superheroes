@@ -45,14 +45,6 @@
                                     <shadedPattern>me.xemor.superheroes2</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>de.themoep.minedown-adventure</pattern>
-                                    <shadedPattern>me.xemor.superheroes2</shadedPattern> <!-- Replace this -->
-                                </relocation>
-                                <relocation>
-                                    <pattern>net.kyori.adventure</pattern>
-                                    <shadedPattern>me.xemor.superheroes2</shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>mysql</pattern>
                                     <shadedPattern>me.xemor.superheroes2</shadedPattern>
                                 </relocation>

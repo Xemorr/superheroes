@@ -12,11 +12,11 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class AttributeData {
+public class ItemAttributeData {
 
     EnumMap<Attribute, AttributeModifier> attributeToValue = new EnumMap<>(Attribute.class);
 
-    public AttributeData(ConfigurationSection configurationSection) {
+    public ItemAttributeData(ConfigurationSection configurationSection) {
         Attribute[] attributes = Attribute.values();
         for (Attribute attribute : attributes) {
             String attributeName = attribute.toString();
@@ -33,7 +33,7 @@ public class AttributeData {
         }
     }
 
-    public AttributeData() {
+    public ItemAttributeData() {
     }
 
     public void applyAttributes(LivingEntity livingEntity) {

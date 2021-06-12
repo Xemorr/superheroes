@@ -43,7 +43,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
             try {
                 commandType = SubCommands.valueOf(args[0].toUpperCase());
             } catch(IllegalArgumentException e) {
-                audience.sendMessage(MineDown.parse(configHandler.getInvalidCommandMessage(), "name", sender.getName()));
+                audience.sendMessage(MineDown.parse(configHandler.getInvalidCommandMessage(), "player", sender.getName()));
                 return true;
             }
             switch (commandType) {

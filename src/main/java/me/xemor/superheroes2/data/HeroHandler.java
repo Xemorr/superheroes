@@ -158,6 +158,14 @@ public class HeroHandler implements Listener {
 
     public void setHeroInMemory(Player player, Superhero hero, boolean show) {
         SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
+        if (superheroPlayer == null) {
+            superheroes2.getLogger().severe("Line 3 of setHeroInMemory, superheroPlayer is null");
+            superheroes2.getLogger().severe("This occurs if a player's superhero data has not been loaded correctly");
+            superheroes2.getLogger().severe("This should not be happening! Join Xemor's Server discord and report this bug!");
+            superheroes2.getLogger().severe("If you have used /reload, then that is the cause for this bug. Please refrain from using this in future and restart your server.");
+            superheroes2.getLogger().severe("Defaulting to giving the player noPower to allow the server to continue as normal!");
+            superheroPlayer = new SuperheroPlayer(player.getUniqueId(), noPower, 0);
+        }
         Superhero currentHero = superheroPlayer.getSuperhero();
         superheroPlayer.setSuperhero(hero);
         PlayerLostSuperheroEvent playerLostHeroEvent = new PlayerLostSuperheroEvent(player, currentHero);
@@ -184,28 +192,20 @@ public class HeroHandler implements Listener {
         uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), noPower, 0));
         CompletableFuture<SuperheroPlayer> future = storage.loadSuperheroPlayerAsync(player.getUniqueId());
         future.thenAccept((superheroPlayer) -> Bukkit.getScheduler().runTask(superheroes2, () -> {
-            System.out.println(superheroPlayer);
             if (superheroPlayer == null) {
                 Superhero superhero;
-                System.out.println("Reached line 189 of HeroHandler");
                 if (configHandler.isPowerOnStartEnabled()) {
-                    System.out.println("Reached line 191 of HeroHandler");
                     superhero = getRandomHero(player);
                 }
                 else {
-                    System.out.println("Reached line 195 of HeroHandler");
                     superhero = noPower;
                 }
                 if (configHandler.shouldShowHeroOnStart()) {
-                    System.out.println("Reached line 199 of HeroHandler");
                     showHero(player, superhero);
                 }
-                System.out.println("Reached line 202 of HeroHandler");
                 uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), superhero, 0));
             }
             else {
-                System.out.println("Reached line 207 of HeroHandler");
-                System.out.println(superheroPlayer.getSuperhero());
                 uuidToData.put(player.getUniqueId(), superheroPlayer);
             }
         }));

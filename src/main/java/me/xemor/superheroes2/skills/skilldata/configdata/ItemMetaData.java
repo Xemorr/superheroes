@@ -30,8 +30,8 @@ public class ItemMetaData {
         }
         ConfigurationSection attributeSection = configurationSection.getConfigurationSection("attributes");
         if (attributeSection != null) {
-            AttributeData attributeData = new AttributeData(attributeSection);
-            attributeData.applyAttributes(itemMeta);
+            ItemAttributeData itemAttributeData = new ItemAttributeData(attributeSection);
+            itemAttributeData.applyAttributes(itemMeta);
         }
         ConfigurationSection enchantSection = configurationSection.getConfigurationSection("enchants");
         if (enchantSection != null) {

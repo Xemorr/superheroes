@@ -165,6 +165,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
     public void onDisable() {
         // Plugin shutdown logic
         bukkitAudiences.close();
+
     }
 
     public ConfigHandler getConfigHandler() {

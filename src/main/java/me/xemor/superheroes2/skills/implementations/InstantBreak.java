@@ -49,8 +49,12 @@ public class InstantBreak extends SkillImplementation {
                                 world.dropItemNaturally(block.getLocation(), drop);
                             }
                         }
-                        ExperienceOrb spawn = world.spawn(block.getLocation(), ExperienceOrb.class);
-                        spawn.setExperience(calculateExperience(block.getType()));
+                        int experience = calculateExperience(block.getType());
+                        if (experience > 0) {
+                            ExperienceOrb spawn = world.spawn(block.getLocation(), ExperienceOrb.class);
+                            spawn.setExperience(experience);
+
+                        }
                         block.setType(Material.AIR);
                     }
                 }

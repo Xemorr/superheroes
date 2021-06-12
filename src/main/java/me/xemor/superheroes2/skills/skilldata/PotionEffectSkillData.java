@@ -11,7 +11,7 @@ public class PotionEffectSkillData extends SkillData {
 
     public PotionEffectSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-        potionData = new PotionEffectData(configurationSection, PotionEffectType.REGENERATION, 3, 0);
+        potionData = new PotionEffectData(configurationSection, PotionEffectType.REGENERATION, 4, 0);
 
     }
 
