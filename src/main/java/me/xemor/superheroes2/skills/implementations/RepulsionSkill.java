@@ -41,12 +41,11 @@ public class RepulsionSkill extends SkillImplementation {
                     }
                     if (player.isSneaking()) {
                         List<Entity> nearbyEntities = player.getNearbyEntities(radius, radius, radius);
-                        nearbyEntities.stream().filter(entity -> !entity.equals(player) && !repulsionData.inBlacklist(entity.getType())).forEach(entity -> entity.setVelocity(entity.getVelocity().add(entity.getLocation().subtract(player.getLocation()).toVector().normalize().multiply(0.1).multiply(multiplier)))
+                        nearbyEntities.stream().filter(entity -> !entity.equals(player) && !repulsionData.inBlacklist(entity.getType()) && skillData.areConditionsTrue(player, entity)).forEach(entity -> entity.setVelocity(entity.getVelocity().add(entity.getLocation().subtract(player.getLocation()).toVector().normalize().multiply(0.1).multiply(multiplier)))
                         );
                     }
                     else {
                         cancel();
-                        return;
                     }
                 }
             }.runTaskTimer(heroHandler.getPlugin(), 0L, 1L);

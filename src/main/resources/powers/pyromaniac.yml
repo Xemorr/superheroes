@@ -15,6 +15,7 @@ Pyromaniac:
       shouldRevert: true
       revertsAfter: 10
       aboveFloor: true
+      canPlaceFloating: false
     fireImmunity:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0

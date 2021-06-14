@@ -24,8 +24,10 @@ public class SneakSkill extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 SneakData sneakData = (SneakData) skillData;
                 if ((sneakData.mustSneak() && player.isSneaking()) || !sneakData.mustSneak()) {
-                    if (sneakData.needsInvisibility() && player.isInvisible() || !sneakData.needsInvisibility()) {
-                        e.setCancelled(true);
+                    if (sneakData.areConditionsTrue(player)) {
+                        if (sneakData.needsInvisibility() && player.isInvisible() || !sneakData.needsInvisibility()) {
+                            e.setCancelled(true);
+                        }
                     }
                 }
             }

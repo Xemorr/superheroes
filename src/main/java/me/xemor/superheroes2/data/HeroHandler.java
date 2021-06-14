@@ -62,6 +62,14 @@ public class HeroHandler implements Listener {
             Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
             HeroBlockBreakEvent heroBlockBreakEvent = new HeroBlockBreakEvent(e.getBlock(), e.getPlayer(), drops);
             heroBlockBreakEvent.callEvent();
+            if (!heroBlockBreakEvent.isCancelled()) {
+                if (heroBlockBreakEvent.isDropItems()) {
+                    for (ItemStack drop : drops) {
+                        e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                    }
+                }
+            }
+            e.setDropItems(false);
         }
     }
 
@@ -150,6 +158,14 @@ public class HeroHandler implements Listener {
 
     public void setHeroInMemory(Player player, Superhero hero, boolean show) {
         SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
+        if (superheroPlayer == null) {
+            superheroes2.getLogger().severe("Line 3 of setHeroInMemory, superheroPlayer is null");
+            superheroes2.getLogger().severe("This occurs if a player's superhero data has not been loaded correctly");
+            superheroes2.getLogger().severe("This should not be happening! Join Xemor's Server discord and report this bug!");
+            superheroes2.getLogger().severe("If you have used /reload, then that is the cause for this bug. Please refrain from using this in future and restart your server.");
+            superheroes2.getLogger().severe("Defaulting to giving the player noPower to allow the server to continue as normal!");
+            superheroPlayer = new SuperheroPlayer(player.getUniqueId(), noPower, 0);
+        }
         Superhero currentHero = superheroPlayer.getSuperhero();
         superheroPlayer.setSuperhero(hero);
         PlayerLostSuperheroEvent playerLostHeroEvent = new PlayerLostSuperheroEvent(player, currentHero);
@@ -173,26 +189,26 @@ public class HeroHandler implements Listener {
     }
 
     public void loadSuperheroPlayer(@NotNull Player player) {
+        uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), noPower, 0));
         CompletableFuture<SuperheroPlayer> future = storage.loadSuperheroPlayerAsync(player.getUniqueId());
-        future.thenAccept((superheroPlayer) -> {
-            Bukkit.getScheduler().runTask(superheroes2, () -> {
-                if (superheroPlayer == null) {
-                    Superhero superhero;
-                    if (configHandler.isPowerOnStartEnabled()) {
-                        superhero = getRandomHero(player);
-                    }
-                    else {
-                        superhero = noPower;
-                    }
-                    if (configHandler.shouldShowHeroOnStart()) {
-                        showHero(player, superhero);
-                    }
-                    uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), superhero, 0));
+        future.thenAccept((superheroPlayer) -> Bukkit.getScheduler().runTask(superheroes2, () -> {
+            if (superheroPlayer == null) {
+                Superhero superhero;
+                if (configHandler.isPowerOnStartEnabled()) {
+                    superhero = getRandomHero(player);
                 }
-                else uuidToData.put(player.getUniqueId(), superheroPlayer);
-            });
-        });
-
+                else {
+                    superhero = noPower;
+                }
+                if (configHandler.shouldShowHeroOnStart()) {
+                    showHero(player, superhero);
+                }
+                uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), superhero, 0));
+            }
+            else {
+                uuidToData.put(player.getUniqueId(), superheroPlayer);
+            }
+        }));
     }
 
     public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {

@@ -35,13 +35,15 @@ public class StrongmanSkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
             Entity topEntity = getTopEntity(e.getPlayer());
-            if (!e.getRightClicked().equals(topEntity) && countPassengers(topEntity) <= strongmanData.getMaxPassengers()) {
-                topEntity.addPassenger(e.getRightClicked());
-            }
-            if (e.getRightClicked() instanceof Vehicle) {
-                Component tooMuscular = new MineDown(strongmanData.getTooMuscularMessage()).replace("player", player.getDisplayName()).toComponent();
-                Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
-                playerAudience.sendActionBar(tooMuscular);
+            if (skillData.areConditionsTrue(player, e.getRightClicked())) {
+                if (!e.getRightClicked().equals(topEntity) && countPassengers(topEntity) <= strongmanData.getMaxPassengers()) {
+                    topEntity.addPassenger(e.getRightClicked());
+                }
+                if (e.getRightClicked() instanceof Vehicle) {
+                    Component tooMuscular = new MineDown(strongmanData.getTooMuscularMessage()).replace("player", player.getDisplayName()).toComponent();
+                    Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
+                    playerAudience.sendActionBar(tooMuscular);
+                }
             }
         }
     }

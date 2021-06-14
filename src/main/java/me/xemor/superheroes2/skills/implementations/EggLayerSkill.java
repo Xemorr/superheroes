@@ -47,11 +47,13 @@ public class EggLayerSkill extends SkillImplementation {
                         cancel();
                         return;
                     }
-                    World world = player.getWorld();
-                    Location location = player.getLocation();
-                    world.dropItemNaturally(location, eggLayerData.getToLay());
+                    if (skillData.areConditionsTrue(player)) {
+                        World world = player.getWorld();
+                        Location location = player.getLocation();
+                        world.dropItemNaturally(location, eggLayerData.getToLay());
+                    }
                 }
-            }.runTaskTimer(heroHandler.getPlugin(), 0L, eggLayerData.getTickDelay());
+            }.runTaskTimer(heroHandler.getPlugin(), eggLayerData.getTickDelay(), eggLayerData.getTickDelay());
         }
 
     }

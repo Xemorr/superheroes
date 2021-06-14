@@ -57,4 +57,17 @@ public class Superhero {
 
     public String getPermission() { return "superheroes.hero." + getName().toLowerCase();}
 
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Superhero) {
+            return name.equals(((Superhero) other).name);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
 }

@@ -76,7 +76,9 @@ public class SpellSkill extends SkillImplementation {
                             String displayName = itemMeta.getDisplayName();
                             if (displayName.equals(spellData.getDisplayName())) {
                                 if (skillCooldownHandler.isCooldownOver(spellData, player.getUniqueId())) {
-                                    handleSpells(player, spellData, e);
+                                    if (e.getClickedBlock() == null || skillData.areConditionsTrue(player, e.getClickedBlock())) {
+                                        handleSpells(player, spellData, e);
+                                    }
                                 }
                             }
                         }

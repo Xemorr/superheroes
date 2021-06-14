@@ -44,30 +44,31 @@ public class YAMLStorage implements Storage {
 
     @Override
     public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {
-        ConfigurationSection section = getSection(superheroPlayer.getUUID());
-        if (section == null) {
-            section = currentDataYAML.createSection(superheroPlayer.getUUID().toString());
-        }
-        section.set("hero", superheroPlayer.getSuperhero().getName());
-        section.set("hero_cmd_timestamp", superheroPlayer.getHeroCommandTimestamp());
-        currentDataYAML.set(String.valueOf(superheroPlayer.getUUID()), section);
+        yamlLock.lock();
         try {
-            currentDataYAML.save(currentDataFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+            ConfigurationSection section = getSection(superheroPlayer.getUUID());
+            if (section == null) {
+                section = currentDataYAML.createSection(superheroPlayer.getUUID().toString());
+            }
+            section.set("hero", superheroPlayer.getSuperhero().getName());
+            section.set("hero_cmd_timestamp", superheroPlayer.getHeroCommandTimestamp());
+            currentDataYAML.set(String.valueOf(superheroPlayer.getUUID()), section);
+            try {
+                currentDataYAML.save(currentDataFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            yamlLock.unlock();
         }
+
     }
 
     @Override
     public CompletableFuture<Object> saveSuperheroPlayerAsync(@NotNull SuperheroPlayer superheroPlayer) {
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
         Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> {
-            yamlLock.lock();
-            try {
-                saveSuperheroPlayer(superheroPlayer);
-            } finally {
-                yamlLock.unlock();
-            }
+            saveSuperheroPlayer(superheroPlayer);
             completableFuture.complete(null);
         });
         return completableFuture;

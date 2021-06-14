@@ -38,19 +38,20 @@ public class RemoteDetonationSkill extends SkillImplementation {
                     if (entity == null) {
                         return;
                     }
-                    Location location = entity.getLocation();
-                    if (!(entity instanceof Player) && remoteDetonationData.removeDetonatedEntity()) {
-                        if (entity instanceof LivingEntity) {
-                            ((LivingEntity) entity).setHealth(0);
+                    if (skillData.areConditionsTrue(player, entity)) {
+                        Location location = entity.getLocation();
+                        if (!(entity instanceof Player) && remoteDetonationData.removeDetonatedEntity()) {
+                            if (entity instanceof LivingEntity) {
+                                ((LivingEntity) entity).setHealth(0);
+                            }
+                            else {
+                                entity.remove();
+                            }
                         }
-                        else {
-                            entity.remove();
-                        }
+                        World world = player.getWorld();
+                        world.createExplosion(location, remoteDetonationData.getExplosionStrength(), remoteDetonationData.spawnsFire(), remoteDetonationData.breakBlocks(), entity);
+                        skillCooldownHandler.startCooldown(remoteDetonationData, player.getUniqueId());
                     }
-
-                    World world = player.getWorld();
-                    world.createExplosion(location, remoteDetonationData.getExplosionStrength(), remoteDetonationData.spawnsFire(), remoteDetonationData.breakBlocks(), entity);
-                    skillCooldownHandler.startCooldown(remoteDetonationData, player.getUniqueId());
                 }
             }
         }

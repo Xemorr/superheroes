@@ -32,17 +32,19 @@ public class SlimeSkill extends SkillImplementation {
                     SlimeData slimeData = (SlimeData) skillData;
                     World world = e.getPlayer().getWorld();
                     if (isOnGround(world, e.getTo()) && !isOnGround(world, e.getFrom())) {
-                        Vector velocity = e.getPlayer().getVelocity();
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                if (velocity.getY() < -0.26 && !e.getPlayer().isSneaking()) {
-                                    velocity.setY(velocity.getY() * -1);
-                                    velocity.add(e.getPlayer().getEyeLocation().clone().getDirection().setY(0).multiply(slimeData.getSpeedMultiplier()));
-                                    e.getPlayer().setVelocity(velocity);
+                        if (slimeData.areConditionsTrue(player)) {
+                            Vector velocity = e.getPlayer().getVelocity();
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    if (velocity.getY() < -0.26 && !e.getPlayer().isSneaking()) {
+                                        velocity.setY(velocity.getY() * -1);
+                                        velocity.add(e.getPlayer().getEyeLocation().clone().getDirection().setY(0).multiply(slimeData.getSpeedMultiplier()));
+                                        e.getPlayer().setVelocity(velocity);
+                                    }
                                 }
-                            }
-                        }.runTaskLater(heroHandler.getPlugin(), 2L);
+                            }.runTaskLater(heroHandler.getPlugin(), 2L);
+                        }
                     }
                 }
             }

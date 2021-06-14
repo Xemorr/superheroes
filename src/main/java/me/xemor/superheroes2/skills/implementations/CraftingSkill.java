@@ -50,7 +50,7 @@ public class CraftingSkill extends SkillImplementation {
 
     @EventHandler
     public void onPowerLost(PlayerLostSuperheroEvent e) {
-        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
+        Superhero superhero = e.getHero();
         Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
@@ -83,7 +83,9 @@ public class CraftingSkill extends SkillImplementation {
                     CraftingData craftingData = (CraftingData) skill;
                     NamespacedKey namespacedKey = ((Keyed)craftingData.getRecipe()).getKey();
                     if (namespacedKey.equals(eventKey)) {
-                        e.getInventory().setResult(new ItemStack(eventRecipe.getResult()));
+                        if (craftingData.areConditionsTrue(player)) {
+                            e.getInventory().setResult(new ItemStack(eventRecipe.getResult()));
+                        }
                     }
                 }
             }

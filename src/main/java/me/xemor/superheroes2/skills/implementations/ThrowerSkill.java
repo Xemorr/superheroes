@@ -37,17 +37,19 @@ public class ThrowerSkill extends SkillImplementation {
                     if (item.getAmount() >= throwerData.getAmmoCost() && item.isSimilar(throwerData.getAmmo())) {
                         e.setCancelled(true);
                         if (skillCooldownHandler.isCooldownOver(throwerData, player.getUniqueId())) {
-                            EntityType entityType = throwerData.getEntityType();
-                            World world = player.getWorld();
-                            Entity entity = world.spawnEntity(player.getEyeLocation(), entityType);
-                            entity.setVelocity(player.getEyeLocation().getDirection().multiply(throwerData.getVelocity()));
-                            if (entity instanceof AbstractArrow) {
-                                AbstractArrow arrow = (AbstractArrow) entity;
-                                arrow.setPickupStatus(throwerData.canPickUp());
-                                arrow.setDamage(throwerData.getDamage());
+                            if (skillData.areConditionsTrue(player)) {
+                                EntityType entityType = throwerData.getEntityType();
+                                World world = player.getWorld();
+                                Entity entity = world.spawnEntity(player.getEyeLocation(), entityType);
+                                entity.setVelocity(player.getEyeLocation().getDirection().multiply(throwerData.getVelocity()));
+                                if (entity instanceof AbstractArrow) {
+                                    AbstractArrow arrow = (AbstractArrow) entity;
+                                    arrow.setPickupStatus(throwerData.canPickUp());
+                                    arrow.setDamage(throwerData.getDamage());
+                                }
+                                useAmmo(throwerData.getAmmoCost(), item);
+                                skillCooldownHandler.startCooldown(throwerData, throwerData.getCooldown(), player.getUniqueId());
                             }
-                            useAmmo(throwerData.getAmmoCost(), item);
-                            skillCooldownHandler.startCooldown(throwerData, throwerData.getCooldown(), player.getUniqueId());
                         }
                     }
                 }

@@ -27,7 +27,10 @@ public class ConvertItemSkill extends SkillImplementation {
                 ConvertItemData convertItemData = (ConvertItemData) skillData;
                 ItemStack itemStack = e.getItem().getItemStack();
                 if (itemStack.isSimilar(convertItemData.getInputItem())) {
-                    if (Math.random() < convertItemData.getChance()) {
+                    if (Math.random() <= convertItemData.getChance()) {
+                        if (!skillData.areConditionsTrue(player)) {
+                            return;
+                        }
                         ItemStack outputItem = convertItemData.getOutputItem().clone();
                         outputItem.setAmount(itemStack.getAmount());
                         e.getItem().remove();

@@ -33,7 +33,7 @@ public class PhaseSkill extends SkillImplementation {
             Player player = e.getPlayer();
             Superhero superhero = heroHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("PHASE"));
-            for (SkillData ignored : skillDatas) {
+            for (SkillData skillData : skillDatas) {
                 player.setVelocity(new Vector(0, -0.1, 0));
                 new BukkitRunnable() {
                     @Override
@@ -43,7 +43,7 @@ public class PhaseSkill extends SkillImplementation {
                             player.setGameMode(GameMode.SURVIVAL);
                             return;
                         }
-                        if (player.isSneaking() && player.getLocation().getY() > 5) {
+                        if (player.isSneaking() && player.getLocation().getY() > 5 && skillData.areConditionsTrue(player)) {
                             player.setGameMode(GameMode.SPECTATOR);
                             player.setGravity(true);
                             player.setAllowFlight(false);

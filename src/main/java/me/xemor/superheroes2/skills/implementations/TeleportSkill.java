@@ -37,8 +37,10 @@ public class TeleportSkill extends SkillImplementation {
             if ((e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) == teleportData.isLeftClick()) {
                 if ((e.getItem() == null ? Material.AIR : e.getItem().getType()) == teleportData.getTeleportItem()) {
                     if (skillCooldownHandler.isCooldownOver(teleportData, player.getUniqueId())) {
-                        doEnderTeleport(player, teleportData);
-                        skillCooldownHandler.startCooldown(teleportData, teleportData.getCooldown(), player.getUniqueId());
+                        if (skillData.areConditionsTrue(player)) {
+                            doEnderTeleport(player, teleportData);
+                            skillCooldownHandler.startCooldown(teleportData, teleportData.getCooldown(), player.getUniqueId());
+                        }
                     }
                 }
             }

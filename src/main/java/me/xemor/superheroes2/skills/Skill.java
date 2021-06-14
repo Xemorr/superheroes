@@ -43,7 +43,7 @@ public class Skill {
         registerSkill("NOHUNGER", BlankData.class);
         registerSkill("DAMAGERESISTANCE", DamageResistanceData.class);
         registerSkill("SLIME", SlimeData.class);
-        registerSkill("SNEAKINGPOTION", PotionEffectSkillData.class);
+        registerSkill("SNEAKINGPOTION", SneakingPotionData.class);
         registerSkill("AURA", AuraData.class);
         registerSkill("EGGLAYER", EggLayerData.class);
         registerSkill("WALKER", WalkerData.class);

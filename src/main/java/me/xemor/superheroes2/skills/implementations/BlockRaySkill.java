@@ -50,22 +50,23 @@ public class BlockRaySkill extends SkillImplementation {
                 else {
                     toChange = block;
                 }
-                if (blockRayData.getBlocksToReplace().contains(toChange.getType()) && blockRayData.getBlocksToReplace().contains(block.getType())) {
-                    final Material originalType = toChange.getType();
-                    final Material newType = blockRayData.getRandomBlockToPlace();
-                    toChange.setType(newType);
-                    if (blockRayData.shouldRevert()) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                if (toChange.getType() == newType) {
-                                    toChange.setType(originalType);
+                if (skillData.areConditionsTrue(player, toChange)) {
+                    if (blockRayData.getBlocksToReplace().contains(toChange.getType()) && blockRayData.getBlocksToReplace().contains(block.getType())) {
+                        final Material originalType = toChange.getType();
+                        final Material newType = blockRayData.getRandomBlockToPlace();
+                        toChange.setType(newType);
+                        if (blockRayData.shouldRevert()) {
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    if (toChange.getType() == newType) {
+                                        toChange.setType(originalType);
+                                    }
                                 }
-                            }
-                        }.runTaskLater(heroHandler.getPlugin(), blockRayData.getRevertsAfter());
+                            }.runTaskLater(heroHandler.getPlugin(), blockRayData.getRevertsAfter());
+                        }
                     }
                 }
-
             }
         }
     }

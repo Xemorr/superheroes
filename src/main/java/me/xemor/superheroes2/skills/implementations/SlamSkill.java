@@ -46,9 +46,11 @@ public class SlamSkill extends SkillImplementation {
                     UUID uuid = player.getUniqueId();
                     if (skillCooldownHandler.isCooldownOver(slamData, uuid)) {
                         if (player.getFoodLevel() > slamData.getMinimumFood()) {
-                            skillCooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), uuid);
-                            player.setFoodLevel(player.getFoodLevel() - slamData.getFoodCost());
-                            doDoomfistJump(player, superhero, slamData);
+                            if (slamData.areConditionsTrue(player)) {
+                                skillCooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), uuid);
+                                player.setFoodLevel(player.getFoodLevel() - slamData.getFoodCost());
+                                doDoomfistJump(player, superhero, slamData);
+                            }
                         }
                     }
                 }
@@ -72,7 +74,9 @@ public class SlamSkill extends SkillImplementation {
                     for (Entity entity : entities) {
                         if (!player.equals(entity)) {
                             LivingEntity livingEntity = (LivingEntity) entity;
-                            livingEntity.damage(slamData.getDamage(), player);
+                            if (slamData.getDamage() > 0) {
+                                livingEntity.damage(slamData.getDamage(), player);
+                            }
                         }
                     }
                     skillCooldownHandler.startCooldown(slamData, player.getUniqueId());

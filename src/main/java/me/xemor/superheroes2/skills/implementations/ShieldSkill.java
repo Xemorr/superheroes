@@ -24,12 +24,14 @@ public class ShieldSkill extends SkillImplementation {
             Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("SHIELD"));
             for (SkillData skillData : skillDatas) {
                 ShieldData shieldData = (ShieldData) skillData;
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        player.setCooldown(Material.SHIELD, shieldData.getCooldown());
-                    }
-                }.runTaskLater(heroHandler.getPlugin(), 1L);
+                if (shieldData.areConditionsTrue(player, e.getDamager())) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.setCooldown(Material.SHIELD, shieldData.getCooldown());
+                        }
+                    }.runTaskLater(heroHandler.getPlugin(), 1L);
+                }
             }
         }
     }

@@ -35,7 +35,9 @@ public class DamageResistanceSkill extends SkillImplementation {
                 }
                 if (damageResistanceData.getPotionEffect() != null) {
                     if (!player.hasPotionEffect(damageResistanceData.getPotionEffect().getType())) {
-                        player.addPotionEffect(damageResistanceData.getPotionEffect());
+                        if (damageResistanceData.areConditionsTrue(player)) {
+                            player.addPotionEffect(damageResistanceData.getPotionEffect());
+                        }
                     }
                 }
             }

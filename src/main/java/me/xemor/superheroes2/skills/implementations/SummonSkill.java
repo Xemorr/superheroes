@@ -37,13 +37,15 @@ public class SummonSkill extends SkillImplementation {
                 if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                     if ((summonData.mustSneak() && player.isSneaking()) || !summonData.mustSneak()) {
                         if (skillCooldownHandler.isCooldownOver(summonData, player.getUniqueId())) {
-                            strikeLightning(player, summonData.getEntityType(), summonData.getRange());
-                            skillCooldownHandler.startCooldown(summonData, player.getUniqueId());
-                            if (summonData.doesRepel()) {
-                                player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
-                            }
-                            if (summonData.getPotionEffect() != null) {
-                                player.addPotionEffect(summonData.getPotionEffect());
+                            if (summonData.areConditionsTrue(player)) {
+                                summonEntity(player, summonData.getEntityType(), summonData.getRange());
+                                skillCooldownHandler.startCooldown(summonData, player.getUniqueId());
+                                if (summonData.doesRepel()) {
+                                    player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
+                                }
+                                if (summonData.getPotionEffect() != null) {
+                                    player.addPotionEffect(summonData.getPotionEffect());
+                                }
                             }
                         }
                     }
@@ -52,7 +54,7 @@ public class SummonSkill extends SkillImplementation {
         }
     }
 
-    public void strikeLightning(Player player, EntityType entityType, int blocksToTravel) {
+    public void summonEntity(Player player, EntityType entityType, int blocksToTravel) {
         World world = player.getWorld();
         Location eyeLoc = player.getEyeLocation().clone();
         Vector travelVector = eyeLoc.getDirection();

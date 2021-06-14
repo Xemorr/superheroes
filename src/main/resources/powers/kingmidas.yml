@@ -5,9 +5,9 @@ KingMidas:
     convertAppleToGoldenApple:
       skill: CONVERTITEM
       inputItem:
-        material: APPLE
+        type: APPLE
       outputItem:
-        material: GOLDEN_APPLE
+        type: GOLDEN_APPLE
       chance: 1.0
     convertIngotBlocks:
       skill: CONVERTBLOCK
