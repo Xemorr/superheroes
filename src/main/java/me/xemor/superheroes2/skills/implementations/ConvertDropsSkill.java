@@ -45,17 +45,20 @@ public class ConvertDropsSkill extends SkillImplementation{
             }
             e.setDropItems(false);
             Collection<ItemStack> drops = e.getDrops();
+            boolean changed = false;
             Map<Material, ItemStack> dropToNewDrop = convertDropsData.getDropToNewDrop();
             for (ItemStack itemStack : drops) {
                 int amount = itemStack.getAmount();
                 ItemStack resultingItem = dropToNewDrop.get(itemStack.getType());
                 ItemStack toDrop = itemStack;
+                changed = true;
                 if (resultingItem != null) {
                     toDrop = resultingItem.clone();
                     toDrop.setAmount(amount * toDrop.getAmount());
                 }
                 world.dropItemNaturally(block.getLocation(), toDrop);
             }
+            if (changed) e.setDrops(drops);
         }
     }
 }

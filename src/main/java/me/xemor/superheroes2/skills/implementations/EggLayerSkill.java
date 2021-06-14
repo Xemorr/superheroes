@@ -53,7 +53,7 @@ public class EggLayerSkill extends SkillImplementation {
                         world.dropItemNaturally(location, eggLayerData.getToLay());
                     }
                 }
-            }.runTaskTimer(heroHandler.getPlugin(), 0L, eggLayerData.getTickDelay());
+            }.runTaskTimer(heroHandler.getPlugin(), eggLayerData.getTickDelay(), eggLayerData.getTickDelay());
         }
 
     }
