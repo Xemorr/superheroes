@@ -50,7 +50,7 @@ public class CraftingSkill extends SkillImplementation {
 
     @EventHandler
     public void onPowerLost(PlayerLostSuperheroEvent e) {
-        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
+        Superhero superhero = e.getHero();
         Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;

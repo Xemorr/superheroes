@@ -13,15 +13,26 @@ import java.util.Collection;
 public class HeroBlockBreakEvent extends BlockBreakEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
-    private final Collection<ItemStack> drops;
+    private Collection<ItemStack> drops;
+    private boolean changed;
 
     public HeroBlockBreakEvent(@NotNull Block theBlock, @NotNull Player player, @NotNull Collection<ItemStack> drops) {
         super(theBlock, player);
         this.drops = drops;
+        changed = false;
+    }
+
+    public boolean isDropsChanged() {
+        return changed;
     }
 
     public Collection<ItemStack> getDrops() {
         return drops;
+    }
+
+    public void setDrops(Collection<ItemStack> drops) {
+        this.drops = drops;
+        changed = true;
     }
 
     public void callEvent() {

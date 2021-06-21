@@ -6,7 +6,6 @@ import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.ConvertDropsData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Container;
 import org.bukkit.enchantments.Enchantment;
@@ -14,7 +13,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ConvertDropsSkill extends SkillImplementation{
@@ -26,7 +27,6 @@ public class ConvertDropsSkill extends SkillImplementation{
     public void onBreak(HeroBlockBreakEvent e) {
         Player player = e.getPlayer();
         Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CONVERTDROPS"));
-        World world = player.getWorld();
         Block block = e.getBlock();
         if (block.getState() instanceof Container) {
             return;
@@ -38,24 +38,27 @@ public class ConvertDropsSkill extends SkillImplementation{
             }
             if (!convertDropsData.shouldIgnoreSilkTouch()) {
                 ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-                if (item.containsEnchantment(Enchantment.SILK_TOUCH)) return;
+                if (item.containsEnchantment(Enchantment.SILK_TOUCH)) continue;
             }
             if (!skillData.areConditionsTrue(player, block)) {
-                return;
+                continue;
             }
-            e.setDropItems(false);
             Collection<ItemStack> drops = e.getDrops();
+            boolean changed = false;
             Map<Material, ItemStack> dropToNewDrop = convertDropsData.getDropToNewDrop();
+            List<ItemStack> newDrops = new ArrayList<>();
             for (ItemStack itemStack : drops) {
                 int amount = itemStack.getAmount();
                 ItemStack resultingItem = dropToNewDrop.get(itemStack.getType());
                 ItemStack toDrop = itemStack;
                 if (resultingItem != null) {
+                    changed = true;
                     toDrop = resultingItem.clone();
                     toDrop.setAmount(amount * toDrop.getAmount());
                 }
-                world.dropItemNaturally(block.getLocation(), toDrop);
+                newDrops.add(toDrop);
             }
+            if (changed) e.setDrops(newDrops);
         }
     }
 }

@@ -27,10 +27,13 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
     private ConfigHandler configHandler;
     private HeroHandler heroHandler;
     private static BukkitAudiences bukkitAudiences;
+    private boolean hasSkillsLibrary;
+    private static Superheroes2 superheroes2;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        superheroes2 = this;
         configHandler = new ConfigHandler(this);
         heroHandler = new HeroHandler(this, configHandler);
         registerSkills();
@@ -45,6 +48,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
         handleMetrics();
         checkForNewUpdate();
         bukkitAudiences = BukkitAudiences.create(this);
+        hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary");
     }
 
     public static BukkitAudiences getBukkitAudiences() {
@@ -174,5 +178,11 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
 
     public HeroHandler getHeroHandler() {
         return heroHandler;
+    }
+
+    public static Superheroes2 getInstance() { return superheroes2; }
+
+    public boolean hasSkillsLibrary() {
+        return hasSkillsLibrary;
     }
 }

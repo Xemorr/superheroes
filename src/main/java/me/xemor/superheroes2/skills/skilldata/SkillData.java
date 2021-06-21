@@ -1,7 +1,8 @@
 package me.xemor.superheroes2.skills.skilldata;
 
+import me.xemor.skillslibrary.conditions.*;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.skills.Skill;
-import me.xemor.superheroes2.skills.conditions.*;
 import me.xemor.superheroes2.skills.skilldata.exceptions.InvalidConfig;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -24,10 +25,11 @@ public abstract class SkillData {
         this.skill = skill;
         this.configurationSection = configurationSection;
         ConfigurationSection conditions = configurationSection.getConfigurationSection("conditions");
-        if (conditions != null) {
+        if (conditions != null && Superheroes2.getInstance().hasSkillsLibrary()) {
             loadConditions(conditions);
         }
     }
+
 
     private void loadConditions(ConfigurationSection conditionsSection) {
         if (conditionsSection == null) return;
@@ -35,10 +37,11 @@ public abstract class SkillData {
         for (Object item : values.values()) {
             if (item instanceof ConfigurationSection) {
                 ConfigurationSection conditionSection = (ConfigurationSection) item;
-                int condition = Conditions.getCondition(conditionSection.getString("type"));
+                String type = conditionSection.getString("type", "");
+                int condition = Conditions.getCondition(type);
                 if (condition == -1) {
                     try {
-                        throw new InvalidConfig("Invalid Condition Type");
+                        throw new InvalidConfig("Invalid Condition Type " + conditionSection.getCurrentPath() + ".type is " + type);
                     } catch(InvalidConfig e) {
                         e.printStackTrace();
                     }
@@ -53,9 +56,9 @@ public abstract class SkillData {
 
     public boolean areConditionsTrue(Player player) {
         for (Condition condition : conditions) {
-            if (condition instanceof HeroCondition) {
-                HeroCondition heroCondition = (HeroCondition) condition;
-                if (!heroCondition.isTrue(player)) {
+            if (condition instanceof EntityCondition) {
+                EntityCondition entityCondition = (EntityCondition) condition;
+                if (!entityCondition.isTrue(player)) {
                     return false;
                 }
             }
@@ -65,9 +68,9 @@ public abstract class SkillData {
 
     public boolean areConditionsTrue(Player player, Block block) {
         for (Condition condition : conditions) {
-            if (condition instanceof HeroCondition) {
-                HeroCondition heroCondition = (HeroCondition) condition;
-                if (!heroCondition.isTrue(player)) {
+            if (condition instanceof EntityCondition) {
+                EntityCondition entityCondition = (EntityCondition) condition;
+                if (!entityCondition.isTrue(player)) {
                     return false;
                 }
             }
@@ -83,9 +86,9 @@ public abstract class SkillData {
 
     public boolean areConditionsTrue(Player player, Entity entity) {
         for (Condition condition : conditions) {
-            if (condition instanceof HeroCondition) {
-                HeroCondition heroCondition = (HeroCondition) condition;
-                if (!heroCondition.isTrue(player)) {
+            if (condition instanceof EntityCondition) {
+                EntityCondition entityCondition = (EntityCondition) condition;
+                if (!entityCondition.isTrue(player)) {
                     return false;
                 }
             }

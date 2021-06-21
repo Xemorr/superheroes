@@ -143,7 +143,7 @@ public class SpellSkill extends SkillImplementation {
             skillCooldownHandler.startCooldown(spellData, cooldown, player.getUniqueId());
         }
         else {
-            Component moreFuelNeeded = new MineDown(spellData.getMoreFuelMessage()).replace("fuelneeded", String.valueOf(cost)).toComponent();
+            Component moreFuelNeeded = new MineDown(spellData.getMoreFuelMessage()).replaceFirst(true).replace("fuelneeded", String.valueOf(cost)).toComponent();
             Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
             playerAudience.sendActionBar(moreFuelNeeded);
         }

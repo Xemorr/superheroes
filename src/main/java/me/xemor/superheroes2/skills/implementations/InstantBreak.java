@@ -42,7 +42,8 @@ public class InstantBreak extends SkillImplementation {
                     Collection<ItemStack> drops = block.getDrops(toBreakWith);
                     HeroBlockBreakEvent blockBreakEvent = new HeroBlockBreakEvent(block, e.getPlayer(), drops);
                     blockBreakEvent.callEvent();
-                    if (!blockBreakEvent.isCancelled()) {
+                    drops = blockBreakEvent.getDrops();
+                    if (!blockBreakEvent.isCancelled() && blockBreakEvent.isDropItems()) {
                         World world = e.getPlayer().getWorld();
                         if (blockBreakEvent.isDropItems()) {
                             for (ItemStack drop : drops) {

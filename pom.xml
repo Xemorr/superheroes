@@ -6,19 +6,18 @@
 
     <groupId>me.xemor</groupId>
     <artifactId>Superheroes2</artifactId>
-    <version>2.4.3</version>
+    <version>2.5.0</version>
     <packaging>jar</packaging>
 
     <name>Superheroes2</name>
 
-    <description>Adds superheroes to your world - these can be customized completely and are extremely modular.
-    </description>
+    <description>Adds superheroes to your world - these can be customized completely and are extremely modular.</description>
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dir>E:\Holder\1.16.5 Test Server\plugins</dir>
+        <dir>E:\Holder\1.17 Test Server\plugins</dir>
     </properties>
 
     <build>
@@ -47,6 +46,10 @@
                                 <relocation>
                                     <pattern>mysql</pattern>
                                     <shadedPattern>me.xemor.superheroes2</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>me.xemor.conditionslibrary</pattern>
+                                    <shadedPattern>me.xemor.superheroes2.conditions</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -91,6 +94,18 @@
             <artifactId>spigot-api</artifactId>
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.xemor</groupId>
+            <artifactId>SkillsLibrary</artifactId>
+            <version>1.1.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.xemor</groupId>
+            <artifactId>ConfigurationData</artifactId>
+            <version>1.3-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>

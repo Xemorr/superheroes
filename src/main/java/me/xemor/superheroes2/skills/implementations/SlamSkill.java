@@ -74,7 +74,9 @@ public class SlamSkill extends SkillImplementation {
                     for (Entity entity : entities) {
                         if (!player.equals(entity)) {
                             LivingEntity livingEntity = (LivingEntity) entity;
-                            livingEntity.damage(slamData.getDamage(), player);
+                            if (slamData.getDamage() > 0) {
+                                livingEntity.damage(slamData.getDamage(), player);
+                            }
                         }
                     }
                     skillCooldownHandler.startCooldown(slamData, player.getUniqueId());
