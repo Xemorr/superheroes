@@ -1,6 +1,7 @@
 package me.xemor.superheroes2.skills.skilldata;
 
 import me.xemor.skillslibrary.conditions.*;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.exceptions.InvalidConfig;
 import org.bukkit.block.Block;
@@ -24,7 +25,7 @@ public abstract class SkillData {
         this.skill = skill;
         this.configurationSection = configurationSection;
         ConfigurationSection conditions = configurationSection.getConfigurationSection("conditions");
-        if (conditions != null) {
+        if (conditions != null && Superheroes2.getInstance().hasSkillsLibrary()) {
             loadConditions(conditions);
         }
     }

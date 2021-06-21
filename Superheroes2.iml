@@ -27,8 +27,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.16-R0.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.27" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: me.xemor:SkillsLibrary:1.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: me.xemor:ConfigurationData:1.2-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: me.xemor:SkillsLibrary:1.1.4" level="project" />
+    <orderEntry type="library" name="Maven: me.xemor:ConfigurationData:1.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.7" level="project" />
     <orderEntry type="library" name="Maven: dev.dbassett:skullcreator:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:20.1.0" level="project" />

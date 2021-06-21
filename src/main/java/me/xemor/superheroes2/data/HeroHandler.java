@@ -62,14 +62,15 @@ public class HeroHandler implements Listener {
             Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
             HeroBlockBreakEvent heroBlockBreakEvent = new HeroBlockBreakEvent(e.getBlock(), e.getPlayer(), drops);
             heroBlockBreakEvent.callEvent();
-            if (!heroBlockBreakEvent.isCancelled()) {
+            drops = heroBlockBreakEvent.getDrops();
+            if (!heroBlockBreakEvent.isCancelled() && heroBlockBreakEvent.isDropsChanged()) {
                 if (heroBlockBreakEvent.isDropItems()) {
                     for (ItemStack drop : drops) {
                         e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
                     }
+                    e.setDropItems(false);
                 }
             }
-            e.setDropItems(false);
         }
     }
 

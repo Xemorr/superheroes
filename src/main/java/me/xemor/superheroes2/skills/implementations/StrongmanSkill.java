@@ -10,6 +10,7 @@ import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.StrongmanData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -100,6 +101,7 @@ public class StrongmanSkill extends SkillImplementation {
                 }
             }
         }
+        Component.text().color(NamedTextColor.WHITE).append();
     }
 
     @EventHandler

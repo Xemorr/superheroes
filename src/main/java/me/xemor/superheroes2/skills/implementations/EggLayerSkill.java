@@ -47,6 +47,10 @@ public class EggLayerSkill extends SkillImplementation {
                         cancel();
                         return;
                     }
+                    if (!superhero.getSkillData(Skill.getSkill("EGGLAYER")).contains(skillData)) {
+                        cancel();
+                        return;
+                    }
                     if (skillData.areConditionsTrue(player)) {
                         World world = player.getWorld();
                         Location location = player.getLocation();
