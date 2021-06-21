@@ -32,7 +32,7 @@
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.7" level="project" />
     <orderEntry type="library" name="Maven: dev.dbassett:skullcreator:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:20.1.0" level="project" />
-    <orderEntry type="library" name="Maven: de.themoep:minedown-adventure:1.7.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: de.themoep:minedown-adventure:1.7.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: net.kyori:adventure-platform-api:4.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: net.kyori:adventure-api:4.8.1" level="project" />
