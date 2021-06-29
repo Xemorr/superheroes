@@ -9,6 +9,7 @@ import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -51,10 +52,9 @@ public class InstantBreak extends SkillImplementation {
                             }
                         }
                         int experience = calculateExperience(block.getType());
-                        if (experience > 0) {
+                        if (experience > 0 && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
                             ExperienceOrb spawn = world.spawn(block.getLocation(), ExperienceOrb.class);
                             spawn.setExperience(experience);
-
                         }
                         block.setType(Material.AIR);
                     }

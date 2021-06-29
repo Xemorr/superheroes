@@ -46,7 +46,7 @@ public class HeroSelect implements SubCommand {
             audience.sendMessage(MineDown.parse(configHandler.getInvalidHeroMessage(), "player", sender.getName(), "hero", args[1]));
             return;
         }
-        if (!sender.hasPermission("superheroes.hero." + power.getName().toLowerCase())) {
+        if (!sender.hasPermission("superheroes.hero." + power.getName().toLowerCase()) && configHandler.areHeroPermissionsRequired()) {
             audience.sendMessage(MineDown.parse(configHandler.getNoPermissionMessage(), "player", sender.getName()));
             return;
         }
