@@ -25,7 +25,6 @@ public class HeroSelect implements SubCommand {
         this.configHandler = configHandler;
     }
 
-    //args[0] is select, args[1] is the hero name, args[2] is the player being given the new hero
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes2.getBukkitAudiences().sender(sender);
@@ -83,7 +82,7 @@ public class HeroSelect implements SubCommand {
         if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player && sender == player) {
             SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(player);
             superheroPlayer.setHeroCommandTimestamp(System.currentTimeMillis());
-            heroHandler.saveSuperheroPlayer(superheroPlayer);
+            heroHandler.getHeroIOHandler().saveSuperheroPlayerAsync(superheroPlayer);
         }
     }
 

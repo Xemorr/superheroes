@@ -35,7 +35,7 @@ public class InstantBreak extends SkillImplementation {
                 Block block = e.getClickedBlock();
                 ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
                 ItemStack toBreakWith = new ItemStack(instantBreakData.getBreakUsing());
-                item.getEnchantments().forEach(toBreakWith::addEnchantment);
+                toBreakWith.addUnsafeEnchantments(item.getEnchantments());
                 if (instantBreakData.canBreak(block.getType())) {
                     if (!skillData.areConditionsTrue(player, block)) {
                         return;

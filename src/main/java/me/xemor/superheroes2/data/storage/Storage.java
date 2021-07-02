@@ -11,10 +11,8 @@ import java.util.concurrent.CompletableFuture;
 public interface Storage {
 
     void saveSuperheroPlayer(@NotNull SuperheroPlayer superheroPlayer);
-    CompletableFuture<Object> saveSuperheroPlayerAsync(@NotNull SuperheroPlayer superheroPlayer);
     @Nullable
     SuperheroPlayer loadSuperheroPlayer(@NotNull UUID uuid);
-    CompletableFuture<SuperheroPlayer> loadSuperheroPlayerAsync(@NotNull UUID uuid);
     CompletableFuture<Void> importSuperheroPlayers(List<SuperheroPlayer> superheroPlayers);
     List<SuperheroPlayer> exportSuperheroPlayers();
 
