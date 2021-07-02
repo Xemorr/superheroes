@@ -35,9 +35,9 @@ public class MySQLStorage implements Storage {
     private final MysqlDataSource dataSource;
     private final ReentrantLock lock = new ReentrantLock();
 
-    public MySQLStorage(HeroHandler heroHandler) {
-        this.heroHandler = heroHandler;
-        this.superheroes2 = heroHandler.getPlugin();
+    public MySQLStorage() {
+        this.superheroes2 = Superheroes2.getInstance();
+        this.heroHandler = superheroes2.getHeroHandler();
         this.configHandler = superheroes2.getConfigHandler();
         String name = configHandler.getDatabaseName();
         String host = configHandler.getDatabaseHost();
@@ -48,20 +48,6 @@ public class MySQLStorage implements Storage {
         setupTable();
     }
 
-    public CompletableFuture<Object> saveSuperheroPlayerAsync(@NotNull SuperheroPlayer superheroPlayer) {
-        CompletableFuture<Object> completableFuture = new CompletableFuture<>();
-        Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> {
-            lock.lock();
-            try {
-                saveSuperheroPlayer(superheroPlayer);
-            } finally {
-                lock.unlock();
-            }
-            completableFuture.complete(null);
-        });
-        return completableFuture;
-    }
-
     public void saveSuperheroPlayer(@NotNull SuperheroPlayer superheroPlayer) {
         try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(
                 "REPLACE INTO superhero_players(uuid, hero, hero_cmd_timestamp) VALUES(?, ?, ?);"
@@ -69,19 +55,22 @@ public class MySQLStorage implements Storage {
             stmt.setString(1, superheroPlayer.getUUID().toString());
             stmt.setString(2, superheroPlayer.getSuperhero().getName());
             stmt.setLong(3, superheroPlayer.getHeroCommandTimestamp());
+            lock.lock();
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            lock.unlock();
         }
     }
 
     @Override
     public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {
-        lock.lock();
         try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(
                 "SELECT * FROM superhero_players WHERE uuid = ?;"
         )) {
             stmt.setString(1, uuid.toString());
+            lock.lock();
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 Superhero hero = heroHandler.getSuperhero(resultSet.getString("hero"));
@@ -103,20 +92,14 @@ public class MySQLStorage implements Storage {
     }
 
     @Override
-    public CompletableFuture<SuperheroPlayer> loadSuperheroPlayerAsync(@NotNull UUID uuid) {
-        CompletableFuture<SuperheroPlayer> future = new CompletableFuture<>();
-        Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> future.complete(loadSuperheroPlayer(uuid)));
-        return future;
-    }
-
-    @Override
     public CompletableFuture<Void> importSuperheroPlayers(List<SuperheroPlayer> superheroPlayers) {
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
-        List<CompletableFuture<Object>> futures = new ArrayList<>();
-        for (SuperheroPlayer superheroPlayer : superheroPlayers) {
-            futures.add(saveSuperheroPlayerAsync(superheroPlayer));
-        }
-        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+        Bukkit.getScheduler().runTaskAsynchronously(Superheroes2.getInstance(), () -> {
+            for (SuperheroPlayer superheroPlayer : superheroPlayers) {
+                saveSuperheroPlayer(superheroPlayer);
+            }
+        });
+        return CompletableFuture.allOf(completableFuture);
     }
 
     @Override

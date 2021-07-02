@@ -56,6 +56,13 @@ public class DecoySkill extends SkillImplementation {
             if (e.isSneaking() && decoyData.areConditionsTrue(player)) {
                 ArmorStand armorStand = createArmorStand(player, decoyData);
                 HashMap<UUID, UUID> hashMap = playerToDecoy.getOrDefault(decoyData, new HashMap<>());
+                UUID oldArmorStandUUID = hashMap.get(player.getUniqueId());
+                if (oldArmorStandUUID != null) {
+                    Entity entity = Bukkit.getEntity(oldArmorStandUUID);
+                    if (entity != null) {
+                        entity.remove();
+                    }
+                }
                 hashMap.put(player.getUniqueId(), armorStand.getUniqueId());
                 playerToDecoy.put(skillData, hashMap);
             }

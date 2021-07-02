@@ -4,9 +4,7 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.data.SuperheroPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +21,9 @@ public class LegacyStorage implements Storage {
     private final File currentDataFile;
     private final HeroHandler heroHandler;
 
-    public LegacyStorage(HeroHandler heroHandler) {
-        this.superheroes2 = heroHandler.getPlugin();
-        this.heroHandler = heroHandler;
+    public LegacyStorage() {
+        this.superheroes2 = Superheroes2.getInstance();
+        this.heroHandler = superheroes2.getHeroHandler();
         currentDataFile = new File(superheroes2.getDataFolder(), "data.yml");
         try {
             currentDataFile.createNewFile();
@@ -64,24 +62,9 @@ public class LegacyStorage implements Storage {
     public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {}
 
     @Override
-    public CompletableFuture<Object> saveSuperheroPlayerAsync(@NotNull SuperheroPlayer superheroPlayer) {
-        CompletableFuture<Object> completableFuture = new CompletableFuture<>();
-        completableFuture.complete(null);
-        return completableFuture;
-    }
-
-    @Override
     public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {
         String superheroName = currentDataYAML.getString(uuid.toString());
         Superhero superhero = heroHandler.getSuperhero(superheroName);
         return new SuperheroPlayer(uuid, superhero == null ? heroHandler.getNoPower() : superhero, 0);
     }
-
-    @Override
-    public CompletableFuture<SuperheroPlayer> loadSuperheroPlayerAsync(@NotNull UUID uuid) {
-        CompletableFuture<SuperheroPlayer> future = new CompletableFuture<>();
-        Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> future.complete(loadSuperheroPlayer(uuid)));
-        return future;
-    }
-
 }

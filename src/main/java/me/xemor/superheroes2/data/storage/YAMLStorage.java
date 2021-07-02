@@ -4,10 +4,8 @@ import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.data.SuperheroPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,14 +19,14 @@ import java.util.concurrent.locks.ReentrantLock;
 public class YAMLStorage implements Storage {
 
     private Superheroes2 superheroes2;
+    private HeroHandler heroHandler;
     private final YamlConfiguration currentDataYAML;
     private File currentDataFile;
-    private HeroHandler heroHandler;
     private ReentrantLock yamlLock = new ReentrantLock();
 
-    public YAMLStorage(HeroHandler heroHandler) {
-        this.superheroes2 = heroHandler.getPlugin();
-        this.heroHandler = heroHandler;
+    public YAMLStorage() {
+        superheroes2 = Superheroes2.getInstance();
+        heroHandler = superheroes2.getHeroHandler();
         currentDataFile = new File(superheroes2.getDataFolder(), "data.yml");
         try {
             currentDataFile.createNewFile();
@@ -65,16 +63,6 @@ public class YAMLStorage implements Storage {
     }
 
     @Override
-    public CompletableFuture<Object> saveSuperheroPlayerAsync(@NotNull SuperheroPlayer superheroPlayer) {
-        CompletableFuture<Object> completableFuture = new CompletableFuture<>();
-        Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> {
-            saveSuperheroPlayer(superheroPlayer);
-            completableFuture.complete(null);
-        });
-        return completableFuture;
-    }
-
-    @Override
     public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {
         yamlLock.lock();
         try {
@@ -88,15 +76,6 @@ public class YAMLStorage implements Storage {
         } finally {
             yamlLock.unlock();
         }
-    }
-
-    @Override
-    public CompletableFuture<SuperheroPlayer> loadSuperheroPlayerAsync(@NotNull UUID uuid) {
-        CompletableFuture<SuperheroPlayer> future = new CompletableFuture<>();
-        Bukkit.getScheduler().runTaskAsynchronously(superheroes2, () -> {
-            future.complete(loadSuperheroPlayer(uuid));
-        });
-        return future;
     }
 
     @Override

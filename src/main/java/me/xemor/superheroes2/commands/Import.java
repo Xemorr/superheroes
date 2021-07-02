@@ -27,7 +27,7 @@ public class Import implements SubCommand {
     public void onCommand(CommandSender sender, String[] args) {
         if (sender.hasPermission("superheroes.import")) {
             sender.sendMessage(importing);
-            heroHandler.importFiles().thenAccept((ignored) -> Bukkit.getScheduler().runTask(heroHandler.getPlugin(), () -> configHandler.reloadConfig(heroHandler)));
+            heroHandler.getHeroIOHandler().importFiles().thenAccept((ignored) -> Bukkit.getScheduler().runTask(heroHandler.getPlugin(), () -> configHandler.reloadConfig(heroHandler)));
             sender.sendMessage(done);
         }
         else {

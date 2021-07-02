@@ -26,7 +26,7 @@ public class Export implements SubCommand {
     public void onCommand(CommandSender sender, String[] args) {
         if (sender.hasPermission("superheroes.export")) {
             sender.sendMessage(exporting);
-            heroHandler.exportFiles();
+            heroHandler.getHeroIOHandler().exportFiles();
             configHandler.reloadConfig(heroHandler);
             sender.sendMessage(done);
         }

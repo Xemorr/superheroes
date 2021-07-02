@@ -3,10 +3,6 @@ package me.xemor.superheroes2.data;
 import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
-import me.xemor.superheroes2.data.storage.LegacyStorage;
-import me.xemor.superheroes2.data.storage.MySQLStorage;
-import me.xemor.superheroes2.data.storage.Storage;
-import me.xemor.superheroes2.data.storage.YAMLStorage;
 import me.xemor.superheroes2.events.HeroBlockBreakEvent;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
@@ -29,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -41,7 +36,7 @@ public class HeroHandler implements Listener {
     Superheroes2 superheroes2;
     private final ConfigHandler configHandler;
     private final Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
-    Storage storage;
+    HeroIOHandler heroIOHandler;
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent e) {
@@ -79,42 +74,6 @@ public class HeroHandler implements Listener {
         this.superheroes2 = superheroes2;
     }
 
-    public CompletableFuture<Void> importFiles() {
-        YAMLStorage yamlStorage = new YAMLStorage(this);
-        List<SuperheroPlayer> superheroPlayers = yamlStorage.exportSuperheroPlayers();
-        return storage.importSuperheroPlayers(superheroPlayers);
-    }
-
-    public void exportFiles() {
-        List<SuperheroPlayer> superheroPlayers = storage.exportSuperheroPlayers();
-        YAMLStorage yamlStorage = new YAMLStorage(this);
-        yamlStorage.importSuperheroPlayers(superheroPlayers);
-    }
-
-    public void handlePlayerData() {
-        String databaseType = configHandler.getDatabaseType();
-        if (databaseType.equalsIgnoreCase("LEGACY")) {
-            LegacyStorage legacy = new LegacyStorage(this);
-            List<SuperheroPlayer> values = legacy.exportSuperheroPlayers();
-            File file = legacy.getCurrentDataFile();
-            file.renameTo(new File(superheroes2.getDataFolder(), "old_data.yml"));
-            storage = new YAMLStorage(this);
-            for (SuperheroPlayer superheroPlayer: values) {
-                storage.saveSuperheroPlayer(superheroPlayer);
-            }
-            configHandler.setDatabaseType("YAML");
-        }
-        else if (databaseType.equalsIgnoreCase("YAML")) {
-            storage = new YAMLStorage(this);
-        }
-        else if (databaseType.equalsIgnoreCase("MySQL")) {
-            storage = new MySQLStorage(this);
-        }
-        else {
-            Bukkit.getLogger().severe("Invalid database type specified!");
-        }
-    }
-
     public void registerHeroes(HashMap<String, Superhero> nameToSuperhero) {
         this.nameToSuperhero = nameToSuperhero;
         nameToSuperhero.put("NOPOWER", noPower);
@@ -123,6 +82,11 @@ public class HeroHandler implements Listener {
     public void setHeroesIntoMemory(HashMap<UUID, SuperheroPlayer> playerHeroes) {
         this.uuidToData.clear();
         this.uuidToData.putAll(playerHeroes);
+    }
+
+    public void handlePlayerData() {
+        heroIOHandler = new HeroIOHandler();
+        heroIOHandler.handlePlayerData();
     }
 
     public SuperheroPlayer getSuperheroPlayer(Player player) {
@@ -186,12 +150,12 @@ public class HeroHandler implements Listener {
 
     public void setHero(Player player, Superhero hero, boolean show) {
         setHeroInMemory(player, hero, show);
-        saveSuperheroPlayer(getSuperheroPlayer(player));
+        heroIOHandler.saveSuperheroPlayerAsync(getSuperheroPlayer(player));
     }
 
     public void loadSuperheroPlayer(@NotNull Player player) {
         uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), noPower, 0));
-        CompletableFuture<SuperheroPlayer> future = storage.loadSuperheroPlayerAsync(player.getUniqueId());
+        CompletableFuture<SuperheroPlayer> future = heroIOHandler.loadSuperHeroPlayerAsync(player.getUniqueId());
         future.thenAccept((superheroPlayer) -> Bukkit.getScheduler().runTask(superheroes2, () -> {
             if (superheroPlayer == null) {
                 Superhero superhero;
@@ -210,10 +174,6 @@ public class HeroHandler implements Listener {
                 uuidToData.put(player.getUniqueId(), superheroPlayer);
             }
         }));
-    }
-
-    public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {
-        storage.saveSuperheroPlayerAsync(superheroPlayer);
     }
 
     public void setRandomHero(Player player) {
@@ -261,5 +221,9 @@ public class HeroHandler implements Listener {
 
     public Superhero getNoPower() {
         return noPower;
+    }
+
+    public HeroIOHandler getHeroIOHandler() {
+        return heroIOHandler;
     }
 }
