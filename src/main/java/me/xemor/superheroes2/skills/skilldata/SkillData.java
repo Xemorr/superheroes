@@ -56,7 +56,7 @@ public abstract class SkillData {
 
     public boolean areConditionsTrue(Player player) {
         for (Condition condition : conditions) {
-            if (condition instanceof EntityCondition) {
+            if (condition instanceof EntityCondition && condition.getMode().runs(Condition.ConditionMode.SELF)) {
                 EntityCondition entityCondition = (EntityCondition) condition;
                 if (!entityCondition.isTrue(player)) {
                     return false;
@@ -68,13 +68,13 @@ public abstract class SkillData {
 
     public boolean areConditionsTrue(Player player, Block block) {
         for (Condition condition : conditions) {
-            if (condition instanceof EntityCondition) {
+            if (condition instanceof EntityCondition && condition.getMode().runs(Condition.ConditionMode.SELF)) {
                 EntityCondition entityCondition = (EntityCondition) condition;
                 if (!entityCondition.isTrue(player)) {
                     return false;
                 }
             }
-            else if (condition instanceof BlockCondition) {
+            else if (condition instanceof BlockCondition && condition.getMode().runs(Condition.ConditionMode.BLOCK)) {
                 BlockCondition blockCondition = (BlockCondition) condition;
                 if (!blockCondition.isTrue(player, block)) {
                     return false;
@@ -86,13 +86,13 @@ public abstract class SkillData {
 
     public boolean areConditionsTrue(Player player, Entity entity) {
         for (Condition condition : conditions) {
-            if (condition instanceof EntityCondition) {
+            if (condition instanceof EntityCondition && condition.getMode().runs(Condition.ConditionMode.SELF)) {
                 EntityCondition entityCondition = (EntityCondition) condition;
                 if (!entityCondition.isTrue(player)) {
                     return false;
                 }
             }
-            else if (condition instanceof TargetCondition) {
+            else if (condition instanceof TargetCondition && condition.getMode().runs(Condition.ConditionMode.OTHER)) {
                 TargetCondition targetCondition = (TargetCondition) condition;
                 if (!targetCondition.isTrue(player, entity)) {
                     return false;

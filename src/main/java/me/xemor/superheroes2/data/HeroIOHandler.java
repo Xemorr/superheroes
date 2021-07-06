@@ -8,76 +8,66 @@ import me.xemor.superheroes2.data.storage.YAMLStorage;
 import org.bukkit.Bukkit;
 
 import java.io.File;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.*;
 
 public class HeroIOHandler {
 
+    ExecutorService threads;
     private Storage storage;
-    private final ReentrantLock loadingPlayerLock = new ReentrantLock();
-    private final Deque<LoadingPlayer> loadingPlayerQueue = new ArrayDeque<>();
-    private final ReentrantLock savingPlayerLock = new ReentrantLock();
-    private final Deque<SavingPlayer> savingPlayerQueue = new ArrayDeque<>();
+    private static final Object POISON = new Object();
+    private final BlockingQueue<Object> loadingPlayerQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Object> savingPlayerQueue = new LinkedBlockingQueue<>();
     private final ConfigHandler configHandler = Superheroes2.getInstance().getConfigHandler();
 
     public HeroIOHandler() {
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Superheroes2.getInstance(), this::loadPlayersInQueue, 1L, 1L);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Superheroes2.getInstance(), this::savePlayersInQueue, 1L, 1L);
+        threads = Executors.newFixedThreadPool(2);
+        threads.submit(this::loadPlayersInQueue);
+        threads.submit(this::savePlayersInQueue);
     }
 
     public void loadPlayersInQueue() {
-        final Deque<LoadingPlayer> loadingPlayerQueue;
-        try {
-            loadingPlayerLock.lock();
-            loadingPlayerQueue = new ArrayDeque<>(this.loadingPlayerQueue);
-            this.loadingPlayerQueue.clear();
-        } finally {
-            loadingPlayerLock.unlock();
-        }
-        for (LoadingPlayer loadingPlayer : loadingPlayerQueue) {
-            SuperheroPlayer superheroPlayer = storage.loadSuperheroPlayer(loadingPlayer.getUUID());
-            loadingPlayer.getFuture().complete(superheroPlayer);
+        while (true) {
+            try {
+                Object object = loadingPlayerQueue.take();
+                if (object == POISON) {
+                    return;
+                }
+                LoadingPlayer player = (LoadingPlayer) object;
+                SuperheroPlayer superheroPlayer = storage.loadSuperheroPlayer(player.getUUID());
+                player.getFuture().complete(superheroPlayer);
+            } catch (InterruptedException ignored) {}
         }
     }
 
     public void savePlayersInQueue() {
-        final Deque<SavingPlayer> savingPlayerQueue;
-        try {
-            savingPlayerLock.lock();
-            savingPlayerQueue = new ArrayDeque<>(this.savingPlayerQueue);
-            this.savingPlayerQueue.clear();
-        } finally {
-            savingPlayerLock.unlock();
-        }
-        for (SavingPlayer savingPlayer : savingPlayerQueue) {
-            storage.saveSuperheroPlayer(savingPlayer.getSuperheroPlayer());
-            savingPlayer.getFuture().complete(new Object());
+        while (true) {
+            try {
+                Object object = savingPlayerQueue.take();
+                if (object == POISON) {
+                    return;
+                }
+                SavingPlayer player = (SavingPlayer) object;
+                storage.saveSuperheroPlayer(player.getSuperheroPlayer());
+                player.getFuture().complete(new Object());
+            } catch (InterruptedException ignored) {}
         }
     }
 
     public CompletableFuture<SuperheroPlayer> loadSuperHeroPlayerAsync(UUID uuid) {
         LoadingPlayer loadingPlayer = new LoadingPlayer(uuid);
         try {
-            loadingPlayerLock.lock();
-            loadingPlayerQueue.add(loadingPlayer);
-        } finally {
-            loadingPlayerLock.unlock();
-        }
+            loadingPlayerQueue.put(loadingPlayer);
+        } catch (InterruptedException e) { e.printStackTrace(); }
         return loadingPlayer.getFuture();
     }
 
     public CompletableFuture<Object> saveSuperheroPlayerAsync(SuperheroPlayer superheroPlayer) {
         SavingPlayer savingPlayer = new SavingPlayer(superheroPlayer);
         try {
-            savingPlayerLock.lock();
-            savingPlayerQueue.add(savingPlayer);
-        } finally {
-            savingPlayerLock.unlock();
-        }
+            savingPlayerQueue.put(savingPlayer);
+        } catch (InterruptedException e) { e.printStackTrace(); }
         return savingPlayer.getFuture();
     }
 
@@ -117,9 +107,20 @@ public class HeroIOHandler {
         yamlStorage.importSuperheroPlayers(superheroPlayers);
     }
 
-    class LoadingPlayer {
-        private UUID uuid;
-        private CompletableFuture<SuperheroPlayer> future = new CompletableFuture<>();;
+    public void shutdown() {
+        loadingPlayerQueue.add(POISON);
+        savingPlayerQueue.add(POISON);
+        threads.shutdown();
+        try {
+            threads.awaitTermination(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class LoadingPlayer {
+        private final UUID uuid;
+        private final CompletableFuture<SuperheroPlayer> future = new CompletableFuture<>();
 
         public LoadingPlayer(UUID uuid) {
             this.uuid = uuid;
@@ -134,9 +135,9 @@ public class HeroIOHandler {
         }
     }
 
-    class SavingPlayer {
-        private SuperheroPlayer superheroPlayer;
-        private CompletableFuture<Object> future = new CompletableFuture<>();
+    static class SavingPlayer {
+        private final SuperheroPlayer superheroPlayer;
+        private final CompletableFuture<Object> future = new CompletableFuture<>();
 
         public SavingPlayer(SuperheroPlayer superheroPlayer) {
             this.superheroPlayer = superheroPlayer;
@@ -150,4 +151,5 @@ public class HeroIOHandler {
             return future;
         }
     }
+
 }
