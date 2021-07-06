@@ -169,7 +169,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
     public void onDisable() {
         // Plugin shutdown logic
         bukkitAudiences.close();
-
+        superheroes2.getHeroHandler().getHeroIOHandler().shutdown();
     }
 
     public ConfigHandler getConfigHandler() {

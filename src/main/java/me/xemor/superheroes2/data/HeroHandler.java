@@ -76,7 +76,7 @@ public class HeroHandler implements Listener {
 
     public void registerHeroes(HashMap<String, Superhero> nameToSuperhero) {
         this.nameToSuperhero = nameToSuperhero;
-        nameToSuperhero.put("NOPOWER", noPower);
+        nameToSuperhero.put("nopower", noPower);
     }
 
     public void setHeroesIntoMemory(HashMap<UUID, SuperheroPlayer> playerHeroes) {
@@ -208,7 +208,7 @@ public class HeroHandler implements Listener {
 
     @Nullable
     public Superhero getSuperhero(String name) {
-        return nameToSuperhero.get(name);
+        return nameToSuperhero.get(name.toLowerCase());
     }
 
     public Superheroes2 getPlugin() {

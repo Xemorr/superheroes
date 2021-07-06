@@ -132,7 +132,7 @@ public class ConfigHandler {
                     Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill!");
                 }
             }
-            nameToSuperhero.put(superheroName, superhero);
+            nameToSuperhero.put(superheroName.toLowerCase(), superhero);
         }
         heroHandler.registerHeroes(nameToSuperhero);
     }

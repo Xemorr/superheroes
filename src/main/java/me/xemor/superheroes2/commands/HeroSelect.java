@@ -40,7 +40,7 @@ public class HeroSelect implements SubCommand {
             }
             return;
         }
-        Superhero power = heroHandler.getSuperhero(args[1]);
+        Superhero power = heroHandler.getSuperhero(args[1].toLowerCase());
         if (power == null) {
             audience.sendMessage(MineDown.parse(configHandler.getInvalidHeroMessage(), "player", sender.getName(), "hero", args[1]));
             return;

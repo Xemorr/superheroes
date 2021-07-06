@@ -21,7 +21,6 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -54,15 +53,9 @@ public class DecoySkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             DecoyData decoyData = (DecoyData) skillData;
             if (e.isSneaking() && decoyData.areConditionsTrue(player)) {
+                removeArmorStand(player, decoyData);
                 ArmorStand armorStand = createArmorStand(player, decoyData);
                 HashMap<UUID, UUID> hashMap = playerToDecoy.getOrDefault(decoyData, new HashMap<>());
-                UUID oldArmorStandUUID = hashMap.get(player.getUniqueId());
-                if (oldArmorStandUUID != null) {
-                    Entity entity = Bukkit.getEntity(oldArmorStandUUID);
-                    if (entity != null) {
-                        entity.remove();
-                    }
-                }
                 hashMap.put(player.getUniqueId(), armorStand.getUniqueId());
                 playerToDecoy.put(skillData, hashMap);
             }
@@ -80,8 +73,6 @@ public class DecoySkill extends SkillImplementation {
             if (entity != null) {
                 entity.remove();
             }
-            player.removePotionEffect(PotionEffectType.INVISIBILITY);
-            player.removePotionEffect(PotionEffectType.SPEED);
             hashMap.remove(player.getUniqueId());
             playerToDecoy.put(decoyData, hashMap);
         }

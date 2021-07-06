@@ -9,6 +9,7 @@ import me.xemor.superheroes2.skills.skilldata.SummonSkillData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,17 +36,15 @@ public class SummonSkill extends SkillImplementation {
             SummonSkillData summonData = (SummonSkillData) skillData;
             if (summonData.getAction().contains(e.getAction())) {
                 if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-                    if ((summonData.mustSneak() && player.isSneaking()) || !summonData.mustSneak()) {
+                    if (summonData.mustSneak() == player.isSneaking()) {
                         if (skillCooldownHandler.isCooldownOver(summonData, player.getUniqueId())) {
-                            if (summonData.areConditionsTrue(player)) {
-                                summonEntity(player, summonData.getEntityType(), summonData.getRange());
-                                skillCooldownHandler.startCooldown(summonData, player.getUniqueId());
-                                if (summonData.doesRepel()) {
-                                    player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
-                                }
-                                if (summonData.getPotionEffect() != null) {
-                                    player.addPotionEffect(summonData.getPotionEffect());
-                                }
+                            summonEntity(player, summonData.getEntityType(), summonData);
+                            skillCooldownHandler.startCooldown(summonData, player.getUniqueId());
+                            if (summonData.doesRepel()) {
+                                player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
+                            }
+                            if (summonData.getPotionEffect() != null) {
+                                player.addPotionEffect(summonData.getPotionEffect());
                             }
                         }
                     }
@@ -54,19 +53,22 @@ public class SummonSkill extends SkillImplementation {
         }
     }
 
-    public void summonEntity(Player player, EntityType entityType, int blocksToTravel) {
+    public void summonEntity(Player player, EntityType entityType, SummonSkillData summonSkillData) {
         World world = player.getWorld();
         Location eyeLoc = player.getEyeLocation().clone();
         Vector travelVector = eyeLoc.getDirection();
-        RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLoc, travelVector, blocksToTravel);
+        RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLoc, travelVector, summonSkillData.getRange());
         Vector hitPosition;
-        if (rayTraceResult == null || rayTraceResult.getHitPosition() == null) {
-            hitPosition = eyeLoc.toVector().add(travelVector.multiply(blocksToTravel));
+        if (rayTraceResult == null) {
+            hitPosition = eyeLoc.toVector().add(travelVector.multiply(summonSkillData.getRange()));
         } else {
             hitPosition = rayTraceResult.getHitPosition();
         }
         Location location = new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
-        if (entityType == EntityType.LIGHTNING) world.strikeLightning(location);
-        else world.spawnEntity(location, entityType);
+        Block block = location.getBlock();
+        if (summonSkillData.areConditionsTrue(player, block)) {
+            if (entityType == EntityType.LIGHTNING) world.strikeLightning(location);
+            else world.spawnEntity(location, entityType);
+        }
     }
 }
