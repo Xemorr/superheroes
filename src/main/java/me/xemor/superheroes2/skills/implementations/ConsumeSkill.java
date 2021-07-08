@@ -29,6 +29,7 @@ public class ConsumeSkill extends SkillImplementation {
             ConsumeSkillData consumeData = (ConsumeSkillData) skillData;
             if (consumeData.areConditionsTrue(player)) {
                 ItemStack item = e.getItem();
+                if (item == null) return;
                 if (item.getType() == consumeData.getMaterial()) {
                     if (consumeData.getPotionEffect() != null) {
                         player.addPotionEffect(consumeData.getPotionEffect());
