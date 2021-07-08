@@ -1,7 +1,9 @@
 package me.xemor.superheroes2;
 
+import me.xemor.skillslibrary.conditions.Conditions;
 import me.xemor.superheroes2.commands.HeroCommand;
 import me.xemor.superheroes2.commands.Reroll;
+import me.xemor.superheroes2.conditions.SuperheroCondition;
 import me.xemor.superheroes2.data.ConfigHandler;
 import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.skills.Skill;
@@ -36,6 +38,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
         superheroes2 = this;
         configHandler = new ConfigHandler(this);
         heroHandler = new HeroHandler(this, configHandler);
+        Conditions.register("SUPERHERO", SuperheroCondition.class);
         registerSkills();
         Reroll reroll = new Reroll(heroHandler, configHandler);
         this.getServer().getPluginManager().registerEvents(reroll, this);

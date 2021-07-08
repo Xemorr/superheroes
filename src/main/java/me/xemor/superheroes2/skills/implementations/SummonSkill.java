@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,7 +39,10 @@ public class SummonSkill extends SkillImplementation {
                 if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                     if (summonData.mustSneak() == player.isSneaking()) {
                         if (skillCooldownHandler.isCooldownOver(summonData, player.getUniqueId())) {
-                            summonEntity(player, summonData.getEntityType(), summonData);
+                            Entity entity = summonEntity(player, summonData.getEntityType(), summonData);
+                            if (entity == null) {
+                                return;
+                            }
                             skillCooldownHandler.startCooldown(summonData, player.getUniqueId());
                             if (summonData.doesRepel()) {
                                 player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
@@ -53,7 +57,7 @@ public class SummonSkill extends SkillImplementation {
         }
     }
 
-    public void summonEntity(Player player, EntityType entityType, SummonSkillData summonSkillData) {
+    public Entity summonEntity(Player player, EntityType entityType, SummonSkillData summonSkillData) {
         World world = player.getWorld();
         Location eyeLoc = player.getEyeLocation().clone();
         Vector travelVector = eyeLoc.getDirection();
@@ -67,8 +71,11 @@ public class SummonSkill extends SkillImplementation {
         Location location = new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
         Block block = location.getBlock();
         if (summonSkillData.areConditionsTrue(player, block)) {
-            if (entityType == EntityType.LIGHTNING) world.strikeLightning(location);
-            else world.spawnEntity(location, entityType);
+            Entity entity;
+            if (entityType == EntityType.LIGHTNING) entity = world.strikeLightning(location);
+            else entity = world.spawnEntity(location, entityType);
+            return entity;
         }
+        return null;
     }
 }

@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.data.storage;
 
-import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.ConfigHandler;
@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.locks.ReentrantLock;
@@ -32,7 +33,7 @@ public class MySQLStorage implements Storage {
     private final HeroHandler heroHandler;
     private final Superheroes2 superheroes2;
     private final ConfigHandler configHandler;
-    private final MysqlDataSource dataSource;
+    private HikariDataSource source;
     private final ReentrantLock lock = new ReentrantLock();
 
     public MySQLStorage() {
@@ -44,12 +45,12 @@ public class MySQLStorage implements Storage {
         int port = configHandler.getDatabasePort();
         String user = configHandler.getDatabaseUsername();
         String password = configHandler.getDatabasePassword();
-        dataSource = initMySQLDataSource(name, host, port, user, password);
+        initMySQLDataSource(name, host, port, user, password);
         setupTable();
     }
 
     public void saveSuperheroPlayer(@NotNull SuperheroPlayer superheroPlayer) {
-        try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(
+        try (Connection conn = source.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "REPLACE INTO superhero_players(uuid, hero, hero_cmd_timestamp) VALUES(?, ?, ?);"
         )) {
             stmt.setString(1, superheroPlayer.getUUID().toString());
@@ -66,7 +67,7 @@ public class MySQLStorage implements Storage {
 
     @Override
     public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {
-        try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(
+        try (Connection conn = source.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "SELECT * FROM superhero_players WHERE uuid = ?;"
         )) {
             stmt.setString(1, uuid.toString());
@@ -105,7 +106,7 @@ public class MySQLStorage implements Storage {
     @Override
     public List<SuperheroPlayer> exportSuperheroPlayers() {
         List<SuperheroPlayer> players = new ArrayList<>();
-        try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(
+        try (Connection conn = source.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "SELECT * FROM superhero_players;"
         )) {
             ResultSet resultSet = stmt.executeQuery();
@@ -122,15 +123,18 @@ public class MySQLStorage implements Storage {
         return players;
     }
 
-    private MysqlDataSource initMySQLDataSource(String dbName, String host, int port, String user, String password) {
-        MysqlDataSource dataSource = new MysqlConnectionPoolDataSource();
-        dataSource.setDatabaseName(dbName);
-        dataSource.setServerName(host);
-        dataSource.setPortNumber(port);
-        dataSource.setUser(user);
-        dataSource.setPassword(password);
-        testDataSource(dataSource);
-        return dataSource;
+    private void initMySQLDataSource(String dbName, String host, int port, String user, String password) {
+        Properties props = new Properties();
+        props.setProperty("dataSourceClassName", "com.mysql.cj.jdbc.MysqlDataSource");
+        props.setProperty("dataSource.serverName", host);
+        props.setProperty("dataSource.portNumber", String.valueOf(port));
+        props.setProperty("dataSource.user", user);
+        props.setProperty("dataSource.password", password);
+        props.setProperty("dataSource.databaseName", dbName);
+        HikariConfig hikariConfig = new HikariConfig(props);
+        hikariConfig.setMaximumPoolSize(4);
+        source = new HikariDataSource(hikariConfig);
+        testDataSource(source);
     }
 
     private void testDataSource(DataSource dataSource) {
@@ -155,7 +159,7 @@ public class MySQLStorage implements Storage {
         String[] queries = setup.split(";");
         for (String query : queries) {
             if (query.isEmpty()) continue;
-            try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            try (Connection conn = source.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -163,14 +167,4 @@ public class MySQLStorage implements Storage {
         }
         superheroes2.getLogger().info("Database setup complete.");
     }
-
-    public Connection conn() {
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
-    }
-
 }
