@@ -50,7 +50,7 @@ public class BlockRaySkill extends SkillImplementation {
                 else {
                     toChange = block;
                 }
-                if (skillData.areConditionsTrue(player, toChange)) {
+                if (skillData.areConditionsTrue(player, toChange.getLocation())) {
                     if (blockRayData.getBlocksToReplace().contains(toChange.getType()) && blockRayData.getBlocksToReplace().contains(block.getType())) {
                         final Material originalType = toChange.getType();
                         final Material newType = blockRayData.getRandomBlockToPlace();

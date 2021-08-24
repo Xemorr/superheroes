@@ -2,22 +2,26 @@ package me.xemor.superheroes2.skills.implementations;
 
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.data.HeroHandler;
-import me.xemor.superheroes2.events.HeroBlockBreakEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.InstantBreakData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class InstantBreak extends SkillImplementation {
     public InstantBreak(HeroHandler heroHandler) {
@@ -37,20 +41,21 @@ public class InstantBreak extends SkillImplementation {
                 ItemStack toBreakWith = new ItemStack(instantBreakData.getBreakUsing());
                 toBreakWith.addUnsafeEnchantments(item.getEnchantments());
                 if (instantBreakData.canBreak(block.getType())) {
-                    if (!skillData.areConditionsTrue(player, block)) {
+                    if (!skillData.areConditionsTrue(player, block.getLocation())) {
                         return;
                     }
-                    Collection<ItemStack> drops = block.getDrops(toBreakWith);
-                    HeroBlockBreakEvent blockBreakEvent = new HeroBlockBreakEvent(block, e.getPlayer(), drops);
-                    blockBreakEvent.callEvent();
-                    drops = blockBreakEvent.getDrops();
-                    if (!blockBreakEvent.isCancelled() && blockBreakEvent.isDropItems()) {
-                        World world = e.getPlayer().getWorld();
-                        if (blockBreakEvent.isDropItems()) {
-                            for (ItemStack drop : drops) {
-                                world.dropItemNaturally(block.getLocation(), drop);
-                            }
+                    Collection<ItemStack> itemStackDrops = block.getDrops(toBreakWith);
+                    final List<Item> entityDrops = new ArrayList<>();
+                    World world = block.getWorld();
+                    itemStackDrops.forEach((itemStack) -> entityDrops.add(world.dropItemNaturally(block.getLocation(), itemStack)));
+                    BlockDropItemEvent blockDropItemEvent = new BlockDropItemEvent(block, block.getState(), e.getPlayer(), entityDrops);
+                    Bukkit.getPluginManager().callEvent(blockDropItemEvent);
+                    if (blockDropItemEvent.isCancelled()) {
+                        for (Item drop : blockDropItemEvent.getItems()) {
+                            drop.remove();
                         }
+                    }
+                    else {
                         int experience = calculateExperience(block.getType());
                         if (experience > 0 && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
                             ExperienceOrb spawn = world.spawn(block.getLocation(), ExperienceOrb.class);

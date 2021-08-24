@@ -35,9 +35,6 @@ public class ConsumeSkill extends SkillImplementation {
                         player.addPotionEffect(consumeData.getPotionEffect());
                     }
                     player.setFoodLevel(player.getFoodLevel() + consumeData.getHunger());
-                    if (item.getAmount() == 1) {
-                        player.getInventory().setItemInMainHand(null);
-                    }
                     item.setAmount(item.getAmount() - 1);
                 }
             }

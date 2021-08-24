@@ -79,10 +79,10 @@ public class HeroSelect implements SubCommand {
             }
         }
         heroHandler.setHero(player, power);
+        SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(player);
+        heroHandler.getHeroIOHandler().saveSuperheroPlayerAsync(superheroPlayer);
         if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player && sender == player) {
-            SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(player);
             superheroPlayer.setHeroCommandTimestamp(System.currentTimeMillis());
-            heroHandler.getHeroIOHandler().saveSuperheroPlayerAsync(superheroPlayer);
         }
     }
 

@@ -26,12 +26,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 
 public class EraserSkill extends SkillImplementation {
+
     public EraserSkill(HeroHandler heroHandler) {
         super(heroHandler);
     }
 
-    Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "Their power has been erased");
-    SkillCooldownHandler skillCooldownHandler =new SkillCooldownHandler();
+    private final Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "Their power has been erased");
+    private final SkillCooldownHandler skillCooldownHandler =new SkillCooldownHandler();
 
     @EventHandler
     public void onSight(PlayerToggleSneakEvent e) {

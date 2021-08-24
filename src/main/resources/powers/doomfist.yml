@@ -6,7 +6,7 @@ Doomfist:
       skill: SLAM
       item:
         type: AIR
-      landCooldown: 10
+      cooldown: 10
       airCooldown: 1
       foodCost: 3
       minimumFood: 6

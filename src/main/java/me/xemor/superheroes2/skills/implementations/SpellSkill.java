@@ -22,6 +22,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -29,6 +30,7 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.function.Consumer;
 
 public class SpellSkill extends SkillImplementation {
 
@@ -76,7 +78,7 @@ public class SpellSkill extends SkillImplementation {
                             String displayName = itemMeta.getDisplayName();
                             if (displayName.equals(spellData.getDisplayName())) {
                                 if (skillCooldownHandler.isCooldownOver(spellData, player.getUniqueId())) {
-                                    if ((e.getClickedBlock() == null && skillData.areConditionsTrue(player)) || skillData.areConditionsTrue(player, e.getClickedBlock())) {
+                                    if (((e.getClickedBlock() == null && skillData.areConditionsTrue(player))) || skillData.areConditionsTrue(player, e.getClickedBlock().getLocation())) {
                                         handleSpells(player, spellData, e);
                                     }
                                 }
@@ -117,6 +119,13 @@ public class SpellSkill extends SkillImplementation {
                 Trident trident = player.launchProjectile(Trident.class);
                 trident.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
             }
+            else if (spell == Spell.FANGS) {
+                World world = player.getWorld();
+                for (int i = 1; i < 10; i++) {
+                    EvokerFangs fangs = (EvokerFangs) world.spawnEntity(player.getLocation().add(player.getEyeLocation().getDirection().multiply(i)), EntityType.EVOKER_FANGS);
+                    fangs.setOwner(player);
+                }
+            }
             else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Block clickedBlock = e.getClickedBlock();
                 Block placeHere = clickedBlock.getRelative(e.getBlockFace());
@@ -139,7 +148,7 @@ public class SpellSkill extends SkillImplementation {
                 cost = 0;
                 cooldown = 0;
             }
-            payUpThen(player, cost, fuel);
+            useFuel(player, cost, fuel);
             skillCooldownHandler.startCooldown(spellData, cooldown, player.getUniqueId());
         }
         else {
@@ -149,7 +158,7 @@ public class SpellSkill extends SkillImplementation {
         }
     }
 
-    public void payUpThen(Player player, int cost, Material fuel) {
+    public void useFuel(Player player, int cost, Material fuel) {
         int paidFor = 0;
         for (ItemStack item : player.getInventory()) {
             if (item == null) {
@@ -192,5 +201,28 @@ public class SpellSkill extends SkillImplementation {
             hitPosition = rayTraceResult.getHitPosition();
         }
         return new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
+    }
+
+    public static final class SpellAbility {
+
+        private Material fuel;
+        private int cost;
+        private double cooldown;
+        private Consumer<Player> ability;
+
+        public SpellAbility(Material fuel, int cost, double cooldown, Consumer<Player> consumer) {
+            this.fuel = fuel;
+            this.cost = cost;
+            this.cooldown = cooldown;
+            this.ability = consumer;
+        }
+
+        public void attemptAbility(Player player) {
+            PlayerInventory inventory = player.getInventory();
+            if (inventory.containsAtLeast(new ItemStack(fuel), cost)) {
+                ability.accept(player);
+            }
+        }
+
     }
 }
