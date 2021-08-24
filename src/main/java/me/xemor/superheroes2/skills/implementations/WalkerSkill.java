@@ -61,7 +61,7 @@ public class WalkerSkill extends SkillImplementation {
             }
             Material originalMaterial = block.getType();
             if (walkerData.shouldReplace(block.getType())) {
-                if (skillData.areConditionsTrue(player, block)) {
+                if (skillData.areConditionsTrue(player, block.getLocation())) {
                     Material newMaterial = walkerData.getReplacementBlock();
                     block.setType(newMaterial, false);
                     block.setMetadata("blockDrops", new FixedMetadataValue(heroHandler.getPlugin(), walkerData.doesBlockDrop()));

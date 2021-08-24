@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class CraftingData extends SkillData {
 
-    private Recipe recipe;
+    private final Recipe recipe;
 
     public CraftingData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

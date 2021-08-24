@@ -27,7 +27,7 @@ public class BlockDropsSkill extends SkillImplementation{
         Block block = e.getBlock();
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         for (SkillData skillData : skillDatas) {
-            if (skillData.areConditionsTrue(player, block)) {
+            if (skillData.areConditionsTrue(player, block.getLocation())) {
                 BlockDropsData blockDropsData = (BlockDropsData) skillData;
                 e.setDropItems(!blockDropsData.shouldReplaceDrops());
                 if (mainHand.hasItemMeta() && mainHand.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH) && !blockDropsData.shouldReplaceDrops()) {

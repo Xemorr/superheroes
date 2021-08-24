@@ -1,6 +1,6 @@
 package me.xemor.superheroes2;
 
-import me.xemor.skillslibrary.conditions.Conditions;
+import me.xemor.skillslibrary2.conditions.Conditions;
 import me.xemor.superheroes2.commands.HeroCommand;
 import me.xemor.superheroes2.commands.Reroll;
 import me.xemor.superheroes2.conditions.SuperheroCondition;
@@ -14,7 +14,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -38,12 +41,10 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
         superheroes2 = this;
         configHandler = new ConfigHandler(this);
         heroHandler = new HeroHandler(this, configHandler);
-        Conditions.register("SUPERHERO", SuperheroCondition.class);
         registerSkills();
         Reroll reroll = new Reroll(heroHandler, configHandler);
         this.getServer().getPluginManager().registerEvents(reroll, this);
         this.getServer().getPluginManager().registerEvents(this, this);
-        this.getServer().getPluginManager().registerEvents(heroHandler, this);
         HeroCommand heroCommand = new HeroCommand(heroHandler, reroll);
         PluginCommand command = this.getCommand("hero");
         command.setExecutor(heroCommand);
@@ -51,7 +52,12 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
         handleMetrics();
         checkForNewUpdate();
         bukkitAudiences = BukkitAudiences.create(this);
-        hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary");
+        hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary2");
+        if (hasSkillsLibrary) runSkillsLibraryChanges();
+    }
+
+    public void runSkillsLibraryChanges() {
+        Conditions.register("HERO", SuperheroCondition.class);
     }
 
     public static BukkitAudiences getBukkitAudiences() {
@@ -62,6 +68,16 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
     public void onLoad(ServerLoadEvent e) {
         configHandler.loadSuperheroes(heroHandler);
         heroHandler.handlePlayerData();
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onJoin(PlayerJoinEvent e) {
+        heroHandler.loadSuperheroPlayer(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        heroHandler.unloadSuperheroPlayer(e.getPlayer());
     }
 
     public void registerSkills() {

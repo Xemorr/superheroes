@@ -3,7 +3,6 @@ package me.xemor.superheroes2.data;
 import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
-import me.xemor.superheroes2.events.HeroBlockBreakEvent;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -15,13 +14,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,45 +21,14 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-public class HeroHandler implements Listener {
+public class HeroHandler {
 
     private final HashMap<UUID, SuperheroPlayer> uuidToData = new HashMap<>();
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
-    Superheroes2 superheroes2;
+    private final Superheroes2 superheroes2;
     private final ConfigHandler configHandler;
     private final Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
-    HeroIOHandler heroIOHandler;
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onJoin(PlayerJoinEvent e) {
-        loadSuperheroPlayer(e.getPlayer());
-    }
-
-    @EventHandler
-    public void onLeave(PlayerQuitEvent e) {
-        uuidToData.remove(e.getPlayer().getUniqueId());
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onBlockBroken(BlockBreakEvent e) {
-        if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
-            return;
-        }
-        if (!e.isCancelled() && e.isDropItems()) {
-            Collection<ItemStack> drops = e.getBlock().getDrops(e.getPlayer().getInventory().getItemInMainHand(), e.getPlayer());
-            HeroBlockBreakEvent heroBlockBreakEvent = new HeroBlockBreakEvent(e.getBlock(), e.getPlayer(), drops);
-            heroBlockBreakEvent.callEvent();
-            drops = heroBlockBreakEvent.getDrops();
-            if (!heroBlockBreakEvent.isCancelled() && heroBlockBreakEvent.isDropsChanged()) {
-                if (heroBlockBreakEvent.isDropItems()) {
-                    for (ItemStack drop : drops) {
-                        e.getPlayer().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
-                    }
-                    e.setDropItems(false);
-                }
-            }
-        }
-    }
+    private HeroIOHandler heroIOHandler;
 
     public HeroHandler(Superheroes2 superheroes2, ConfigHandler configHandler) {
         this.configHandler = configHandler;
@@ -124,11 +85,6 @@ public class HeroHandler implements Listener {
     public void setHeroInMemory(Player player, Superhero hero, boolean show) {
         SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
         if (superheroPlayer == null) {
-            superheroes2.getLogger().severe("Line 3 of setHeroInMemory, superheroPlayer is null");
-            superheroes2.getLogger().severe("This occurs if a player's superhero data has not been loaded correctly");
-            superheroes2.getLogger().severe("This should not be happening! Join Xemor's Server discord and report this bug!");
-            superheroes2.getLogger().severe("If you have used /reload, then that is the cause for this bug. Please refrain from using this in future and restart your server.");
-            superheroes2.getLogger().severe("Defaulting to giving the player noPower to allow the server to continue as normal!");
             superheroPlayer = new SuperheroPlayer(player.getUniqueId(), noPower, 0);
         }
         Superhero currentHero = superheroPlayer.getSuperhero();
@@ -165,15 +121,16 @@ public class HeroHandler implements Listener {
                 else {
                     superhero = noPower;
                 }
-                if (configHandler.shouldShowHeroOnStart()) {
-                    showHero(player, superhero);
-                }
-                uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), superhero, 0));
+                setHero(player, superhero, configHandler.shouldShowHeroOnStart());
             }
             else {
                 uuidToData.put(player.getUniqueId(), superheroPlayer);
             }
         }));
+    }
+
+    public void unloadSuperheroPlayer(@NotNull Player player) {
+        uuidToData.remove(player.getUniqueId());
     }
 
     public void setRandomHero(Player player) {

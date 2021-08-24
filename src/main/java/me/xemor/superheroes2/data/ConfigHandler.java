@@ -2,6 +2,7 @@ package me.xemor.superheroes2.data;
 
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
+import me.xemor.superheroes2.events.SuperheroesReloadEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
@@ -138,6 +139,8 @@ public class ConfigHandler {
     }
 
     public void reloadConfig(HeroHandler heroHandler) {
+        SuperheroesReloadEvent superheroesReloadEvent = new SuperheroesReloadEvent();
+        Bukkit.getServer().getPluginManager().callEvent(superheroesReloadEvent);
         superheroes2.reloadConfig();
         config = superheroes2.getConfig();
         handleSuperpowersFolder();
