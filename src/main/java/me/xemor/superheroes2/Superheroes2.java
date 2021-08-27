@@ -47,6 +47,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(this, this);
         HeroCommand heroCommand = new HeroCommand(heroHandler, reroll);
         PluginCommand command = this.getCommand("hero");
+        command.setAliases(configHandler.getCommandAliases());
         command.setExecutor(heroCommand);
         command.setTabCompleter(heroCommand);
         handleMetrics();

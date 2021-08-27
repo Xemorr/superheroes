@@ -10,11 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class CraftingData extends SkillData {
 
@@ -23,7 +21,7 @@ public class CraftingData extends SkillData {
     public CraftingData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         boolean isShaped = configurationSection.getBoolean("isShaped", true);
-        NamespacedKey namespacedKey = new NamespacedKey(JavaPlugin.getPlugin(Superheroes2.class), UUID.randomUUID().toString());
+        NamespacedKey namespacedKey = new NamespacedKey(Superheroes2.getInstance(), configurationSection.getCurrentPath());
         ConfigurationSection resultSection = configurationSection.getConfigurationSection("result");
         ItemStack result;
         if (resultSection != null) {

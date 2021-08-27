@@ -211,6 +211,10 @@ public class ConfigHandler {
         return language.getString("Chat.invalidCommandMessage", "&l%player%, You have entered an invalid subcommand name!");
     }
 
+    public List<String> getCommandAliases() {
+        return config.getStringList("heroCommand.aliases");
+    }
+
     public long getHeroCommandCooldown() {
         return config.getLong("heroCommand.cooldown", 0);
     }
