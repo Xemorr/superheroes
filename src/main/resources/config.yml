@@ -17,5 +17,5 @@ powerOnStart:
   showHero: true
 heroCommand:
   cooldown: 0 #cooldown in seconds
-
+  aliases: [""]
 
