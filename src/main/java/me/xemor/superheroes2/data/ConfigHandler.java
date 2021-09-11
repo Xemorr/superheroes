@@ -118,13 +118,9 @@ public class ConfigHandler {
                 if (value instanceof ConfigurationSection) {
                     ConfigurationSection configurationSection = (ConfigurationSection) value;
                     String skillStr = configurationSection.getString("skill");
-                    int skill;
-                    try {
-                        skill = Skill.getSkill(skillStr);
-                    }
-                    catch(IllegalArgumentException e) {
-                        Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill name!: " + skillStr);
-                        e.printStackTrace();
+                    int skill = Skill.getSkill(skillStr);
+                    if (skill == -1) {
+                        Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill name!: " + configurationSection.getCurrentPath() + ".skill" + skillStr);
                         continue;
                     }
                     superhero.addSkill(SkillData.create(skill, configurationSection));
