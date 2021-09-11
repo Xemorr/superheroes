@@ -1,12 +1,15 @@
 package me.xemor.superheroes2.skills.implementations;
 
 import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes2.events.SuperheroesReloadEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.CraftingData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
+import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -22,6 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class CraftingSkill extends SkillImplementation {
+
     public CraftingSkill(HeroHandler heroHandler) {
         super(heroHandler);
     }
@@ -56,6 +60,19 @@ public class CraftingSkill extends SkillImplementation {
             CraftingData craftingData = (CraftingData) skill;
             NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
             e.getPlayer().undiscoverRecipe(namespacedKey);
+        }
+    }
+
+    @EventHandler
+    public void onReload(SuperheroesReloadEvent e) {
+        Collection<Superhero> values = Superheroes2.getInstance().getHeroHandler().getNameToSuperhero().values();
+        for (Superhero hero : values) {
+            Collection<SkillData> skills = hero.getSkillData(Skill.getSkill("CRAFTING"));
+            for (SkillData skill : skills) {
+                CraftingData craftingData = (CraftingData) skill;
+                NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
+                Bukkit.removeRecipe(namespacedKey);
+            }
         }
     }
 

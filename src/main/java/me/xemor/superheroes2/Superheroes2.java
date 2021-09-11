@@ -11,7 +11,10 @@ import me.xemor.superheroes2.skills.implementations.*;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,9 +24,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -47,7 +53,6 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(this, this);
         HeroCommand heroCommand = new HeroCommand(heroHandler, reroll);
         PluginCommand command = this.getCommand("hero");
-        command.setAliases(configHandler.getCommandAliases());
         command.setExecutor(heroCommand);
         command.setTabCompleter(heroCommand);
         handleMetrics();
@@ -55,6 +60,7 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
         bukkitAudiences = BukkitAudiences.create(this);
         hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary2");
         if (hasSkillsLibrary) runSkillsLibraryChanges();
+        handleAliases(heroCommand, command);
     }
 
     public void runSkillsLibraryChanges() {
@@ -204,5 +210,32 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
 
     public boolean hasSkillsLibrary() {
         return hasSkillsLibrary;
+    }
+
+    private void handleAliases(HeroCommand heroCommand, PluginCommand command) {
+        List<String> commandAliases = configHandler.getCommandAliases();
+        if (commandAliases.size() > 0) {
+            BukkitCommand aliasCommand = new BukkitCommand(commandAliases.get(0)) {
+                @Override
+                public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+                    return heroCommand.onCommand(sender, this, commandLabel, args);
+                }
+
+                @NotNull
+                public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
+                    return heroCommand.onTabComplete(sender, this, alias, args);
+                }
+            };
+            aliasCommand.setDescription(command.getDescription());
+            aliasCommand.setAliases(commandAliases.subList(1, commandAliases.size()));
+            try {
+                Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+                commandMapField.setAccessible(true);
+                CommandMap commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
+                commandMap.register("superheroes2", aliasCommand);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

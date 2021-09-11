@@ -10,16 +10,16 @@ import java.util.Random;
 
 public class WalkerData extends SkillData {
 
-    Random random = new Random();
-    List<Material> blocksToPlace = new ArrayList<>();
-    HashSet<Material> blocksToReplace = new HashSet<>();
-    HashSet<Material> blocksToPlaceOn = new HashSet<>();
-    boolean isSneaking;
-    boolean blocksDrop;
-    boolean shouldRevert;
-    boolean aboveFloor;
-    boolean canPlaceFloating;
-    long revertsAfter;
+    private Random random = new Random();
+    private List<Material> blocksToPlace = new ArrayList<>();
+    private HashSet<Material> blocksToReplace = new HashSet<>();
+    private HashSet<Material> blocksToPlaceOn = new HashSet<>();
+    private boolean isSneaking;
+    private boolean blocksDrop;
+    private boolean shouldRevert;
+    private boolean aboveFloor;
+    private boolean canPlaceFloating;
+    private long revertsAfter;
 
     public WalkerData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
