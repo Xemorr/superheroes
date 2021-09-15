@@ -7,10 +7,7 @@ import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.ThrowerData;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.AbstractArrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -46,6 +43,10 @@ public class ThrowerSkill extends SkillImplementation {
                                     AbstractArrow arrow = (AbstractArrow) entity;
                                     arrow.setPickupStatus(throwerData.canPickUp());
                                     arrow.setDamage(throwerData.getDamage());
+                                }
+                                if (entity instanceof Projectile) {
+                                    Projectile projectile = (Projectile) entity;
+                                    projectile.setShooter(player);
                                 }
                                 useAmmo(throwerData.getAmmoCost(), item);
                                 skillCooldownHandler.startCooldown(throwerData, throwerData.getCooldown(), player.getUniqueId());
