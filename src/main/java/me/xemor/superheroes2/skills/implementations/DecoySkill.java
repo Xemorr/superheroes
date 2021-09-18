@@ -1,6 +1,7 @@
 package me.xemor.superheroes2.skills.implementations;
 
 import me.xemor.superheroes2.Superhero;
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
@@ -17,10 +18,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -118,6 +121,28 @@ public class DecoySkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             removeArmorStand(e.getPlayer(), (DecoyData) skillData);
         }
+    }
+
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent e) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (e.getChunk().isEntitiesLoaded()) {
+                    cancel();
+                    Entity[] entities = e.getChunk().getEntities();
+                    for (Entity entity : entities) {
+                        if (entity instanceof ArmorStand) {
+                            if ("Decoy".equals(entity.getCustomName())) {
+                                if (entity.getPersistentDataContainer().has(namespacedKey, PersistentDataType.INTEGER)) {
+                                    entity.remove();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }.runTaskTimer(Superheroes2.getInstance(), 1L, 1L);
     }
 
 }
