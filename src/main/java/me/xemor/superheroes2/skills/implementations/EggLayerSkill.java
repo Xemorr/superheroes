@@ -1,8 +1,10 @@
 package me.xemor.superheroes2.skills.implementations;
 
+import com.google.common.collect.HashMultimap;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
+import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.EggLayerData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
@@ -11,54 +13,91 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.UUID;
 
 public class EggLayerSkill extends SkillImplementation {
+
+    public HashMultimap<UUID, EggLayerRunnable> map = HashMultimap.create();
+
     public EggLayerSkill(HeroHandler heroHandler) {
         super(heroHandler);
     }
 
     @EventHandler
     public void onPowerGain(PlayerGainedSuperheroEvent e) {
-        startRunnable(e.getPlayer());
+        initialiseSkill(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onPowerLoss(PlayerLostSuperheroEvent e) {
+        removeSkill(e.getPlayer());
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        startRunnable(e.getPlayer());
+        initialiseSkill(e.getPlayer());
     }
 
-    public void startRunnable(Player player) {
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        removeSkill(e.getPlayer());
+    }
+
+    public void removeSkill(Player player) {
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("EGGLAYER"));
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("EGGLAYER"));
+        for (SkillData skillData : skillDatas) {
+            Set<EggLayerRunnable> eggLayerRunnables = map.get(player.getUniqueId());
+            for (EggLayerRunnable eggLayerRunnable : eggLayerRunnables) {
+                if (skillData == eggLayerRunnable.eggLayerData()) {
+                    eggLayerRunnable.bukkitRunnable().cancel();
+                }
+            }
+        }
+    }
+
+    public void initialiseSkill(Player player) {
+        Superhero superhero = heroHandler.getSuperhero(player);
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("EGGLAYER"));
         for (SkillData skillData : skillDatas) {
             EggLayerData eggLayerData = (EggLayerData) skillData;
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    Superhero currentPower = heroHandler.getSuperhero(player);
-                    if (!player.isOnline()) {
-                        cancel();
-                        return;
-                    }
-                    if (!superhero.equals(currentPower)) {
-                        cancel();
-                        return;
-                    }
-                    if (!superhero.getSkillData(Skill.getSkill("EGGLAYER")).contains(skillData)) {
-                        cancel();
-                        return;
-                    }
-                    if (skillData.areConditionsTrue(player)) {
-                        World world = player.getWorld();
-                        Location location = player.getLocation();
-                        world.dropItemNaturally(location, eggLayerData.getToLay());
-                    }
-                }
-            }.runTaskTimer(heroHandler.getPlugin(), eggLayerData.getTickDelay(), eggLayerData.getTickDelay());
+            startRunnable(player, eggLayerData, superhero);
         }
-
     }
+
+    public BukkitRunnable startRunnable(Player player, EggLayerData eggLayerData, Superhero superhero) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                Superhero currentPower = heroHandler.getSuperhero(player);
+                if (!player.isOnline()) {
+                    cancel();
+                    return;
+                }
+                if (!superhero.equals(currentPower)) {
+                    cancel();
+                    return;
+                }
+                if (!superhero.getSkillData(Skill.getSkill("EGGLAYER")).contains(eggLayerData)) {
+                    cancel();
+                    return;
+                }
+                if (eggLayerData.areConditionsTrue(player)) {
+                    World world = player.getWorld();
+                    Location location = player.getLocation();
+                    world.dropItemNaturally(location, eggLayerData.getToLay());
+                }
+            }
+        };
+        runnable.runTaskTimer(heroHandler.getPlugin(), eggLayerData.getTickDelay(), eggLayerData.getTickDelay());
+        map.put(player.getUniqueId(), new EggLayerRunnable(eggLayerData, runnable));
+        return runnable;
+    }
+
+    public record EggLayerRunnable(EggLayerData eggLayerData, BukkitRunnable bukkitRunnable) {}
 }

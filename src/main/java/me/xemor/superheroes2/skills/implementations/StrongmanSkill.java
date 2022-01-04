@@ -113,7 +113,17 @@ public class StrongmanSkill extends SkillImplementation {
             StrongmanData strongmanData = (StrongmanData) skillData;
             while (player.getPassengers().size() > 0) {
                 Entity topEntity = getTopEntity(player);
+                Vector velocity = player.getEyeLocation().getDirection().normalize();
+                velocity.setX(velocity.getX() * strongmanData.getVelocity());
+                velocity.setZ(velocity.getZ() * strongmanData.getVelocity());
+                velocity.setY(velocity.getY() * strongmanData.getUpwardsVelocity());
                 topEntity.getVehicle().removePassenger(topEntity);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        topEntity.setVelocity(velocity);
+                    }
+                }.runTaskLater(heroHandler.getPlugin(), 1L);
             }
         }
     }
