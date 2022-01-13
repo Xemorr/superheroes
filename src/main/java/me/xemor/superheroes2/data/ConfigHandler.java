@@ -123,7 +123,12 @@ public class ConfigHandler {
                         Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill name!: " + configurationSection.getCurrentPath() + ".skill" + skillStr);
                         continue;
                     }
-                    superhero.addSkill(SkillData.create(skill, configurationSection));
+                    SkillData skillData = SkillData.create(skill, configurationSection);
+                    try {
+                        superhero.addSkill(skillData);
+                    } catch (NullPointerException e) {
+                        Superheroes2.getInstance().getLogger().severe("SkillData is null! This skill has not been registered!" + configurationSection.getCurrentPath());
+                    }
                 }
                 else {
                     Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill!");
