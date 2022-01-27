@@ -29,3 +29,7 @@ Robot:
       potency: 1
       damageCause:
        - "LIGHTNING"
+    weatherDamage:
+      skill: WEATHERDAMAGE
+      damage: 2.0
+      checkShelter: true

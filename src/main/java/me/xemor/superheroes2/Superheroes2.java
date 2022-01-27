@@ -126,7 +126,8 @@ public final class Superheroes2 extends JavaPlugin implements Listener {
                 new BlockDropsSkill(heroHandler),
                 new ConvertDropsSkill(heroHandler),
                 new LifestealSkill(heroHandler),
-                new DamagePotionSkill(heroHandler)
+                new DamagePotionSkill(heroHandler),
+                new WeatherDamageSkill(heroHandler)
 
         };
         for (SkillImplementation skill : skills) {

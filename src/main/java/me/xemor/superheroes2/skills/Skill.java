@@ -51,6 +51,7 @@ public class Skill {
         registerSkill("CONVERTDROPS", ConvertDropsData.class);
         registerSkill("LIFESTEAL", LifestealData.class);
         registerSkill("DAMAGEPOTION", DamagePotionData.class);
+        registerSkill("WEATHERDAMAGE", WeatherDamageData.class);
     }
 
     public static void registerSkill(String name, Class<? extends SkillData> effectDataClass) {
