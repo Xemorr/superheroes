@@ -57,9 +57,19 @@ public class GiveItemSkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             if (giveItemData.canLoseItemOnHeroLoss()) {
-                e.getPlayer().getInventory().remove(giveItemData.getItemStackData().getItem());
+                removeItem(e.getPlayer(), giveItemData);
             }
         }
+    }
+
+    private void removeItem(Player player, GiveItemData giveItemData) {
+        ItemStack[] contents = player.getInventory().getContents();
+        for (int i = 0; i < contents.length; i++) {
+            if (giveItemData.getItemStackData().getItem().isSimilar(contents[i])) {
+                contents[i] = null;
+            }
+        }
+        player.getInventory().setContents(contents);
     }
 
     @EventHandler

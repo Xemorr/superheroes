@@ -41,7 +41,6 @@ public class PickpocketSkill extends SkillImplementation {
                         @Override
                         public void run() {
                             if (inventoryView == null) {
-                                inventoryView.close();
                                 cancel();
                                 return;
                             }
@@ -53,7 +52,6 @@ public class PickpocketSkill extends SkillImplementation {
                             if (otherPlayer.getLocation().distanceSquared(player.getLocation()) > pickpocketData.getRangeSquared()) {
                                 inventoryView.close();
                                 cancel();
-                                return;
                             }
                         }
                     }.runTaskTimer(heroHandler.getPlugin(), 0L, 4L);
