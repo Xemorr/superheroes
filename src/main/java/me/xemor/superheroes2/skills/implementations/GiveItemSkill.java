@@ -10,13 +10,16 @@ import me.xemor.superheroes2.skills.skilldata.SkillData;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -98,6 +101,40 @@ public class GiveItemSkill extends SkillImplementation {
                     if (e.getCursor().isSimilar(item)) {
                         e.setResult(Event.Result.DENY);
                     }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void itemFrameStore(PlayerInteractEntityEvent e) {
+        Player player = e.getPlayer();
+        if (e.getRightClicked() instanceof ItemFrame) {
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            for (SkillData skillData : skillDatas) {
+                GiveItemData giveItemData = (GiveItemData) skillData;
+                if (!giveItemData.canStore()) {
+                    ItemStack item = giveItemData.getItemStackData().getItem();
+                    ItemStack playerItem = player.getInventory().getItem(e.getHand());
+                    if (playerItem.isSimilar(item)) {
+                        e.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void armorStandStore(PlayerArmorStandManipulateEvent e) {
+        Player player = e.getPlayer();
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+        for (SkillData skillData : skillDatas) {
+            GiveItemData giveItemData = (GiveItemData) skillData;
+            if (!giveItemData.canStore()) {
+                ItemStack item = giveItemData.getItemStackData().getItem();
+                ItemStack playerItem = e.getPlayerItem();
+                if (playerItem.isSimilar(item)) {
+                    e.setCancelled(true);
                 }
             }
         }
