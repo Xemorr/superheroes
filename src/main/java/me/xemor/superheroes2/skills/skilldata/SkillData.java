@@ -26,7 +26,7 @@ public abstract class SkillData {
 
     public boolean areConditionsTrue(Player player, Object... objects) {
         if (conditions == null) return true;
-        return conditions.areConditionsTrue(player, objects);
+        return conditions.ANDConditions(player, false, objects);
     }
 
     @Nullable

@@ -39,7 +39,7 @@ public class Reroll implements SubCommand, Listener {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (isEnabled) {
-                if (configHandler.getRerollItem().isSimilar(item)) {
+                if (configHandler.getRerollItem().matches(item)) {
                     if (cooldownHandler.isCooldownOver(e.getPlayer().getUniqueId())) {
                         item.setAmount(item.getAmount() - 1);
                         heroHandler.setRandomHero(player);

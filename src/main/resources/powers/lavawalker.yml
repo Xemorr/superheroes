@@ -27,5 +27,6 @@ LavaWalker:
         - "FIRE_TICK"
         - "FIRE"
         - "LAVA"
+        - "HOT_FLOOR"
 
 

@@ -8,10 +8,10 @@ Speleologist:
       ignoredBlocks:
         - "REDSTONE"
       convertMap:
-        IRON_ORE:
+        RAW_IRON:
           type: "IRON_INGOT"
           amount: 2
-        GOLD_ORE:
+        RAW_GOLD:
           type: "GOLD_INGOT"
           amount: 2
         DIAMOND:

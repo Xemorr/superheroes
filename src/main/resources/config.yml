@@ -7,8 +7,8 @@ database:
   password: "this needs filling with the password being used to connect to mysql if using mysql"
 reroll:
   item:
-    type: DIAMOND_BLOCK
-    amount: 1
+    types:
+      - DIAMOND_BLOCK
   isEnabled: true
   eachHeroRequiresPermissions: false
   cooldown: 1

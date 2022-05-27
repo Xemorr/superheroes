@@ -16,3 +16,5 @@ Mole:
       skill: POTIONEFFECT
       type: NIGHT_VISION
       potency: 1
+      duration: 100
+
