@@ -70,8 +70,9 @@ public class PotionEffectSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = e.getHero().getSkillData(Skill.getSkill("POTIONEFFECT"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
-                PotionEffectType type = PotionEffectType.getByName(skillData.getData().getString("type").toUpperCase());
-                e.getPlayer().removePotionEffect(type);
+                if (skillData instanceof PotionEffectSkillData potionEffectData) {
+                    e.getPlayer().removePotionEffect(potionEffectData.getPotionEffect().getType());
+                }
             }
         }
     }

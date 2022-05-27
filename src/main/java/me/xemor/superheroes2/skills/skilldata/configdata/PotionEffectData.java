@@ -1,5 +1,6 @@
 package me.xemor.superheroes2.skills.skilldata.configdata;
 
+import me.xemor.superheroes2.Superheroes2;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -17,6 +18,7 @@ public class PotionEffectData {
         PotionEffectType potionType = PotionEffectType.getByName(configurationSection.getString("type", "d").toUpperCase());
         if (potionType == null) {
             potionType = defaultType;
+            Superheroes2.getInstance().getLogger().warning("You have entered an invalid potion effect type! " + configurationSection.getCurrentPath() + ".type" + " . Defaulting to " + defaultType.getName());
         }
         double duration = configurationSection.getDouble("duration", defaultDuration);
         createPotion(potionType, duration, potency);
