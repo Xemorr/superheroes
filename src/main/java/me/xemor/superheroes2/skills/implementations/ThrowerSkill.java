@@ -39,14 +39,14 @@ public class ThrowerSkill extends SkillImplementation {
                                 World world = player.getWorld();
                                 Entity entity = world.spawnEntity(player.getEyeLocation(), entityType);
                                 entity.setVelocity(player.getEyeLocation().getDirection().multiply(throwerData.getVelocity()));
-                                if (entity instanceof Projectile) {
-                                    Projectile projectile = (Projectile) entity;
-                                    projectile.setShooter(player);
-                                }
                                 if (entity instanceof AbstractArrow) {
                                     AbstractArrow arrow = (AbstractArrow) entity;
                                     arrow.setPickupStatus(throwerData.canPickUp());
                                     arrow.setDamage(throwerData.getDamage());
+                                }
+                                if (entity instanceof Projectile) {
+                                    Projectile projectile = (Projectile) entity;
+                                    projectile.setShooter(player);
                                 }
                                 useAmmo(throwerData.getAmmoCost(), item);
                                 skillCooldownHandler.startCooldown(throwerData, throwerData.getCooldown(), player.getUniqueId());

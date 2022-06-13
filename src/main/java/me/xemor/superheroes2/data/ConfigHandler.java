@@ -81,11 +81,13 @@ public class ConfigHandler {
         List<ConfigurationSection> sections = new ArrayList<>();
         File[] files = superpowersFolder.listFiles();
         for (File file : files) {
-            YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
-            Map<String, Object> values = yamlConfiguration.getValues(false);
-            for (Object yamlObject : values.values()) {
-                if (yamlObject instanceof ConfigurationSection) {
-                    sections.add((ConfigurationSection) yamlObject);
+            if (file.getName().endsWith("yml")) {
+                YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
+                Map<String, Object> values = yamlConfiguration.getValues(false);
+                for (Object yamlObject : values.values()) {
+                    if (yamlObject instanceof ConfigurationSection) {
+                        sections.add((ConfigurationSection) yamlObject);
+                    }
                 }
             }
         }
