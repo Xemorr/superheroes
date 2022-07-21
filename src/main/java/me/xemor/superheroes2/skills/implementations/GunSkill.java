@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
@@ -38,8 +37,7 @@ public class GunSkill extends SkillImplementation {
             Player player = e.getPlayer();
             for (SkillData skillData : skillDatas) {
                 GunData gunData = (GunData) skillData;
-                ItemStack gun = gunData.getItemStackData().getItem();
-                if (gun.isSimilar(e.getItem())) {
+                if (gunData.getItemStackData().matches(e.getItem())) {
                     if (skillCooldownHandler.isCooldownOver(gunData, player.getUniqueId())) {
                         Location currentLocation = player.getEyeLocation();
                         Vector increment = player.getEyeLocation().getDirection();

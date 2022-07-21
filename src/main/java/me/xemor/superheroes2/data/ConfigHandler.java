@@ -35,6 +35,7 @@ public class ConfigHandler {
         this.superheroes2 = superheroes2;
         superheroes2.saveDefaultConfig();
         dataFolder = superheroes2.getDataFolder();
+        superpowersFolder = new File(dataFolder, "powers");
         config = superheroes2.getConfig();
         item = new ItemComparisonData(Objects.requireNonNull(config.getConfigurationSection("reroll.item")));
         superheroes2.saveResource("language.yml", false);
@@ -44,12 +45,11 @@ public class ConfigHandler {
     }
 
     public void handleSuperpowersFolder() {
-        superpowersFolder = new File(dataFolder, "powers");
-        if (superpowersFolder.mkdir()) { //if the folder is generated, then add all the powers in.
+        if (superpowersFolder.mkdir()) { //if the folder is generated (and needed to be generated), then add all the powers in.
             try {
                 URI powers;
                 try {
-                    powers = this.getClass().getClassLoader().getResource("powers").toURI();
+                    powers = getClass().getClassLoader().getResource("powers").toURI();
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                     return;

@@ -34,8 +34,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.30" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: me.xemor:SkillsLibrary:2.5.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: me.xemor:configurationdata:1.17.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: it.unimi.dsi:fastutil:8.5.8" level="project" />
-    <orderEntry type="library" name="Maven: me.xemor:ConfigurationData:1.17.3-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: me.xemor:ConfigurationData:1.17.4-SNAPSHOT3" level="project" />
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.7" level="project" />
     <orderEntry type="library" name="Maven: dev.dbassett:skullcreator:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:20.1.0" level="project" />
@@ -49,7 +48,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: net.kyori:adventure-text-serializer-gson-legacy-impl:4.10.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: net.kyori:adventure-platform-facet:4.1.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: net.kyori:adventure-platform-viaversion:4.1.0" level="project" />
-    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.25" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.28" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:4.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.0-alpha1" level="project" />

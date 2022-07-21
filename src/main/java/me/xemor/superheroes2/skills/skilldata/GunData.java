@@ -1,7 +1,7 @@
 package me.xemor.superheroes2.skills.skilldata;
 
+import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes2.skills.skilldata.configdata.CooldownData;
-import me.xemor.superheroes2.skills.skilldata.configdata.ItemStackData;
 import me.xemor.superheroes2.skills.skilldata.configdata.ParticleData;
 import me.xemor.superheroes2.skills.skilldata.configdata.SoundData;
 import org.bukkit.configuration.ConfigurationSection;
@@ -11,7 +11,7 @@ public class GunData extends CooldownData {
     private final double damage;
     private final double maxDistance;
     private final double bulletSize;
-    private ItemStackData itemStackData;
+    private ItemComparisonData itemStackData;
     private SoundData shootSoundData;
     private ParticleData trailParticle;
     private ParticleData hitParticle;
@@ -23,7 +23,7 @@ public class GunData extends CooldownData {
         damage = configurationSection.getDouble("damage", 5.0);
         ConfigurationSection itemSection = configurationSection.getConfigurationSection("item");
         if (itemSection != null) {
-            itemStackData = new ItemStackData(itemSection);
+            itemStackData = new ItemComparisonData(itemSection);
         }
         ConfigurationSection shootSoundSection = configurationSection.getConfigurationSection("shootSound");
         if (shootSoundSection != null) {
@@ -43,7 +43,7 @@ public class GunData extends CooldownData {
         return damage;
     }
 
-    public ItemStackData getItemStackData() {
+    public ItemComparisonData getItemStackData() {
         return itemStackData;
     }
 

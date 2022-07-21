@@ -20,6 +20,7 @@ LavaWalker:
         - "FIRE_TICK"
         - "FIRE"
         - "LAVA"
+        - "HOT_FLOOR"
     noFireDamage:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
