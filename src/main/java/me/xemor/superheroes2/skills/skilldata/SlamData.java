@@ -16,7 +16,7 @@ public class SlamData extends CooldownData {
     private double damage;
 
     public SlamData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "&8&lSlam &fCooldown: %currentcooldown% seconds", 10);
+        super(skill, configurationSection, "<dark_gray><bold>Slam <white>Cooldown: <currentcooldown> seconds", 10);
         ConfigurationSection handSection = configurationSection.getConfigurationSection("item");
         if (handSection == null) {
             hand = new ItemStack(Material.AIR);

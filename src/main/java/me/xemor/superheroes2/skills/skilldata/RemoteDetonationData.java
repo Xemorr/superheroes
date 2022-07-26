@@ -16,7 +16,7 @@ public class RemoteDetonationData extends CooldownData {
     final private List<EntityType> explodable;
 
     public RemoteDetonationData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "You have %s seconds remaining before you can remote detonate again", 10);
+        super(skill, configurationSection, "You have <s> seconds remaining before you can remote detonate again", 10);
         explosionStrength = (float) configurationSection.getDouble("explosionStrength", 1);
         explodable = configurationSection.getStringList("explodable").stream().map(EntityType::valueOf).collect(Collectors.toList());
         spawnsFire = configurationSection.getBoolean("spawnsFire", false);

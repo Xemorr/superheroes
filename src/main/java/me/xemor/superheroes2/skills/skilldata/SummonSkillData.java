@@ -32,7 +32,7 @@ public class SummonSkillData extends PotionEffectSkillData implements Cooldown {
         mustSneak = configurationSection.getBoolean("mustSneak", true);
         repel = configurationSection.getBoolean("repel", false);
         cooldown = configurationSection.getDouble("cooldown", 10D);
-        cooldownMessage = configurationSection.getString("cooldownMessage", "&e&lZeus &fCooldown: %s seconds");
+        cooldownMessage = configurationSection.getString("cooldownMessage", "<yellow><bold>Zeus <white>Cooldown: <s> seconds");
     }
 
     public int getRange() {

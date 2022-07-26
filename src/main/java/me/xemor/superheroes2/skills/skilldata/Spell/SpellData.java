@@ -29,11 +29,11 @@ public class SpellData extends SkillData implements Cooldown {
         cooldown = configurationSection.getDouble("cooldown", 1);
         cost = configurationSection.getInt("cost", 1);
         spellName = configurationSection.getString("spellName", spell.toString());
-        cooldownMessage = configurationSection.getString("cooldownMessage", "%spellName% has %currentcooldown% seconds remaining.");
+        cooldownMessage = configurationSection.getString("cooldownMessage", "<spellName> has <currentcooldown> seconds remaining.");
         cooldownMessage = replaceVariables(cooldownMessage);
-        moreFuelMessage = configurationSection.getString("moreFuelMessage", "This spell needs %fuelneeded% more %fuel%");
+        moreFuelMessage = configurationSection.getString("moreFuelMessage", "This spell needs <fuelneeded> more <fuel>");
         moreFuelMessage = replaceVariables(moreFuelMessage);
-        final String displayNameFormat = configurationSection.getString("displayNameFormat", "<purple>%spellName%");
+        final String displayNameFormat = configurationSection.getString("displayNameFormat", "<purple><spellName>");
         displayName = replaceVariables(displayNameFormat);
         final List<String> loreFormat = configurationSection.getStringList("loreFormat");
         lore = loreFormat.stream()
@@ -46,10 +46,10 @@ public class SpellData extends SkillData implements Cooldown {
     }
 
     private String replaceVariables(String input) {
-        input = input.replaceAll("%spellName%", spellName);
-        input = input.replaceAll("%cooldown%", Double.toString(cooldown));
-        input = input.replaceAll("%fuel%", fuel.toString().toLowerCase());
-        input = input.replaceAll("%cost%", Integer.toString(cost));
+        input = input.replaceAll("<spellName>", spellName);
+        input = input.replaceAll("<cooldown>", Double.toString(cooldown));
+        input = input.replaceAll("<fuel>", fuel.toString().toLowerCase());
+        input = input.replaceAll("<cost>", Integer.toString(cost));
         return input;
     }
 

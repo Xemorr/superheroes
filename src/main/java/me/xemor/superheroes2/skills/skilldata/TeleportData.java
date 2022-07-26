@@ -16,7 +16,7 @@ public class TeleportData extends CooldownData {
     private Material teleportItem;
 
     public TeleportData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "&5&lTeleport &7has %s seconds until it can be used again!", 10);
+        super(skill, configurationSection, "<purple><bold>Teleport <grey>has <s> seconds until it can be used again!", 10);
         leftClick = configurationSection.getBoolean("leftClick", true);
         distance = configurationSection.getInt("distance", 30);
         yAxisMultiplier = configurationSection.getDouble("yAxisDistanceMultiplier", 1);
