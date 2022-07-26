@@ -1,6 +1,6 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import de.themoep.minedown.adventure.MineDown;
+import me.xemor.skillslibrary2.effects.PlaceBlockEffect;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
@@ -10,7 +10,8 @@ import me.xemor.superheroes2.skills.skilldata.EraserData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -31,7 +32,7 @@ public class EraserSkill extends SkillImplementation {
         super(heroHandler);
     }
 
-    private final Superhero erased = new Superhero("ERASED", ChatColor.translateAlternateColorCodes('&', "&7&lERASED"), "Their power has been erased");
+    private final Superhero erased = new Superhero("ERASED", "<gray><b>ERASED", "Their power has been erased");
     private final SkillCooldownHandler skillCooldownHandler =new SkillCooldownHandler();
 
     @EventHandler
@@ -67,7 +68,7 @@ public class EraserSkill extends SkillImplementation {
     public void temporarilyRemoveHero(@NotNull Player player, @Nullable Player remover, EraserData eraserData) {
         final Superhero oldPower = heroHandler.getSuperhero(player);
         heroHandler.setHeroInMemory(player, erased);
-        Component removedMessage = new MineDown(eraserData.getRemovedMessage()).replace("player", player.getDisplayName()).toComponent();
+        Component removedMessage = MiniMessage.miniMessage().deserialize(eraserData.getRemovedMessage(), Placeholder.unparsed("player", player.getDisplayName()));
         if (remover != null) {
             Audience removerAudience = Superheroes2.getBukkitAudiences().player(remover);
             removerAudience.sendMessage(removedMessage);
@@ -79,7 +80,7 @@ public class EraserSkill extends SkillImplementation {
             public void run() {
                 if (heroHandler.getSuperhero(player) == erased) {
                     heroHandler.setHeroInMemory(player, oldPower);
-                    Component returnedMessage = new MineDown(eraserData.getReturnedMessage()).replace("player", player.getDisplayName()).toComponent();
+                    Component returnedMessage = MiniMessage.miniMessage().deserialize(eraserData.getReturnedMessage(), Placeholder.unparsed("player", player.getDisplayName()));
                     if (remover != null) {
                         Audience removerAudience = Superheroes2.getBukkitAudiences().player(remover);
                         removerAudience.sendMessage(returnedMessage);

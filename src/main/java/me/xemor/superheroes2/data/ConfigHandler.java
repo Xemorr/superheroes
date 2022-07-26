@@ -223,6 +223,14 @@ public class ConfigHandler {
         saveConfig();
     }
 
+    public void setTextConvertComplete() {
+        config.set("textconvert",true);
+    }
+
+    public boolean getTextConvertStatus(){
+        return config.getBoolean("textconvert",false);
+    }
+
     public String getDatabaseHost() {
         return config.getString("database.host", "");
     }

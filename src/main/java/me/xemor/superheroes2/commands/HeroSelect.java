@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.commands;
 
-import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.ConfigHandler;
@@ -8,6 +7,8 @@ import me.xemor.superheroes2.data.HeroHandler;
 import me.xemor.superheroes2.data.SuperheroPlayer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,24 +30,29 @@ public class HeroSelect implements SubCommand {
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes2.getBukkitAudiences().sender(sender);
         if (!sender.hasPermission("superheroes.hero")) {
-            audience.sendMessage(MineDown.parse(configHandler.getNoPermissionMessage(), "player", sender.getName()));
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
         if (args.length <= 1) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 Superhero superhero = heroHandler.getSuperhero(player);
-                audience.sendMessage(MineDown.parse(configHandler.getCurrentHeroMessage(), "player", player.getName(), "hero", superhero.getName()));
+                audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getCurrentHeroMessage(),
+                                Placeholder.unparsed("player", player.getName()),
+                                Placeholder.unparsed("hero", superhero.getName())));
             }
             return;
         }
         Superhero power = heroHandler.getSuperhero(args[1].toLowerCase());
         if (power == null) {
-            audience.sendMessage(MineDown.parse(configHandler.getInvalidHeroMessage(), "player", sender.getName(), "hero", args[1]));
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getInvalidHeroMessage(),
+                    Placeholder.unparsed("player", sender.getName()),
+                    Placeholder.unparsed("hero", args[1])
+                    ));
             return;
         }
         if (!sender.hasPermission("superheroes.hero." + power.getName().toLowerCase()) && configHandler.areHeroPermissionsRequired()) {
-            audience.sendMessage(MineDown.parse(configHandler.getNoPermissionMessage(), "player", sender.getName()));
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
         if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player) {
@@ -54,10 +60,10 @@ public class HeroSelect implements SubCommand {
             SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(senderPlayer);
             long seconds = getCooldownLeft(superheroPlayer) / 1000;
             if (!isCooldownOver(superheroPlayer)) {
-                Component message = MineDown.parse(configHandler.getHeroCooldownMessage(),
-                        "player", senderPlayer.getDisplayName(),
-                        "currentcooldown", String.valueOf(Math.round(seconds)),
-                        "cooldown", String.valueOf(configHandler.getHeroCommandCooldown()));
+                Component message = MiniMessage.miniMessage().deserialize(configHandler.getHeroCooldownMessage(),
+                        Placeholder.unparsed("player", senderPlayer.getDisplayName()),
+                        Placeholder.unparsed("currentcooldown", String.valueOf(Math.round(seconds))),
+                        Placeholder.unparsed("cooldown", String.valueOf(configHandler.getHeroCommandCooldown())));
                 audience.sendMessage(message);
                 return;
             }
@@ -66,7 +72,7 @@ public class HeroSelect implements SubCommand {
         if (args.length >= 3 && sender.hasPermission("superheroes.hero.others")) {
             player = Bukkit.getPlayer(args[2]);
             if (player == null) {
-                audience.sendMessage(MineDown.parse(configHandler.getInvalidPlayerMessage(), "player", sender.getName()));
+                MiniMessage.miniMessage().deserialize(configHandler.getInvalidPlayerMessage(), Placeholder.unparsed("player", sender.getName()));
                 return;
             }
         }

@@ -1,17 +1,20 @@
 package me.xemor.superheroes2.commands;
 
+import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.ConfigHandler;
 import me.xemor.superheroes2.data.HeroHandler;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
 public class Reload implements SubCommand {
 
-    private final String noPermission = ChatColor.translateAlternateColorCodes('&', "&4You do not have permission to use this power!");
-    private final String reloading = ChatColor.translateAlternateColorCodes('&', "&aReloading...");
-    private final String done = ChatColor.translateAlternateColorCodes('&', "&aDone!");
+    private final Component noPermission = MiniMessage.miniMessage().deserialize("<dark_red>You do not have permission to use this power!");
+    private final Component reloading = MiniMessage.miniMessage().deserialize("<green>Reloading...");
+    private final Component done = MiniMessage.miniMessage().deserialize("<green>Done!");
     private final HeroHandler heroHandler;
     private final ConfigHandler configHandler;
 
@@ -22,13 +25,14 @@ public class Reload implements SubCommand {
 
     @Override
     public void onCommand(CommandSender sender,  String[] args) {
+        Audience audience = Superheroes2.getBukkitAudiences().sender(sender);
         if (sender.hasPermission("superheroes.reload")) {
-            sender.sendMessage(reloading);
+            audience.sendMessage(reloading);
             configHandler.reloadConfig(heroHandler);
-            sender.sendMessage(done);
+            audience.sendMessage(done);
         }
         else {
-            sender.sendMessage(noPermission);
+            audience.sendMessage(noPermission);
         }
     }
 

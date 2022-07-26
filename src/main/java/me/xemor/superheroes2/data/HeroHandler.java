@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.data;
 
-import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.events.PlayerGainedSuperheroEvent;
@@ -8,9 +7,11 @@ import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -27,7 +28,8 @@ public class HeroHandler {
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
     private final Superheroes2 superheroes2;
     private final ConfigHandler configHandler;
-    private final Superhero noPower = new Superhero("NOPOWER", ChatColor.translateAlternateColorCodes('&', "&e&lNOPOWER"), "They have no power");
+    private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
+    private final Superhero noPower = new Superhero("NOPOWER", "<yellow><b>NOPOWER", "They have no power");
     private HeroIOHandler heroIOHandler;
 
     public HeroHandler(Superheroes2 superheroes2, ConfigHandler configHandler) {
@@ -75,6 +77,7 @@ public class HeroHandler {
 
     /**
      * Executes setHeroInMemory with show as true.
+     *
      * @param player
      * @param hero
      */
@@ -117,13 +120,11 @@ public class HeroHandler {
                 Superhero superhero;
                 if (configHandler.isPowerOnStartEnabled()) {
                     superhero = getRandomHero(player);
-                }
-                else {
+                } else {
                     superhero = noPower;
                 }
                 setHero(player, superhero, configHandler.shouldShowHeroOnStart());
-            }
-            else {
+            } else {
                 uuidToData.put(player.getUniqueId(), superheroPlayer);
             }
         }));
@@ -153,13 +154,15 @@ public class HeroHandler {
     }
 
     public void showHero(Player player, Superhero hero) {
-        Component colouredName = new MineDown(hero.getColouredName()).toComponent();
-        Component description = new MineDown(hero.getDescription()).toComponent();
-        Title title = Title.title(colouredName, description, Title.Times.of(Duration.ofMillis(500), Duration.ofMillis(5000), Duration.ofMillis(500)));
+        Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
+        Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
+        Title title = Title.title(colouredName, description, Title.Times.times(Duration.ofMillis(500), Duration.ofMillis(5000), Duration.ofMillis(500)));
         Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
         playerAudience.showTitle(title);
         player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5F, 1F);
-        Component heroGainedMessage = new MineDown(configHandler.getHeroGainedMessage()).replace("hero", colouredName).replace("player", player.getDisplayName()).toComponent();
+        Component heroGainedMessage = MiniMessage.miniMessage().deserialize(configHandler.getHeroGainedMessage(),
+                Placeholder.component("hero", colouredName),
+                Placeholder.unparsed("player", player.getDisplayName()));
         playerAudience.sendMessage(heroGainedMessage);
     }
 

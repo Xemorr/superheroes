@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.Superhero;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.HeroHandler;
@@ -11,6 +10,8 @@ import me.xemor.superheroes2.skills.skilldata.StrongmanData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -41,7 +42,7 @@ public class StrongmanSkill extends SkillImplementation {
                     topEntity.addPassenger(e.getRightClicked());
                 }
                 if (e.getRightClicked() instanceof Vehicle) {
-                    Component tooMuscular = new MineDown(strongmanData.getTooMuscularMessage()).replace("player", player.getDisplayName()).toComponent();
+                    Component tooMuscular = MiniMessage.miniMessage().deserialize(strongmanData.getTooMuscularMessage(), Placeholder.unparsed("player", player.getDisplayName()));
                     Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
                     playerAudience.sendActionBar(tooMuscular);
                 }
