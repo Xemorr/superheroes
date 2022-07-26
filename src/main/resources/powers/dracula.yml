@@ -1,6 +1,6 @@
 Dracula:
-  colouredName: "&#f44-#f77&**Dracula**"
-  description: "You absorb the life force of your foes!"
+  colouredName: <#ff4444><bold><#ff4444>D</#ff4444><#ff4d4d>r</#ff4d4d><red>a</red><#ff5e5e>c</#ff5e5e><#ff6666>u</#ff6666><#ff6f6f>l</#ff6f6f><#ff7777>a</#ff7777></bold><#ff4444>
+  description: You absorb the life force of your foes!
   skills:
     lifesteal:
       skill: LIFESTEAL

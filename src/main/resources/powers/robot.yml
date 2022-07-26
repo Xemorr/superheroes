@@ -1,6 +1,6 @@
 Robot:
-  colouredName: "&7&lThe Robot"
-  description: "You're a robot"
+  colouredName: <bold><gray>The Robot
+  description: You're a robot
   skills:
     nohunger:
       skill: NOHUNGER
@@ -14,21 +14,21 @@ Robot:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
-        - "LIGHTNING"
+      - LIGHTNING
     lightningSpeed:
       skill: DAMAGEPOTION
       type: SPEED
       duration: 30
       potency: 2
       damageCause:
-       - "LIGHTNING"
+      - LIGHTNING
     lightningGlow:
       skill: DAMAGEPOTION
       type: GLOWING
       duration: 30
       potency: 1
       damageCause:
-       - "LIGHTNING"
+      - LIGHTNING
     weatherDamage:
       skill: WEATHERDAMAGE
       damage: 2.0

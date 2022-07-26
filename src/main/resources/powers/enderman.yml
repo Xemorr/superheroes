@@ -1,6 +1,6 @@
 Enderman:
-  colouredName: "&5&lEnderman"
-  description: "You can teleport by punching."
+  colouredName: <bold><dark_purple>Enderman
+  description: You can teleport by punching.
   skills:
     teleport:
       skill: TELEPORT
@@ -9,7 +9,8 @@ Enderman:
       yAxisMultiplier: 0.75
       teleportCause: ENDER_PEARL
       cooldown: 10
-      cooldownMessage: "&5&lTeleport &7has %currentcooldown% seconds until it can be used again!"
+      cooldownMessage: <bold><dark_purple>Teleport </dark_purple></bold><gray>has
+        <currentcooldown> seconds until it can be used again!
       particle:
         isHelix: true
         radius: 1
@@ -18,4 +19,4 @@ Enderman:
     ohko:
       skill: OHKO
       entityTypes:
-        - "Enderman"
+      - Enderman

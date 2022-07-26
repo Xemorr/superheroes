@@ -1,6 +1,6 @@
 Speedster:
-  colouredName: "&b&lSpeedster"
-  description: "You have permanent speed IV"
+  colouredName: <bold><aqua>Speedster
+  description: You have permanent speed IV
   skills:
     slowness:
       skill: POTIONEFFECT

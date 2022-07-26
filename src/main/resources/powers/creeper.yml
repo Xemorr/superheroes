@@ -1,6 +1,6 @@
 Creeper:
-  colouredName: "&2&lCreeper"
-  description: "You're a creeper."
+  colouredName: <bold><dark_green>Creeper
+  description: You're a creeper.
   skills:
     explosion:
       skill: CREEPER
@@ -8,15 +8,17 @@ Creeper:
       fuse: 2
       creeper_power: 1
       upwards_velocity: 2.5
-      cooldownMessage: "&2&lCreeper &fCooldown: %currentcooldown% seconds"
+      cooldownMessage: '<bold><dark_green>Creeper </dark_green></bold><white>Cooldown:
+        <currentcooldown> seconds'
       slowfall_duration: 7
     remoteDetonation:
       skill: REMOTEDETONATION
       cooldown: 10
-      cooldownMessage: "&7You have %currentcooldown% seconds until you can remote detonate again!"
+      cooldownMessage: <gray>You have <currentcooldown> seconds until you can remote
+        detonate again!
       explosionStrength: 3
       explodable:
-        - "CREEPER"
+      - CREEPER
       spawnsFire: false
       breakBlocks: true
       removeDetonatedEntity: true
@@ -24,5 +26,5 @@ Creeper:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
-        - "ENTITY_EXPLOSION"
-        - "BLOCK_EXPLOSION"
+      - ENTITY_EXPLOSION
+      - BLOCK_EXPLOSION

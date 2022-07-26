@@ -1,6 +1,6 @@
 Scavenger:
-  colouredName: "&e&lScavenger"
-  description: "You unlock additional crafting recipes"
+  colouredName: <bold><yellow>Scavenger
+  description: You unlock additional crafting recipes
   skills:
     rotten_flesh:
       skill: CRAFTING
@@ -17,7 +17,7 @@ Scavenger:
         type: DIAMOND_SWORD
         amount: 1
         metadata:
-          displayName: "&6Scavenger's Sword"
+          displayName: <gold>Scavenger's Sword
       ingredients:
         IRON_SWORD: 1
         DIAMOND: 1
@@ -28,7 +28,7 @@ Scavenger:
         type: DIAMOND_AXE
         amount: 1
         metadata:
-          displayName: "&6Scavenger's Axe"
+          displayName: <gold>Scavenger's Axe
       ingredients:
         IRON_AXE: 1
         DIAMOND: 2
@@ -39,7 +39,7 @@ Scavenger:
         type: DIAMOND_PICKAXE
         amount: 1
         metadata:
-          displayName: "&6Scavenger's Pickaxe"
+          displayName: <gold>Scavenger's Pickaxe
       ingredients:
         IRON_PICKAXE: 1
         DIAMOND: 2
@@ -50,7 +50,7 @@ Scavenger:
         type: DIAMOND_HELMET
         amount: 1
         metadata:
-          displayName: "&6Scavenger's Pickaxe"
+          displayName: <gold>Scavenger's Pickaxe
       ingredients:
         IRON_HELMET: 1
         DIAMOND: 2
@@ -61,7 +61,7 @@ Scavenger:
         type: DIAMOND_CHESTPLATE
         amount: 1
         metadata:
-          displayName: "&6Scavenger's Chestplate"
+          displayName: <gold>Scavenger's Chestplate
       ingredients:
         IRON_CHESTPLATE: 1
         DIAMOND: 4
@@ -72,7 +72,7 @@ Scavenger:
         type: DIAMOND_LEGGINGS
         amount: 1
         metadata:
-          displayName: "&6Scavenger's Leggings"
+          displayName: <gold>Scavenger's Leggings
       ingredients:
         IRON_LEGGINGS: 1
         DIAMOND: 4
@@ -83,7 +83,7 @@ Scavenger:
         type: DIAMOND_BOOTS
         amount: 1
         metadata:
-          displayName: "&6Scavenger's Boots"
+          displayName: <gold>Scavenger's Boots
       ingredients:
         IRON_BOOTS: 1
         DIAMOND: 2
@@ -94,7 +94,7 @@ Scavenger:
         type: DIAMOND_SHOVEL
         amount: 1
         metadata:
-          displayName: "&6\"Diamond\" Shovel"
+          displayName: <gold>"Diamond" Shovel
       ingredients:
         IRON_SHOVEL: 1
         LAPIS_LAZULI: 1
@@ -105,10 +105,10 @@ Scavenger:
         type: BOW
         amount: 1
         metadata:
-          displayName: "&6Scavenger's Bow"
+          displayName: <gold>Scavenger's Bow
       recipe:
-        - " SS"
-        - "S S"
-        - " SS"
+      - ' SS'
+      - S S
+      - ' SS'
       recipeKeys:
-        STICK: "S"
+        STICK: S

@@ -1,6 +1,6 @@
 Superhuman:
-  colouredName: "&c&lSuperhuman"
-  description: "You are a more powerful human"
+  colouredName: <bold><red>Superhuman
+  description: You are a more powerful human
   skills:
     resistance:
       skill: POTIONEFFECT

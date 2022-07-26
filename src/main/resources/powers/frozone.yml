@@ -1,6 +1,6 @@
 Frozone:
-  colouredName: "&b&lFrozone"
-  description: "You can walk on water, and slow others near you."
+  colouredName: <bold><aqua>Frozone
+  description: You can walk on water, and slow others near you.
   skills:
     aura:
       skill: AURA
@@ -11,9 +11,9 @@ Frozone:
     walkOnWater:
       skill: WALKER
       blocksToReplace:
-        - "WATER"
+      - WATER
       blocksToPlace:
-        - "FROSTED_ICE"
+      - FROSTED_ICE
       isSneaking: false
       blocksDrop: true
       shouldRevert: false

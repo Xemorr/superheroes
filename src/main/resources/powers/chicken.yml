@@ -1,6 +1,6 @@
 Chicken:
-  colouredName: "&e&lChicken"
-  description: "You're a chicken."
+  colouredName: <bold><yellow>Chicken
+  description: You're a chicken.
   skills:
     eggLayer:
       skill: EGGLAYER

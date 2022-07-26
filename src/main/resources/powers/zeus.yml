@@ -1,6 +1,6 @@
 Zeus:
-  colouredName: "&e&lZeus"
-  description: "Punching causes you to strike lightning wherever you look."
+  colouredName: <bold><yellow>Zeus
+  description: Punching causes you to strike lightning wherever you look.
   skills:
     lightning:
       skill: SUMMON
@@ -13,11 +13,12 @@ Zeus:
       duration: 5
       mustSneak: true
       action:
-        - "LEFT_CLICK_AIR"
-        - "LEFT_CLICK_BLOCK"
-      cooldownMessage: "&e&lZeus &fCooldown: %currentcooldown% seconds"
+      - LEFT_CLICK_AIR
+      - LEFT_CLICK_BLOCK
+      cooldownMessage: '<bold><yellow>Zeus </yellow></bold><white>Cooldown: <currentcooldown>
+        seconds'
     lightningImmunity:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
-        - "LIGHTNING"
+      - LIGHTNING

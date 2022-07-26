@@ -1,6 +1,6 @@
 IronGolem:
-  colouredName: "&f&lIron Golem"
-  description: "You're an iron golem"
+  colouredName: <bold><white>Iron Golem
+  description: You're an iron golem
   skills:
     ironFarm:
       skill: EGGLAYER
@@ -19,5 +19,5 @@ IronGolem:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
-        - "FALL"
+      - FALL
 

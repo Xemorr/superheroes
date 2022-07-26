@@ -1,6 +1,7 @@
 Dolphin:
-  colouredName: "&9&lDolphin"
-  description: "You can swim at great speeds, nearby players are given dolphins grace! Ink Sacs are consumable."
+  colouredName: <bold><blue>Dolphin
+  description: You can swim at great speeds, nearby players are given dolphins grace!
+    Ink Sacs are consumable.
   skills:
     dolphinsGrace:
       skill: POTIONEFFECT
@@ -26,5 +27,5 @@ Dolphin:
     OHKOSquid:
       skill: OHKO
       entityTypes:
-        - "SQUID"
-      
+      - SQUID
+

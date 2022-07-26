@@ -1,16 +1,16 @@
 Aerosurfer:
-  colouredName: "&7&lAerosurfer"
-  description: "You can create platforms under you by sneak + jumping"
+  colouredName: <bold><gray>Aerosurfer
+  description: You can create platforms under you by sneak + jumping
   skills:
     aerosurfer:
       skill: WALKER
       blocksToPlace:
-        - "LIGHT_GRAY_STAINED_GLASS"
-        - "GRAY_STAINED_GLASS"
+      - LIGHT_GRAY_STAINED_GLASS
+      - GRAY_STAINED_GLASS
       blocksToReplace:
-        - "AIR"
-        - "CAVE_AIR"
-        - "VOID_AIR"
+      - AIR
+      - CAVE_AIR
+      - VOID_AIR
       isSneaking: true
       blocksDrop: false
       shouldRevert: true

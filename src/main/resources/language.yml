@@ -1,8 +1,9 @@
 Chat:
-  gainedHero: "&l%player% has gained the power of %hero%"
-  noPermission: "&4You do not have permission to use this power!"
-  currentHero: "&l%player%, you are currently %hero%"
-  heroCommandCooldown: "&l%player%, /hero is currently on cooldown. You need to wait %currentcooldown%/%cooldown% more seconds!"
-  invalidHeroMessage: "&l%player%, You have entered an invalid hero name!"
-  invalidPlayerName: "&l%player%, You have entered an invalid player name!"
-  invalidCommandMessage: "&l%player%, You have entered an invalid subcommand name!"
+  gainedHero: <bold><player> has gained the power of <hero>
+  noPermission: <dark_red>You do not have permission to use this power!
+  currentHero: <bold><player>, you are currently <hero>
+  heroCommandCooldown: <bold><player>, /hero is currently on cooldown. You need to
+    wait <currentcooldown>/<cooldown> more seconds!
+  invalidHeroMessage: <bold><player>, You have entered an invalid hero name!
+  invalidPlayerName: <bold><player>, You have entered an invalid player name!
+  invalidCommandMessage: <bold><player>, You have entered an invalid subcommand name!

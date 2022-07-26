@@ -1,6 +1,6 @@
 KingMidas:
-  colouredName: "&6&lKing Midas"
-  description: "You're cursed with the ability to turn items into gold!"
+  colouredName: <bold><gold>King Midas
+  description: You're cursed with the ability to turn items into gold!
   skills:
     convertAppleToGoldenApple:
       skill: CONVERTITEM
@@ -12,13 +12,13 @@ KingMidas:
     convertIngotBlocks:
       skill: CONVERTBLOCK
       inputBlocks:
-        - "IRON_BLOCK"
-        - "DIAMOND_BLOCK"
-        - "NETHERITE_BLOCK"
-        - "COAL_BLOCK"
-        - "LAPIS_BLOCK"
-        - "REDSTONE_BLOCK"
-        - "EMERALD_BLOCK"
+      - IRON_BLOCK
+      - DIAMOND_BLOCK
+      - NETHERITE_BLOCK
+      - COAL_BLOCK
+      - LAPIS_BLOCK
+      - REDSTONE_BLOCK
+      - EMERALD_BLOCK
       outputBlock: GOLD_BLOCK
       chance: 1.0
     dropsGoldNuggets:

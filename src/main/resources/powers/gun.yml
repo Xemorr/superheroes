@@ -1,6 +1,6 @@
 Gun:
-  colouredName: "&8&lGun"
-  description: "You have a gun."
+  colouredName: <bold><dark_gray>Gun
+  description: You have a gun.
   skills:
     gunItem:
       skill: GIVEITEM
@@ -14,15 +14,16 @@ Gun:
         amount: 1
         specialID: 1
         metadata:
-          displayName: "&8&lGun"
+          displayName: <bold><dark_gray>Gun
           isUnbreakable: true
           lore:
-            - "&f&oThis is a legitimate superpower, I promise."
+          - <italic><white>This is a legitimate superpower, I promise.
     gun:
       skill: GUN
       damage: 5.0
       cooldown: 2.0
-      cooldownMessage: "&8&lGun &7has %currentcooldown% seconds left until it can be used again!"
+      cooldownMessage: <bold><dark_gray>Gun </dark_gray></bold><gray>has <currentcooldown>
+        seconds left until it can be used again!
       maxDistance: 64
       bulletSize: 1.0
       item:
@@ -30,10 +31,10 @@ Gun:
         amount: 1
         specialID: 1
         metadata:
-          displayName: "&8&lGun"
+          displayName: <bold><dark_gray>Gun
           isUnbreakable: true
           lore:
-            - "&f&oThis is a legitimate superpower, I promise."
+          - <italic><white>This is a legitimate superpower, I promise.
       shootSound:
         sound: ENTITY_GENERIC_EXPLODE
         volume: 0.5

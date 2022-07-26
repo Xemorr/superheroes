@@ -1,11 +1,12 @@
 Eraserhead:
-  colouredName: "&8&lEraserhead"
-  description: "You can erase other people's powers by sneaking."
+  colouredName: <bold><dark_gray>Eraserhead
+  description: You can erase other people's powers by sneaking.
   skills:
     eraser:
       skill: ERASER
       range: 30
-      cooldownMessage: "You must wait %currentcooldown% seconds until you can erase someone's power again!"
-      removedMessage: "%player%  has had their power erased temporarily!"
-      returnedMessage: "%player% has had their power reinstated!"
+      cooldownMessage: You must wait <currentcooldown> seconds until you can erase
+        someone's power again!
+      removedMessage: <player>  has had their power erased temporarily!
+      returnedMessage: <player> has had their power reinstated!
       cooldown: 10

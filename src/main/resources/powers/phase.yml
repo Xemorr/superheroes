@@ -1,6 +1,6 @@
 Phase:
-  colouredName: "&5&lPhase"
-  description: "You can phase through the ground by sneaking!"
+  colouredName: <bold><dark_purple>Phase
+  description: You can phase through the ground by sneaking!
   skills:
     phase:
       skill: PHASE
@@ -9,8 +9,8 @@ Phase:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
-       - "FALL"
-       - "SUFFOCATION"
+      - FALL
+      - SUFFOCATION
     onSneak:
       skill: SNEAKINGPOTION
       type: BLINDNESS
