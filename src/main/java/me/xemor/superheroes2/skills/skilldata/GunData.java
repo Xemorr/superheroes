@@ -17,7 +17,7 @@ public class GunData extends CooldownData {
     private ParticleData hitParticle;
 
     public GunData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "&8&lGun &7has %s seconds left until it can be used again!", 2);
+        super(skill, configurationSection, "<dark_grey><bold>Gun <grey>has <s> seconds left until it can be used again!", 2);
         maxDistance = configurationSection.getDouble("maxDistance", 64);
         bulletSize = configurationSection.getDouble("bulletSize", 1.0);
         damage = configurationSection.getDouble("damage", 5.0);

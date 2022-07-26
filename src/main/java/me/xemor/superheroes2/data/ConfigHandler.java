@@ -173,31 +173,31 @@ public class ConfigHandler {
     }
 
     public String getHeroGainedMessage() {
-        return language.getString("Chat.gainedHero", "&l%player% has gained the power of %hero%");
+        return language.getString("Chat.gainedHero", "<bold><player> has gained the power of <hero>");
     }
 
     public String getNoPermissionMessage() {
-        return language.getString("Chat.noPermission", "&4You do not have permission to execute this command!");
+        return language.getString("Chat.noPermission", "<dark_red>You do not have permission to execute this command!");
     }
 
     public String getCurrentHeroMessage() {
-        return language.getString("Chat.currentHero", "&l%player%, you are currently %hero%");
+        return language.getString("Chat.currentHero", "<bold><player>, you are currently <hero>");
     }
 
     public String getHeroCooldownMessage() {
-        return language.getString("Chat.heroCommandCooldown", "&l%player%, /hero is currently on cooldown. You need to wait %currentcooldown%/%cooldown% more seconds!");
+        return language.getString("Chat.heroCommandCooldown", "<bold><player>, /hero is currently on cooldown. You need to wait <currentcooldown>/<cooldown> more seconds!");
     }
 
     public String getInvalidHeroMessage() {
-        return language.getString("Chat.invalidHeroMessage", "&l%player%, You have entered an invalid hero name!");
+        return language.getString("Chat.invalidHeroMessage", "<bold><player>, You have entered an invalid hero name!");
     }
 
     public String getInvalidPlayerMessage() {
-        return language.getString("Chat.invalidPlayerMessage", "&l%player%, You have entered an invalid player name!");
+        return language.getString("Chat.invalidPlayerMessage", "<bold><player>, You have entered an invalid player name!");
     }
 
     public String getInvalidCommandMessage() {
-        return language.getString("Chat.invalidCommandMessage", "&l%player%, You have entered an invalid subcommand name!");
+        return language.getString("Chat.invalidCommandMessage", "<bold><player>, You have entered an invalid subcommand name!");
     }
 
     public List<String> getCommandAliases() {
