@@ -1,6 +1,7 @@
 Floral:
-  colouredName: "&a&lFloral"
-  description: "Wherever you look, you create flowers. Right-clicking with flowers consumes them."
+  colouredName: <bold><green>Floral
+  description: Wherever you look, you create flowers. Right-clicking with flowers
+    consumes them.
   skills:
     poppy:
       skill: CONSUME
@@ -79,20 +80,20 @@ Floral:
     flowerPlacer1:
       skill: BLOCKRAY
       blocksToPlace:
-        - POPPY
-        - DANDELION
-        - BLUE_ORCHID
-        - OXEYE_DAISY
-        - PINK_TULIP
-        - WHITE_TULIP
-        - RED_TULIP
-        - ORANGE_TULIP
-        - LILY_OF_THE_VALLEY
-        - AZURE_BLUET
-        - ALLIUM
+      - POPPY
+      - DANDELION
+      - BLUE_ORCHID
+      - OXEYE_DAISY
+      - PINK_TULIP
+      - WHITE_TULIP
+      - RED_TULIP
+      - ORANGE_TULIP
+      - LILY_OF_THE_VALLEY
+      - AZURE_BLUET
+      - ALLIUM
       blocksToReplace:
-        - AIR
-        - GRASS_BLOCK
+      - AIR
+      - GRASS_BLOCK
       blockRayMode: ABOVEBLOCK
       maxDistance: 20
       shouldRevert: true
@@ -100,19 +101,19 @@ Floral:
     flowerPlacer2:
       skill: BLOCKRAY
       blocksToPlace:
-        - POPPY
-        - DANDELION
-        - BLUE_ORCHID
-        - OXEYE_DAISY
-        - PINK_TULIP
-        - WHITE_TULIP
-        - RED_TULIP
-        - ORANGE_TULIP
-        - LILY_OF_THE_VALLEY
-        - AZURE_BLUET
-        - ALLIUM
+      - POPPY
+      - DANDELION
+      - BLUE_ORCHID
+      - OXEYE_DAISY
+      - PINK_TULIP
+      - WHITE_TULIP
+      - RED_TULIP
+      - ORANGE_TULIP
+      - LILY_OF_THE_VALLEY
+      - AZURE_BLUET
+      - ALLIUM
       blocksToReplace:
-        - GRASS
+      - GRASS
       blockRayMode: THEBLOCK
       maxDistance: 20
       shouldRevert: true

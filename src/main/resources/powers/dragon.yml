@@ -1,6 +1,6 @@
 Dragon:
-  colouredName: "&5&lDragon"
-  description: "You can throw fireballs."
+  colouredName: <bold><dark_purple>Dragon
+  description: You can throw fireballs.
   skills:
     fireballItem:
       skill: GIVEITEM
@@ -14,10 +14,10 @@ Dragon:
         amount: 1
         specialID: 3
         metadata:
-          displayName: "&5&lDragon &7&lFireball"
+          displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
           isUnbreakable: true
           lore:
-            - "&f&oYou can use this to throw dragon fireballs!"
+          - <italic><white>You can use this to throw dragon fireballs!
     throwableFireballs:
       skill: THROWER
       item:
@@ -25,12 +25,13 @@ Dragon:
         amount: 1
         specialID: 3
         metadata:
-          displayName: "&5&lDragon &7&lFireball"
+          displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
           isUnbreakable: true
           lore:
-            - "&f&oYou can use this to throw dragon fireballs!"
+          - <italic><white>You can use this to throw dragon fireballs!
       ammoCost: 0
       projectile: DRAGON_FIREBALL
       cooldown: 30
-      cooldownMessage: "&#100-#300&&lFireball &fCooldown: %currentcooldown% seconds"
+      cooldownMessage: '<bold><#110000>F</#110000><#150000>i</#150000><#1a0000>r</#1a0000><#1e0000>e</#1e0000><#220000>b</#220000><#260000>a</#260000><#2b0000>l</#2b0000><#2f0000>l</#2f0000><#330000>
+        </#330000></bold><white>Cooldown: <currentcooldown> seconds'
       velocity: 0.5

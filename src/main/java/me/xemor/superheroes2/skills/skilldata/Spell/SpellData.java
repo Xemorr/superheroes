@@ -2,7 +2,6 @@ package me.xemor.superheroes2.skills.skilldata.Spell;
 
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -11,15 +10,15 @@ import java.util.stream.Collectors;
 
 public class SpellData extends SkillData implements Cooldown {
 
-    private Spell spell;
-    private Material fuel;
-    private String spellName;
-    private String displayName;
+    private final Spell spell;
+    private final Material fuel;
+    private final String spellName;
+    private final String displayName;
     private String cooldownMessage;
     private String moreFuelMessage;
-    private double cooldown;
-    private int cost;
-    private List<String> lore;
+    private final double cooldown;
+    private final int cost;
+    private final List<String> lore;
     private TransmutationData transmutationData;
 
 
@@ -34,7 +33,7 @@ public class SpellData extends SkillData implements Cooldown {
         cooldownMessage = replaceVariables(cooldownMessage);
         moreFuelMessage = configurationSection.getString("moreFuelMessage", "This spell needs %fuelneeded% more %fuel%");
         moreFuelMessage = replaceVariables(moreFuelMessage);
-        final String displayNameFormat = ChatColor.translateAlternateColorCodes('&', configurationSection.getString("displayNameFormat", "&5%spellName%"));
+        final String displayNameFormat = configurationSection.getString("displayNameFormat", "<purple>%spellName%");
         displayName = replaceVariables(displayNameFormat);
         final List<String> loreFormat = configurationSection.getStringList("loreFormat");
         lore = loreFormat.stream()
@@ -47,7 +46,6 @@ public class SpellData extends SkillData implements Cooldown {
     }
 
     private String replaceVariables(String input) {
-        input = ChatColor.translateAlternateColorCodes('&', input);
         input = input.replaceAll("%spellName%", spellName);
         input = input.replaceAll("%cooldown%", Double.toString(cooldown));
         input = input.replaceAll("%fuel%", fuel.toString().toLowerCase());

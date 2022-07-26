@@ -1,6 +1,6 @@
 Pickpocket:
-  colouredName: "&e&lPickpocket"
-  description: "You can access other player's inventories by sneaking and right clicking"
+  colouredName: <bold><yellow>Pickpocket
+  description: You can access other player's inventories by sneaking and right clicking
   skills:
     pickpocket:
       skill: PICKPOCKET

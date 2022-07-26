@@ -1,10 +1,11 @@
 package me.xemor.superheroes2.commands;
 
-import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.ConfigHandler;
 import me.xemor.superheroes2.data.HeroHandler;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,6 +24,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
     private Reload reloadCommand;
     private Import importCommand;
     private Export exportCommand;
+    private TextConvert textConvertCommand;
     private Reroll reroll;
 
     public HeroCommand(HeroHandler heroHandler, Reroll reroll) {
@@ -31,8 +33,9 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
         configHandler = heroHandler.getPlugin().getConfigHandler();
         reloadCommand = new Reload(heroHandler, configHandler);
         heroSelectCommand = new HeroSelect(heroHandler, configHandler);
-        importCommand = new Import(heroHandler, configHandler);
-        exportCommand = new Export(heroHandler, configHandler);
+        importCommand = new Import();
+        exportCommand = new Export();
+        textConvertCommand = new TextConvert();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
             try {
                 commandType = SubCommands.valueOf(args[0].toUpperCase());
             } catch(IllegalArgumentException e) {
-                audience.sendMessage(MineDown.parse(configHandler.getInvalidCommandMessage(), "player", sender.getName()));
+                audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getInvalidCommandMessage(), Placeholder.unparsed("player", sender.getName())));
                 return true;
             }
             switch (commandType) {
@@ -52,6 +55,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
                 case REROLL: reroll.onCommand(sender, args); break;
                 case EXPORT: exportCommand.onCommand(sender, args); break;
                 case IMPORT: importCommand.onCommand(sender, args); break;
+                case TEXTCONVERT: textConvertCommand.onCommand(sender, args); break;
             }
         }
         return true;
@@ -80,6 +84,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
                     case REROLL: tabComplete = reroll.tabComplete(sender, args); break;
                     case EXPORT: tabComplete = exportCommand.tabComplete(sender, args); break;
                     case IMPORT: tabComplete = importCommand.tabComplete(sender, args); break;
+                    case TEXTCONVERT: tabComplete = textConvertCommand.tabComplete(sender, args); break;
                 }
             } catch(IllegalArgumentException ignored) {}
         }

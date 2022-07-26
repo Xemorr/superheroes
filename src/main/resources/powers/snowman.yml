@@ -1,15 +1,15 @@
 Snowman:
-  colouredName: "&f&lSnowman"
-  description: "You create snow trails!"
+  colouredName: <bold><white>Snowman
+  description: You create snow trails!
   skills:
     placeSnowBehindYou:
       skill: WALKER
       blocksToPlace:
-        - "SNOW"
+      - SNOW
       blocksToReplace:
-        - "AIR"
-        - "CAVE_AIR"
-        - "VOID_AIR"
+      - AIR
+      - CAVE_AIR
+      - VOID_AIR
       isSneaking: false
       blocksDrop: true
       shouldRevert: false

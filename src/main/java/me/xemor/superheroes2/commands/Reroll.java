@@ -1,14 +1,15 @@
 package me.xemor.superheroes2.commands;
 
-import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.CooldownHandler;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.ConfigHandler;
 import me.xemor.superheroes2.data.HeroHandler;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,7 @@ public class Reroll implements SubCommand, Listener {
     HeroHandler heroHandler;
     ConfigHandler configHandler;
     boolean isEnabled;
-    private final String noPermission = ChatColor.translateAlternateColorCodes('&', "&4You do not have permission to use this power!");
+    private final Component noPermission = MiniMessage.miniMessage().deserialize("<dark_red>You do not have permission to use this power!");
     CooldownHandler cooldownHandler = new CooldownHandler("", ChatMessageType.ACTION_BAR);
 
     public Reroll(HeroHandler heroHandler, ConfigHandler configHandler) {
@@ -58,7 +59,7 @@ public class Reroll implements SubCommand, Listener {
             if (args.length >= 2) {
                 player = Bukkit.getPlayer(args[1]);
                 if (player == null) {
-                    audience.sendMessage(MineDown.parse(configHandler.getInvalidPlayerMessage(), "player", sender.getName()));
+                    audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getInvalidPlayerMessage(), Placeholder.unparsed("player", sender.getName())));
                     return;
                 }
             }
@@ -73,7 +74,7 @@ public class Reroll implements SubCommand, Listener {
             heroHandler.setRandomHero(player);
         }
         else {
-            sender.sendMessage(noPermission);
+            audience.sendMessage(noPermission);
         }
     }
 

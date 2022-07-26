@@ -1,14 +1,16 @@
 database:
   type: YAML
-  host: "this needs filling with your host name if using mysql"
+  host: this needs filling with your host name if using mysql
   port: 3306
-  name: "this needs filling with the database name if using mysql"
-  username: "this needs filling with the username of the account being used to connect to mysql if using mysql"
-  password: "this needs filling with the password being used to connect to mysql if using mysql"
+  name: this needs filling with the database name if using mysql
+  username: this needs filling with the username of the account being used to connect
+    to mysql if using mysql
+  password: this needs filling with the password being used to connect to mysql if
+    using mysql
 reroll:
   item:
     types:
-      - DIAMOND_BLOCK
+    - DIAMOND_BLOCK
   isEnabled: true
   eachHeroRequiresPermissions: false
   cooldown: 1
@@ -16,6 +18,8 @@ powerOnStart:
   isEnabled: true
   showHero: true
 heroCommand:
-  cooldown: 0 #cooldown in seconds
-  aliases: [""]
+  cooldown: 0 # cooldown in seconds
+  aliases:
+  - ''
+textconvert: false
 

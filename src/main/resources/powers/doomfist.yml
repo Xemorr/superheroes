@@ -1,6 +1,6 @@
 Doomfist:
-  colouredName: "&8&lDoomfist"
-  description: "You are Doomfist."
+  colouredName: <bold><dark_gray>Doomfist
+  description: You are Doomfist.
   skills:
     punch:
       skill: SLAM
@@ -12,9 +12,10 @@ Doomfist:
       minimumFood: 6
       diameterRadius: 5
       damage: 8
-      cooldownMessage: "&#f0f-#000&&lSlam &fCooldown: %currentcooldown% seconds"
+      cooldownMessage: '<bold><#ff00ff>S</#ff00ff><#bf00bf>l</#bf00bf><#800080>a</#800080><#400040>m</#400040><black>
+        </black></bold><white>Cooldown: <currentcooldown> seconds'
     noFallDamage:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
-       - "FALL"
+      - FALL

@@ -1,6 +1,6 @@
 Slime:
-  colouredName: "&a&lSlime"
-  description: "You can bounce along the floor"
+  colouredName: <bold><green>Slime
+  description: You can bounce along the floor
   skills:
     slimeboots:
       skill: SLIME
@@ -9,4 +9,4 @@ Slime:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
-       - "FALL"
+      - FALL

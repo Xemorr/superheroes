@@ -1,6 +1,5 @@
 package me.xemor.superheroes2.skills.implementations;
 
-import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.SkillCooldownHandler;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.HeroHandler;
@@ -10,6 +9,8 @@ import me.xemor.superheroes2.skills.skilldata.Spell.Spell;
 import me.xemor.superheroes2.skills.skilldata.Spell.SpellData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -152,7 +153,7 @@ public class SpellSkill extends SkillImplementation {
             skillCooldownHandler.startCooldown(spellData, cooldown, player.getUniqueId());
         }
         else {
-            Component moreFuelNeeded = new MineDown(spellData.getMoreFuelMessage()).replaceFirst(true).replace("fuelneeded", String.valueOf(cost)).toComponent();
+            Component moreFuelNeeded = MiniMessage.miniMessage().deserialize(spellData.getMoreFuelMessage(), Placeholder.unparsed("fuelneeded", String.valueOf(cost)));
             Audience playerAudience = Superheroes2.getBukkitAudiences().player(player);
             playerAudience.sendActionBar(moreFuelNeeded);
         }

@@ -1,38 +1,38 @@
 package me.xemor.superheroes2.commands;
 
-import de.themoep.minedown.adventure.MineDown;
 import me.xemor.superheroes2.Superheroes2;
 import me.xemor.superheroes2.data.ConfigHandler;
 import me.xemor.superheroes2.data.HeroHandler;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
 public class Import implements SubCommand {
+    private final Component importing = MiniMessage.miniMessage().deserialize("<green>Importing...");
+    private final Component done = MiniMessage.miniMessage().deserialize("<green>Done!");
 
-    private final String importing = ChatColor.translateAlternateColorCodes('&', "&aImporting...");
-    private final String done = ChatColor.translateAlternateColorCodes('&', "&aDone!");
-    private HeroHandler heroHandler;
-    private ConfigHandler configHandler;
 
-    public Import(HeroHandler heroHandler, ConfigHandler configHandler) {
-        this.heroHandler = heroHandler;
-        this.configHandler = configHandler;
+    public Import() {
+
     }
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
+        Audience audience = Superheroes2.getBukkitAudiences().sender(sender);
+        ConfigHandler configHandler = Superheroes2.getInstance().getConfigHandler();
         if (sender.hasPermission("superheroes.import")) {
-            sender.sendMessage(importing);
-            heroHandler.getHeroIOHandler().importFiles().thenAccept((ignored) -> Bukkit.getScheduler().runTask(heroHandler.getPlugin(), () -> configHandler.reloadConfig(heroHandler)));
-            sender.sendMessage(done);
+            audience.sendMessage(importing);
+            HeroHandler heroHandler = Superheroes2.getInstance().getHeroHandler();
+            heroHandler.getHeroIOHandler().importFiles()
+                    .thenAccept((ignored) -> Bukkit.getScheduler().runTask(heroHandler.getPlugin(), () -> configHandler.reloadConfig(heroHandler)));
+            audience.sendMessage(done);
         }
         else {
-            Audience audience = Superheroes2.getBukkitAudiences().sender(sender);
-            audience.sendMessage(MineDown.parse(configHandler.getNoPermissionMessage()));
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage()));
         }
     }
 
