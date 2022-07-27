@@ -22,7 +22,7 @@ public class ThrowerData extends CooldownData {
     private double damage;
 
     public ThrowerData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "&7Your projectile has %s seconds remaining!", 0);
+        super(skill, configurationSection, "<grey>Your projectile has <s> seconds remaining!", 0);
         ammoCost = configurationSection.getInt("ammoCost", 1);
         final ConfigurationSection ammoItemSection = configurationSection.getConfigurationSection("item");
         if (ammoItemSection != null) {

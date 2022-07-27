@@ -11,7 +11,7 @@ public class CreeperData extends CooldownData {
     private int slowfallDuration;
 
     public CreeperData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "&2&lCreeper &fCooldown: %s seconds", 10);
+        super(skill, configurationSection, "<dark_green><bold>Creeper <white>Cooldown: <s> seconds", 10);
         creeperPower = (float) configurationSection.getDouble("creeper_power", 1);
         fuse = (int) Math.ceil(configurationSection.getDouble("fuse", 2) * 20);
         slowfallDuration = (int) Math.ceil(configurationSection.getDouble("slowfall_duration", 7) * 20);

@@ -13,7 +13,7 @@ public class ConvertBlockData extends CooldownData {
     private Material outputBlock;
 
     public ConvertBlockData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "There are %s seconds before you can transmutate the block again!", 0);
+        super(skill, configurationSection, "There are <s> seconds before you can transmutate the block again!", 0);
         outputBlock = Material.valueOf(configurationSection.getString("outputBlock", "GOLD_BLOCK"));
         inputBlocks = configurationSection.getStringList("inputBlocks").stream().map(Material::valueOf).collect(Collectors.toList());
     }

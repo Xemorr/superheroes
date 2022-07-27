@@ -13,7 +13,7 @@ public class StrongmanData extends SkillData {
         super(skill, configurationSection);
         velocity = configurationSection.getDouble("velocity", 2.5);
         upwardsVelocity = configurationSection.getDouble("upwardsVelocity", 1);
-        tooMuscularMessage = configurationSection.getString("tooMuscularMessage", "%player% &fis too strong to sit in a vehicle!");
+        tooMuscularMessage = configurationSection.getString("tooMuscularMessage", "<player> <white> is too strong to sit in a vehicle!");
         maxPassengers = configurationSection.getInt("maxPassengers", 10);
     }
 

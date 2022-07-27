@@ -13,9 +13,9 @@ public class PotionGifterSkillData extends PotionEffectSkillData implements Cool
     public PotionGifterSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         cooldown = configurationSection.getDouble("cooldown", 10);
-        receiverMessage = configurationSection.getString("receiverMessage", "&7&oYou have received a potion effect.");
-        giverMessage = configurationSection.getString("giverMessage", "&7&oYou gave them a potion effect.");
-        cooldownMessage = configurationSection.getString("cooldownMessage", "&7&oYou have %currentcooldown% seconds left until it can be used again!");
+        receiverMessage = configurationSection.getString("receiverMessage", "<grey><i>You have received a potion effect.");
+        giverMessage = configurationSection.getString("giverMessage", "<grey><i>You gave them a potion effect.");
+        cooldownMessage = configurationSection.getString("cooldownMessage", "<grey><i>You have <currentcooldown> seconds left until it can be used again!");
     }
 
     public String getGiverMessage() {
