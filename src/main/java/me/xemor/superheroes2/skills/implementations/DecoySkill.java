@@ -129,7 +129,6 @@ public class DecoySkill extends SkillImplementation {
             @Override
             public void run() {
                 if (e.getChunk().isEntitiesLoaded()) {
-                    cancel();
                     Entity[] entities = e.getChunk().getEntities();
                     for (Entity entity : entities) {
                         if (entity instanceof ArmorStand) {
@@ -142,7 +141,7 @@ public class DecoySkill extends SkillImplementation {
                     }
                 }
             }
-        }.runTaskTimer(Superheroes2.getInstance(), 1L, 1L);
+        }.runTaskLater(Superheroes2.getInstance(), 50L);
     }
 
 }

@@ -1,3 +1,7 @@
+#Do not set this as false unless all your configs are written in legacy colour codes / minedown and you want to convert to MiniMessage.
+#If it is already MiniMessage, those configs will break.
+textconvert: true
+
 database:
   type: YAML
   host: this needs filling with your host name if using mysql
@@ -21,5 +25,5 @@ heroCommand:
   cooldown: 0 # cooldown in seconds
   aliases:
   - ''
-textconvert: false
+
 
