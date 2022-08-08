@@ -2,6 +2,9 @@ package me.xemor.superheroes2.skills.skilldata.Spell;
 
 import me.xemor.superheroes2.skills.skilldata.SkillData;
 import me.xemor.superheroes2.skills.skilldata.configdata.Cooldown;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -46,11 +49,11 @@ public class SpellData extends SkillData implements Cooldown {
     }
 
     private String replaceVariables(String input) {
-        input = input.replaceAll("<spellName>", spellName);
-        input = input.replaceAll("<cooldown>", Double.toString(cooldown));
-        input = input.replaceAll("<fuel>", fuel.toString().toLowerCase());
-        input = input.replaceAll("<cost>", Integer.toString(cost));
-        return input;
+        return LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().build().serialize(MiniMessage.miniMessage().deserialize(input,
+                Placeholder.unparsed("spellName", spellName),
+                Placeholder.unparsed("cooldown", String.valueOf(cooldown)),
+                Placeholder.unparsed("fuel", String.valueOf(fuel)),
+                Placeholder.unparsed("cost", String.valueOf(cost))));
     }
 
     public Spell getSpell() {

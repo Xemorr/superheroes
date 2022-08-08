@@ -132,7 +132,7 @@ public class MySQLStorage implements Storage {
         props.setProperty("dataSource.password", password);
         props.setProperty("dataSource.databaseName", dbName);
         HikariConfig hikariConfig = new HikariConfig(props);
-        hikariConfig.setMaximumPoolSize(4);
+        hikariConfig.setMaximumPoolSize(2);
         source = new HikariDataSource(hikariConfig);
         testDataSource(source);
     }

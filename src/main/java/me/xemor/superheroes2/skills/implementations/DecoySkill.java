@@ -7,10 +7,7 @@ import me.xemor.superheroes2.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes2.skills.Skill;
 import me.xemor.superheroes2.skills.skilldata.DecoyData;
 import me.xemor.superheroes2.skills.skilldata.SkillData;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -19,6 +16,7 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -128,20 +126,34 @@ public class DecoySkill extends SkillImplementation {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (e.getChunk().isEntitiesLoaded()) {
-                    Entity[] entities = e.getChunk().getEntities();
-                    for (Entity entity : entities) {
-                        if (entity instanceof ArmorStand) {
-                            if ("Decoy".equals(entity.getCustomName())) {
-                                if (entity.getPersistentDataContainer().has(namespacedKey, PersistentDataType.INTEGER)) {
-                                    entity.remove();
-                                }
-                            }
+                removeDecoys(e.getChunk());
+            }
+        }.runTaskLater(Superheroes2.getInstance(), 50L);
+    }
+
+    @EventHandler
+    public void onChunkUnload(ChunkUnloadEvent e) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                removeDecoys(e.getChunk());
+            }
+        }.runTaskLater(Superheroes2.getInstance(), 50L);
+    }
+
+    public void removeDecoys(Chunk chunk) {
+        if (chunk.isEntitiesLoaded()) {
+            Entity[] entities = chunk.getEntities();
+            for (Entity entity : entities) {
+                if (entity instanceof ArmorStand) {
+                    if ("Decoy".equals(entity.getCustomName())) {
+                        if (entity.getPersistentDataContainer().has(namespacedKey, PersistentDataType.INTEGER)) {
+                            entity.remove();
                         }
                     }
                 }
             }
-        }.runTaskLater(Superheroes2.getInstance(), 50L);
+        }
     }
 
 }
