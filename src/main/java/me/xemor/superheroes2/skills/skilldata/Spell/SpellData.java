@@ -50,7 +50,7 @@ public class SpellData extends SkillData implements Cooldown {
 
     private String replaceVariables(String input) {
         return LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().build().serialize(MiniMessage.miniMessage().deserialize(input,
-                Placeholder.unparsed("spellName", spellName),
+                Placeholder.unparsed("spellname", spellName),
                 Placeholder.unparsed("cooldown", String.valueOf(cooldown)),
                 Placeholder.unparsed("fuel", String.valueOf(fuel)),
                 Placeholder.unparsed("cost", String.valueOf(cost))));

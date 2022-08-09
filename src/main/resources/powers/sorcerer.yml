@@ -27,7 +27,7 @@ Sorcerer:
       spellName: Arrow
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -41,7 +41,7 @@ Sorcerer:
       spellName: Snowball
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -55,7 +55,7 @@ Sorcerer:
       spellName: Trident
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -69,7 +69,7 @@ Sorcerer:
       spellName: Egg
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -83,7 +83,7 @@ Sorcerer:
       spellName: Fireball
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -97,7 +97,7 @@ Sorcerer:
       spellName: Lightning
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -111,7 +111,7 @@ Sorcerer:
       spellName: Water
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -125,7 +125,7 @@ Sorcerer:
       spellName: Lava
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -139,7 +139,7 @@ Sorcerer:
       spellName: Fire
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -153,7 +153,7 @@ Sorcerer:
       spellName: Explosion
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
@@ -167,7 +167,7 @@ Sorcerer:
       spellName: Transmutation
       cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellName>
+      displayNameFormat: <dark_purple><spellname>
       loreFormat:
       - <white>This is a spell book, right-click to use!
       - '<white><fuel>: <cost>'
