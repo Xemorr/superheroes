@@ -1,6 +1,6 @@
-name: Superheroes2
+name: Superheroes
 version: ${project.version}
-main: me.xemor.superheroes2.Superheroes2
+main: me.xemor.superheroes.Superheroes
 api-version: 1.16
 authors: [Xemor_]
 softdepend: [SkillsLibrary2]

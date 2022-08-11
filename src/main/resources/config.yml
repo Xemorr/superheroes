@@ -1,6 +1,8 @@
 #Do not set this as false unless all your configs are written in legacy colour codes / minedown and you want to convert to MiniMessage.
 #If it is already MiniMessage, those configs will break.
 textconvert: true
+#Do not set this as false unless you want the plugin to move your folder called Superheroes2 to one called Superheroes
+movedtosuperheroespluginname: false
 
 database:
   type: YAML
