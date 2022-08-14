@@ -82,7 +82,7 @@ public class CraftingSkill extends SkillImplementation {
         NamespacedKey eventKey = null;
         if (eventRecipe instanceof Keyed) {
             eventKey = ((Keyed) eventRecipe).getKey();
-            if (!eventKey.getNamespace().equals("superheroes2")) {
+            if (!eventKey.getNamespace().equals("superheroes")) {
                 return;
             }
         }

@@ -27,7 +27,7 @@ public class ItemAttributeData {
             if (attributeSection != null) {
                 double value = attributeSection.getDouble("value", 0);
                 EquipmentSlot equipmentSlot = EquipmentSlot.valueOf(attributeSection.getString("equipmentslot", "HAND"));
-                AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "Superheroes2 Attribute", value, AttributeModifier.Operation.ADD_NUMBER, equipmentSlot);
+                AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "Superheroes Attribute", value, AttributeModifier.Operation.ADD_NUMBER, equipmentSlot);
                 attributeToValue.put(attribute, attributeModifier);
             }
         }

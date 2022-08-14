@@ -7,7 +7,7 @@ softdepend: [SkillsLibrary2]
 description: Adds superheroes to your world - these can be customized completely and are extremely modular.
 commands:
   hero:
-    description: The root command of all of the commands within Superheroes2
+    description: The root command of all of the commands within Superheroes
     usage: /hero <hero> <name>
 permissions:
   superheroes.hero:
@@ -23,5 +23,5 @@ permissions:
     description: Allows them to use /hero regardless of whether it is on cooldown or not
     default: op
   superheroes.notify:
-    description: Get informed about new updates to the Superheroes2 plugin!
+    description: Get informed about new updates to the Superheroes plugin!
     default: op
