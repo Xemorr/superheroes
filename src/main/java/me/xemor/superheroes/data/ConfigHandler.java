@@ -103,6 +103,7 @@ public class ConfigHandler {
             String superheroDescription = superheroSection.getString("description", superheroName + " description");
             Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
             ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
+            if (skillsSection == null) Superheroes.getInstance().getLogger().severe("The skills section is missing/invalid at " + superheroSection.getCurrentPath() + ".skills");
             for (Object value : skillsSection.getValues(false).values()) {
                 if (value instanceof ConfigurationSection) {
                     ConfigurationSection configurationSection = (ConfigurationSection) value;
