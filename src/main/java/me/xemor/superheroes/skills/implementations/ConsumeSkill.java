@@ -6,7 +6,9 @@ import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.ConsumeSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -19,8 +21,9 @@ public class ConsumeSkill extends SkillImplementation {
         super(heroHandler);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onRightClick(PlayerInteractEvent e) {
+        if (e.useItemInHand() == Event.Result.DENY) return;
         if (!(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);

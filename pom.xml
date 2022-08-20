@@ -6,7 +6,7 @@
 
     <groupId>me.xemor</groupId>
     <artifactId>Superheroes</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.4</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>

@@ -77,9 +77,9 @@ public class WalkerSkill extends SkillImplementation {
         new BukkitRunnable() {
             @Override
             public void run() {
+                block.removeMetadata("blockDrops", heroHandler.getPlugin());
                 if (newMaterial == block.getType()) {
                     block.setType(originalMaterial);
-                    block.removeMetadata("blockDrops", heroHandler.getPlugin());
                 }
             }
         }.runTaskLater(heroHandler.getPlugin(), walkerData.getRevertsAfter());
