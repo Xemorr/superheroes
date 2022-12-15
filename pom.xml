@@ -119,14 +119,14 @@
         </dependency>
         <dependency>
             <groupId>me.xemor</groupId>
-            <artifactId>SkillsLibrary</artifactId>
-            <version>2.6.1</version>
+            <artifactId>skillslibrary2</artifactId>
+            <version>2.9.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.xemor</groupId>
             <artifactId>ConfigurationData</artifactId>
-            <version>1.18.1-SNAPSHOT</version>
+            <version>1.19.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
