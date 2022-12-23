@@ -7,6 +7,7 @@ import me.xemor.superheroes.commands.TextConvert;
 import me.xemor.superheroes.conditions.SuperheroCondition;
 import me.xemor.superheroes.data.ConfigHandler;
 import me.xemor.superheroes.data.HeroHandler;
+import me.xemor.superheroes.data.SuperheroPlayer;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.implementations.*;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -21,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerLoadEvent;
@@ -31,10 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 public final class Superheroes extends JavaPlugin implements Listener {
@@ -44,6 +43,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     private static BukkitAudiences bukkitAudiences;
     private boolean hasSkillsLibrary;
     private static Superheroes superheroes;
+
 
     @Override
     public void onEnable() {
@@ -102,9 +102,16 @@ public final class Superheroes extends JavaPlugin implements Listener {
         heroHandler.handlePlayerData();
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void preLogin(AsyncPlayerPreLoginEvent e) {
+        if (e.getLoginResult() == AsyncPlayerPreLoginEvent.Result.ALLOWED) {
+            heroHandler.preLoginLoadSuperheroPlayer(e.getUniqueId());
+        }
+    }
+
+    @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        heroHandler.loadSuperheroPlayer(e.getPlayer());
+        heroHandler.finalLoadSuperheroPlayer(e.getPlayer());
     }
 
     @EventHandler

@@ -13,14 +13,17 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
 
 public class HeroHandler {
 
@@ -31,6 +34,8 @@ public class HeroHandler {
     private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
     private final Superhero noPower = new Superhero("NOPOWER", "<yellow><b>NOPOWER", "They have no power");
     private HeroIOHandler heroIOHandler;
+
+    private final HashSet<UUID> processed = new HashSet<>();
 
     public HeroHandler(Superheroes superheroes, ConfigHandler configHandler) {
         this.configHandler = configHandler;
@@ -112,10 +117,18 @@ public class HeroHandler {
         heroIOHandler.saveSuperheroPlayerAsync(getSuperheroPlayer(player));
     }
 
-    public void loadSuperheroPlayer(@NotNull Player player) {
-        uuidToData.put(player.getUniqueId(), new SuperheroPlayer(player.getUniqueId(), noPower, 0));
-        CompletableFuture<SuperheroPlayer> future = heroIOHandler.loadSuperHeroPlayerAsync(player.getUniqueId());
+    public void preLoginLoadSuperheroPlayer(@NotNull UUID uuid) {
+        CompletableFuture<SuperheroPlayer> future = heroIOHandler.loadSuperHeroPlayerAsync(uuid);
         future.thenAccept((superheroPlayer) -> Bukkit.getScheduler().runTask(superheroes, () -> {
+            if (superheroPlayer != null) uuidToData.put(uuid, superheroPlayer);
+            processed.add(uuid); // processed doesn't need to be locked / synchronised as guaranteed to be running in a Bukkit Thread
+        }));
+    }
+
+    public void finalLoadSuperheroPlayer(@NotNull Player player) {
+        SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
+        if (processed.contains(player.getUniqueId()) || superheroPlayer != null) {
+            processed.remove(player.getUniqueId());
             if (superheroPlayer == null) {
                 Superhero superhero;
                 if (configHandler.isPowerOnStartEnabled()) {
@@ -124,10 +137,18 @@ public class HeroHandler {
                     superhero = noPower;
                 }
                 setHero(player, superhero, configHandler.shouldShowHeroOnStart());
-            } else {
-                uuidToData.put(player.getUniqueId(), superheroPlayer);
             }
-        }));
+        } else {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Level severity = Level.FINE;
+                    if (processed.size() > 60) severity = Level.WARNING;
+                    superheroes.getLogger().log(severity, "The player " + player + " has took a while to load its data. Waiting before processing further.");
+                    finalLoadSuperheroPlayer(player); // really, the player should have processed before reaching PlayerJoinEvent (or at least that's my expectation)
+                }
+            }.runTaskLater(superheroes, 2L);
+        }
     }
 
     public void unloadSuperheroPlayer(@NotNull Player player) {

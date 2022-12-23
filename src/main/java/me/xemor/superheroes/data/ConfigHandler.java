@@ -98,33 +98,37 @@ public class ConfigHandler {
         List<ConfigurationSection> sections = getSuperheroesConfigurationSection();
         HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
         for (ConfigurationSection superheroSection : sections) {
-            String superheroName = superheroSection.getName();
-            String colouredSuperheroName = superheroSection.getString("colouredName", superheroName);
-            String superheroDescription = superheroSection.getString("description", superheroName + " description");
-            Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
-            ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
-            if (skillsSection == null) Superheroes.getInstance().getLogger().severe("The skills section is missing/invalid at " + superheroSection.getCurrentPath() + ".skills");
-            for (Object value : skillsSection.getValues(false).values()) {
-                if (value instanceof ConfigurationSection) {
-                    ConfigurationSection configurationSection = (ConfigurationSection) value;
-                    String skillStr = configurationSection.getString("skill");
-                    int skill = Skill.getSkill(skillStr);
-                    if (skill == -1) {
-                        Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill name!: " + configurationSection.getCurrentPath() + ".skill" + skillStr);
-                        continue;
+            try { // prevent one hero from breaking another
+                String superheroName = superheroSection.getName();
+                String colouredSuperheroName = superheroSection.getString("colouredName", superheroName);
+                String superheroDescription = superheroSection.getString("description", superheroName + " description");
+                Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
+                ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
+                if (skillsSection == null) Superheroes.getInstance().getLogger().severe("The skills section is missing/invalid at " + superheroSection.getCurrentPath() + ".skills");
+                for (Object value : skillsSection.getValues(false).values()) {
+                    if (value instanceof ConfigurationSection) {
+                        ConfigurationSection configurationSection = (ConfigurationSection) value;
+                        String skillStr = configurationSection.getString("skill");
+                        int skill = Skill.getSkill(skillStr);
+                        if (skill == -1) {
+                            Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill name!: " + configurationSection.getCurrentPath() + ".skill" + skillStr);
+                            continue;
+                        }
+                        SkillData skillData = SkillData.create(skill, configurationSection);
+                        try {
+                            superhero.addSkill(skillData);
+                        } catch (NullPointerException e) {
+                            Superheroes.getInstance().getLogger().severe("SkillData is null! This skill has not been registered!" + configurationSection.getCurrentPath());
+                        }
                     }
-                    SkillData skillData = SkillData.create(skill, configurationSection);
-                    try {
-                        superhero.addSkill(skillData);
-                    } catch (NullPointerException e) {
-                        Superheroes.getInstance().getLogger().severe("SkillData is null! This skill has not been registered!" + configurationSection.getCurrentPath());
+                    else {
+                        Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill!");
                     }
                 }
-                else {
-                    Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill!");
-                }
+                nameToSuperhero.put(superheroName.toLowerCase(), superhero);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            nameToSuperhero.put(superheroName.toLowerCase(), superhero);
         }
         heroHandler.registerHeroes(nameToSuperhero);
     }
@@ -141,7 +145,8 @@ public class ConfigHandler {
         item = new ItemComparisonData(Objects.requireNonNull(config.getConfigurationSection("reroll.item")));
         heroHandler.setHeroesIntoMemory(new HashMap<>());
         for (Player player : Bukkit.getOnlinePlayers()) {
-            heroHandler.loadSuperheroPlayer(player);
+            heroHandler.preLoginLoadSuperheroPlayer(player.getUniqueId());
+
         }
     }
 
