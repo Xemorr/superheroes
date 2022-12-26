@@ -31,7 +31,6 @@ public class HeroHandler {
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
     private final Superheroes superheroes;
     private final ConfigHandler configHandler;
-    private final static LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
     private final Superhero noPower = new Superhero("NOPOWER", "<yellow><b>NOPOWER", "They have no power");
     private HeroIOHandler heroIOHandler;
 
@@ -172,6 +171,7 @@ public class HeroHandler {
             if (configHandler.areHeroPermissionsRequired() && !player.hasPermission(superhero.getPermission())) {
                 continue;
             }
+            if (noPower.equals(superhero)) continue;
             newHero = superhero;
             break;
         }
