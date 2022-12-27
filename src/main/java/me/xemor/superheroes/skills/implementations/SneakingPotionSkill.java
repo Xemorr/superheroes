@@ -56,8 +56,8 @@ public class SneakingPotionSkill extends SkillImplementation {
         Superhero superhero = getPowersHandler().getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SNEAKINGPOTION"));
         for (SkillData skillData : skillDatas) {
-            PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
-            e.getPlayer().removePotionEffect(potionEffectSkillData.getPotionEffect().getType());
+            SneakingPotionData sneakingPotionData = (SneakingPotionData) skillData;
+            e.getPlayer().removePotionEffect(sneakingPotionData.getPotionEffect().getType());
         }
     }
 }
