@@ -109,7 +109,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent e) {
         heroHandler.finalLoadSuperheroPlayer(e.getPlayer());
     }
