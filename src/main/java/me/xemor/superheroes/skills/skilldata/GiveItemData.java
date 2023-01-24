@@ -9,7 +9,6 @@ public class GiveItemData extends SkillData {
     private boolean canStore;
     private boolean canDrop;
     private boolean canLoseOnDeath;
-    private boolean canDropOnDeath;
     private boolean loseItemOnHeroLoss;
 
     public GiveItemData(int skill, ConfigurationSection configurationSection) {
@@ -17,7 +16,6 @@ public class GiveItemData extends SkillData {
         canStore = configurationSection.getBoolean("canStore", true);
         canDrop = configurationSection.getBoolean("canDrop", true);
         canLoseOnDeath = configurationSection.getBoolean("canLoseOnDeath", true);
-        canDropOnDeath = configurationSection.getBoolean("canDropOnDeath", true);
         loseItemOnHeroLoss = configurationSection.getBoolean("loseItemOnHeroLoss", true);
         ConfigurationSection itemConfig = configurationSection.getConfigurationSection("item");
         itemConfig = itemConfig == null ? configurationSection : itemConfig;
@@ -39,10 +37,6 @@ public class GiveItemData extends SkillData {
 
     public boolean canLoseOnDeath() {
         return canLoseOnDeath;
-    }
-
-    public boolean canDropOnDeath() {
-        return canDropOnDeath;
     }
 
     public boolean canLoseItemOnHeroLoss() {

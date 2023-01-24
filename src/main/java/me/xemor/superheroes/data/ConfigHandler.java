@@ -71,6 +71,7 @@ public class ConfigHandler {
                     }
                     superheroes.saveResource(path, false);
                 }
+                walk.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
