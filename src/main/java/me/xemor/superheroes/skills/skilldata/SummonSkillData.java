@@ -22,7 +22,7 @@ public class SummonSkillData extends PotionEffectSkillData implements Cooldown {
     public SummonSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         entityType = EntityType.valueOf(configurationSection.getString("entity", "LIGHTNING"));
-        range = configurationSection.getInt("range");
+        range = configurationSection.getInt("range", 10);
         action = configurationSection.getStringList("action").stream().map(Action::valueOf).collect(Collectors.toCollection(HashSet::new));
         if (action.isEmpty()) {
             action = new HashSet<>();

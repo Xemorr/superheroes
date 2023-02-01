@@ -9,7 +9,6 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -31,19 +30,30 @@ public class HeroHandler {
     private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
     private final Superheroes superheroes;
     private final ConfigHandler configHandler;
-    private final Superhero noPower = new Superhero("NOPOWER", "<yellow><b>NOPOWER", "They have no power");
+    private Superhero noPower;
     private HeroIOHandler heroIOHandler;
+
+    private List<String> disabledWorlds;
 
     private final ConcurrentHashMap<UUID, CompletableFuture<SuperheroPlayer>> isProcessing = new ConcurrentHashMap<>();
 
     public HeroHandler(Superheroes superheroes, ConfigHandler configHandler) {
         this.configHandler = configHandler;
         this.superheroes = superheroes;
+        loadConfigItems();
+    }
+
+    /*
+        Calls ConfigHandler methods to fetch default hero and disabledWorlds
+     */
+    public void loadConfigItems() {
+        noPower = configHandler.getDefaultHero();
+        disabledWorlds = configHandler.getDisabledWorlds();
     }
 
     public void registerHeroes(HashMap<String, Superhero> nameToSuperhero) {
         this.nameToSuperhero = nameToSuperhero;
-        nameToSuperhero.put("nopower", noPower);
+        nameToSuperhero.put(noPower.getName().toLowerCase(), noPower);
     }
 
     public void setHeroesIntoMemory(HashMap<UUID, SuperheroPlayer> playerHeroes) {
@@ -62,6 +72,9 @@ public class HeroHandler {
 
     @NotNull
     public Superhero getSuperhero(Player player) {
+        if (disabledWorlds.contains(player.getWorld().getName())) {
+            return noPower;
+        }
         SuperheroPlayer heroPlayer = uuidToData.get(player.getUniqueId());
         if (heroPlayer == null) {
             return noPower;

@@ -22,11 +22,11 @@ import java.util.List;
 
 public class Reroll implements SubCommand, Listener {
 
-    HeroHandler heroHandler;
-    ConfigHandler configHandler;
-    boolean isEnabled;
+    private final HeroHandler heroHandler;
+    private final ConfigHandler configHandler;
+    private final boolean isEnabled;
     private final Component noPermission = MiniMessage.miniMessage().deserialize("<dark_red>You do not have permission to use this power!");
-    CooldownHandler cooldownHandler = new CooldownHandler("", ChatMessageType.ACTION_BAR);
+    private final CooldownHandler cooldownHandler = new CooldownHandler("", ChatMessageType.ACTION_BAR);
 
     public Reroll(HeroHandler heroHandler, ConfigHandler configHandler) {
         this.heroHandler = heroHandler;

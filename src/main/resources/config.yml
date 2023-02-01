@@ -1,9 +1,7 @@
-#Do not set this as false unless all your configs are written in legacy colour codes / minedown and you want to convert to MiniMessage.
-#If it is already MiniMessage, those configs will break.
-textconvert: true
 #Do not set this as false unless you want the plugin to move your folder called Superheroes2 to one called Superheroes
 movedtosuperheroespluginname: false
 
+#These are the settings which dictate where your players' heroes are stored
 database:
   type: YAML
   host: this needs filling with your host name if using mysql
@@ -13,19 +11,32 @@ database:
     to mysql if using mysql
   password: this needs filling with the password being used to connect to mysql if
     using mysql
+
+#The reroll settings customise how /hero reroll and right-clicking with a reroll item work
 reroll:
   item:
-    types:
+    types: # the types of material which trigger a reroll, by default this is a diamond block. Other items like nether stars work great too.
     - DIAMOND_BLOCK
-  isEnabled: true
-  eachHeroRequiresPermissions: false
-  cooldown: 1
+  isEnabled: true # whether rerolling via the item is enabled or not
+  eachHeroRequiresPermissions: false # whether you can only obtain heroes via rerolling and hero select that the user has permission for
+  cooldown: 1 # the cooldown between usages of the reroll item in seconds
+
 powerOnStart:
-  isEnabled: true
-  showHero: true
+  isEnabled: true # whether they get a random hero, or no hero.
+  showHero: true # whether a popup telling the user which hero they are appears on join
+
 heroCommand:
   cooldown: 0 # cooldown in seconds
   aliases:
   - ''
+
+defaultHero: # note this section does not support Skills as of 2023/02/01
+  name: "Powerless" # this is dangerous to change as the plugin would not be able to interpret players with this hero and would reset them to default.
+  colouredName: "<yellow><b>Powerless"
+  description: "You have no power"
+
+# The worlds in which Superheroes is disabled (this is implemented as all users in that world being the default hero / no power hero)
+# This likely has bugs / issues with heroes that give items, particularly when switching between these heroes.
+disabledWorlds: []
 
 

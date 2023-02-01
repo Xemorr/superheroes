@@ -139,6 +139,7 @@ public class ConfigHandler {
         Bukkit.getServer().getPluginManager().callEvent(superheroesReloadEvent);
         superheroes.reloadConfig();
         config = superheroes.getConfig();
+        heroHandler.loadConfigItems();
         handleSuperpowersFolder();
         heroHandler.handlePlayerData();
         loadSuperheroes(heroHandler);
@@ -147,7 +148,6 @@ public class ConfigHandler {
         heroHandler.setHeroesIntoMemory(new HashMap<>());
         for (Player player : Bukkit.getOnlinePlayers()) {
             heroHandler.preLoginLoadSuperheroPlayer(player.getUniqueId());
-
         }
     }
 
@@ -168,11 +168,15 @@ public class ConfigHandler {
     }
 
     public boolean isRerollEnabled() {
-        return config.getConfigurationSection("reroll").getBoolean("isEnabled", true);
+        return config.getBoolean("reroll.isEnabled", true);
     }
 
     public boolean isPowerOnStartEnabled() {
         return config.getBoolean("powerOnStart.isEnabled", true);
+    }
+
+    public List<String> getDisabledWorlds() {
+        return config.getStringList("disabledWorlds");
     }
 
     public boolean shouldShowHeroOnStart() {
@@ -189,6 +193,13 @@ public class ConfigHandler {
 
     public String getCurrentHeroMessage() {
         return language.getString("Chat.currentHero", "<bold><player>, you are currently <hero>");
+    }
+
+    public Superhero getDefaultHero() {
+        String name = config.getString("defaultHero.name", "Powerless");
+        String colouredName = config.getString("defaultHero.colouredName", "<yellow><b>Powerless");
+        String description = config.getString("defaultHero.description", "You have no power");
+        return new Superhero(name, colouredName, description);
     }
 
     public String getHeroCooldownMessage() {
@@ -215,7 +226,9 @@ public class ConfigHandler {
         return config.getLong("heroCommand.cooldown", 0);
     }
 
-    public double getRerollCooldown() { return config.getDouble("reroll.cooldown", 1.0);}
+    public double getRerollCooldown() {
+        return config.getDouble("reroll.cooldown", 1.0);
+    }
 
     public boolean areHeroPermissionsRequired() {return config.getConfigurationSection("reroll").getBoolean("eachHeroRequiresPermissions", false); }
 
