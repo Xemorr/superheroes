@@ -3,6 +3,7 @@ package me.xemor.superheroes.data;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
+import me.xemor.superheroes.events.SuperheroLoadEvent;
 import me.xemor.superheroes.events.SuperheroesReloadEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -126,7 +127,9 @@ public class ConfigHandler {
                         Bukkit.getLogger().log(Level.SEVERE, superheroName + " has encountered an invalid skill!");
                     }
                 }
-                nameToSuperhero.put(superheroName.toLowerCase(), superhero);
+                SuperheroLoadEvent superheroLoadEvent = new SuperheroLoadEvent(superhero, superheroSection);
+                Bukkit.getServer().getPluginManager().callEvent(superheroLoadEvent);
+                if (!superheroLoadEvent.isCancelled()) nameToSuperhero.put(superheroName.toLowerCase(), superhero);
             } catch (Exception e) {
                 e.printStackTrace();
             }
