@@ -39,7 +39,7 @@ public class ConfigHandler {
         superpowersFolder = new File(dataFolder, "powers");
         config = superheroes.getConfig();
         item = new ItemComparisonData(Objects.requireNonNull(config.getConfigurationSection("reroll.item")));
-        superheroes.saveResource("language.yml", false);
+        if (!new File(superheroes.getDataFolder(), "language.yml").exists()) superheroes.saveResource("language.yml", false);
         languageFile = new File(dataFolder, "language.yml");
         language = YamlConfiguration.loadConfiguration(languageFile);
         handleSuperpowersFolder();
