@@ -1,7 +1,7 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import me.xemor.configurationdata.ItemStackData;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
-import me.xemor.superheroes.skills.skilldata.configdata.ItemStackData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.EntityType;

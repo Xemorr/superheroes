@@ -15,7 +15,6 @@ Spartan:
       item:
         type: SHIELD
         amount: 1
-        specialID: 2
         metadata:
           displayName: <bold><yellow>Spartan's </yellow></bold><bold><gray>Shield
           isUnbreakable: true

@@ -12,7 +12,6 @@ Dragon:
       item:
         type: FIRE_CHARGE
         amount: 1
-        specialID: 3
         metadata:
           displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
           isUnbreakable: true
@@ -23,7 +22,6 @@ Dragon:
       item:
         type: FIRE_CHARGE
         amount: 1
-        specialID: 3
         metadata:
           displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
           isUnbreakable: true

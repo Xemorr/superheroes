@@ -1,6 +1,6 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.superheroes.skills.skilldata.configdata.ItemStackData;
+import me.xemor.configurationdata.ItemStackData;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class GiveItemData extends SkillData {

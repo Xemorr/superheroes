@@ -2,7 +2,7 @@ package me.xemor.superheroes.skills.skilldata;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import me.xemor.superheroes.skills.skilldata.configdata.ItemStackData;
+import me.xemor.configurationdata.ItemStackData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;

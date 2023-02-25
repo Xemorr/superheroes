@@ -12,7 +12,6 @@ Gun:
       item:
         type: STONE_HOE
         amount: 1
-        specialID: 1
         metadata:
           displayName: <bold><dark_gray>Gun
           isUnbreakable: true
@@ -29,7 +28,6 @@ Gun:
       item:
         type: STONE_HOE
         amount: 1
-        specialID: 1
         metadata:
           displayName: <bold><dark_gray>Gun
           isUnbreakable: true

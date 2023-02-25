@@ -6,7 +6,7 @@
 
     <groupId>me.xemor</groupId>
     <artifactId>Superheroes</artifactId>
-    <version>3.3.0</version>
+    <version>3.4.0</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -50,6 +50,10 @@
                                 <relocation>
                                     <pattern>net.kyori</pattern>
                                     <shadedPattern>me.xemor.superheroes.net.kyori</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>me.xemor.configurationdata</pattern>
+                                    <shadedPattern>me.xemor.superheroes.configurationdata</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -126,7 +130,7 @@
         <dependency>
             <groupId>me.xemor</groupId>
             <artifactId>ConfigurationData</artifactId>
-            <version>1.19.1-SNAPSHOT</version>
+            <version>1.19.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
