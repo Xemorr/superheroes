@@ -1,9 +1,9 @@
 Chat:
-  gainedHero: <bold><player> has gained the power of <hero>
+  gainedHero: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold><gray><player> <gray>has gained the power of <hero><reset>
   noPermission: <dark_red>You do not have permission to use this power!
-  currentHero: <bold><player>, you are currently <hero>
-  heroCommandCooldown: <bold><player>, /hero is currently on cooldown. You need to
-    wait <currentcooldown>/<cooldown> more seconds!
-  invalidHeroMessage: <bold><player>, You have entered an invalid hero name!
-  invalidPlayerName: <bold><player>, You have entered an invalid player name!
-  invalidCommandMessage: <bold><player>, You have entered an invalid subcommand name!
+  currentHero: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold> <gray><player><gray>, is currently <hero><reset>
+  heroCommandCooldown: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold> <gray><player><gray>, /hero is currently on cooldown. You need to
+    wait <currentcooldown>/<cooldown> <gray>more seconds!<reset>
+  invalidHeroMessage: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold> <gray><player><gray>, You have entered an invalid hero name!
+  invalidPlayerMessage: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold> <gray><player><gray>, You have entered an invalid player name!
+  invalidCommandMessage: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold> <gray><player><gray>, You have entered an invalid subcommand name!

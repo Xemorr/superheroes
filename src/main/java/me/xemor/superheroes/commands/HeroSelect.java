@@ -34,8 +34,7 @@ public class HeroSelect implements SubCommand {
             return;
         }
         if (args.length <= 1) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
+            if (sender instanceof Player player) {
                 Superhero superhero = heroHandler.getSuperhero(player);
                 audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getCurrentHeroMessage(),
                                 Placeholder.unparsed("player", player.getName()),

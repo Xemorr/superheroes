@@ -2,6 +2,6 @@ package me.xemor.superheroes.commands;
 
 public enum SubCommands {
 
-    SELECT, RELOAD, REROLL, IMPORT, EXPORT, TEXTCONVERT
+    SELECT, RELOAD, REROLL, IMPORT, EXPORT, TEXTCONVERT, CHECK
 
 }

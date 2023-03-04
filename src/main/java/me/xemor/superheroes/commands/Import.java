@@ -12,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public class Import implements SubCommand {
+
+    private final Component notReload = MiniMessage.miniMessage().deserialize("<red>REMINDER: This is NOT a reload command. This is for importing an exported file into your database of which players have which hero!");
     private final Component importing = MiniMessage.miniMessage().deserialize("<green>Importing...");
     private final Component done = MiniMessage.miniMessage().deserialize("<green>Done!");
 
@@ -25,6 +27,7 @@ public class Import implements SubCommand {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         ConfigHandler configHandler = Superheroes.getInstance().getConfigHandler();
         if (sender.hasPermission("superheroes.import")) {
+            audience.sendMessage(notReload);
             audience.sendMessage(importing);
             HeroHandler heroHandler = Superheroes.getInstance().getHeroHandler();
             heroHandler.getHeroIOHandler().importFiles()
