@@ -19,18 +19,24 @@ public class Check implements SubCommand {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         if (sender.hasPermission("superheroes.check")) {
             if (args.length > 1) {
-                Player other = Bukkit.getPlayer(args[1]);
-                if (other == null) {
-                    audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getInvalidPlayerMessage(),
-                            Placeholder.unparsed("player", sender.getName())));
-                    return;
+                if (sender.hasPermission("superheroes.check.others")) {
+                    Player other = Bukkit.getPlayer(args[1]);
+                    if (other == null) {
+                        audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getInvalidPlayerMessage(),
+                                Placeholder.unparsed("player", sender.getName())));
+                        return;
+                    }
+                    Superhero hero = Superheroes.getInstance().getHeroHandler().getSuperhero(other);
+                    audience.sendMessage(
+                            MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getCurrentHeroMessage(),
+                                    Placeholder.unparsed("player", other.getName()),
+                                    Placeholder.unparsed("hero", hero.getName()))
+                    );
                 }
-                Superhero hero = Superheroes.getInstance().getHeroHandler().getSuperhero(other);
-                audience.sendMessage(
-                        MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getCurrentHeroMessage(),
-                                Placeholder.unparsed("player", other.getName()),
-                                Placeholder.unparsed("hero", hero.getName()))
-                );
+                else {
+                    audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getNoPermissionMessage(),
+                            Placeholder.unparsed("player", sender.getName())));
+                }
             }
             else {
                 if (sender instanceof Player player) {
@@ -42,6 +48,10 @@ public class Check implements SubCommand {
                     );
                 }
             }
+        }
+        else {
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getNoPermissionMessage(),
+                    Placeholder.unparsed("player", sender.getName())));
         }
     }
 

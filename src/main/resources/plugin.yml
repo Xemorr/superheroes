@@ -25,3 +25,9 @@ permissions:
   superheroes.notify:
     description: Get informed about new updates to the Superheroes plugin!
     default: op
+  superheroes.check:
+    description: Allows the user to check what their own hero is
+    default: true
+  superheroes.check.others:
+    description: Allows the user to check what other people's hero is
+    default: op
