@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.xemor</groupId>
-    <artifactId>Superheroes</artifactId>
-    <version>3.5.1</version>
+    <artifactId>superheroes</artifactId>
+    <version>3.6.0</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>

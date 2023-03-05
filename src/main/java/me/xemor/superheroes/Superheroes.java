@@ -24,6 +24,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -103,9 +104,9 @@ public final class Superheroes extends JavaPlugin implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void preLogin(AsyncPlayerPreLoginEvent e) {
-        if (e.getLoginResult() == AsyncPlayerPreLoginEvent.Result.ALLOWED) {
-            heroHandler.preLoginLoadSuperheroPlayer(e.getUniqueId());
+    public void preLogin(PlayerLoginEvent e) {
+        if (e.getResult() == PlayerLoginEvent.Result.ALLOWED) {
+            heroHandler.preLoginLoadSuperheroPlayer(e.getPlayer().getUniqueId());
         }
     }
 

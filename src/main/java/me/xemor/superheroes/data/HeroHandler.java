@@ -4,6 +4,7 @@ import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.skills.Skill;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -164,6 +165,8 @@ public class HeroHandler {
                 }
                 setHero(player, superhero, configHandler.shouldShowHeroOnStart());
             }
+            SuperheroPlayerJoinEvent playerJoinEvent = new SuperheroPlayerJoinEvent(superheroPlayer.getSuperhero(), player);
+            Bukkit.getPluginManager().callEvent(playerJoinEvent);
         }
     }
 

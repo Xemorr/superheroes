@@ -22,8 +22,7 @@ public class LifestealSkill extends SkillImplementation {
         if (e.isCancelled()) {
             return;
         }
-        if (e.getDamager() instanceof Player) {
-            Player player = (Player) e.getDamager();
+        if (e.getDamager() instanceof Player player) {
             Superhero superhero = heroHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("LIFESTEAL"));
             for (SkillData skillData : skillDatas) {
