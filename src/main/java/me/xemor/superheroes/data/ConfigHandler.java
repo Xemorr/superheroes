@@ -150,7 +150,7 @@ public class ConfigHandler {
         item = new ItemComparisonData(Objects.requireNonNull(config.getConfigurationSection("reroll.item")));
         heroHandler.setHeroesIntoMemory(new HashMap<>());
         for (Player player : Bukkit.getOnlinePlayers()) {
-            heroHandler.preLoginLoadSuperheroPlayer(player.getUniqueId());
+            heroHandler.loadSuperheroPlayer(player);
         }
     }
 

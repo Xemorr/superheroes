@@ -15,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +22,6 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 
 public class HeroHandler {
 
@@ -106,7 +104,7 @@ public class HeroHandler {
     public void setHeroInMemory(Player player, Superhero hero, boolean show) {
         SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
         if (superheroPlayer == null) {
-            superheroPlayer = new SuperheroPlayer(player.getUniqueId(), noPower, 0);
+            superheroPlayer = new SuperheroPlayer(player.getUniqueId(), hero, 0);
             uuidToData.put(player.getUniqueId(), superheroPlayer);
         }
         Superhero currentHero = superheroPlayer.getSuperhero();
@@ -131,33 +129,15 @@ public class HeroHandler {
         heroIOHandler.saveSuperheroPlayerAsync(getSuperheroPlayer(player));
     }
 
-    public void preLoginLoadSuperheroPlayer(@NotNull UUID uuid) {
-        CompletableFuture<SuperheroPlayer> future = heroIOHandler.loadSuperHeroPlayerAsync(uuid);
-        isProcessing.put(uuid, future);
+    public void loadSuperheroPlayer(@NotNull Player player) {
+        CompletableFuture<SuperheroPlayer> future = heroIOHandler.loadSuperHeroPlayerAsync(player.getUniqueId());
         future.thenAccept((superheroPlayer) -> Bukkit.getScheduler().runTask(superheroes, () -> {
+            Superhero superhero;
             if (superheroPlayer != null) {
-                uuidToData.putIfAbsent(uuid, superheroPlayer);
+                uuidToData.put(player.getUniqueId(), superheroPlayer);
+                superhero = superheroPlayer.getSuperhero();
             }
-            isProcessing.remove(uuid); // processed doesn't need to be locked / synchronised as guaranteed to be running in a Bukkit Thread
-        }));
-    }
-
-    public void finalLoadSuperheroPlayer(@NotNull Player player) {
-        SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
-        if (isProcessing.containsKey(player.getUniqueId()))  {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    Level severity = Level.INFO;
-                    if (isProcessing.size() > 60) severity = Level.WARNING;
-                    superheroes.getLogger().log(severity, "The player " + player + " has took a while to load its data. Waiting before processing further.");
-                    finalLoadSuperheroPlayer(player); // really, the player should have processed before reaching PlayerJoinEvent (or at least that's my expectation)
-                }
-            }.runTaskLater(superheroes, 2L);
-        }
-        else {
-            if (superheroPlayer == null) {
-                Superhero superhero;
+            else {
                 if (configHandler.isPowerOnStartEnabled()) {
                     superhero = getRandomHero(player);
                 } else {
@@ -165,9 +145,9 @@ public class HeroHandler {
                 }
                 setHero(player, superhero, configHandler.shouldShowHeroOnStart());
             }
-            SuperheroPlayerJoinEvent playerJoinEvent = new SuperheroPlayerJoinEvent(superheroPlayer.getSuperhero(), player);
+            SuperheroPlayerJoinEvent playerJoinEvent = new SuperheroPlayerJoinEvent(superhero, player);
             Bukkit.getPluginManager().callEvent(playerJoinEvent);
-        }
+        }));
     }
 
     public void unloadSuperheroPlayer(@NotNull Player player) {
@@ -206,6 +186,8 @@ public class HeroHandler {
                 Placeholder.unparsed("player", player.getDisplayName()));
         playerAudience.sendMessage(heroGainedMessage);
     }
+
+
 
     @Nullable
     public Superhero getSuperhero(String name) {

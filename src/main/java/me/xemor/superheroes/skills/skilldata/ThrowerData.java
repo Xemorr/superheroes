@@ -5,6 +5,7 @@ import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 

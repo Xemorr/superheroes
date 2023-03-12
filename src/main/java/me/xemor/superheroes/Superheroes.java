@@ -7,7 +7,6 @@ import me.xemor.superheroes.commands.TextConvert;
 import me.xemor.superheroes.conditions.SuperheroCondition;
 import me.xemor.superheroes.data.ConfigHandler;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.data.SuperheroPlayer;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.implementations.*;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -22,9 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -103,16 +100,9 @@ public final class Superheroes extends JavaPlugin implements Listener {
         heroHandler.handlePlayerData();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void preLogin(PlayerLoginEvent e) {
-        if (e.getResult() == PlayerLoginEvent.Result.ALLOWED) {
-            heroHandler.preLoginLoadSuperheroPlayer(e.getPlayer().getUniqueId());
-        }
-    }
-
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent e) {
-        heroHandler.finalLoadSuperheroPlayer(e.getPlayer());
+        heroHandler.loadSuperheroPlayer(e.getPlayer());
     }
 
     @EventHandler

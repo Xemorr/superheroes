@@ -6,6 +6,7 @@ import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.data.SuperheroPlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class YAMLStorage implements Storage {
         try {
             ConfigurationSection section = getSection(superheroPlayer.getUUID());
             if (section == null) {
-                section = currentDataYAML.createSection(superheroPlayer.getUUID().toString());
+                section = currentDataYAML.createSection(String.valueOf(superheroPlayer.getUUID()));
             }
             section.set("hero", superheroPlayer.getSuperhero().getName());
             section.set("hero_cmd_timestamp", superheroPlayer.getHeroCommandTimestamp());
@@ -63,14 +64,18 @@ public class YAMLStorage implements Storage {
     }
 
     @Override
-    public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {
+    public SuperheroPlayer loadSuperheroPlayer(@NotNull UUID uuid) {
         yamlLock.lock();
         try {
             ConfigurationSection section = getSection(uuid);
             if (section == null) {
                 return null;
             }
-            Superhero superhero = heroHandler.getSuperhero(section.getString("hero", "NOPOWER"));
+            String heroName = section.getString("hero", "NOPOWER");
+            Superhero superhero = heroHandler.getSuperhero(heroName);
+            if (superhero == null) {
+                return null;
+            }
             long heroCommandTimestamp = section.getLong("hero_cmd_timestamp", 0);
             return new SuperheroPlayer(uuid, superhero, heroCommandTimestamp);
         } finally {
