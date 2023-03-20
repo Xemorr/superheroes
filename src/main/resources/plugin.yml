@@ -1,5 +1,5 @@
 name: Superheroes
-version: ${project.version}
+version: ${version}
 main: me.xemor.superheroes.Superheroes
 api-version: 1.16
 authors: [Xemor_]
