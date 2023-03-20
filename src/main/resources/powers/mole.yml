@@ -1,13 +1,17 @@
 Mole:
   colouredName: <bold><gold>The Mole
   description: You can instant break certain blocks
+  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+  skin:
+    value: ewogICJ0aW1lc3RhbXAiIDogMTY3NjM5NTg1MjIzMSwKICAicHJvZmlsZUlkIiA6ICJiMjdjMjlkZWZiNWU0OTEyYjFlYmQ5NDVkMmI2NzE0YSIsCiAgInByb2ZpbGVOYW1lIiA6ICJIRUtUMCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83YjJhZTFjZTFkZjQ4OTk5MGMyZTdhYmE4OWJmYWFiYzIyNzM5MjUwYTgxNTIyNWY0NjczMDliODQ4MjA3MjkwIgogICAgfQogIH0KfQ==
+    signature: Q1riMOJEhA5DUyo370ozic+5nYVcZgvU2VlTgRMTs31R3BlVHgWany5NZB2Ndou/1X+1tpMsW1iqRdRGf3IiCWcM/bqUmdXvKJpe4Du6mfZWySmOCcgBxrlRiGHZSP1DJyNo+laFn90FM72Jd1H7Gxb3NLwyByZy79VhIQCf092gieUgmpoNltk0UPvt5mqMcsv9t1+MIeq6MGOTgulyN934BjwCC1KIamXBEThmmHOFCADGkRtC16l5u7Dsj2XDamo3AASejk9bjrZXglZ4bDPV2H/76xczx5UMIZqYYDjxIJjIx7sHxYozsIDM3XCgSBcDuy8gtXBD8HdGNto/zOPM5GtGOakABoih5J0Ak0BSuEmSOmiGi9TMNK26W2fjKi6ukT6Om5Zd1m4g03Ul3PfZmliVMyMJWx6yGAqDTfnjrb7DRDTfZCLJV1bmgKCqs+mLFakWwFCy8h3m9K2zr9CUzGjRTwPo9XY3iJ/pfyIgGnPWJC3vJl/etgjBsXhlPuaapRHWgkOVk/u2hX/ZcLTy2YtlLcJQuB8eeeqNlLA65ebQ9h7bHGRBv8sM6f0E/JNv3kddTdNMxm71kUq0+oqK4wNk64vKUcucC08IDEi6glo1+AzNzXG2AMZYG3JsI225S/PR7iiNopqXsSkoJmhoa4UJdL+3J9bn0joMunM=
   skills:
     instantbreak:
       skill: INSTANTBREAK
       blocks:
-      - DIRT
-      - STONE
-      - COBBLESTONE
+        - DIRT
+        - STONE
+        - COBBLESTONE
       breakUsing: DIAMOND_PICKAXE
     blindInLight:
       skill: LIGHT

@@ -1,6 +1,9 @@
 #Do not set this as false unless you want the plugin to move your folder called Superheroes2 to one called Superheroes
 movedtosuperheroespluginname: false
 
+#Do not set this as false unless you want to convert from old colour codes to new
+textconvert: true
+
 #These are the settings which dictate where your players' heroes are stored
 database:
   type: YAML
