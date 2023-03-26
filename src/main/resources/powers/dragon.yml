@@ -10,7 +10,7 @@ Dragon:
       canDropOnDeath: false
       loseItemOnHeroLoss: false
       item:
-        type: FIRE_CHARGE
+        type: BLAZE_POWDER
         amount: 1
         metadata:
           displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball

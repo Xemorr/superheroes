@@ -1,6 +1,10 @@
 Dracula:
   colouredName: <#ff4444><bold><#ff4444>D</#ff4444><#ff4d4d>r</#ff4d4d><red>a</red><#ff5e5e>c</#ff5e5e><#ff6666>u</#ff6666><#ff6f6f>l</#ff6f6f><#ff7777>a</#ff7777></bold><#ff4444>
   description: You absorb the life force of your foes
+  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+  skin:
+    value: ewogICJ0aW1lc3RhbXAiIDogMTY3MTQ5NTc2NzcyOCwKICAicHJvZmlsZUlkIiA6ICI3NTA5NzZmODRmMDE0NWFhYTc0MzAwYWJhMzc5MTIzNCIsCiAgInByb2ZpbGVOYW1lIiA6ICIwY2hlYXRzIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2I5YTA0ZmI2ZjE1OTU4MjgyMWQ0ZDI1NWIyNjE3OGZlMmRhMjZjYzNmNDdiYTYzMGVlMTg0MjQ5NTJmYWY5OTciCiAgICB9CiAgfQp9
+    signature: ilTpdrWcWmnGb936YawDIIl+nQZVeBdocqMHOnfQirOiyHefDXtKXOhgBGFM6qlgHxFoMQ1O/k4IT5y96j+Be2TJNOnRj5mwPBZUsUaQrf0jkgHyrSWKRwGxuJ91F6XBeLj6l6bw3c6rdw0hbSekFnuq4HR9vlwylYlCkruja1laYLCOXIIM9/21ZVtRzvnXeUABqaP2LTydjyyln2UexqCs7rhMP1gLlYvMHOrT61wTfbiHHxO3WIKCk5o4sqrtznWa6LZKKDgMer4iNx0gTuleObMxQ/7nXSP88sCC0NcmF02H+gpqzIRb/5ARTVSP3tYiVxhRTQHmQUq3VoyPKOJij8mjfcWF7klxHaOv5kwmR003T8vEF64RZiD1Zq1gJqs3d2hj4lo6Eyo0YZmw26YSnqZkNyvj6WtQQJDuI2O2H14lle10BP8/CrbMyfXgHYXQV5XKj6vDLRn4j1WC6sqHCMJDYHv2qJyR49icwzKi3B/neorTEqO5qeKY5D3LVfaduDyn2+jnm1BPWbHaNQcZpyeIZtTeJnKBBoYkPaD18aQNJonEv9n9W87uJ/3RzxKjeEDS0gIGoReJcLYCRHoW4Mu1E7BFTBOQem5K3qFz8MsprVAx0UE9XguGvwsXLj5XAxKoojggvBpZknYgFDos2r7KOPrVVe9L204GfIA=
   skills:
     lifesteal:
       skill: LIFESTEAL

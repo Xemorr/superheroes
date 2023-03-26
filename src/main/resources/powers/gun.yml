@@ -16,7 +16,7 @@ Gun:
           displayName: <bold><dark_gray>Gun
           isUnbreakable: true
           lore:
-          - <italic><white>This is a legitimate superpower, I promise.
+            - <italic><white>This is a legitimate superpower, I promise.
     gun:
       skill: GUN
       damage: 5.0
@@ -32,7 +32,7 @@ Gun:
           displayName: <bold><dark_gray>Gun
           isUnbreakable: true
           lore:
-          - <italic><white>This is a legitimate superpower, I promise.
+            - <italic><white>This is a legitimate superpower, I promise.
       shootSound:
         sound: ENTITY_GENERIC_EXPLODE
         volume: 0.5
@@ -41,5 +41,5 @@ Gun:
         particle: FLAME
         numberOfParticles: 1
       hitParticle:
-        particle: EXPLOSION_NORMAL
+        particle: EXPLOSION_LARGE
         numberOfParticles: 1

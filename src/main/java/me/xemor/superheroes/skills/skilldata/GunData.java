@@ -1,8 +1,8 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import me.xemor.configurationdata.ParticleData;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
-import me.xemor.superheroes.skills.skilldata.configdata.ParticleData;
 import me.xemor.superheroes.skills.skilldata.configdata.SoundData;
 import org.bukkit.configuration.ConfigurationSection;
 

@@ -4,8 +4,8 @@ Repulsion:
   skills:
     repulsion:
       skill: REPULSION
-      multiplier: 1 # set this to a negative number to attract.
-      range: 5
+      multiplier: 0.5 # set this to a negative number to attract.
+      radius: 5
       entityBlacklist:
-      - ARMOR_STAND
+        - ARMOR_STAND
 

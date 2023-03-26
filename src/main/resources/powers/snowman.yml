@@ -1,15 +1,19 @@
 Snowman:
   colouredName: <bold><white>Snowman
   description: You create snow trails!
+  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+  skin:
+    value: ewogICJ0aW1lc3RhbXAiIDogMTYwNTQyODIzMzYyNywKICAicHJvZmlsZUlkIiA6ICJkODAwZDI4MDlmNTE0ZjkxODk4YTU4MWYzODE0Yzc5OSIsCiAgInByb2ZpbGVOYW1lIiA6ICJ0aGVCTFJ4eCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9hYzUxNTVmOTRiM2UwOTE3MTJiZDA0YTlkYjIwYzgxNGUxNGNmZTY2OTU0Y2NiM2IwOWNmMzMzYTczMTc4OWZkIgogICAgfQogIH0KfQ==
+    signature: NgaU5REEZtz9ddj7wjjndl7oCaZAypYFIpYPw69sjUQi7EhEkP9p4pCbec68PJWGMN6kZn3wut35/G6+3IJTKECoTHNEoBxAsI44ifnTufF4akoD6tGDWt4NXFW4nmhSsSvpvVGVi+dAiYP1re+vvFeIApRnD8LchbbcLSs8VmCqr6+e/phua8JdkF4V+jOFXfAM1lI6dz00310pl1tmE4qxa2d9dMqjiAb7hhNXoVUJ3gtT5j4humhReEENgsTMJy5N6tpjqCOphLYwX87xxQtdMkX3NKsSCdAUdB0xGEjP4U9ovdlMZXx/BEPNI09/NDtORN+tl/aFsDyvijVTMfHEfIUD8I9nCBLCY663/52aCDEHXKpNFkW05EvQZsWbeSiP1lTaWyK/VKWty6n94CfWMi++2QtlfEfqd4r3bQcffEsKf2C8OOroUkqrY5QIueLv7MDh8/1wMYgwkCknScd7vtdOqnp6aPJZ02OuTWAk5pMpBSYrM5nmhEPJRnS8BhPLuRV5cS2yg0pv+nWPV1zyuSmeiRkdsKOz9rEZ5R2fBpO3D5hrcfF8ND1wF7TCKZFBqnMM2lwgGFgEQTOXDDi6igu4FZvL9hwUznB0dPw5QDWc22sDJo7CdkBYUVZrmOTV8Wg/Xs+GsZ41iCsDDOMS/y4zR41BZctrSY2nUxc=
   skills:
     placeSnowBehindYou:
       skill: WALKER
       blocksToPlace:
-      - SNOW
+        - SNOW
       blocksToReplace:
-      - AIR
-      - CAVE_AIR
-      - VOID_AIR
+        - AIR
+        - CAVE_AIR
+        - VOID_AIR
       isSneaking: false
       blocksDrop: true
       shouldRevert: false

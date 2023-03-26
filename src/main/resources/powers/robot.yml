@@ -1,6 +1,10 @@
 Robot:
   colouredName: <bold><gray>The Robot
   description: You're a robot
+  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+  skin:
+    value: ewogICJ0aW1lc3RhbXAiIDogMTY0Mjg5MzMwMTIwNCwKICAicHJvZmlsZUlkIiA6ICJiNjM2OWQ0MzMwNTU0NGIzOWE5OTBhODYyNWY5MmEwNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJCb2JpbmhvXyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mODI4N2U3Zjg0MjQ4OWI2OGQ0ODI2Nzc0MWE5OTk0MmNkODUxOWZjZWQ0ZWEyOGExOWIxOTFjOGYxZjIwMTFiIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=
+    signature: ji99YsnEEMJWq2sox5WWIlxA7DOn9Z57Xmp+y0FW5nifE5WVp4PxKHffbvkA8VmIy+JRvHimfZBiWfNV+/XzdCgp5+GtyKR8ydEb1SJEakUu9ew3oZKFoewjEooTlOzYl/3wRdinBg06EShad4wrqKj07NhQWsWqbkcVyYsR9teRHToiKnfspE/JIGGOxxieFngvGrjN0bIDM9ylbE5opyQ/khWOhOScRdzRM0CBR+pt1kRsR+I7RFW2FCx73xMOr/XAzaPLeH6VGwCb71U4MdsSICdiwtyxZpjK+M8IS0Kt7PJatEwvzm085lqyxc9M63Z6NqmT11rjwifw8R3Ye/EW40PMZu19eYfzq4iYocGDtel1yZq2QPWfkOf8dXDQbBjoLVlschSei/dKhoq5V0TiVUIB1X3AXnp0WUvx52LamKk9E6T86dgSDdSkNXpfCPqmISasBTQUWMBPL9O1Di6+xcXbLzgFuK4jRaDere8+vd03yGJVO1l+5p82H7xGqh/jn1hKqd7eckfR/pa8Mr78t7+h4hLk44nNpIxzo/xaBwqzJq8pAdpB4tjJ9lMtbTY0GK9vQuMN+VxYkI5Ul0TQ6EOIhSR3bBOyNf+AhqldhSW5EtHhU/XIAfTM8l0HGlzguwqO0UOBNAh3Zxc2GnEaDw+Xi61oQov51YLVsbg=
   skills:
     nohunger:
       skill: NOHUNGER
@@ -10,25 +14,26 @@ Robot:
     nightvision:
       skill: POTIONEFFECT
       type: NIGHT_VISION
+      duration: 20
     noLightningDamage:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0
       damageCause:
-      - LIGHTNING
+        - LIGHTNING
     lightningSpeed:
       skill: DAMAGEPOTION
       type: SPEED
       duration: 30
       potency: 2
       damageCause:
-      - LIGHTNING
+        - LIGHTNING
     lightningGlow:
       skill: DAMAGEPOTION
       type: GLOWING
       duration: 30
       potency: 1
       damageCause:
-      - LIGHTNING
+        - LIGHTNING
     weatherDamage:
       skill: WEATHERDAMAGE
       damage: 2.0

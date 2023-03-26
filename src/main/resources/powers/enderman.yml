@@ -1,6 +1,10 @@
 Enderman:
   colouredName: <bold><dark_purple>Enderman
   description: You can teleport by punching.
+  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+  skin:
+    value: ewogICJ0aW1lc3RhbXAiIDogMTU5OTAxMjk3NTAyOCwKICAicHJvZmlsZUlkIiA6ICJlNzkzYjJjYTdhMmY0MTI2YTA5ODA5MmQ3Yzk5NDE3YiIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVfSG9zdGVyX01hbiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83ZGI1YjQzMjhiMDk3Yjc2ZmUxZTUxYjRjOTIxOGFmZDM2MzhlMWRhMDdmZjcxNjM5OWMzNzExMTc4MDllNTQwIgogICAgfQogIH0KfQ==
+    signature: WAJfp5SDfmgxljM2TRtdw7PvqWIcPH8wsZtvYCjH91SrCMMqp1BGdgiCz3tXaVsrZsJIsa7Ile1ay6pk9+0bz+/DPOr85V1h35aI2n/gh/POjTXSn1757OlNrOl1KUtrT3V2A5NbA45j48Hly5NPgcAEGvZhQXIbu6RSad+ytZAkAZYZ/Gz/bdqoC4U396H8b5RoLpGSSNgCDXcR2/JHbk5icomi16kKsF2uTwQ/woxAQnrKizAyh8ajAKeJwOp/g3OXWdcdSYZ2jd16Rq6xm/Zsso7lEVKrked4Smj9jxnOwQFoml7nrp7svHwoGMPLilYX3HeDoO8vqBLmRpimNzoHkE8GcjwcnagYpf65ndNlU8PN8/XtbhAIvtP6S9hXXQ+zQhZHUFsk+raVjDsfSckBicmv3ihzVO0TXE1P9sdocWdIDnG3qvZwmaHtQGV9NrsHYjg7Kb6yV8yogj6gKRnG0gUcdlomLxibhFJ6mVSOf0fJVcnH7wFdW3Glveaq0n1J2hIivbzJyTHE0kx6pyxhUNEQ8HN45+nVYnUOSDkLttEAq/EHQk4eI5Y2iGFlD4yAfrFQALTdR2fvZwzGfXw3+2C4xvi2rRypRJ4KTFIYaSr/1iGO2xscEDFgZBNWO2B6Xh9YKzaQpaqDU1YBrwPHNXLDeoINIGYbzrung0g=
   skills:
     teleport:
       skill: TELEPORT
@@ -19,4 +23,4 @@ Enderman:
     ohko:
       skill: OHKO
       entityTypes:
-      - Enderman
+        - Enderman
