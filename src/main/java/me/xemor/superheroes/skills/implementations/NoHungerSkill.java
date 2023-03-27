@@ -16,8 +16,7 @@ public class NoHungerSkill extends SkillImplementation {
 
     @EventHandler
     public void onSaturation(FoodLevelChangeEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player player = (Player) e.getEntity();
+        if (e.getEntity() instanceof Player player) {
             if (e.getFoodLevel() <= player.getFoodLevel()) {
                 Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("NOHUNGER"));
                 for (SkillData skillData : skillDatas) {

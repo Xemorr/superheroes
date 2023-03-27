@@ -9,4 +9,15 @@ Dracula:
     lifesteal:
       skill: LIFESTEAL
       lifestealPercentage: 5
-
+    heartsteal:
+      skill: HEARTSTEAL
+      heartsgained: 2
+      maxhearts: 30
+      entities:
+        - PLAYER
+    regenerationKill:
+      skill: KILLPOTION
+      type: REGENERATION
+      potency: 2
+      duration: 10
+      entities: [] # Empty List means it works on any entity, if you only want it to work on certain entities, add entities here

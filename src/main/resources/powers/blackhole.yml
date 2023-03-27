@@ -1,11 +1,11 @@
 BlackHole:
-  colouredName: <bold><gradient:#000000:#FFFFFF>Black Hole
-  description: When you sneak, entities are attracted!
+  colouredName: <bold><gradient:#222222:#DDDDDD>Black Hole
+  description: When you sneak, entities are attracted towards you!
   # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
   skills:
     repulsion:
       skill: REPULSION
-      multiplier: -0.3 # set this to a positive number to repulse.
+      multiplier: -0.35 # set this to a positive number to repulse.
       radius: 15
       entityBlacklist:
         - ARMOR_STAND

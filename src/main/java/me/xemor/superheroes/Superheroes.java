@@ -150,8 +150,9 @@ public final class Superheroes extends JavaPlugin implements Listener {
                 new ConvertDropsSkill(heroHandler),
                 new LifestealSkill(heroHandler),
                 new DamagePotionSkill(heroHandler),
-                new WeatherDamageSkill(heroHandler)
-
+                new WeatherDamageSkill(heroHandler),
+                new HeartStealSkill(heroHandler),
+                new KillPotionSkill(heroHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
