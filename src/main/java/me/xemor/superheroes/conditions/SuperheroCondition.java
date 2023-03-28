@@ -40,8 +40,7 @@ public class SuperheroCondition extends Condition implements EntityCondition, Ta
     }
 
     public boolean checkHero(Entity entity) {
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
+        if (entity instanceof Player player) {
             Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(player);
             return heroes.contains(superhero.getName().toLowerCase());
         }

@@ -59,7 +59,9 @@ public class HeartStealSkill extends SkillImplementation {
             for (AttributeModifier remove : toRemove) {
                 maxHealth.removeModifier(remove);
             }
-            player.setHealth(maxHealth.getValue());
+            if (player.getHealth() > maxHealth.getValue()) {
+                player.setHealth(maxHealth.getValue());
+            }
         }
     }
 
