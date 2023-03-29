@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "3.8.2"
+version = "3.8.3"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -69,5 +69,8 @@ tasks.withType<JavaCompile>() {
 
 // Handles version variables etc
 tasks.processResources {
-    expand(project.properties)
+    inputs.property("version", rootProject.version)
+    filesMatching("plugin.yml") {
+        expand("version" to rootProject.version)
+    }
 }

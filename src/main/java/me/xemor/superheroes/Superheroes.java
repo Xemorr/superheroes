@@ -214,6 +214,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
             }
             return valueMap;
         }));
+        metrics.addCustomChart(new Metrics.SimplePie("superheroes_plus_ultra_usage", () -> Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") == null ? "Yes" : "No"));
     }
 
     @Override
