@@ -1,0 +1,40 @@
+Spiderman:
+  colouredName: <red><b>Spiderman
+  description: You can climb blocks!
+  skills:
+    climb:
+      skill: CLIMB
+      proximity: 1.1
+      speed: 0.25
+      debug: false
+    noFallDamage:
+      skill: DAMAGERESISTANCE
+      damageMultiplier: 0.1
+      damageCause:
+        - FALL
+  plusUltraSkills: # requires SuperheroesPlusUltra to be installed in order to work
+    cobweb:
+      skill: CUSTOM
+      trigger:
+        type: COMBAT
+        conditions:
+          chance:
+            type: CHANCE
+            mode: SELF
+            chance: 0.1
+          cooldown:
+            type: COOLDOWN
+            mode: SELF
+            cooldown: 10
+      effects:
+        trapMob:
+          type: LOCATIONCUBE # need to be on SkillsLibrary 2.12.4 or higher for this to work correctly!
+          mode: OTHER
+          verticalRadius: 0
+          horizontalRadius: 0
+          effects:
+            place:
+              type: PLACEBLOCK
+              mode: LOCATION
+              block:
+                type: COBWEB

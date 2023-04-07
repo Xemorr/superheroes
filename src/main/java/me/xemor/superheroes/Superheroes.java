@@ -61,6 +61,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
         command.setExecutor(heroCommand);
         command.setTabCompleter(heroCommand);
         handleMetrics();
+        plusUltraAdvertisement();
         checkForNewUpdate();
         bukkitAudiences = BukkitAudiences.create(this);
         hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary2");
@@ -152,11 +153,32 @@ public final class Superheroes extends JavaPlugin implements Listener {
                 new DamagePotionSkill(heroHandler),
                 new WeatherDamageSkill(heroHandler),
                 new HeartStealSkill(heroHandler),
-                new KillPotionSkill(heroHandler)
+                new KillPotionSkill(heroHandler),
+                new ClimbSkill(heroHandler)
         };
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
         }
+    }
+
+    public void plusUltraAdvertisement() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (Bukkit.getOnlinePlayers().size() > 25 && Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") == null) {
+                    getLogger().info("This server has quite a few players online! You may benefit from my premium addon SuperheroesPlusUltra");
+                    getLogger().info("This plugin adds a few extra default heroes, unlocks new powers in existing heroes");
+                    getLogger().info("adds skins to many heroes, adds skript compatibility, and even lets you write CUSTOM skills for your heroes!");
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.hasPermission("superheroes.notify")) {
+                            player.sendMessage("This server has quite a few players online! You may benefit from my premium addon SuperheroesPlusUltra");
+                            player.sendMessage("This plugin adds a few extra default heroes, unlocks new powers in existing heroes");
+                            player.sendMessage("adds skins to many heroes, adds skript compatibility, and even lets you write CUSTOM skills for your heroes!");
+                        }
+                    }
+                }
+            }
+        }.runTaskTimer(this, 3000L, 469000L);
     }
 
     public void checkForNewUpdate() {
@@ -214,7 +236,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
             }
             return valueMap;
         }));
-        metrics.addCustomChart(new Metrics.SimplePie("superheroes_plus_ultra_usage", () -> Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") == null ? "Yes" : "No"));
+        metrics.addCustomChart(new Metrics.SimplePie("superheroes_plus_ultra_usage", () -> Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") != null ? "Yes" : "No"));
     }
 
     @Override
