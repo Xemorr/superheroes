@@ -7,6 +7,8 @@ Spiderman:
       proximity: 1.1
       speed: 0.25
       debug: false
+      blocks: [] # empty means allow anything if whitelist is on
+      whitelist: true
     noFallDamage:
       skill: DAMAGERESISTANCE
       damageMultiplier: 0.1

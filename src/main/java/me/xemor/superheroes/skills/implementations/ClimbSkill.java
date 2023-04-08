@@ -11,6 +11,9 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Stairs;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerVelocityEvent;
@@ -65,10 +68,19 @@ public class ClimbSkill extends SkillImplementation {
         for (BlockFace face : faces) {
             Location location = player.getLocation();
             Block adjacent = location.getBlock().getRelative(face);
-            if (adjacent.getType().isSolid()) {
-                Location adjacentCentre = adjacent.getLocation().add(0.5, 0, 0.5);
-                if (climbData.getProximity() > rotatedManhattanDistance(location, adjacentCentre)) {
-                    return true;
+            BlockData data = adjacent.getBlockData();
+            if (data instanceof Slab slab && slab.getType() == Slab.Type.BOTTOM) {
+                return false;
+            }
+            if (data instanceof Stairs stairs && (stairs.getFacing() != face.getOppositeFace())) {
+                return false;
+            }
+            if ((climbData.isWhitelist() && climbData.getBlocks().inSet(adjacent.getType())) || (!climbData.isWhitelist() && !climbData.getBlocks().inSet(adjacent.getType()))) {
+                if (adjacent.getType().isSolid()) {
+                    Location adjacentCentre = adjacent.getLocation().add(0.5, 0, 0.5);
+                    if (climbData.getProximity() > rotatedManhattanDistance(location, adjacentCentre)) {
+                        return true;
+                    }
                 }
             }
         }
