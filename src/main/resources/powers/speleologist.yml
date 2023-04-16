@@ -20,6 +20,9 @@ Speleologist:
         ANCIENT_DEBRIS:
           type: NETHERITE_SCRAP
           amount: 2
+        RAW_COPPER:
+          type: COPPER_INGOT
+          amount: 2
         COAL:
           type: COAL
           amount: 2
