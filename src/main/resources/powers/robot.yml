@@ -8,6 +8,7 @@ Robot:
   skills:
     nohunger:
       skill: NOHUNGER
+      minimumHunger: 19 # reduced from 20 to allow for eating food for regeneration purposes
     damageres:
       skill: POTIONEFFECT
       type: DAMAGE_RESISTANCE

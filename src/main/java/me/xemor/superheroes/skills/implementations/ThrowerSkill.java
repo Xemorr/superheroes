@@ -39,13 +39,11 @@ public class ThrowerSkill extends SkillImplementation {
                                 World world = player.getWorld();
                                 Entity entity = world.spawnEntity(player.getEyeLocation(), entityType);
                                 entity.setVelocity(player.getEyeLocation().getDirection().multiply(throwerData.getVelocity()));
-                                if (entity instanceof AbstractArrow) {
-                                    AbstractArrow arrow = (AbstractArrow) entity;
+                                if (entity instanceof AbstractArrow arrow) {
                                     arrow.setPickupStatus(throwerData.canPickUp());
                                     arrow.setDamage(throwerData.getDamage());
                                 }
-                                if (entity instanceof Projectile) {
-                                    Projectile projectile = (Projectile) entity;
+                                if (entity instanceof Projectile projectile) {
                                     projectile.setShooter(player);
                                 }
                                 useAmmo(throwerData.getAmmoCost(), item);

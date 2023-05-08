@@ -40,7 +40,7 @@ public class Skill {
         registerSkill("TELEPORT", TeleportData.class);
         registerSkill("INSTANTBREAK", InstantBreakData.class);
         registerSkill("LIGHT", LightSkillData.class);
-        registerSkill("NOHUNGER", BlankData.class);
+        registerSkill("NOHUNGER", NoHungerData.class);
         registerSkill("DAMAGERESISTANCE", DamageResistanceData.class);
         registerSkill("SLIME", SlimeData.class);
         registerSkill("SNEAKINGPOTION", SneakingPotionData.class);
