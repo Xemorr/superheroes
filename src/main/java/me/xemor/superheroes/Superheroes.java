@@ -9,10 +9,12 @@ import me.xemor.superheroes.data.ConfigHandler;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.implementations.*;
+import me.xemor.userinterface.ChestHandler;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.apache.commons.io.FileUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Chest;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -67,6 +69,11 @@ public final class Superheroes extends JavaPlugin implements Listener {
         hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary2");
         if (hasSkillsLibrary) runSkillsLibraryChanges();
         handleAliases(heroCommand, command);
+        registerUserInterfaces();
+    }
+
+    public void registerUserInterfaces() {
+        this.getServer().getPluginManager().registerEvents(new ChestHandler(), this);
     }
 
     public void convertFromSuperheroes2Folder() {

@@ -1,5 +1,7 @@
 package me.xemor.superheroes.data;
 
+import dev.dbassett.skullcreator.SkullCreator;
+import me.xemor.configurationdata.ItemStackData;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
@@ -7,11 +9,19 @@ import me.xemor.superheroes.events.SuperheroLoadEvent;
 import me.xemor.superheroes.events.SuperheroesReloadEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +33,8 @@ import java.util.logging.Level;
 import java.util.stream.Stream;
 
 public class ConfigHandler {
+
+    private static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
 
     private File dataFolder;
     private File superpowersFolder;
@@ -128,7 +140,12 @@ public class ConfigHandler {
                 String superheroName = superheroSection.getName();
                 String colouredSuperheroName = superheroSection.getString("colouredName", superheroName);
                 String superheroDescription = superheroSection.getString("description", superheroName + " description");
+                String base64Skin = superheroSection.getString("skin.value");
+                String signature = superheroSection.getString("skin.signature");
                 Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
+                superhero.setBase64Skin(base64Skin);
+                superhero.setSignature(signature);
+                calculateIcon(superhero, superheroSection);
                 loadSkills(superhero, superheroSection);
                 SuperheroLoadEvent superheroLoadEvent = new SuperheroLoadEvent(superhero, superheroSection);
                 Bukkit.getServer().getPluginManager().callEvent(superheroLoadEvent);
@@ -138,6 +155,48 @@ public class ConfigHandler {
             }
         }
         heroHandler.registerHeroes(nameToSuperhero);
+    }
+
+    // Used in loadSuperheroes for working out the icon for the GUI
+    private void calculateIcon(Superhero hero, ConfigurationSection heroSection) {
+        ItemStack icon;
+        ConfigurationSection section = heroSection.getConfigurationSection("icon");
+        Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
+        if (section != null) {
+            icon = new ItemStackData(heroSection.getConfigurationSection("icon")).getItem();
+        }
+        else {
+            if (hero.getBase64Skin().equals("")) { // approximate wool colour based on coloured name
+                TextColor color = colouredName.color();
+                if (color == null) icon = new ItemStack(Material.BLACK_WOOL);
+                else icon = new ItemStack(woolFromColor(color.red(), color.green(), color.blue()));
+            }
+            else {
+                icon = SkullCreator.itemFromBase64(hero.getBase64Skin());
+            }
+            ItemMeta meta = icon.getItemMeta();
+            meta.setDisplayName(legacySerializer.serialize(colouredName));
+            Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
+            description = description.colorIfAbsent(TextColor.color(255, 255, 255));
+            meta.setLore(List.of(legacySerializer.serialize(description)));
+            icon.setItemMeta(meta);
+        }
+        hero.setIcon(icon);
+    }
+
+    public Material woolFromColor(int red, int green, int blue) {
+        int distance = Integer.MAX_VALUE;
+        org.bukkit.DyeColor closest = DyeColor.BLACK;
+        for (org.bukkit.DyeColor dye : org.bukkit.DyeColor.values()) {
+            org.bukkit.Color color = dye.getColor();
+            int dist = Math.abs(color.getRed() - red) + Math.abs(color.getGreen() - green) + Math.abs(color.getBlue() - blue);
+            if (dist < distance) {
+                distance = dist;
+                closest = dye;
+            }
+        }
+        // You might want to add a try here - I'm not sure how it worked back in 1.14 (it may produce a NullPointerException)
+        return Material.getMaterial((closest.name() + "_WOOL").toUpperCase());
     }
 
     public void reloadConfig(HeroHandler heroHandler) {
@@ -178,7 +237,19 @@ public class ConfigHandler {
     }
 
     public boolean isPowerOnStartEnabled() {
-        return config.getBoolean("powerOnStart.isEnabled", true);
+        return config.getBoolean("powerOnStart.isEnabled", false);
+    }
+
+    public boolean openGUIOnStart() {
+        return config.getBoolean("gui.onStart", true);
+    }
+
+    public String getGUIName() {
+        return language.getString("GUI.name", "Pick your hero!");
+    }
+
+    public boolean canCloseGUI() {
+        return config.getBoolean("gui.canClose", false);
     }
 
     public List<String> getDisabledWorlds() {
@@ -186,7 +257,7 @@ public class ConfigHandler {
     }
 
     public boolean shouldShowHeroOnStart() {
-        return config.getBoolean("powerOnStart.showHero", true);
+        return config.getBoolean("powerOnStart.showHero", false);
     }
 
     public String getHeroGainedMessage() {
@@ -205,7 +276,14 @@ public class ConfigHandler {
         String name = config.getString("defaultHero.name", "Powerless");
         String colouredName = config.getString("defaultHero.colouredName", "<yellow><b>Powerless");
         String description = config.getString("defaultHero.description", "You have no power");
-        return new Superhero(name, colouredName, description);
+        Superhero hero = new Superhero(name, colouredName, description);
+        ItemStack icon = new ItemStack(Material.BARRIER);
+        ItemMeta meta = icon.getItemMeta();
+        meta.setDisplayName(legacySerializer.serialize(MiniMessage.miniMessage().deserialize(colouredName)));
+        meta.setLore(List.of(legacySerializer.serialize(MiniMessage.miniMessage().deserialize("<white>" + description))));
+        icon.setItemMeta(meta);
+        hero.setIcon(icon);
+        return hero;
     }
 
     public String getHeroCooldownMessage() {

@@ -1,6 +1,15 @@
 Sorcerer:
   colouredName: <bold><dark_purple>Sorcerer
   description: You can create magical spell books and wield them using redstone
+  icon:
+    type: WRITTEN_BOOK
+    amount: 1
+    metadata:
+      displayName: <bold><dark_purple>Sorcerer
+      lore:
+        - <white>You can create magical spell books and wield them using redstone
+        - "<white>The spells are: Fireball, Snowball, Arrow, Lightning, Egg"
+        - "<white>Water, Lava, Fire, Explosion, Trident and Transmutation"
   skills:
     recyclable_book:
       skill: CRAFTING

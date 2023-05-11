@@ -18,20 +18,23 @@ database:
 #The reroll settings customise how /hero reroll and right-clicking with a reroll item work
 reroll:
   item:
-    types: # the types of material which trigger a reroll, by default this is a diamond block. Other items like nether stars work great too.
-    - DIAMOND_BLOCK
+    types: [] # the types of material which trigger a reroll, by default this is disabled. Valuable items like nether stars or diamond blocks work well
   isEnabled: true # whether rerolling via the item is enabled or not
   eachHeroRequiresPermissions: false # whether you can only obtain heroes via rerolling and hero select that the user has permission for
   cooldown: 1 # the cooldown between usages of the reroll item in seconds
 
 powerOnStart:
-  isEnabled: true # whether they get a random hero, or no hero.
-  showHero: true # whether a popup telling the user which hero they are appears on join
+  isEnabled: false # whether they get a random hero, or no hero.
+  showHero: false # whether a popup telling the user which hero they are appears on first join
+
+gui:
+  onStart: true
+  canClose: false
 
 heroCommand:
   cooldown: 0 # cooldown in seconds
   aliases:
-  - ''
+    - ''
 
 defaultHero: # note this section does not support Skills as of 2023/02/01
   name: "Powerless" # this is dangerous to change as the plugin would not be able to interpret players with this hero and would reset them to default.

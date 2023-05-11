@@ -35,10 +35,7 @@ public class HeroSelect implements SubCommand {
         }
         if (args.length <= 1) {
             if (sender instanceof Player player) {
-                Superhero superhero = heroHandler.getSuperhero(player);
-                audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getCurrentHeroMessage(),
-                                Placeholder.unparsed("player", player.getName()),
-                                Placeholder.unparsed("hero", superhero.getName())));
+                heroHandler.openHeroGUI(player);
             }
             return;
         }
@@ -54,16 +51,9 @@ public class HeroSelect implements SubCommand {
             audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
-        if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player) {
-            Player senderPlayer = (Player) sender;
+        if (sender instanceof Player senderPlayer) {
             SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(senderPlayer);
-            long seconds = getCooldownLeft(superheroPlayer) / 1000;
-            if (!isCooldownOver(superheroPlayer)) {
-                Component message = MiniMessage.miniMessage().deserialize(configHandler.getHeroCooldownMessage(),
-                        Placeholder.unparsed("player", senderPlayer.getDisplayName()),
-                        Placeholder.unparsed("currentcooldown", String.valueOf(Math.round(seconds))),
-                        Placeholder.unparsed("cooldown", String.valueOf(configHandler.getHeroCommandCooldown())));
-                audience.sendMessage(message);
+            if (!superheroPlayer.handleCooldown(senderPlayer, audience)) {
                 return;
             }
         }
@@ -104,15 +94,6 @@ public class HeroSelect implements SubCommand {
             return heroesTabComplete;
         }
         return null;
-    }
-
-    public boolean isCooldownOver(SuperheroPlayer superheroPlayer) {
-        return getCooldownLeft(superheroPlayer) <= 0;
-    }
-
-    public long getCooldownLeft(SuperheroPlayer superheroPlayer) {
-        long cooldown = configHandler.getHeroCommandCooldown() * 1000;
-        return cooldown - (System.currentTimeMillis() - superheroPlayer.getHeroCommandTimestamp());
     }
 
 }

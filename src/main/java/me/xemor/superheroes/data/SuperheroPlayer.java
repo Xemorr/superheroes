@@ -1,6 +1,12 @@
 package me.xemor.superheroes.data;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -47,5 +53,27 @@ public class SuperheroPlayer {
             return uuid == superheroPlayer.uuid && superhero.equals(superheroPlayer.getSuperhero()) && heroCommandTimestamp == superheroPlayer.getHeroCommandTimestamp();
         }
         return false;
+    }
+
+    public boolean isCooldownOver() {
+        return getCooldownLeft() <= 0;
+    }
+
+    public long getCooldownLeft() {
+        long cooldown = Superheroes.getInstance().getConfigHandler().getHeroCommandCooldown() * 1000;
+        return cooldown - (System.currentTimeMillis() - this.getHeroCommandTimestamp());
+    }
+
+    public boolean handleCooldown(Player player, Audience audience) {
+        long seconds = this.getCooldownLeft() / 1000;
+        if (!player.hasPermission("superheroes.hero.bypasscooldown")  && !this.isCooldownOver()) {
+            Component message = MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getHeroCooldownMessage(),
+                    Placeholder.unparsed("player", player.getDisplayName()),
+                    Placeholder.unparsed("currentcooldown", String.valueOf(Math.round(seconds))),
+                    Placeholder.unparsed("cooldown", String.valueOf(Superheroes.getInstance().getConfigHandler().getHeroCommandCooldown())));
+            audience.sendMessage(message);
+            return false;
+        }
+        return true;
     }
 }

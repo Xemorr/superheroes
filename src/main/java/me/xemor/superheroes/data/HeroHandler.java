@@ -1,20 +1,28 @@
 package me.xemor.superheroes.data;
 
+import dev.dbassett.skullcreator.SkullCreator;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
 import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
 import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.skills.Skill;
+import me.xemor.userinterface.ChestInterface;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -129,6 +137,40 @@ public class HeroHandler {
         heroIOHandler.saveSuperheroPlayerAsync(getSuperheroPlayer(player));
     }
 
+    public void openHeroGUI(Player player) {
+        List<Superhero> allowedSuperheroes = nameToSuperhero.values().stream().filter((hero) -> !configHandler.areHeroPermissionsRequired() || player.hasPermission(hero.getPermission())).toList();
+        if (allowedSuperheroes.isEmpty()) return;
+        // without the subtract one from the size it always has one more row than it should
+        // the + 1 is so you don't get silliness like 0 rows
+        int numberOfRows = ((allowedSuperheroes.size() - 1) / 9) + 1;
+        if (numberOfRows > 6) {
+            Superheroes.getInstance().getLogger().severe("The hero GUI does not support more than 54 heroes.");
+            return;
+        }
+        ChestInterface<boolean[]> chestInterface = new ChestInterface<>(configHandler.getGUIName(), numberOfRows, new boolean[]{false});
+        for (Superhero superhero : allowedSuperheroes) {
+            if (superhero.getIcon() == null) continue;
+            chestInterface.getInventory().addItem(superhero.getIcon());
+            chestInterface.getInteractions().addSimpleInteraction(superhero.getIcon(), (p) -> {
+                if (getSuperheroPlayer(player).handleCooldown(player, Superheroes.getBukkitAudiences().player(player))) {
+                    setHero(p, superhero);
+                }
+                chestInterface.getInteractions().getData()[0] = true;
+            });
+            if (!configHandler.canCloseGUI()) {
+                chestInterface.getInteractions().addCloseInteraction((p) -> new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        if (!chestInterface.getInteractions().getData()[0]) {
+                            openHeroGUI(player);
+                        }
+                    }
+                }.runTaskLater(superheroes, 1L));
+            }
+        }
+        player.openInventory(chestInterface.getInventory());
+    }
+
     public void loadSuperheroPlayer(@NotNull Player player) {
         CompletableFuture<SuperheroPlayer> future = heroIOHandler.loadSuperHeroPlayerAsync(player.getUniqueId());
         future.thenAccept((superheroPlayer) -> Bukkit.getScheduler().runTask(superheroes, () -> {
@@ -142,6 +184,9 @@ public class HeroHandler {
                     superhero = getRandomHero(player);
                 } else {
                     superhero = noPower;
+                }
+                if (configHandler.openGUIOnStart()) {
+                    openHeroGUI(player);
                 }
                 setHero(player, superhero, configHandler.shouldShowHeroOnStart());
             }
