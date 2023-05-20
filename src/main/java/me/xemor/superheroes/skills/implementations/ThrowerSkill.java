@@ -31,7 +31,7 @@ public class ThrowerSkill extends SkillImplementation {
             if (throwerData.getActions().contains(e.getAction())) {
                 ItemStack item = e.getItem();
                 if (item != null) {
-                    if (item.getAmount() >= throwerData.getAmmoCost() && item.isSimilar(throwerData.getAmmo())) {
+                    if (item.getAmount() >= throwerData.getAmmoCost() && throwerData.getAmmo().matches(item)) {
                         if (skillCooldownHandler.isCooldownOver(throwerData, player.getUniqueId())) {
                             if (skillData.areConditionsTrue(player)) {
                                 e.setCancelled(true);

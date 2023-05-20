@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills.skilldata;
 
 import me.xemor.configurationdata.ItemStackData;
+import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.AbstractArrow;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 public class ThrowerData extends CooldownData {
 
     private int ammoCost;
-    private ItemStack ammo;
+    private ItemComparisonData ammo;
     private EntityType entityType;
     private List<Action> actions;
     private AbstractArrow.PickupStatus canPickUp;
@@ -27,7 +28,7 @@ public class ThrowerData extends CooldownData {
         ammoCost = configurationSection.getInt("ammoCost", 1);
         final ConfigurationSection ammoItemSection = configurationSection.getConfigurationSection("item");
         if (ammoItemSection != null) {
-            ammo = new ItemStackData(ammoItemSection).getItem();
+            ammo = new ItemComparisonData(ammoItemSection);
         }
         entityType = EntityType.valueOf(configurationSection.getString("projectile", "SNOWBALL").toUpperCase());
         actions = configurationSection.getStringList("actions").stream().map(Action::valueOf).collect(Collectors.toList());
@@ -44,7 +45,7 @@ public class ThrowerData extends CooldownData {
         return ammoCost;
     }
 
-    public ItemStack getAmmo() {
+    public ItemComparisonData getAmmo() {
         return ammo;
     }
 

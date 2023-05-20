@@ -20,11 +20,10 @@ Dragon:
     throwableFireballs:
       skill: THROWER
       item:
-        type: BLAZE_POWDER
-        amount: 1
+        types:
+          - BLAZE_POWDER
         metadata:
           displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
-          isUnbreakable: true
           lore:
           - <italic><white>You can use this to throw dragon fireballs!
       ammoCost: 0

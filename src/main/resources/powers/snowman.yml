@@ -23,7 +23,8 @@ Snowman:
     infiniteSnowballs:
       skill: THROWER
       item:
-        type: SNOWBALL
+        types:
+          - SNOWBALL
       ammoCost: 0
       projectile: SNOWBALL
       velocity: 1.4

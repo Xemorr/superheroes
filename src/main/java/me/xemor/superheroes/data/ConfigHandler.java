@@ -13,6 +13,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -92,20 +93,21 @@ public class ConfigHandler {
     }
 
     public List<ConfigurationSection> getSuperheroesConfigurationSection() {
-        List<ConfigurationSection> sections = new ArrayList<>();
         File[] files = superpowersFolder.listFiles();
-        for (File file : files) {
-            if (file.getName().endsWith("yml")) {
-                YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
-                Map<String, Object> values = yamlConfiguration.getValues(false);
-                for (Object yamlObject : values.values()) {
-                    if (yamlObject instanceof ConfigurationSection) {
-                        sections.add((ConfigurationSection) yamlObject);
+        return Arrays.stream(files)
+                .parallel()
+                .map((file) -> {
+                    if (file.getName().endsWith("yml")) {
+                        YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
+                        return yamlConfiguration.getValues(false).values();
                     }
-                }
-            }
-        }
-        return sections;
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
+                .filter((o) -> o instanceof ConfigurationSection)
+                .map((o) -> (ConfigurationSection) o)
+                .toList();
     }
 
     public void loadSkills(Superhero superhero, ConfigurationSection superheroSection) {
