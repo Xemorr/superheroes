@@ -20,11 +20,13 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
 
     private HeroHandler heroHandler;
     private ConfigHandler configHandler;
-    private HeroSelect heroSelectCommand;
+    private Select selectCommand;
     private Reload reloadCommand;
     private Import importCommand;
     private Export exportCommand;
     private TextConvert textConvertCommand;
+
+    private GUI guiCommand;
 
     private Check checkCommand;
     private Reroll reroll;
@@ -34,9 +36,10 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
         this.reroll = reroll;
         configHandler = heroHandler.getPlugin().getConfigHandler();
         reloadCommand = new Reload(heroHandler, configHandler);
-        heroSelectCommand = new HeroSelect(heroHandler, configHandler);
+        selectCommand = new Select(heroHandler, configHandler);
         importCommand = new Import();
         exportCommand = new Export();
+        guiCommand = new GUI();
         textConvertCommand = new TextConvert();
         checkCommand = new Check();
     }
@@ -53,13 +56,14 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
                 return true;
             }
             switch (commandType) {
-                case SELECT -> heroSelectCommand.onCommand(sender, args);
+                case SELECT -> selectCommand.onCommand(sender, args);
                 case RELOAD -> reloadCommand.onCommand(sender, args);
                 case REROLL -> reroll.onCommand(sender, args);
                 case EXPORT -> exportCommand.onCommand(sender, args);
                 case IMPORT -> importCommand.onCommand(sender, args);
                 case TEXTCONVERT -> textConvertCommand.onCommand(sender, args);
                 case CHECK -> checkCommand.onCommand(sender, args);
+                case GUI -> guiCommand.onCommand(sender, args);
             }
         }
         return true;
@@ -83,13 +87,14 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
             try {
                 subCommand = SubCommands.valueOf(args[0].toUpperCase());
                 tabComplete = switch (subCommand) {
-                    case SELECT -> heroSelectCommand.tabComplete(sender, args);
+                    case SELECT -> selectCommand.tabComplete(sender, args);
                     case RELOAD -> reloadCommand.tabComplete(sender, args);
                     case REROLL -> reroll.tabComplete(sender, args);
                     case EXPORT -> exportCommand.tabComplete(sender, args);
                     case IMPORT -> importCommand.tabComplete(sender, args);
                     case TEXTCONVERT -> textConvertCommand.tabComplete(sender, args);
                     case CHECK -> checkCommand.tabComplete(sender, args);
+                    case GUI -> guiCommand.tabComplete(sender, args);
                 };
             } catch(IllegalArgumentException ignored) {}
         }

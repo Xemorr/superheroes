@@ -6,7 +6,6 @@ import me.xemor.superheroes.data.ConfigHandler;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.data.SuperheroPlayer;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
@@ -16,12 +15,12 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeroSelect implements SubCommand {
+public class Select implements SubCommand {
 
     private final HeroHandler heroHandler;
     private final ConfigHandler configHandler;
 
-    public HeroSelect(HeroHandler heroHandler, ConfigHandler configHandler) {
+    public Select(HeroHandler heroHandler, ConfigHandler configHandler) {
         this.heroHandler = heroHandler;
         this.configHandler = configHandler;
     }

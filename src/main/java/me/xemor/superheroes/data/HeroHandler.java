@@ -228,7 +228,7 @@ public class HeroHandler {
         player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5F, 1F);
         Component heroGainedMessage = MiniMessage.miniMessage().deserialize(configHandler.getHeroGainedMessage(),
                 Placeholder.component("hero", colouredName),
-                Placeholder.unparsed("player", player.getDisplayName()));
+                Placeholder.unparsed("player", player.getName()));
         playerAudience.sendMessage(heroGainedMessage);
     }
 

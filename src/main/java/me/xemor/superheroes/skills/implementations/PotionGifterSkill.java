@@ -44,13 +44,13 @@ public class PotionGifterSkill extends SkillImplementation {
                         world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
                         lEntity.addPotionEffect(gifterData.getPotionEffect());
                         skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
-                        Component giverMessage = MiniMessage.miniMessage().deserialize(gifterData.getGiverMessage(), Placeholder.unparsed("player",player.getDisplayName()));
+                        Component giverMessage = MiniMessage.miniMessage().deserialize(gifterData.getGiverMessage(), Placeholder.unparsed("player",player.getName()));
                         Superheroes.getBukkitAudiences().player(player).sendMessage(giverMessage);
                         if (lEntity instanceof Player) {
                             Player receiver = (Player) lEntity;
                             Component receiverMessage = MiniMessage.miniMessage().deserialize(gifterData.getReceiverMessage(),
-                                    Placeholder.unparsed("gifter", player.getDisplayName()),
-                                    Placeholder.unparsed("player", receiver.getDisplayName()));
+                                    Placeholder.unparsed("gifter", player.getName()),
+                                    Placeholder.unparsed("player", receiver.getName()));
                             Superheroes.getBukkitAudiences().player(player).sendMessage(receiverMessage);
                         }
                     }

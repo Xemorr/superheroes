@@ -1,7 +1,7 @@
 Chat:
-  gainedHero: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold><gray><player> <gray>has gained the power of <hero><reset>
+  gainedHero: <dark_gray><bold>[<red>Superheroes<dark_gray>] </bold><gray><player> <gray>has gained the power of <hero><reset>
   noPermission: <dark_red>You do not have permission to use this power!
-  currentHero: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold> <gray><player><gray>, is currently <hero><reset>
+  currentHero: <dark_gray><bold>[<red>Superheroes<dark_gray>] </bold> <gray><player><gray>, is currently <hero><reset>
   heroCommandCooldown: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold> <gray><player><gray>, /hero is currently on cooldown. You need to
     wait <currentcooldown>/<cooldown> <gray>more seconds!<reset>
   invalidHeroMessage: <dark_gray><bold>[<red>Superheroes<dark_gray>]</bold> <gray><player><gray>, You have entered an invalid hero name!

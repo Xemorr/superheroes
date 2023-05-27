@@ -67,7 +67,7 @@ public class EraserSkill extends SkillImplementation {
     public void temporarilyRemoveHero(@NotNull Player player, @Nullable Player remover, EraserData eraserData) {
         final Superhero oldPower = heroHandler.getSuperhero(player);
         heroHandler.setHeroInMemory(player, erased);
-        Component removedMessage = MiniMessage.miniMessage().deserialize(eraserData.getRemovedMessage(), Placeholder.unparsed("player", player.getDisplayName()));
+        Component removedMessage = MiniMessage.miniMessage().deserialize(eraserData.getRemovedMessage(), Placeholder.unparsed("player", player.getName()));
         if (remover != null) {
             Audience removerAudience = Superheroes.getBukkitAudiences().player(remover);
             removerAudience.sendMessage(removedMessage);
@@ -79,7 +79,7 @@ public class EraserSkill extends SkillImplementation {
             public void run() {
                 if (heroHandler.getSuperhero(player) == erased) {
                     heroHandler.setHeroInMemory(player, oldPower);
-                    Component returnedMessage = MiniMessage.miniMessage().deserialize(eraserData.getReturnedMessage(), Placeholder.unparsed("player", player.getDisplayName()));
+                    Component returnedMessage = MiniMessage.miniMessage().deserialize(eraserData.getReturnedMessage(), Placeholder.unparsed("player", player.getName()));
                     if (remover != null) {
                         Audience removerAudience = Superheroes.getBukkitAudiences().player(remover);
                         removerAudience.sendMessage(returnedMessage);
