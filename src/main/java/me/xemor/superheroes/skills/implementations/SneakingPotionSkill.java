@@ -2,9 +2,8 @@ package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
-import me.xemor.superheroes.skills.skilldata.PotionEffectSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import me.xemor.superheroes.skills.skilldata.SneakingPotionData;
 import org.bukkit.entity.Player;
@@ -39,8 +38,8 @@ public class SneakingPotionSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onPowerLost(PlayerLostSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getHero().getSkillData(Skill.getSkill("SNEAKINGPOTION"));
+    public void onPowerLost(PlayerChangedSuperheroEvent e) {
+        Collection<SkillData> skillDatas = e.getOldHero().getSkillData(Skill.getSkill("SNEAKINGPOTION"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 SneakingPotionData sneakingPotionSkill = (SneakingPotionData) skillData;

@@ -3,7 +3,7 @@ package me.xemor.superheroes.skills.implementations;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import me.xemor.superheroes.skills.skilldata.StrongmanData;
@@ -106,9 +106,9 @@ public class StrongmanSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onLostPower(PlayerLostSuperheroEvent e) {
+    public void onLostPower(PlayerChangedSuperheroEvent e) {
         Player player = e.getPlayer();
-        Superhero superhero = heroHandler.getSuperhero(player);
+        Superhero superhero = e.getOldHero();
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("STRONGMAN"));
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;

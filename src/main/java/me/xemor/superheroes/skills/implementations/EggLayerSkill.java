@@ -2,9 +2,9 @@ package me.xemor.superheroes.skills.implementations;
 
 import com.google.common.collect.HashMultimap;
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.EggLayerData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -29,28 +29,27 @@ public class EggLayerSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onPowerGain(PlayerGainedSuperheroEvent e) {
-        initialiseSkill(e.getPlayer());
+    public void onPowerGain(PlayerChangedSuperheroEvent e) {
+        initialiseSkill(e.getPlayer(), e.getNewHero());
     }
 
     @EventHandler
-    public void onPowerLoss(PlayerLostSuperheroEvent e) {
-        removeSkill(e.getPlayer());
+    public void onPowerLoss(PlayerChangedSuperheroEvent e) {
+        removeSkill(e.getPlayer(), e.getOldHero());
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        initialiseSkill(e.getPlayer());
+        initialiseSkill(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        removeSkill(e.getPlayer());
+        removeSkill(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
     }
 
-    public void removeSkill(Player player) {
-        Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("EGGLAYER"));
+    public void removeSkill(Player player, Superhero oldHero) {
+        Collection<SkillData> skillDatas = oldHero.getSkillData(Skill.getSkill("EGGLAYER"));
         for (SkillData skillData : skillDatas) {
             Set<EggLayerRunnable> eggLayerRunnables = map.get(player.getUniqueId());
             for (EggLayerRunnable eggLayerRunnable : eggLayerRunnables) {
@@ -61,8 +60,7 @@ public class EggLayerSkill extends SkillImplementation {
         }
     }
 
-    public void initialiseSkill(Player player) {
-        Superhero superhero = heroHandler.getSuperhero(player);
+    public void initialiseSkill(Player player, Superhero superhero) {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("EGGLAYER"));
         for (SkillData skillData : skillDatas) {
             EggLayerData eggLayerData = (EggLayerData) skillData;

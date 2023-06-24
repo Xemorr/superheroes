@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "3.12.1"
+version = "3.13.0"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
     shadow("de.themoep:minedown-adventure:1.7.1-SNAPSHOT")
-    shadow("me.xemor:configurationdata:1.19.3-SNAPSHOT")
+    shadow("me.xemor:configurationdata:1.19.5-SNAPSHOT")
     shadow("org.bstats:bstats-bukkit:1.7")
     shadow("me.xemor:UserInterface:1.6.6-SNAPSHOT")
     shadow("dev.dbassett:skullcreator:3.0.1")
@@ -43,7 +43,7 @@ java {
 tasks.shadowJar {
     minimize()
     relocate("net.kyori", "me.xemor.superheroes.kyori")
-    relocate("me.xemor.configurationdata", "me.xemor.superheroes.configurationdata")
+    //relocate("me.xemor.configurationdata", "me.xemor.superheroes.configurationdata")
     relocate("de.themoep", "me.xemor.superheroes.de.themoep")
     relocate("org.jetbrains", "me.xemor.superheroes.org.jetbrains")
     relocate("mysql", "me.xemor.superheroes.mysql")

@@ -2,10 +2,9 @@ package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.HeartStealData;
-import me.xemor.superheroes.skills.skilldata.PotionEffectSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -66,7 +65,7 @@ public class HeartStealSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onSkillLoss(PlayerLostSuperheroEvent e) {
-        removeExtraHearts(e.getPlayer(), e.getHero());
+    public void onSkillLoss(PlayerChangedSuperheroEvent e) {
+        removeExtraHearts(e.getPlayer(), e.getOldHero());
     }
 }

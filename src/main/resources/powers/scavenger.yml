@@ -50,7 +50,7 @@ Scavenger:
         type: DIAMOND_HELMET
         amount: 1
         metadata:
-          displayName: <gold>Scavenger's Pickaxe
+          displayName: <gold>Scavenger's Helmet
       ingredients:
         IRON_HELMET: 1
         DIAMOND: 2

@@ -1,8 +1,7 @@
 package me.xemor.superheroes;
 
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.CraftingData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -55,8 +54,8 @@ public class RecipeHandler implements Listener {
     }
 
     @EventHandler
-    public void onPowerGain(PlayerGainedSuperheroEvent e) {
-        Collection<NamespacedKey> recipeKeys = getRecipesFromSuperhero(e.getHero());
+    public void onPowerGain(PlayerChangedSuperheroEvent e) {
+        Collection<NamespacedKey> recipeKeys = getRecipesFromSuperhero(e.getNewHero());
         e.getPlayer().discoverRecipes(recipeKeys);
     }
 
@@ -71,8 +70,8 @@ public class RecipeHandler implements Listener {
     }
 
     @EventHandler
-    public void onPowerLost(PlayerLostSuperheroEvent e) {
-        Collection<NamespacedKey> recipeKeys = getRecipesFromSuperhero(e.getHero());
+    public void onPowerLost(PlayerChangedSuperheroEvent e) {
+        Collection<NamespacedKey> recipeKeys = getRecipesFromSuperhero(e.getOldHero());
         e.getPlayer().undiscoverRecipes(recipeKeys);
     }
 }

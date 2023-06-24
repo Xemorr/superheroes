@@ -3,8 +3,7 @@ package me.xemor.superheroes.skills.implementations;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.events.SuperheroesReloadEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.CraftingData;
@@ -31,8 +30,8 @@ public class CraftingSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onPowerGain(PlayerGainedSuperheroEvent e) {
-        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
+    public void onPowerGain(PlayerChangedSuperheroEvent e) {
+        Superhero superhero = e.getNewHero();
         Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
@@ -53,8 +52,8 @@ public class CraftingSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onPowerLost(PlayerLostSuperheroEvent e) {
-        Superhero superhero = e.getHero();
+    public void onPowerLost(PlayerChangedSuperheroEvent e) {
+        Superhero superhero = e.getOldHero();
         Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;

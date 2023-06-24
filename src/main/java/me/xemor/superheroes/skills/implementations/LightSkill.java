@@ -2,8 +2,7 @@ package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.LightSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -20,16 +19,16 @@ public class LightSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onGain(PlayerGainedSuperheroEvent e) {
-        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
+    public void onGain(PlayerChangedSuperheroEvent e) {
+        Superhero superhero = e.getNewHero();
         if (superhero.hasSkill(Skill.getSkill("LIGHT"))) {
-            runnable(e.getPlayer());
+            runnable(e.getPlayer(), superhero);
         }
     }
 
     @EventHandler
-    public void onLost(PlayerLostSuperheroEvent e) {
-        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
+    public void onLost(PlayerChangedSuperheroEvent e) {
+        Superhero superhero = e.getOldHero();
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("LIGHT"));
         for (SkillData skillData : skillDatas) {
             LightSkillData lightData = (LightSkillData) skillData;
@@ -41,16 +40,15 @@ public class LightSkill extends SkillImplementation {
     public void onJoin(PlayerJoinEvent e) {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         if (superhero.hasSkill(Skill.getSkill("LIGHT"))) {
-            runnable(e.getPlayer());
+            runnable(e.getPlayer(), superhero);
         }
     }
 
-    public void runnable(Player player) {
+    public void runnable(Player player, Superhero superhero) {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Superhero superhero1 = heroHandler.getSuperhero(player);
-                Collection<SkillData> data = superhero1.getSkillData(Skill.getSkill("LIGHT"));
+                Collection<SkillData> data = superhero.getSkillData(Skill.getSkill("LIGHT"));
                 if (data.isEmpty()) {
                     this.cancel();
                     return;

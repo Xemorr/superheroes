@@ -1,8 +1,9 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.AuraData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -25,15 +26,15 @@ public class AuraSkill extends SkillImplementation {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        runnable(e.getPlayer());
+        runnable(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
     }
 
     @EventHandler
-    public void onPowerGain(PlayerGainedSuperheroEvent e) {
-        runnable(e.getPlayer());
+    public void onPowerGain(PlayerChangedSuperheroEvent e) {
+        runnable(e.getPlayer(), e.getOldHero());
     }
 
-    public void runnable(Player player) {
+    public void runnable(Player player, Superhero oldHero) {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -45,8 +46,7 @@ public class AuraSkill extends SkillImplementation {
                     cancel();
                     return;
                 }
-                Superhero superhero = heroHandler.getSuperhero(player);
-                Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("AURA"));
+                Collection<SkillData> skillDatas = oldHero.getSkillData(Skill.getSkill("AURA"));
                 if (skillDatas.isEmpty()) {
                     cancel();
                     return;

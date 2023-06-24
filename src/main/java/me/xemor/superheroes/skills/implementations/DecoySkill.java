@@ -3,7 +3,7 @@ package me.xemor.superheroes.skills.implementations;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.DecoyData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -104,8 +104,8 @@ public class DecoySkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onLost(PlayerLostSuperheroEvent e) {
-        Superhero superhero = e.getHero();
+    public void onLost(PlayerChangedSuperheroEvent e) {
+        Superhero superhero = e.getOldHero();
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DECOY"));
         for (SkillData skillData : skillDatas) {
             removeArmorStand(e.getPlayer(), (DecoyData) skillData);

@@ -75,9 +75,9 @@ public class SpellSkill extends SkillImplementation {
                     }
                     if (itemMeta.hasDisplayName()) {
                         if (item.getType() == Material.WRITTEN_BOOK) {
-                            e.setUseItemInHand(Event.Result.DENY);
                             String displayName = itemMeta.getDisplayName();
                             if (displayName.equals(spellData.getDisplayName())) {
+                                e.setUseItemInHand(Event.Result.DENY);
                                 if (skillCooldownHandler.isCooldownOver(spellData, player.getUniqueId())) {
                                     if (((e.getClickedBlock() == null && skillData.areConditionsTrue(player))) || skillData.areConditionsTrue(player, e.getClickedBlock().getLocation())) {
                                         handleSpells(player, spellData, e);

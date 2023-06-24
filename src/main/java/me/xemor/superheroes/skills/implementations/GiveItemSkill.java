@@ -2,8 +2,7 @@ package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.GiveItemData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -36,8 +35,8 @@ public class GiveItemSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void heroGained(PlayerGainedSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getHero().getSkillData(Skill.getSkill("GIVEITEM"));
+    public void heroGained(PlayerChangedSuperheroEvent e) {
+        Collection<SkillData> skillDatas = e.getNewHero().getSkillData(Skill.getSkill("GIVEITEM"));
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             HashMap<Integer, ItemStack> leftovers = e.getPlayer().getInventory().addItem(giveItemData.getItemStackData().getItem());
@@ -52,8 +51,8 @@ public class GiveItemSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void heroLoss(PlayerLostSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getHero().getSkillData(Skill.getSkill("GIVEITEM"));
+    public void heroLoss(PlayerChangedSuperheroEvent e) {
+        Collection<SkillData> skillDatas = e.getOldHero().getSkillData(Skill.getSkill("GIVEITEM"));
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             if (giveItemData.canLoseItemOnHeroLoss()) {

@@ -5,14 +5,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerGainedSuperheroEvent extends Event {
+public class PlayerChangedSuperheroEvent extends Event {
+
     private static final HandlerList HANDLERS = new HandlerList();
     private Player player;
-    private Superhero hero;
+    private Superhero newHero;
+    private Superhero oldHero;
 
-    public PlayerGainedSuperheroEvent(Player player, Superhero hero) {
+    public PlayerChangedSuperheroEvent(Player player, Superhero newHero, Superhero oldHero) {
         this.player = player;
-        this.hero = hero;
+        this.newHero = newHero;
+        this.oldHero = oldHero;
     }
 
     @Override
@@ -28,7 +31,11 @@ public class PlayerGainedSuperheroEvent extends Event {
         return player;
     }
 
-    public Superhero getHero() {
-        return hero;
+    public Superhero getNewHero() {
+        return newHero;
+    }
+
+    public Superhero getOldHero() {
+        return oldHero;
     }
 }

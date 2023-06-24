@@ -1,9 +1,9 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.PotionEffectSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -25,18 +25,17 @@ public class PotionEffectSkill extends SkillImplementation {
         super(heroHandler);
         Bukkit.getScheduler().runTaskTimer(heroHandler.getPlugin(), () -> {
            for (Player player : Bukkit.getOnlinePlayers()) {
-                givePotionEffects(player);
+                givePotionEffects(player, heroHandler.getSuperhero(player));
            }
         }, 0, 10);
     }
 
     @EventHandler
-    public void onPowerGained(PlayerGainedSuperheroEvent e) {
-        givePotionEffects(e.getPlayer());
+    public void onPowerGained(PlayerChangedSuperheroEvent e) {
+        givePotionEffects(e.getPlayer(), e.getNewHero());
     }
 
-    public void givePotionEffects(Player player) {
-        Superhero superhero = heroHandler.getSuperhero(player);
+    public void givePotionEffects(Player player, Superhero superhero) {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("POTIONEFFECT"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
@@ -60,14 +59,14 @@ public class PotionEffectSkill extends SkillImplementation {
         new BukkitRunnable() {
             @Override
             public void run() {
-                givePotionEffects(e.getPlayer());
+                givePotionEffects(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
             }
         }.runTaskLater(heroHandler.getPlugin(), 5L);
     }
 
     @EventHandler
-    public void onPowerLost(PlayerLostSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getHero().getSkillData(Skill.getSkill("POTIONEFFECT"));
+    public void onPowerLost(PlayerChangedSuperheroEvent e) {
+        Collection<SkillData> skillDatas = e.getOldHero().getSkillData(Skill.getSkill("POTIONEFFECT"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 if (skillData instanceof PotionEffectSkillData potionEffectData) {
@@ -83,7 +82,7 @@ public class PotionEffectSkill extends SkillImplementation {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    givePotionEffects(e.getPlayer());
+                    givePotionEffects(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
                 }
             }.runTaskLater(heroHandler.getPlugin(), 3L);
         }

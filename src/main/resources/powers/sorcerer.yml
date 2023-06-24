@@ -38,9 +38,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     snowball:
       skill: SPELL
       spell: SNOWBALL
@@ -52,9 +52,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     trident:
       skill: SPELL
       spell: TRIDENT
@@ -66,9 +66,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     egg:
       skill: SPELL
       spell: EGG
@@ -80,9 +80,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     fireball:
       skill: SPELL
       spell: FIREBALL
@@ -94,9 +94,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     lightning:
       skill: SPELL
       spell: LIGHTNING
@@ -108,9 +108,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     water:
       skill: SPELL
       spell: WATER
@@ -122,9 +122,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     lava:
       skill: SPELL
       spell: LAVA
@@ -136,9 +136,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     fire:
       skill: SPELL
       spell: FIRE
@@ -150,9 +150,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     explosion:
       skill: SPELL
       spell: EXPLOSION
@@ -164,9 +164,9 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
     transmutation:
       skill: SPELL
       spell: TRANSMUTATION
@@ -178,16 +178,49 @@ Sorcerer:
       moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
       displayNameFormat: <dark_purple><spellname>
       loreFormat:
-      - <white>This is a spell book, right-click to use!
-      - '<white><fuel>: <cost>'
-      - '<white>cooldown: <cooldown>'
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
       transmutationData:
         resultantBlock: REDSTONE_BLOCK
         transmutableBlocks:
-        - IRON_BLOCK
-        - DIAMOND_BLOCK
-        - NETHERITE_BLOCK
-        - GOLD_BLOCK
-        - COAL_BLOCK
-        - LAPIS_BLOCK
-        - EMERALD_BLOCK
+          - IRON_BLOCK
+          - DIAMOND_BLOCK
+          - NETHERITE_BLOCK
+          - GOLD_BLOCK
+          - COAL_BLOCK
+          - LAPIS_BLOCK
+          - EMERALD_BLOCK
+    fangs:
+      skill: SPELL
+      spell: FANGS
+      fuel: REDSTONE
+      cost: 6
+      cooldown: 15
+      spellName: Fangs
+      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
+      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+      displayNameFormat: <dark_purple><spellname>
+      loreFormat:
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
+    giveTutorialBook:
+      skill: GIVEITEM
+      canStore: true
+      canDrop: true
+      canLoseOnDeath: false
+      canDropOnDeath: false
+      loseItemOnHeroLoss: true
+      item:
+        type: WRITTEN_BOOK
+        amount: 1
+        metadata:
+          displayName: "<bold><dark_purple>Sorcerer's Guide"
+          book:
+            author: Xemor_
+            title: "Sorcerer's Guide"
+            pages:
+              - "Hello fellow Sorcerer!\nThis book will outline all of the spells you can cast!\n<red>Fireball, Snowball, Arrow, Lightning, Egg, Water, Lava, Fire, Explosion, Trident, Transmutation, Fangs"
+              - "Simply create a book and quill, and sign it with a name corresponding to a spell and it will transform into a spell book!"
+

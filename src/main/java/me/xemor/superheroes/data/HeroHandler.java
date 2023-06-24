@@ -1,10 +1,8 @@
 package me.xemor.superheroes.data;
 
-import dev.dbassett.skullcreator.SkullCreator;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
-import me.xemor.superheroes.events.PlayerGainedSuperheroEvent;
-import me.xemor.superheroes.events.PlayerLostSuperheroEvent;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.userinterface.ChestInterface;
@@ -12,16 +10,11 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -116,15 +109,11 @@ public class HeroHandler {
             uuidToData.put(player.getUniqueId(), superheroPlayer);
         }
         Superhero currentHero = superheroPlayer.getSuperhero();
+        PlayerChangedSuperheroEvent playerChangedHero = new PlayerChangedSuperheroEvent(player, hero, currentHero);
+        Bukkit.getServer().getPluginManager().callEvent(playerChangedHero);
         superheroPlayer.setSuperhero(hero);
-        PlayerLostSuperheroEvent playerLostHeroEvent = new PlayerLostSuperheroEvent(player, currentHero);
-        Bukkit.getServer().getPluginManager().callEvent(playerLostHeroEvent);
         if (show) {
             showHero(player, hero);
-        }
-        if (currentHero != hero) {
-            PlayerGainedSuperheroEvent playerGainedPowerEvent = new PlayerGainedSuperheroEvent(player, hero);
-            Bukkit.getServer().getPluginManager().callEvent(playerGainedPowerEvent);
         }
     }
 
