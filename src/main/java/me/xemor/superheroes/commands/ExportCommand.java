@@ -8,12 +8,12 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class Export implements SubCommand {
+public class ExportCommand implements SubCommand {
 
     private final Component exporting = MiniMessage.miniMessage().deserialize("<green>Exporting...");
     private final Component done = MiniMessage.miniMessage().deserialize("<green>Done!");
 
-    public Export(){
+    public ExportCommand() {
 
     }
 

@@ -1,0 +1,12 @@
+config_version: ${version} # do not change unless you know what you are doing
+
+#These are the settings which dictate where your players' heroes are stored
+database:
+  type: YAML
+  host: this needs filling with your host name if using mysql
+  port: 3306
+  name: this needs filling with the database name if using mysql
+  username: this needs filling with the username of the account being used to connect
+    to mysql if using mysql
+  password: this needs filling with the password being used to connect to mysql if
+    using mysql

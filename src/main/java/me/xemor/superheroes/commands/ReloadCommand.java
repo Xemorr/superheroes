@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class Reload implements SubCommand {
+public class ReloadCommand implements SubCommand {
 
     private final Component noPermission = MiniMessage.miniMessage().deserialize("<dark_red>You do not have permission to use this power!");
     private final Component reloading = MiniMessage.miniMessage().deserialize("<green>Reloading...");
@@ -18,7 +18,7 @@ public class Reload implements SubCommand {
     private final HeroHandler heroHandler;
     private final ConfigHandler configHandler;
 
-    public Reload(HeroHandler heroHandler, ConfigHandler configHandler) {
+    public ReloadCommand(HeroHandler heroHandler, ConfigHandler configHandler) {
         this.heroHandler = heroHandler;
         this.configHandler = configHandler;
     }

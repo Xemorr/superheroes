@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "3.13.0"
+version = "4.0.0"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -43,7 +43,7 @@ java {
 tasks.shadowJar {
     minimize()
     relocate("net.kyori", "me.xemor.superheroes.kyori")
-    //relocate("me.xemor.configurationdata", "me.xemor.superheroes.configurationdata")
+    relocate("me.xemor.configurationdata", "me.xemor.superheroes.configurationdata")
     relocate("de.themoep", "me.xemor.superheroes.de.themoep")
     relocate("org.jetbrains", "me.xemor.superheroes.org.jetbrains")
     relocate("mysql", "me.xemor.superheroes.mysql")
@@ -71,7 +71,5 @@ tasks.withType<JavaCompile>() {
 // Handles version variables etc
 tasks.processResources {
     inputs.property("version", rootProject.version)
-    filesMatching("plugin.yml") {
-        expand("version" to rootProject.version)
-    }
+    expand("version" to rootProject.version)
 }

@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.Collections;
 import java.util.List;
 
-public class Check implements SubCommand {
+public class CheckCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {

@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class GUI implements SubCommand {
+public class GUICommand implements SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);

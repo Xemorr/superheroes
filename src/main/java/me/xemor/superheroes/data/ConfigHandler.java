@@ -1,3 +1,20 @@
+/*
+ * Decompiled with CFR 0.150.
+ *
+ * Could not load the following classes:
+ *  org.bukkit.Bukkit
+ *  org.bukkit.Color
+ *  org.bukkit.DyeColor
+ *  org.bukkit.Material
+ *  org.bukkit.configuration.ConfigurationSection
+ *  org.bukkit.configuration.file.FileConfiguration
+ *  org.bukkit.configuration.file.YamlConfiguration
+ *  org.bukkit.entity.Player
+ *  org.bukkit.event.Event
+ *  org.bukkit.inventory.ItemStack
+ *  org.bukkit.inventory.meta.ItemMeta
+ *  org.bukkit.plugin.Plugin
+ */
 package me.xemor.superheroes.data;
 
 import dev.dbassett.skullcreator.SkullCreator;
@@ -13,16 +30,18 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,13 +53,9 @@ import java.util.logging.Level;
 import java.util.stream.Stream;
 
 public class ConfigHandler {
-
     private static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
-
-    private File dataFolder;
-    private File superpowersFolder;
-    private File languageFile;
-    private YamlConfiguration language;
+    private FileConfiguration languageYAML;
+    private FileConfiguration databaseYAML;
     private FileConfiguration config;
     private Superheroes superheroes;
     private ItemComparisonData item;
@@ -48,42 +63,47 @@ public class ConfigHandler {
     public ConfigHandler(Superheroes superheroes) {
         this.superheroes = superheroes;
         superheroes.saveDefaultConfig();
-        dataFolder = superheroes.getDataFolder();
-        superpowersFolder = new File(dataFolder, "powers");
-        config = superheroes.getConfig();
-        item = new ItemComparisonData(Objects.requireNonNull(config.getConfigurationSection("reroll.item")));
-        if (!new File(superheroes.getDataFolder(), "language.yml").exists()) superheroes.saveResource("language.yml", false);
-        languageFile = new File(dataFolder, "language.yml");
-        language = YamlConfiguration.loadConfiguration(languageFile);
-        handleSuperpowersFolder();
+        File dataFolder = superheroes.getDataFolder();
+        this.config = superheroes.getConfig();
+        this.item = new ItemComparisonData(Objects.requireNonNull(this.config.getConfigurationSection("reroll.item")));
+        if (!new File(superheroes.getDataFolder(), "language.yml").exists()) {
+            superheroes.saveResource("language.yml", false);
+        }
+        if (!new File(superheroes.getDataFolder(), "database.yml").exists()) {
+            superheroes.saveResource("database.yml", false);
+        }
+        this.languageYAML = YamlConfiguration.loadConfiguration((File) new File(dataFolder, "language.yml"));
+        this.databaseYAML = YamlConfiguration.loadConfiguration((File) new File(dataFolder, "database.yml"));
+        this.handleSuperpowersFolder();
     }
 
     public void handleSuperpowersFolder() {
-        if (superpowersFolder.mkdir()) { //if the folder is generated (and needed to be generated), then add all the powers in.
+        File powersFolder = this.getPowersFolder();
+        if (powersFolder.mkdir()) {
             try {
+                Path myPath;
                 URI powers;
                 try {
-                    powers = getClass().getClassLoader().getResource("powers").toURI();
+                    powers = this.getClass().getClassLoader().getResource("powers").toURI();
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                     return;
                 }
-                Path myPath;
                 if (powers.getScheme().equals("jar")) {
                     FileSystem fileSystem = FileSystems.newFileSystem(powers, Collections.emptyMap());
-                    myPath = fileSystem.getPath("powers");
+                    myPath = fileSystem.getPath("powers", new String[0]);
                 } else {
                     myPath = Paths.get(powers);
                 }
-                Stream<Path> walk = Files.walk(myPath, 1);
-                Iterator<Path> it = walk.iterator();
+                Stream<Path> walk = Files.walk(myPath, 1, new FileVisitOption[0]);
+                Iterator it = walk.iterator();
                 it.next();
-                while (it.hasNext()){
-                    String path = it.next().toString();
+                while (it.hasNext()) {
+                    String path = ((Path) it.next()).toString();
                     if (path.charAt(0) == '/') {
                         path = path.substring(1);
                     }
-                    superheroes.saveResource(path, false);
+                    this.superheroes.saveResource(path, false);
                 }
                 walk.close();
             } catch (IOException e) {
@@ -93,28 +113,29 @@ public class ConfigHandler {
     }
 
     public List<ConfigurationSection> getSuperheroesConfigurationSection() {
-        File[] files = superpowersFolder.listFiles();
-        return Arrays.stream(files)
-                .parallel()
-                .map((file) -> {
-                    if (file.getName().endsWith("yml")) {
-                        YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
-                        return yamlConfiguration.getValues(false).values();
-                    }
-                    return null;
-                })
-                .filter(Objects::nonNull)
-                .flatMap(Collection::stream)
-                .filter((o) -> o instanceof ConfigurationSection)
-                .map((o) -> (ConfigurationSection) o)
-                .toList();
+        File powersFolder = this.getPowersFolder();
+        File[] files = powersFolder.listFiles();
+        return (Arrays.stream(files).parallel()).map(file -> {
+            if (file.getName().endsWith("yml")) {
+                YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
+                return yamlConfiguration.getValues(false).values();
+            }
+            return null;
+        }).filter(Objects::nonNull).flatMap(Collection::stream).filter(o -> o instanceof ConfigurationSection).map(o -> (ConfigurationSection) o).toList();
+    }
+
+    private File getPowersFolder() {
+        return new File(this.getDataFolder(), "powers");
     }
 
     public void loadSkills(Superhero superhero, ConfigurationSection superheroSection) {
         ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
-        if (skillsSection == null) Superheroes.getInstance().getLogger().severe("The skills section is missing/invalid at " + superheroSection.getCurrentPath() + ".skills");
+        if (skillsSection == null) {
+            Superheroes.getInstance().getLogger().severe("The skills section is missing/invalid at " + superheroSection.getCurrentPath() + ".skills");
+        }
         for (Object value : skillsSection.getValues(false).values()) {
-            if (value instanceof ConfigurationSection configurationSection) {
+            if (value instanceof ConfigurationSection) {
+                ConfigurationSection configurationSection = (ConfigurationSection) value;
                 String skillStr = configurationSection.getString("skill");
                 int skill = Skill.getSkill(skillStr);
                 if (skill == -1) {
@@ -127,18 +148,17 @@ public class ConfigHandler {
                 } catch (NullPointerException e) {
                     Superheroes.getInstance().getLogger().severe("SkillData is null! This skill has not been registered!" + configurationSection.getCurrentPath());
                 }
+                continue;
             }
-            else {
-                Bukkit.getLogger().log(Level.SEVERE, superhero.getName() + " has encountered an invalid skill!");
-            }
+            Bukkit.getLogger().log(Level.SEVERE, superhero.getName() + " has encountered an invalid skill!");
         }
     }
 
     public void loadSuperheroes(HeroHandler heroHandler) {
-        List<ConfigurationSection> sections = getSuperheroesConfigurationSection();
-        HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
+        List<ConfigurationSection> sections = this.getSuperheroesConfigurationSection();
+        HashMap<String, Superhero> nameToSuperhero = new HashMap<String, Superhero>();
         for (ConfigurationSection superheroSection : sections) {
-            try { // prevent one hero from breaking another
+            try {
                 String superheroName = superheroSection.getName();
                 String colouredSuperheroName = superheroSection.getString("colouredName", superheroName);
                 String superheroDescription = superheroSection.getString("description", superheroName + " description");
@@ -147,11 +167,12 @@ public class ConfigHandler {
                 Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
                 superhero.setBase64Skin(base64Skin);
                 superhero.setSignature(signature);
-                calculateIcon(superhero, superheroSection);
-                loadSkills(superhero, superheroSection);
+                this.calculateIcon(superhero, superheroSection);
+                this.loadSkills(superhero, superheroSection);
                 SuperheroLoadEvent superheroLoadEvent = new SuperheroLoadEvent(superhero, superheroSection);
-                Bukkit.getServer().getPluginManager().callEvent(superheroLoadEvent);
-                if (!superheroLoadEvent.isCancelled()) nameToSuperhero.put(superheroName.toLowerCase(), superhero);
+                Bukkit.getServer().getPluginManager().callEvent((Event) superheroLoadEvent);
+                if (superheroLoadEvent.isCancelled()) continue;
+                nameToSuperhero.put(superheroName.toLowerCase(), superhero);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -159,23 +180,15 @@ public class ConfigHandler {
         heroHandler.registerHeroes(nameToSuperhero);
     }
 
-    // Used in loadSuperheroes for working out the icon for the GUI
     private void calculateIcon(Superhero hero, ConfigurationSection heroSection) {
         ItemStack icon;
         ConfigurationSection section = heroSection.getConfigurationSection("icon");
         Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
         if (section != null) {
             icon = new ItemStackData(heroSection.getConfigurationSection("icon")).getItem();
-        }
-        else {
-            if (hero.getBase64Skin().equals("")) { // approximate wool colour based on coloured name
-                TextColor color = colouredName.color();
-                if (color == null) icon = new ItemStack(Material.BLACK_WOOL);
-                else icon = new ItemStack(woolFromColor(color.red(), color.green(), color.blue()));
-            }
-            else {
-                icon = SkullCreator.itemFromBase64(hero.getBase64Skin());
-            }
+        } else {
+            TextColor color;
+            icon = hero.getBase64Skin().equals("") ? ((color = colouredName.color()) == null ? new ItemStack(Material.BLACK_WOOL) : new ItemStack(this.woolFromColor(color.red(), color.green(), color.blue()))) : SkullCreator.itemFromBase64(hero.getBase64Skin());
             ItemMeta meta = icon.getItemMeta();
             meta.setDisplayName(legacySerializer.serialize(colouredName));
             Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
@@ -188,96 +201,83 @@ public class ConfigHandler {
 
     public Material woolFromColor(int red, int green, int blue) {
         int distance = Integer.MAX_VALUE;
-        org.bukkit.DyeColor closest = DyeColor.BLACK;
-        for (org.bukkit.DyeColor dye : org.bukkit.DyeColor.values()) {
-            org.bukkit.Color color = dye.getColor();
+        DyeColor closest = DyeColor.BLACK;
+        for (DyeColor dye : DyeColor.values()) {
+            Color color = dye.getColor();
             int dist = Math.abs(color.getRed() - red) + Math.abs(color.getGreen() - green) + Math.abs(color.getBlue() - blue);
-            if (dist < distance) {
-                distance = dist;
-                closest = dye;
-            }
+            if (dist >= distance) continue;
+            distance = dist;
+            closest = dye;
         }
-        // You might want to add a try here - I'm not sure how it worked back in 1.14 (it may produce a NullPointerException)
-        return Material.getMaterial((closest.name() + "_WOOL").toUpperCase());
+        return Material.getMaterial((String) (closest.name() + "_WOOL").toUpperCase());
     }
 
     public void reloadConfig(HeroHandler heroHandler) {
         SuperheroesReloadEvent superheroesReloadEvent = new SuperheroesReloadEvent();
-        Bukkit.getServer().getPluginManager().callEvent(superheroesReloadEvent);
-        superheroes.reloadConfig();
-        config = superheroes.getConfig();
+        Bukkit.getServer().getPluginManager().callEvent((Event) superheroesReloadEvent);
+        this.superheroes.reloadConfig();
+        this.config = this.superheroes.getConfig();
         heroHandler.loadConfigItems();
-        handleSuperpowersFolder();
+        this.handleSuperpowersFolder();
         heroHandler.handlePlayerData();
-        loadSuperheroes(heroHandler);
-        language = YamlConfiguration.loadConfiguration(languageFile);
-        item = new ItemComparisonData(Objects.requireNonNull(config.getConfigurationSection("reroll.item")));
-        heroHandler.setHeroesIntoMemory(new HashMap<>());
+        this.loadSuperheroes(heroHandler);
+        this.languageYAML = YamlConfiguration.loadConfiguration((File) new File(this.getDataFolder(), "language.yml"));
+        this.databaseYAML = YamlConfiguration.loadConfiguration((File) new File(this.getDataFolder(), "database.yml"));
+        this.item = new ItemComparisonData(Objects.requireNonNull(this.config.getConfigurationSection("reroll.item")));
+        heroHandler.setHeroesIntoMemory(new HashMap<UUID, SuperheroPlayer>());
         for (Player player : Bukkit.getOnlinePlayers()) {
             heroHandler.loadSuperheroPlayer(player);
         }
     }
 
     public void saveConfig() {
-        Bukkit.getScheduler().runTaskAsynchronously(superheroes, () -> superheroes.saveConfig());
+        Bukkit.getScheduler().runTaskAsynchronously((Plugin) this.superheroes, () -> this.superheroes.saveConfig());
     }
 
-    public File getDataFolder() {
-        return dataFolder;
-    }
-
-    public File getSuperpowersFolder() {
-        return superpowersFolder;
-    }
-
-    public ItemComparisonData getRerollItem() {
-        return item;
-    }
-
-    public boolean isRerollEnabled() {
-        return config.getBoolean("reroll.isEnabled", true);
+    private File getDataFolder() {
+        return Superheroes.getInstance().getDataFolder();
     }
 
     public boolean isPowerOnStartEnabled() {
-        return config.getBoolean("powerOnStart.isEnabled", false);
+        return this.config.getBoolean("powerOnStart.isEnabled", false);
     }
 
     public boolean openGUIOnStart() {
-        return config.getBoolean("gui.onStart", true);
+        return this.config.getBoolean("gui.onStart", true);
     }
 
     public String getGUIName() {
-        return language.getString("GUI.name", "Pick your hero!");
+        return this.languageYAML.getString("GUI.name", "Pick your hero!");
     }
 
     public boolean canCloseGUI() {
-        return config.getBoolean("gui.canClose", false);
+        return this.config.getBoolean("gui.canClose", false);
     }
 
     public List<String> getDisabledWorlds() {
-        return config.getStringList("disabledWorlds");
+        return this.config.getStringList("disabledWorlds");
     }
 
     public boolean shouldShowHeroOnStart() {
-        return config.getBoolean("powerOnStart.showHero", false);
+        return this.config.getBoolean("powerOnStart.showHero", false);
     }
 
     public String getHeroGainedMessage() {
-        return language.getString("Chat.gainedHero", "<bold><player> has gained the power of <hero>");
+        return this.languageYAML.getString("Chat.gainedHero", "<bold><player> has gained the power of <hero>");
     }
 
     public String getNoPermissionMessage() {
-        return language.getString("Chat.noPermission", "<dark_red>You do not have permission to execute this command!");
+        return this.languageYAML.getString("Chat.noPermission", "<dark_red>You do not have permission to execute this command!");
     }
 
     public String getCurrentHeroMessage() {
-        return language.getString("Chat.currentHero", "<bold><player>, you are currently <hero>");
+        return this.languageYAML.getString("Chat.currentHero", "<bold><player>, you are currently <hero>");
     }
 
     public Superhero getDefaultHero() {
-        String name = config.getString("defaultHero.name", "Powerless");
-        String colouredName = config.getString("defaultHero.colouredName", "<yellow><b>Powerless");
-        String description = config.getString("defaultHero.description", "You have no power");
+        String name = this.config.getString("defaultHero.name", "Powerless");
+        String colouredName = this.config.getString("defaultHero.colouredName", "<yellow><b>Powerless");
+        String description = this.config.getString("defaultHero.description", "You have no power");
         Superhero hero = new Superhero(name, colouredName, description);
         ItemStack icon = new ItemStack(Material.BARRIER);
         ItemMeta meta = icon.getItemMeta();
@@ -289,76 +289,59 @@ public class ConfigHandler {
     }
 
     public String getHeroCooldownMessage() {
-        return language.getString("Chat.heroCommandCooldown", "<bold><player>, /hero is currently on cooldown. You need to wait <currentcooldown>/<cooldown> more seconds!");
+        return this.languageYAML.getString("Chat.heroCommandCooldown", "<bold><player>, /hero is currently on cooldown. You need to wait <currentcooldown>/<cooldown> more seconds!");
     }
 
     public String getInvalidHeroMessage() {
-        return language.getString("Chat.invalidHeroMessage", "<bold><player>, You have entered an invalid hero name!");
+        return this.languageYAML.getString("Chat.invalidHeroMessage", "<bold><player>, You have entered an invalid hero name!");
     }
 
     public String getInvalidPlayerMessage() {
-        return language.getString("Chat.invalidPlayerMessage", "<bold><player>, You have entered an invalid player name!");
+        return this.languageYAML.getString("Chat.invalidPlayerMessage", "<bold><player>, You have entered an invalid player name!");
     }
 
     public String getInvalidCommandMessage() {
-        return language.getString("Chat.invalidCommandMessage", "<bold><player>, You have entered an invalid subcommand name!");
+        return this.languageYAML.getString("Chat.invalidCommandMessage", "<bold><player>, You have entered an invalid subcommand name!");
+    }
+
+    public String getInvalidRerollGroupMessage() {
+        return this.languageYAML.getString("Chat.invalidRerollGroupMessage", "<bold><player>, You have entered an invalid reroll group name!");
     }
 
     public List<String> getCommandAliases() {
-        return config.getStringList("heroCommand.aliases");
+        return this.config.getStringList("heroCommand.aliases");
     }
 
     public long getHeroCommandCooldown() {
-        return config.getLong("heroCommand.cooldown", 0);
+        return this.config.getLong("heroCommand.cooldown", 0L);
     }
 
-    public double getRerollCooldown() {
-        return config.getDouble("reroll.cooldown", 1.0);
+    public boolean areHeroPermissionsRequired() {
+        return this.config.getConfigurationSection("reroll").getBoolean("eachHeroRequiresPermissions", false);
     }
-
-    public boolean areHeroPermissionsRequired() {return config.getConfigurationSection("reroll").getBoolean("eachHeroRequiresPermissions", false); }
 
     public String getDatabaseType() {
-        return config.getString("database.type", "LEGACY");
-    }
-
-    public void setDatabaseType(String newType) {
-        ConfigurationSection databaseSection = getDatabaseSection();
-        databaseSection.set("type", newType);
-        config.set("database", databaseSection);
-        saveConfig();
-    }
-
-    public void setTextConvertComplete() {
-        config.set("textconvert",true);
-    }
-
-    public boolean getTextConvertStatus(){
-        return config.getBoolean("textconvert",false);
+        return this.databaseYAML.getString("database.type", "LEGACY");
     }
 
     public String getDatabaseHost() {
-        return config.getString("database.host", "");
+        return this.databaseYAML.getString("database.host", "");
     }
 
     public String getDatabaseName() {
-        return config.getString("database.name", "");
+        return this.databaseYAML.getString("database.name", "");
     }
 
     public int getDatabasePort() {
-        return config.getInt("database.port", 3306);
+        return this.databaseYAML.getInt("database.port", 3306);
     }
 
     public String getDatabaseUsername() {
-        return config.getString("database.username", "");
+        return this.databaseYAML.getString("database.username", "");
     }
 
     public String getDatabasePassword() {
-        return config.getString("database.password", "");
+        return this.databaseYAML.getString("database.password", "");
     }
-
-    private ConfigurationSection getDatabaseSection() {
-        return config.getConfigurationSection("database");
-    }
-
 }
+
