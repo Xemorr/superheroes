@@ -48,8 +48,7 @@ public class SuperheroPlayer {
     @Override
     public boolean equals(Object other) {
         if (other == this) return true;
-        if (other instanceof SuperheroPlayer) {
-            SuperheroPlayer superheroPlayer = (SuperheroPlayer) other;
+        if (other instanceof SuperheroPlayer superheroPlayer) {
             return uuid == superheroPlayer.uuid && superhero.equals(superheroPlayer.getSuperhero()) && heroCommandTimestamp == superheroPlayer.getHeroCommandTimestamp();
         }
         return false;

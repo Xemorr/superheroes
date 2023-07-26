@@ -5,7 +5,7 @@ import org.bukkit.event.Listener;
 
 public abstract class SkillImplementation implements Listener {
 
-    protected HeroHandler heroHandler;
+    protected final HeroHandler heroHandler;
 
     public SkillImplementation(HeroHandler heroHandler) {
         this.heroHandler = heroHandler;

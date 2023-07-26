@@ -1,20 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- *
- * Could not load the following classes:
- *  org.bukkit.Bukkit
- *  org.bukkit.Color
- *  org.bukkit.DyeColor
- *  org.bukkit.Material
- *  org.bukkit.configuration.ConfigurationSection
- *  org.bukkit.configuration.file.FileConfiguration
- *  org.bukkit.configuration.file.YamlConfiguration
- *  org.bukkit.entity.Player
- *  org.bukkit.event.Event
- *  org.bukkit.inventory.ItemStack
- *  org.bukkit.inventory.meta.ItemMeta
- *  org.bukkit.plugin.Plugin
- */
 package me.xemor.superheroes.data;
 
 import dev.dbassett.skullcreator.SkullCreator;
@@ -57,7 +40,7 @@ public class ConfigHandler {
     private FileConfiguration languageYAML;
     private FileConfiguration databaseYAML;
     private FileConfiguration config;
-    private Superheroes superheroes;
+    private final Superheroes superheroes;
     private ItemComparisonData item;
 
     public ConfigHandler(Superheroes superheroes) {
@@ -72,8 +55,8 @@ public class ConfigHandler {
         if (!new File(superheroes.getDataFolder(), "database.yml").exists()) {
             superheroes.saveResource("database.yml", false);
         }
-        this.languageYAML = YamlConfiguration.loadConfiguration((File) new File(dataFolder, "language.yml"));
-        this.databaseYAML = YamlConfiguration.loadConfiguration((File) new File(dataFolder, "database.yml"));
+        this.languageYAML = YamlConfiguration.loadConfiguration(new File(dataFolder, "language.yml"));
+        this.databaseYAML = YamlConfiguration.loadConfiguration(new File(dataFolder, "database.yml"));
         this.handleSuperpowersFolder();
     }
 
@@ -91,12 +74,13 @@ public class ConfigHandler {
                 }
                 if (powers.getScheme().equals("jar")) {
                     FileSystem fileSystem = FileSystems.newFileSystem(powers, Collections.emptyMap());
-                    myPath = fileSystem.getPath("powers", new String[0]);
+                    myPath = fileSystem.getPath("powers");
+                    fileSystem.close();
                 } else {
                     myPath = Paths.get(powers);
                 }
-                Stream<Path> walk = Files.walk(myPath, 1, new FileVisitOption[0]);
-                Iterator it = walk.iterator();
+                Stream<Path> walk = Files.walk(myPath, 1);
+                Iterator<Path> it = walk.iterator();
                 it.next();
                 while (it.hasNext()) {
                     String path = ((Path) it.next()).toString();
@@ -134,8 +118,7 @@ public class ConfigHandler {
             Superheroes.getInstance().getLogger().severe("The skills section is missing/invalid at " + superheroSection.getCurrentPath() + ".skills");
         }
         for (Object value : skillsSection.getValues(false).values()) {
-            if (value instanceof ConfigurationSection) {
-                ConfigurationSection configurationSection = (ConfigurationSection) value;
+            if (value instanceof ConfigurationSection configurationSection) {
                 String skillStr = configurationSection.getString("skill");
                 int skill = Skill.getSkill(skillStr);
                 if (skill == -1) {
@@ -156,7 +139,7 @@ public class ConfigHandler {
 
     public void loadSuperheroes(HeroHandler heroHandler) {
         List<ConfigurationSection> sections = this.getSuperheroesConfigurationSection();
-        HashMap<String, Superhero> nameToSuperhero = new HashMap<String, Superhero>();
+        HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
         for (ConfigurationSection superheroSection : sections) {
             try {
                 String superheroName = superheroSection.getName();
@@ -224,7 +207,7 @@ public class ConfigHandler {
         this.languageYAML = YamlConfiguration.loadConfiguration((File) new File(this.getDataFolder(), "language.yml"));
         this.databaseYAML = YamlConfiguration.loadConfiguration((File) new File(this.getDataFolder(), "database.yml"));
         this.item = new ItemComparisonData(Objects.requireNonNull(this.config.getConfigurationSection("reroll.item")));
-        heroHandler.setHeroesIntoMemory(new HashMap<UUID, SuperheroPlayer>());
+        heroHandler.setHeroesIntoMemory(new HashMap<>());
         for (Player player : Bukkit.getOnlinePlayers()) {
             heroHandler.loadSuperheroPlayer(player);
         }

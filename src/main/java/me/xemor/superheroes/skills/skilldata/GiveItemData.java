@@ -5,11 +5,11 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class GiveItemData extends SkillData {
 
-    private ItemStackData item;
-    private boolean canStore;
-    private boolean canDrop;
-    private boolean canLoseOnDeath;
-    private boolean loseItemOnHeroLoss;
+    private final ItemStackData item;
+    private final boolean canStore;
+    private final boolean canDrop;
+    private final boolean canLoseOnDeath;
+    private final boolean loseItemOnHeroLoss;
 
     public GiveItemData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

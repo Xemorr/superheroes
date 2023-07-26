@@ -19,11 +19,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class YAMLStorage implements Storage {
 
-    private Superheroes superheroes;
-    private HeroHandler heroHandler;
+    private final Superheroes superheroes;
+    private final HeroHandler heroHandler;
     private final YamlConfiguration currentDataYAML;
     private File currentDataFile;
-    private ReentrantLock yamlLock = new ReentrantLock();
+    private final ReentrantLock yamlLock = new ReentrantLock();
 
     public YAMLStorage() {
         superheroes = Superheroes.getInstance();
@@ -42,7 +42,7 @@ public class YAMLStorage implements Storage {
     }
 
     @Override
-    public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {
+    public void saveSuperheroPlayer(@NotNull SuperheroPlayer superheroPlayer) {
         yamlLock.lock();
         try {
             ConfigurationSection section = getSection(superheroPlayer.getUUID());

@@ -5,6 +5,7 @@ import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.data.SuperheroPlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,10 +60,10 @@ public class LegacyStorage implements Storage {
      * @param superheroPlayer
      */
     @Override
-    public void saveSuperheroPlayer(SuperheroPlayer superheroPlayer) {}
+    public void saveSuperheroPlayer(@NotNull SuperheroPlayer superheroPlayer) {}
 
     @Override
-    public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {
+    public SuperheroPlayer loadSuperheroPlayer(@NotNull UUID uuid) {
         String superheroName = currentDataYAML.getString(uuid.toString());
         Superhero superhero = heroHandler.getSuperhero(superheroName);
         return new SuperheroPlayer(uuid, superhero == null ? heroHandler.getNoPower() : superhero, 0);

@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class EggLayerSkill extends SkillImplementation {
 
-    public HashMultimap<UUID, EggLayerRunnable> map = HashMultimap.create();
+    public final HashMultimap<UUID, EggLayerRunnable> map = HashMultimap.create();
 
     public EggLayerSkill(HeroHandler heroHandler) {
         super(heroHandler);
@@ -68,7 +68,7 @@ public class EggLayerSkill extends SkillImplementation {
         }
     }
 
-    public BukkitRunnable startRunnable(Player player, EggLayerData eggLayerData, Superhero superhero) {
+    public void startRunnable(Player player, EggLayerData eggLayerData, Superhero superhero) {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -94,7 +94,6 @@ public class EggLayerSkill extends SkillImplementation {
         };
         runnable.runTaskTimer(heroHandler.getPlugin(), eggLayerData.getTickDelay(), eggLayerData.getTickDelay());
         map.put(player.getUniqueId(), new EggLayerRunnable(eggLayerData, runnable));
-        return runnable;
     }
 
     public record EggLayerRunnable(EggLayerData eggLayerData, BukkitRunnable bukkitRunnable) {}

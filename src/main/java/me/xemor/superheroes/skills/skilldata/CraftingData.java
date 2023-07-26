@@ -34,7 +34,7 @@ public class CraftingData extends SkillData {
             ConfigurationSection recipeKeys = configurationSection.getConfigurationSection("recipeKeys");
             ShapedRecipe shapedRecipe = new ShapedRecipe(namespacedKey, result);
             List<String> recipeShape = configurationSection.getStringList("recipe");
-            shapedRecipe.shape(recipeShape.toArray(new String[recipeShape.size()]));
+            shapedRecipe.shape(recipeShape.toArray(new String[0]));
             for (Map.Entry<String, Object> entry : recipeKeys.getValues(false).entrySet()) {
                 Material material = Material.valueOf(entry.getKey().toUpperCase());
                 String symbol = (String) entry.getValue();

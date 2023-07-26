@@ -5,9 +5,9 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class SoundData {
 
-    private Sound sound;
-    private float volume;
-    private float pitch;
+    private final Sound sound;
+    private final float volume;
+    private final float pitch;
 
     public SoundData(ConfigurationSection configurationSection) {
         sound = Sound.valueOf(configurationSection.getString("sound", "ENTITY_GENERIC_EXPLODE").toUpperCase());

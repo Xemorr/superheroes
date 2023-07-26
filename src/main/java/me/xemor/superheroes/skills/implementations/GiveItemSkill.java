@@ -1,31 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- *
- * Could not load the following classes:
- *  org.bukkit.Location
- *  org.bukkit.World
- *  org.bukkit.entity.Entity
- *  org.bukkit.entity.ItemFrame
- *  org.bukkit.entity.Player
- *  org.bukkit.event.Event$Result
- *  org.bukkit.event.EventHandler
- *  org.bukkit.event.EventPriority
- *  org.bukkit.event.entity.PlayerDeathEvent
- *  org.bukkit.event.inventory.InventoryAction
- *  org.bukkit.event.inventory.InventoryClickEvent
- *  org.bukkit.event.inventory.InventoryDragEvent
- *  org.bukkit.event.player.PlayerArmorStandManipulateEvent
- *  org.bukkit.event.player.PlayerDropItemEvent
- *  org.bukkit.event.player.PlayerInteractEntityEvent
- *  org.bukkit.event.player.PlayerRespawnEvent
- *  org.bukkit.inventory.ItemStack
- *  org.bukkit.inventory.PlayerInventory
- *  org.bukkit.metadata.FixedMetadataValue
- *  org.bukkit.metadata.MetadataValue
- *  org.bukkit.plugin.Plugin
- *  org.bukkit.plugin.java.JavaPlugin
- *  org.bukkit.scheduler.BukkitRunnable
- */
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superheroes;
@@ -53,16 +25,13 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
 import java.util.HashMap;
 
-public class GiveItemSkill
-        extends SkillImplementation {
+public class GiveItemSkill extends SkillImplementation {
     public GiveItemSkill(HeroHandler heroHandler) {
         super(heroHandler);
     }
@@ -72,7 +41,7 @@ public class GiveItemSkill
         Collection<SkillData> skillDatas = e.getNewHero().getSkillData(Skill.getSkill("GIVEITEM"));
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
-            HashMap<Integer, ItemStack> leftovers = e.getPlayer().getInventory().addItem(new ItemStack[]{giveItemData.getItemStackData().getItem()});
+            HashMap<Integer, ItemStack> leftovers = e.getPlayer().getInventory().addItem(giveItemData.getItemStackData().getItem());
             World world = e.getPlayer().getWorld();
             Location location = e.getPlayer().getLocation();
             if (!skillData.areConditionsTrue(e.getPlayer())) continue;
@@ -88,7 +57,7 @@ public class GiveItemSkill
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             if (!giveItemData.canLoseItemOnHeroLoss()) continue;
-            this.removeItem(e.getPlayer(), giveItemData);
+            removeItem(e.getPlayer(), giveItemData);
         }
     }
 
@@ -104,7 +73,7 @@ public class GiveItemSkill
     @EventHandler
     public void itemDropped(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = this.heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             if (giveItemData.canDrop() || !e.getItemDrop().getItemStack().isSimilar(giveItemData.getItemStackData().getItem()))
@@ -125,12 +94,11 @@ public class GiveItemSkill
             if (e.getViewers().size() == 0) {
                 return;
             }
-            Entity possiblePlayer = (Entity) e.getViewers().get(0);
-            if (!(possiblePlayer instanceof Player)) {
+            Entity possiblePlayer = e.getViewers().get(0);
+            if (!(possiblePlayer instanceof Player player)) {
                 return;
             }
-            Player player = (Player) possiblePlayer;
-            Collection<SkillData> skillDatas = this.heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (giveItemData.canStore()) continue;
@@ -147,14 +115,13 @@ public class GiveItemSkill
             if (e.getViewers().size() == 0) {
                 return;
             }
-            Entity possiblePlayer = (Entity) e.getViewers().get(0);
-            if (!(possiblePlayer instanceof Player)) {
+            Entity possiblePlayer = e.getViewers().get(0);
+            if (!(possiblePlayer instanceof Player player)) {
                 return;
             }
-            Player player = (Player) possiblePlayer;
             int hotbarSlot = e.getHotbarButton();
             ItemStack fromItem = e.getView().getBottomInventory().getItem(hotbarSlot);
-            Collection<SkillData> skillDatas = this.heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
             for (SkillData skillData : skillDatas) {
                 ItemStack item;
                 GiveItemData giveItemData = (GiveItemData) skillData;
@@ -169,7 +136,7 @@ public class GiveItemSkill
     public void itemFrameStore(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         if (e.getRightClicked() instanceof ItemFrame) {
-            Collection<SkillData> skillDatas = this.heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (giveItemData.canStore()) continue;
@@ -184,7 +151,7 @@ public class GiveItemSkill
     @EventHandler
     public void armorStandStore(PlayerArmorStandManipulateEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = this.heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             if (giveItemData.canStore()) continue;
@@ -207,12 +174,11 @@ public class GiveItemSkill
             if (e.getViewers().isEmpty()) {
                 return;
             }
-            Entity possiblePlayer = (Entity) e.getViewers().get(0);
-            if (!(possiblePlayer instanceof Player)) {
+            Entity possiblePlayer = e.getViewers().get(0);
+            if (!(possiblePlayer instanceof Player player)) {
                 return;
             }
-            Player player = (Player) possiblePlayer;
-            Collection<SkillData> skillDatas = this.heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (giveItemData.canStore()) continue;
@@ -229,12 +195,11 @@ public class GiveItemSkill
             if (e.getViewers().size() == 0) {
                 return;
             }
-            Entity possiblePlayer = (Entity) e.getViewers().get(0);
-            if (!(possiblePlayer instanceof Player)) {
+            Entity possiblePlayer = e.getViewers().get(0);
+            if (!(possiblePlayer instanceof Player player)) {
                 return;
             }
-            Player player = (Player) possiblePlayer;
-            Collection<SkillData> skillDatas = this.heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (giveItemData.canStore()) continue;
@@ -248,7 +213,7 @@ public class GiveItemSkill
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(PlayerDeathEvent e) {
         if (!e.getKeepInventory()) {
-            e.getEntity().setMetadata("superheroes-giveitems", (MetadataValue) new FixedMetadataValue((Plugin) Superheroes.getInstance(), (Object) true));
+            e.getEntity().setMetadata("superheroes-giveitems", new FixedMetadataValue(Superheroes.getInstance(), true));
         }
     }
 
@@ -259,7 +224,7 @@ public class GiveItemSkill
 
                 public void run() {
                     Player player = e.getPlayer();
-                    Collection<SkillData> skillDatas = GiveItemSkill.this.heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+                    Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
                     for (SkillData skillData : skillDatas) {
                         GiveItemData giveItemData = (GiveItemData) skillData;
                         if (giveItemData.canLoseOnDeath()) continue;
@@ -271,8 +236,8 @@ public class GiveItemSkill
                         }
                     }
                 }
-            }.runTaskLater((Plugin) JavaPlugin.getPlugin(Superheroes.class), 1L);
-            e.getPlayer().removeMetadata("superheroes-giveitems", (Plugin) Superheroes.getInstance());
+            }.runTaskLater(JavaPlugin.getPlugin(Superheroes.class), 1L);
+            e.getPlayer().removeMetadata("superheroes-giveitems", Superheroes.getInstance());
         }
     }
 }

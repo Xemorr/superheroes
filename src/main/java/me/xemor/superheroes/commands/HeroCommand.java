@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HeroCommand implements CommandExecutor, TabExecutor {
-    private ConfigHandler configHandler;
-    private SelectCommand selectCommand;
-    private ReloadCommand reloadCommand;
-    private ImportCommand importCommand;
-    private ExportCommand exportCommand;
-    private GUICommand guiCommand;
-    private CheckCommand checkCommand;
-    private RerollCommand rerollCommand;
+    private final ConfigHandler configHandler;
+    private final SelectCommand selectCommand;
+    private final ReloadCommand reloadCommand;
+    private final ImportCommand importCommand;
+    private final ExportCommand exportCommand;
+    private final GUICommand guiCommand;
+    private final CheckCommand checkCommand;
+    private final RerollCommand rerollCommand;
 
     public HeroCommand(HeroHandler heroHandler) {
         this.rerollCommand = new RerollCommand();
@@ -37,7 +37,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
         this.checkCommand = new CheckCommand();
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length >= 1) {
             SubCommands commandType;
             Audience audience = Superheroes.getBukkitAudiences().sender(sender);
@@ -48,70 +48,45 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
                 return true;
             }
             switch (commandType) {
-                case SELECT: {
-                    this.selectCommand.onCommand(sender, args);
-                    break;
-                }
-                case RELOAD: {
-                    this.reloadCommand.onCommand(sender, args);
-                    break;
-                }
-                case REROLL: {
-                    this.rerollCommand.onCommand(sender, args);
-                    break;
-                }
-                case EXPORT: {
-                    this.exportCommand.onCommand(sender, args);
-                    break;
-                }
-                case IMPORT: {
-                    this.importCommand.onCommand(sender, args);
-                    break;
-                }
-                case CHECK: {
-                    this.checkCommand.onCommand(sender, args);
-                    break;
-                }
-                case GUI: {
-                    this.guiCommand.onCommand(sender, args);
-                }
+                case SELECT -> this.selectCommand.onCommand(sender, args);
+                case RELOAD -> this.reloadCommand.onCommand(sender, args);
+                case REROLL -> this.rerollCommand.onCommand(sender, args);
+                case EXPORT -> this.exportCommand.onCommand(sender, args);
+                case IMPORT -> this.importCommand.onCommand(sender, args);
+                case CHECK -> this.checkCommand.onCommand(sender, args);
+                case GUI -> this.guiCommand.onCommand(sender, args);
             }
         }
         return true;
     }
 
+
     @Nullable
+    @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        List<String> tabComplete;
-        block13:
-        {
-            block12:
-            {
-                tabComplete = new ArrayList<String>();
-                if (args.length != 1) break block12;
-                for (SubCommands subCommandEnum : SubCommands.values()) {
-                    String subCommandStr = subCommandEnum.toString().toLowerCase();
-                    if (!subCommandStr.startsWith(args[0].toLowerCase())) continue;
+        List<String> tabComplete = new ArrayList<>();
+        if (args.length == 1) {
+            for (SubCommands subCommandEnum : SubCommands.values()) {
+                String subCommandStr = subCommandEnum.toString().toLowerCase();
+                if (subCommandStr.startsWith(args[0].toLowerCase())) {
                     tabComplete.add(subCommandStr);
                 }
-                break block13;
             }
-            if (args.length <= 1) break block13;
+        }
+        else if (args.length > 1) {
+            SubCommands subCommand;
             try {
-                SubCommands subCommand = SubCommands.valueOf(args[0].toUpperCase());
+                subCommand = SubCommands.valueOf(args[0].toUpperCase());
                 tabComplete = switch (subCommand) {
-                    default -> throw new IncompatibleClassChangeError();
-                    case SELECT -> this.selectCommand.tabComplete(sender, args);
-                    case RELOAD -> this.reloadCommand.tabComplete(sender, args);
-                    case REROLL -> this.rerollCommand.tabComplete(sender, args);
-                    case EXPORT -> this.exportCommand.tabComplete(sender, args);
-                    case IMPORT -> this.importCommand.tabComplete(sender, args);
-                    case CHECK -> this.checkCommand.tabComplete(sender, args);
-                    case GUI -> this.guiCommand.tabComplete(sender, args);
+                    case SELECT -> selectCommand.tabComplete(sender, args);
+                    case RELOAD -> reloadCommand.tabComplete(sender, args);
+                    case REROLL -> rerollCommand.tabComplete(sender, args);
+                    case EXPORT -> exportCommand.tabComplete(sender, args);
+                    case IMPORT -> importCommand.tabComplete(sender, args);
+                    case CHECK -> checkCommand.tabComplete(sender, args);
+                    case GUI -> guiCommand.tabComplete(sender, args);
                 };
-            } catch (IllegalArgumentException illegalArgumentException) {
-                // empty catch block
-            }
+            } catch(IllegalArgumentException ignored) {}
         }
         return tabComplete;
     }

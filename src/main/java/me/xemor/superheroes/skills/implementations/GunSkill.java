@@ -24,7 +24,7 @@ import java.util.Collection;
 
 public class GunSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public GunSkill(HeroHandler heroHandler) {
         super(heroHandler);
@@ -55,8 +55,7 @@ public class GunSkill extends SkillImplementation {
                         if (rayTraceResult == null) {
                             return;
                         }
-                        if (rayTraceResult.getHitEntity() instanceof EnderCrystal) {
-                            EnderCrystal enderCrystal = (EnderCrystal) rayTraceResult.getHitEntity();
+                        if (rayTraceResult.getHitEntity() instanceof EnderCrystal enderCrystal) {
                             world.createExplosion(enderCrystal.getLocation(), 6);
                             enderCrystal.remove();
                             return;

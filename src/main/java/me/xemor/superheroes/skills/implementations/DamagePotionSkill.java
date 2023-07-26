@@ -21,10 +21,9 @@ public class DamagePotionSkill extends SkillImplementation {
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if (!(e.getEntity() instanceof Player)) {
+        if (!(e.getEntity() instanceof Player player)) {
             return;
         }
-        Player player = (Player) e.getEntity();
         Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGEPOTION"));
         for (SkillData skillData : skillDatas) {

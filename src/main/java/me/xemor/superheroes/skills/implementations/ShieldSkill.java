@@ -19,8 +19,7 @@ public class ShieldSkill extends SkillImplementation {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player player = (Player) e.getEntity();
+        if (e.getEntity() instanceof Player player) {
             Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("SHIELD"));
             for (SkillData skillData : skillDatas) {
                 ShieldData shieldData = (ShieldData) skillData;

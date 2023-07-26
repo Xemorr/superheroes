@@ -1,17 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- *
- * Could not load the following classes:
- *  net.md_5.bungee.api.ChatMessageType
- *  org.bukkit.configuration.ConfigurationSection
- *  org.bukkit.configuration.file.YamlConfiguration
- *  org.bukkit.entity.Player
- *  org.bukkit.event.EventHandler
- *  org.bukkit.event.Listener
- *  org.bukkit.event.block.Action
- *  org.bukkit.event.player.PlayerInteractEvent
- *  org.bukkit.inventory.ItemStack
- */
 package me.xemor.superheroes.reroll;
 
 import me.xemor.superheroes.CooldownHandler;
@@ -38,8 +24,8 @@ public class RerollHandler implements Listener {
     private boolean itemEnabled;
     private boolean eachHeroRequiresPermission;
     private double itemCooldown;
-    private Map<String, RerollGroup> groupToWeightedHeroes = new HashMap<String, RerollGroup>();
-    private List<RerollGroup> rerollGroups = new ArrayList<RerollGroup>();
+    private final Map<String, RerollGroup> groupToWeightedHeroes = new HashMap<>();
+    private final List<RerollGroup> rerollGroups = new ArrayList<>();
 
     public RerollHandler() {
         this.loadData();

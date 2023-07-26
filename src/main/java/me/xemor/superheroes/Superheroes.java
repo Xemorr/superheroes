@@ -187,7 +187,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
             this.getLogger().log(Level.WARNING, "[Superheroes] You have disabled bstats, this is very sad :(");
         }
         metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_superhero", () -> {
-            HashMap<String, Integer> valueMap = new HashMap<String, Integer>();
+            HashMap<String, Integer> valueMap = new HashMap<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 String powerName = this.heroHandler.getSuperhero(player).getName();
                 int currentCount = valueMap.getOrDefault(powerName, 0);
@@ -196,7 +196,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
             return valueMap;
         }));
         metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_skill", () -> {
-            HashMap<String, Integer> valueMap = new HashMap<String, Integer>();
+            HashMap<String, Integer> valueMap = new HashMap<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Collection<Integer> skills = this.heroHandler.getSuperhero(player).getSkills();
                 for (int skill : skills) {

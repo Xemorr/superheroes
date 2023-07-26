@@ -5,10 +5,10 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class CreeperData extends CooldownData {
 
-    private int fuse;
-    private float creeperPower;
-    private double upwardsVelocity;
-    private int slowfallDuration;
+    private final int fuse;
+    private final float creeperPower;
+    private final double upwardsVelocity;
+    private final int slowfallDuration;
 
     public CreeperData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "<dark_green><bold>Creeper <white>Cooldown: <s> seconds", 10);

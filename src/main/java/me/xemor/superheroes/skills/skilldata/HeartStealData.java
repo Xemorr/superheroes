@@ -6,9 +6,9 @@ import org.bukkit.entity.EntityType;
 
 public class HeartStealData extends SkillData {
 
-    private int heartsGained;
-    private SetData<EntityType> entities;
-    private int maxHearts;
+    private final int heartsGained;
+    private final SetData<EntityType> entities;
+    private final int maxHearts;
 
     public HeartStealData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

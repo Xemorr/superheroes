@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ParticleHandler extends BukkitRunnable {
 
-    Player player;
+    final Player player;
     boolean helix = false;
     Particle particle = null;
     double radius = 1;
@@ -57,7 +57,7 @@ public class ParticleHandler extends BukkitRunnable {
     public void doOtherHelix(int currentDuration) {
         Location location = player.getLocation();
         for (double y = 0; y <= 5; y+=0.15) {
-            Double trigInput = 4 * (y + currentDuration);
+            double trigInput = 4 * (y + currentDuration);
             double x = radius * Math.sin(trigInput);
             double z = radius * Math.cos(trigInput);
             World world = player.getWorld();

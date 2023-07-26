@@ -20,8 +20,7 @@ public class ConvertItemSkill extends SkillImplementation {
 
     @EventHandler
     public void onPickup(EntityPickupItemEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player player = (Player) e.getEntity();
+        if (e.getEntity() instanceof Player player) {
             Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CONVERTITEM"));
             for (SkillData skillData : skillDatas) {
                 ConvertItemData convertItemData = (ConvertItemData) skillData;

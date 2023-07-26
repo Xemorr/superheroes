@@ -19,8 +19,7 @@ public class OHKOSkill extends SkillImplementation {
 
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player && e.getEntity() instanceof LivingEntity) {
-            Player player = (Player) e.getDamager();
+        if (e.getDamager() instanceof Player player && e.getEntity() instanceof LivingEntity) {
             Superhero superhero = heroHandler.getSuperhero(player);
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("OHKO"));
             for (SkillData skillData : skillDatas) {

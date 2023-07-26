@@ -10,8 +10,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class DecoyData extends SkillData {
 
-    private Color color;
-    private ItemStack skull;
+    private final Color color;
+    private final ItemStack skull;
 
     public DecoyData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

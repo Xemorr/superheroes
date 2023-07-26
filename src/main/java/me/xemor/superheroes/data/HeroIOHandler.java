@@ -12,7 +12,7 @@ import java.util.concurrent.*;
 
 public class HeroIOHandler {
 
-    ExecutorService threads;
+    final ExecutorService threads;
     private Storage storage;
     private static final Object POISON = new Object();
     private final BlockingQueue<Object> loadingPlayerQueue = new LinkedBlockingQueue<>();
@@ -61,12 +61,11 @@ public class HeroIOHandler {
         return loadingPlayer.getFuture();
     }
 
-    public CompletableFuture<Object> saveSuperheroPlayerAsync(SuperheroPlayer superheroPlayer) {
+    public void saveSuperheroPlayerAsync(SuperheroPlayer superheroPlayer) {
         SavingPlayer savingPlayer = new SavingPlayer(superheroPlayer);
         try {
             savingPlayerQueue.put(savingPlayer);
         } catch (InterruptedException e) { e.printStackTrace(); }
-        return savingPlayer.getFuture();
     }
 
     public void handlePlayerData() {

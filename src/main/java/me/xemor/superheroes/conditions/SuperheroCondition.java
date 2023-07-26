@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class SuperheroCondition extends Condition implements EntityCondition, TargetCondition {
 
-    Set<String> heroes;
+    final Set<String> heroes;
 
     public SuperheroCondition(int condition, ConfigurationSection configurationSection) {
         super(condition, configurationSection);

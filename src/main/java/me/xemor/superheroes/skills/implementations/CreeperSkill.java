@@ -22,7 +22,7 @@ import java.util.Collection;
 
 public class CreeperSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public CreeperSkill(HeroHandler heroHandler) {
         super(heroHandler);

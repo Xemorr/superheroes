@@ -4,8 +4,8 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class WeatherDamageData extends SkillData {
 
-    private double damage;
-    private boolean checkShelter;
+    private final double damage;
+    private final boolean checkShelter;
 
     public WeatherDamageData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

@@ -4,8 +4,8 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class SneakData extends SkillData {
 
-    private boolean mustSneak;
-    private boolean needsInvisibility;
+    private final boolean mustSneak;
+    private final boolean needsInvisibility;
 
     public SneakData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

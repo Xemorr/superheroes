@@ -4,8 +4,8 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class PickpocketData extends SkillData {
 
-    private double rangeSquared;
-    private boolean isSneaking;
+    private final double rangeSquared;
+    private final boolean isSneaking;
 
     public PickpocketData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

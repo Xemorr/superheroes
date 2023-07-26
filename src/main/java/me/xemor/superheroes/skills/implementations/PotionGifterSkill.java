@@ -22,7 +22,7 @@ import java.util.Collection;
 
 public class PotionGifterSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public PotionGifterSkill(HeroHandler heroHandler) {
         super(heroHandler);
@@ -37,8 +37,7 @@ public class PotionGifterSkill extends SkillImplementation {
             PotionGifterSkillData gifterData = (PotionGifterSkillData) skillData;
             Entity entity = e.getRightClicked();
             if (skillCooldownHandler.isCooldownOver(gifterData, player.getUniqueId())) {
-                if (entity instanceof LivingEntity) {
-                    LivingEntity lEntity = (LivingEntity) entity;
+                if (entity instanceof LivingEntity lEntity) {
                     if (skillData.areConditionsTrue(player, lEntity)) {
                         World world = lEntity.getWorld();
                         world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
@@ -46,8 +45,7 @@ public class PotionGifterSkill extends SkillImplementation {
                         skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
                         Component giverMessage = MiniMessage.miniMessage().deserialize(gifterData.getGiverMessage(), Placeholder.unparsed("player",player.getName()));
                         Superheroes.getBukkitAudiences().player(player).sendMessage(giverMessage);
-                        if (lEntity instanceof Player) {
-                            Player receiver = (Player) lEntity;
+                        if (lEntity instanceof Player receiver) {
                             Component receiverMessage = MiniMessage.miniMessage().deserialize(gifterData.getReceiverMessage(),
                                     Placeholder.unparsed("gifter", player.getName()),
                                     Placeholder.unparsed("player", receiver.getName()));

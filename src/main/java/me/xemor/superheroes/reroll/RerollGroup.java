@@ -1,12 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- *
- * Could not load the following classes:
- *  javax.annotation.Nullable
- *  org.bukkit.configuration.ConfigurationSection
- *  org.bukkit.entity.Player
- *  org.bukkit.inventory.ItemStack
- */
 package me.xemor.superheroes.reroll;
 
 import me.xemor.configurationdata.comparison.ItemComparisonData;

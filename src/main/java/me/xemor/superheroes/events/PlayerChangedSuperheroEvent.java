@@ -4,13 +4,14 @@ import me.xemor.superheroes.Superhero;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 public class PlayerChangedSuperheroEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
-    private Player player;
-    private Superhero newHero;
-    private Superhero oldHero;
+    private final Player player;
+    private final Superhero newHero;
+    private final Superhero oldHero;
 
     public PlayerChangedSuperheroEvent(Player player, Superhero newHero, Superhero oldHero) {
         this.player = player;
@@ -19,7 +20,7 @@ public class PlayerChangedSuperheroEvent extends Event {
     }
 
     @Override
-    public HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return HANDLERS;
     }
 
