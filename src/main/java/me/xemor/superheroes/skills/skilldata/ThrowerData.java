@@ -1,27 +1,24 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.configurationdata.ItemStackData;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ThrowerData extends CooldownData {
 
-    private int ammoCost;
+    private final int ammoCost;
     private ItemComparisonData ammo;
-    private EntityType entityType;
-    private List<Action> actions;
-    private AbstractArrow.PickupStatus canPickUp;
-    private double velocity;
-    private double damage;
+    private final EntityType entityType;
+    private final List<Action> actions;
+    private final AbstractArrow.PickupStatus canPickUp;
+    private final double velocity;
+    private final double damage;
 
     public ThrowerData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "<grey>Your projectile has <s> seconds remaining!", 0);

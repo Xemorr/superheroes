@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class EggLayerData extends SkillData {
 
-    private ItemStack toLay;
-    private long tickDelay;
+    private final ItemStack toLay;
+    private final long tickDelay;
 
     public EggLayerData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class ShieldData extends SkillData {
 
-    private int cooldown;
+    private final int cooldown;
 
     public ShieldData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

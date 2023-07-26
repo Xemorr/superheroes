@@ -9,18 +9,18 @@ import java.util.stream.Collectors;
 
 public class BlockRayData extends SkillData {
 
-    private int maxDistance;
-    private boolean shouldRevert;
-    private List<Material> blocksToPlace;
-    private List<Material> blocksToReplace;
-    private BlockRayMode blockRayMode;
-    private long revertsAfter;
+    private final int maxDistance;
+    private final boolean shouldRevert;
+    private final List<Material> blocksToPlace;
+    private final List<Material> blocksToReplace;
+    private final BlockRayMode blockRayMode;
+    private final long revertsAfter;
 
 
     public BlockRayData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-        blocksToPlace = configurationSection.getStringList("blocksToPlace").stream().map(str -> Material.valueOf(str)).collect(Collectors.toList());
-        blocksToReplace = configurationSection.getStringList("blocksToReplace").stream().map(str -> Material.valueOf(str)).collect(Collectors.toList());
+        blocksToPlace = configurationSection.getStringList("blocksToPlace").stream().map(Material::valueOf).collect(Collectors.toList());
+        blocksToReplace = configurationSection.getStringList("blocksToReplace").stream().map(Material::valueOf).collect(Collectors.toList());
         blockRayMode = BlockRayMode.valueOf(configurationSection.getString("blockRayMode"));
         maxDistance = configurationSection.getInt("maxDistance", 20);
         shouldRevert = configurationSection.getBoolean("shouldRevert", false);

@@ -5,8 +5,8 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class ConsumeSkillData extends PotionEffectSkillData {
 
-    private Material material;
-    private int hunger;
+    private final Material material;
+    private final int hunger;
 
     public ConsumeSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

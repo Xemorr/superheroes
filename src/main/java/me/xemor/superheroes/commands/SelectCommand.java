@@ -15,12 +15,12 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Select implements SubCommand {
+public class SelectCommand implements SubCommand {
 
     private final HeroHandler heroHandler;
     private final ConfigHandler configHandler;
 
-    public Select(HeroHandler heroHandler, ConfigHandler configHandler) {
+    public SelectCommand(HeroHandler heroHandler, ConfigHandler configHandler) {
         this.heroHandler = heroHandler;
         this.configHandler = configHandler;
     }

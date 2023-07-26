@@ -15,7 +15,7 @@ import java.util.Collection;
 
 public class ConvertBlockSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public ConvertBlockSkill(HeroHandler heroHandler) {
         super(heroHandler);

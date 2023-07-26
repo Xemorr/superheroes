@@ -66,7 +66,7 @@ public class MySQLStorage implements Storage {
     }
 
     @Override
-    public SuperheroPlayer loadSuperheroPlayer(UUID uuid) {
+    public SuperheroPlayer loadSuperheroPlayer(@NotNull UUID uuid) {
         try (Connection conn = source.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "SELECT * FROM superhero_players WHERE uuid = ?;"
         )) {

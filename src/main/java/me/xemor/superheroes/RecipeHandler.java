@@ -23,8 +23,8 @@ import java.util.List;
 
 public class RecipeHandler implements Listener {
 
-    private HashMap<NamespacedKey, Superhero> recipeToPower = new HashMap<>();
-    private HeroHandler heroHandler;
+    private final HashMap<NamespacedKey, Superhero> recipeToPower = new HashMap<>();
+    private final HeroHandler heroHandler;
 
 
     public RecipeHandler(HeroHandler heroHandler) {
@@ -44,8 +44,7 @@ public class RecipeHandler implements Listener {
         e.getInventory().setResult(new ItemStack(Material.AIR));
         List<HumanEntity> viewers = e.getViewers();
         for (HumanEntity humanEntity : viewers) {
-            if (humanEntity instanceof Player) {
-                Player player = (Player) humanEntity;
+            if (humanEntity instanceof Player player) {
                 if (power.equals(heroHandler.getSuperhero(player))) {
                     e.getInventory().setResult(eventRecipe.getResult());
                 }

@@ -45,8 +45,7 @@ public class ConvertDropsSkill extends SkillImplementation{
             }
             List<Item> drops = e.getItems();
             Map<Material, ItemStack> dropToNewDrop = convertDropsData.getDropToNewDrop();
-            for (int i = 0; i < drops.size(); i++) {
-                Item item = drops.get(i);
+            for (Item item : drops) {
                 ItemStack itemStack = item.getItemStack();
                 int amount = itemStack.getAmount();
                 ItemStack resultingItem = dropToNewDrop.get(itemStack.getType());

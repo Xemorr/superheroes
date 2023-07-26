@@ -30,8 +30,8 @@ import java.util.UUID;
 
 public class DecoySkill extends SkillImplementation {
 
-    HashMap<SkillData, HashMap<UUID, UUID>> playerToDecoy = new HashMap<>();
-    NamespacedKey namespacedKey;
+    final HashMap<SkillData, HashMap<UUID, UUID>> playerToDecoy = new HashMap<>();
+    final NamespacedKey namespacedKey;
 
     public DecoySkill(HeroHandler heroHandler) {
         super(heroHandler);

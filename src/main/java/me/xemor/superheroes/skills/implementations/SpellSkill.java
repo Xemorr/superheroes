@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 
 public class SpellSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public SpellSkill(HeroHandler heroHandler) {
         super(heroHandler);
@@ -108,7 +108,7 @@ public class SpellSkill extends SkillImplementation {
                 arrow.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
             }
             else if (spell == Spell.LIGHTNING) {
-                strikeLightning(player, 30);
+                strikeLightning(player);
             }
             else if (spell == Spell.EGG) {
                 player.launchProjectile(Egg.class);
@@ -178,8 +178,8 @@ public class SpellSkill extends SkillImplementation {
         }
     }
 
-    private void strikeLightning(Player player, int blocksToTravel) {
-        Location location = findLookingLocation(player, blocksToTravel);
+    private void strikeLightning(Player player) {
+        Location location = findLookingLocation(player, 30);
         player.getWorld().strikeLightning(location);
     }
 
@@ -206,10 +206,10 @@ public class SpellSkill extends SkillImplementation {
 
     public static final class SpellAbility {
 
-        private Material fuel;
-        private int cost;
-        private double cooldown;
-        private Consumer<Player> ability;
+        private final Material fuel;
+        private final int cost;
+        private final double cooldown;
+        private final Consumer<Player> ability;
 
         public SpellAbility(Material fuel, int cost, double cooldown, Consumer<Player> consumer) {
             this.fuel = fuel;

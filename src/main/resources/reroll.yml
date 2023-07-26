@@ -1,0 +1,20 @@
+config_version: ${version} # do not change unless you know what you are doing
+
+global_reroll_settings:
+  itemEnabled: true
+  eachHeroRequiresPermission: false
+  itemCooldown: 1
+
+
+reroll_groups:
+  default: # the group used when not otherwise specified
+    item:
+      types:
+        - NETHER_STAR
+    heroes: [ ] # empty list means all heroes
+  monster:
+    heroes:
+      - hero: Creeper
+        weight: 2
+      - hero: Enderman
+        weight: 1

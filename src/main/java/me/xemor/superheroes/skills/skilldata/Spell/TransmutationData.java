@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 public class TransmutationData {
 
-    private List<Material> transmutableBlocks;
-    private Material resultantBlock;
+    private final List<Material> transmutableBlocks;
+    private final Material resultantBlock;
 
     public TransmutationData(ConfigurationSection configurationSection) {
         resultantBlock = Material.valueOf(configurationSection.getString("resultantBlock", "REDSTONE_BLOCK"));

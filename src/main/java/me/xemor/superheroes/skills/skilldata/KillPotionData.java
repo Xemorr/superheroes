@@ -6,7 +6,7 @@ import org.bukkit.entity.EntityType;
 
 public class KillPotionData extends PotionEffectSkillData {
 
-    private SetData<EntityType> entities;
+    private final SetData<EntityType> entities;
 
     public KillPotionData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

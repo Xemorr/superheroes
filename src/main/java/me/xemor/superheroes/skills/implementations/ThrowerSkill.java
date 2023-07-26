@@ -16,7 +16,7 @@ import java.util.Collection;
 
 public class ThrowerSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public ThrowerSkill(HeroHandler heroHandler) {
         super(heroHandler);

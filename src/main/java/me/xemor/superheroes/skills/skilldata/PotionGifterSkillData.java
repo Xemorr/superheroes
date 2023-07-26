@@ -5,10 +5,10 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class PotionGifterSkillData extends PotionEffectSkillData implements Cooldown {
 
-    private double cooldown;
-    private String receiverMessage;
-    private String giverMessage;
-    private String cooldownMessage;
+    private final double cooldown;
+    private final String receiverMessage;
+    private final String giverMessage;
+    private final String cooldownMessage;
 
     public PotionGifterSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

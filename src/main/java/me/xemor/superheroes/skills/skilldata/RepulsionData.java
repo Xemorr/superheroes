@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 public class RepulsionData extends SkillData {
 
-    private double multiplier;
-    private double radius;
+    private final double multiplier;
+    private final double radius;
     private final Set<EntityType> blacklist;
 
     public RepulsionData(int skill, ConfigurationSection configurationSection) {

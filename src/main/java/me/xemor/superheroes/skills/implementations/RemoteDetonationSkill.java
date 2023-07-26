@@ -20,7 +20,7 @@ import java.util.List;
 
 public class RemoteDetonationSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public RemoteDetonationSkill(HeroHandler heroHandler) {
         super(heroHandler);

@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 public class ConvertBlockData extends CooldownData {
 
-    private List<Material> inputBlocks;
-    private Material outputBlock;
+    private final List<Material> inputBlocks;
+    private final Material outputBlock;
 
     public ConvertBlockData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "There are <s> seconds before you can transmutate the block again!", 0);

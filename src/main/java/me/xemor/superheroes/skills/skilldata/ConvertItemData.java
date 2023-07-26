@@ -8,7 +8,7 @@ public class ConvertItemData extends SkillData {
 
     private ItemStack inputItem;
     private ItemStack outputItem;
-    private double chance;
+    private final double chance;
 
     public ConvertItemData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

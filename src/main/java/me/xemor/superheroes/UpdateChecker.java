@@ -147,6 +147,7 @@ public final class UpdateChecker {
      *
      * @return the UpdateChecker instance
      */
+    @SuppressWarnings("ConstantValue")
     @NotNull
     public static UpdateChecker init(@NotNull JavaPlugin plugin, int pluginID, @NotNull VersionScheme versionScheme) {
         Preconditions.checkArgument(plugin != null, "Plugin cannot be null");
@@ -161,16 +162,13 @@ public final class UpdateChecker {
      * If an instance of UpdateChecker has already been initialized, this method will act
      * similarly to {@link #get()} (which is recommended after initialization).
      *
-     * @param plugin the plugin for which to check updates. Cannot be null
+     * @param plugin   the plugin for which to check updates. Cannot be null
      * @param pluginID the ID of the plugin as identified in the SpigotMC resource link.
-     * For example, "https://www.spigotmc.org/resources/veinminer.<b>12038</b>/" would
-     * expect "12038" as a value. The value must be greater than 0
-     *
-     * @return the UpdateChecker instance
+     *                 For example, "https://www.spigotmc.org/resources/veinminer.<b>12038</b>/" would
+     *                 expect "12038" as a value. The value must be greater than 0
      */
-    @NotNull
-    public static UpdateChecker init(@NotNull JavaPlugin plugin, int pluginID) {
-        return init(plugin, pluginID, VERSION_SCHEME_DECIMAL);
+    public static void init(@NotNull JavaPlugin plugin, int pluginID) {
+        init(plugin, pluginID, VERSION_SCHEME_DECIMAL);
     }
 
     /**

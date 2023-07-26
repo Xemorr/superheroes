@@ -4,14 +4,12 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class SlimeData extends SkillData {
 
-    double speedMultiplier = 1;
+    double speedMultiplier;
 
     public SlimeData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-        Double multiplier = configurationSection.getDouble("speedMultiplier");
-        if (multiplier != null) {
-            speedMultiplier = multiplier;
-        }
+        double multiplier = configurationSection.getDouble("speedMultiplier", 1);
+        speedMultiplier = multiplier;
     }
 
     public double getSpeedMultiplier() {

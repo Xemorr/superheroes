@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 
 public class SummonSkillData extends PotionEffectSkillData implements Cooldown {
 
-    private int range;
-    private boolean repel;
-    private boolean mustSneak;
-    private EntityType entityType;
+    private final int range;
+    private final boolean repel;
+    private final boolean mustSneak;
+    private final EntityType entityType;
     private Set<Action> action;
-    private double cooldown;
-    private String cooldownMessage;
+    private final double cooldown;
+    private final String cooldownMessage;
 
     public SummonSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

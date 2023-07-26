@@ -7,7 +7,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class PotionEffectSkillData extends SkillData {
 
-    PotionEffectData potionData;
+    final PotionEffectData potionData;
 
     public PotionEffectSkillData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

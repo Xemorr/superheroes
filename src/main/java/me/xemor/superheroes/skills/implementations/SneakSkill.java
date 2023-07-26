@@ -18,8 +18,7 @@ public class SneakSkill extends SkillImplementation {
 
     @EventHandler
     public void onSneak(EntityTargetLivingEntityEvent e) {
-        if (e.getTarget() instanceof Player) {
-            Player player = (Player) e.getTarget();
+        if (e.getTarget() instanceof Player player) {
             Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("SNEAK"));
             for (SkillData skillData : skillDatas) {
                 SneakData sneakData = (SneakData) skillData;

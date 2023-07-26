@@ -8,12 +8,12 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class TeleportData extends CooldownData {
 
-    private boolean leftClick;
-    private int distance;
-    private double yAxisMultiplier;
-    private PlayerTeleportEvent.TeleportCause teleportCause;
-    private ParticleData particleData;
-    private Material teleportItem;
+    private final boolean leftClick;
+    private final int distance;
+    private final double yAxisMultiplier;
+    private final PlayerTeleportEvent.TeleportCause teleportCause;
+    private final ParticleData particleData;
+    private final Material teleportItem;
 
     public TeleportData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "<purple><bold>Teleport <grey>has <s> seconds until it can be used again!", 10);

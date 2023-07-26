@@ -4,10 +4,10 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class StrongmanData extends SkillData {
 
-    private double velocity;
-    private double upwardsVelocity;
-    private String tooMuscularMessage;
-    private int maxPassengers;
+    private final double velocity;
+    private final double upwardsVelocity;
+    private final String tooMuscularMessage;
+    private final int maxPassengers;
 
     public StrongmanData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

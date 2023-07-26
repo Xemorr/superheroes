@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class SlamSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public SlamSkill(HeroHandler heroHandler) {
         super(heroHandler);

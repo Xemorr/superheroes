@@ -4,21 +4,20 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Collections;
 
 public class Superhero {
 
-    protected String name;
-    protected String colouredName;
-    protected String description;
+    protected final String name;
+    protected final String colouredName;
+    protected final String description;
     private String base64Skin;
     private String signature;
 
     private ItemStack icon;
-    protected Multimap<Integer, SkillData> skillToData = HashMultimap.create();
+    protected final Multimap<Integer, SkillData> skillToData = HashMultimap.create();
 
     public Superhero(String name, String colouredName, String description) {
         this.name = name;
@@ -49,8 +48,7 @@ public class Superhero {
     }
 
     public Collection<SkillData> getSkillData(int skill) {
-        Collection<SkillData> skillData = skillToData.get(skill);
-        return skillData == null ? Collections.emptyList() : skillData;
+        return skillToData.get(skill);
     }
 
     public Collection<Integer> getSkills() {

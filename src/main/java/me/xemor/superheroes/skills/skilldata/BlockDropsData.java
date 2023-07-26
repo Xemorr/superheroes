@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class BlockDropsData extends SkillData {
 
-    private Multimap<Material, ItemStack> dropToNewDrop = HashMultimap.create();
+    private final Multimap<Material, ItemStack> dropToNewDrop = HashMultimap.create();
     private final boolean replaceDrops;
 
     public BlockDropsData(int skill, ConfigurationSection configurationSection) {

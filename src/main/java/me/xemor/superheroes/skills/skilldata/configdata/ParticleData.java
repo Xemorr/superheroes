@@ -5,11 +5,11 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class ParticleData {
 
-    private boolean isHelix;
-    private double radius;
-    private int duration;
-    private int numberOfParticles;
-    private Particle particle;
+    private final boolean isHelix;
+    private final double radius;
+    private final int duration;
+    private final int numberOfParticles;
+    private final Particle particle;
 
     public ParticleData(ConfigurationSection configurationSection) {
         isHelix = configurationSection.getBoolean("isHelix", true);

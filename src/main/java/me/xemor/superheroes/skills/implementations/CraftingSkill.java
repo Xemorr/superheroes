@@ -91,8 +91,7 @@ public class CraftingSkill extends SkillImplementation {
         e.getInventory().setResult(new ItemStack(Material.AIR));
         List<HumanEntity> viewers = e.getViewers();
         for (HumanEntity humanEntity : viewers) {
-            if (humanEntity instanceof Player) {
-                Player player = (Player) humanEntity;
+            if (humanEntity instanceof Player player) {
                 Superhero superhero = heroHandler.getSuperhero(player);
                 Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
                 for (SkillData skill : skills) {

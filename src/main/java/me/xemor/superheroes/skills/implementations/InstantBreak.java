@@ -69,16 +69,12 @@ public class InstantBreak extends SkillImplementation {
     }
 
     public int calculateExperience(Material type) {
-        switch (type) {
-            case COAL_ORE: //drop down
-            case NETHER_GOLD_ORE: return 1;
-            case GOLD_ORE: //drop down
-            case DIAMOND_ORE: return 5;
-            case LAPIS_LAZULI: //drop down
-            case NETHER_QUARTZ_ORE: return 3;
-            case REDSTONE_ORE: return 3;
-            case SPAWNER: return 29;
-            default: return 0;
-        }
+        return switch (type) {
+            case COAL_ORE, NETHER_GOLD_ORE -> 1;
+            case GOLD_ORE, DIAMOND_ORE -> 5;
+            case LAPIS_LAZULI, NETHER_QUARTZ_ORE, REDSTONE_ORE -> 3;
+            case SPAWNER -> 29;
+            default -> 0;
+        };
     }
 }

@@ -8,12 +8,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class SlamData extends CooldownData {
 
-    private ItemStack hand;
-    private double airCooldown;
-    private int foodCost;
-    private int minimumFood;
-    private double diameterRadius;
-    private double damage;
+    private final ItemStack hand;
+    private final double airCooldown;
+    private final int foodCost;
+    private final int minimumFood;
+    private final double diameterRadius;
+    private final double damage;
 
     public SlamData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "<dark_gray><bold>Slam <white>Cooldown: <currentcooldown> seconds", 10);

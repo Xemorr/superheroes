@@ -28,8 +28,7 @@ public class SlimeSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SLIME"));
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
-                if (skillData instanceof SlimeData) {
-                    SlimeData slimeData = (SlimeData) skillData;
+                if (skillData instanceof SlimeData slimeData) {
                     World world = e.getPlayer().getWorld();
                     if (isOnGround(world, e.getTo()) && !isOnGround(world, e.getFrom())) {
                         if (slimeData.areConditionsTrue(player)) {

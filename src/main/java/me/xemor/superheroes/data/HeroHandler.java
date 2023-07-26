@@ -25,17 +25,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HeroHandler {
-
     private final HashMap<UUID, SuperheroPlayer> uuidToData = new HashMap<>();
-    private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
+    private final ConcurrentHashMap<UUID, CompletableFuture<SuperheroPlayer>> isProcessing = new ConcurrentHashMap<>();
     private final Superheroes superheroes;
     private final ConfigHandler configHandler;
     private Superhero noPower;
     private HeroIOHandler heroIOHandler;
-
     private List<String> disabledWorlds;
-
-    private final ConcurrentHashMap<UUID, CompletableFuture<SuperheroPlayer>> isProcessing = new ConcurrentHashMap<>();
+    private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
 
     public HeroHandler(Superheroes superheroes, ConfigHandler configHandler) {
         this.configHandler = configHandler;
@@ -43,9 +40,6 @@ public class HeroHandler {
         loadConfigItems();
     }
 
-    /*
-        Calls ConfigHandler methods to fetch default hero and disabledWorlds
-     */
     public void loadConfigItems() {
         noPower = configHandler.getDefaultHero();
         disabledWorlds = configHandler.getDisabledWorlds();
@@ -57,8 +51,8 @@ public class HeroHandler {
     }
 
     public void setHeroesIntoMemory(HashMap<UUID, SuperheroPlayer> playerHeroes) {
-        this.uuidToData.clear();
-        this.uuidToData.putAll(playerHeroes);
+        uuidToData.clear();
+        uuidToData.putAll(playerHeroes);
     }
 
     public void handlePlayerData() {
@@ -92,12 +86,6 @@ public class HeroHandler {
         return getSuperhero(player);
     }
 
-    /**
-     * Executes setHeroInMemory with show as true.
-     *
-     * @param player
-     * @param hero
-     */
     public void setHeroInMemory(Player player, Superhero hero) {
         setHeroInMemory(player, hero, true);
     }
@@ -105,7 +93,7 @@ public class HeroHandler {
     public void setHeroInMemory(Player player, Superhero hero, boolean show) {
         SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
         if (superheroPlayer == null) {
-            superheroPlayer = new SuperheroPlayer(player.getUniqueId(), hero, 0);
+            superheroPlayer = new SuperheroPlayer(player.getUniqueId(), hero, 0L);
             uuidToData.put(player.getUniqueId(), superheroPlayer);
         }
         Superhero currentHero = superheroPlayer.getSuperhero();
@@ -126,54 +114,48 @@ public class HeroHandler {
         heroIOHandler.saveSuperheroPlayerAsync(getSuperheroPlayer(player));
     }
 
-    public void openHeroGUI(Player player) {
-        List<Superhero> allowedSuperheroes = nameToSuperhero.values().stream().filter((hero) -> !configHandler.areHeroPermissionsRequired() || player.hasPermission(hero.getPermission())).toList();
-        if (allowedSuperheroes.isEmpty()) return;
-        // without the subtract one from the size it always has one more row than it should
-        // the + 1 is so you don't get silliness like 0 rows
-        int numberOfRows = ((allowedSuperheroes.size() - 1) / 9) + 1;
+    public void openHeroGUI(final Player player) {
+        List<Superhero> allowedSuperheroes = nameToSuperhero.values().stream().filter(hero -> !configHandler.areHeroPermissionsRequired() || player.hasPermission(hero.getPermission())).toList();
+        if (allowedSuperheroes.isEmpty()) {
+            return;
+        }
+        int numberOfRows = (allowedSuperheroes.size() - 1) / 9 + 1;
         if (numberOfRows > 6) {
             Superheroes.getInstance().getLogger().severe("The hero GUI does not support more than 54 heroes.");
             return;
         }
-        ChestInterface<boolean[]> chestInterface = new ChestInterface<>(configHandler.getGUIName(), numberOfRows, new boolean[]{false});
+        final ChestInterface<boolean[]> chestInterface = new ChestInterface<>(configHandler.getGUIName(), numberOfRows, new boolean[]{false});
         for (Superhero superhero : allowedSuperheroes) {
             if (superhero.getIcon() == null) continue;
             chestInterface.getInventory().addItem(superhero.getIcon());
-            chestInterface.getInteractions().addSimpleInteraction(superhero.getIcon(), (p) -> {
+            chestInterface.getInteractions().addSimpleInteraction(superhero.getIcon(), p -> {
                 if (getSuperheroPlayer(player).handleCooldown(player, Superheroes.getBukkitAudiences().player(player))) {
                     setHero(p, superhero);
                 }
                 chestInterface.getInteractions().getData()[0] = true;
             });
-            if (!configHandler.canCloseGUI()) {
-                chestInterface.getInteractions().addCloseInteraction((p) -> new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (!chestInterface.getInteractions().getData()[0]) {
-                            openHeroGUI(player);
-                        }
+            if (this.configHandler.canCloseGUI()) continue;
+            chestInterface.getInteractions().addCloseInteraction(p -> new BukkitRunnable() {
+
+                public void run() {
+                    if (!((boolean[]) chestInterface.getInteractions().getData())[0]) {
+                        openHeroGUI(player);
                     }
-                }.runTaskLater(superheroes, 1L));
-            }
+                }
+            }.runTaskLater(superheroes, 1L));
         }
         player.openInventory(chestInterface.getInventory());
     }
 
     public void loadSuperheroPlayer(@NotNull Player player) {
         CompletableFuture<SuperheroPlayer> future = heroIOHandler.loadSuperHeroPlayerAsync(player.getUniqueId());
-        future.thenAccept((superheroPlayer) -> Bukkit.getScheduler().runTask(superheroes, () -> {
+        future.thenAccept(superheroPlayer -> Bukkit.getScheduler().runTask(superheroes, () -> {
             Superhero superhero;
             if (superheroPlayer != null) {
                 uuidToData.put(player.getUniqueId(), superheroPlayer);
                 superhero = superheroPlayer.getSuperhero();
-            }
-            else {
-                if (configHandler.isPowerOnStartEnabled()) {
-                    superhero = getRandomHero(player);
-                } else {
-                    superhero = noPower;
-                }
+            } else {
+                superhero = configHandler.isPowerOnStartEnabled() ? getRandomHero(player) : noPower;
                 if (configHandler.openGUIOnStart()) {
                     openHeroGUI(player);
                 }
@@ -188,20 +170,14 @@ public class HeroHandler {
         uuidToData.remove(player.getUniqueId());
     }
 
-    public void setRandomHero(Player player) {
-        Superhero superhero = getRandomHero(player);
-        setHero(player, superhero);
-    }
-
+    @Deprecated
     public Superhero getRandomHero(Player player) {
-        List<Superhero> superheroes = new ArrayList<>(nameToSuperhero.values());
+        ArrayList<Superhero> superheroes = new ArrayList<>(nameToSuperhero.values());
         Collections.shuffle(superheroes);
         Superhero newHero = noPower;
         for (Superhero superhero : superheroes) {
-            if (configHandler.areHeroPermissionsRequired() && !player.hasPermission(superhero.getPermission())) {
+            if (configHandler.areHeroPermissionsRequired() && !player.hasPermission(superhero.getPermission()) || noPower.equals(superhero))
                 continue;
-            }
-            if (noPower.equals(superhero)) continue;
             newHero = superhero;
             break;
         }
@@ -211,20 +187,19 @@ public class HeroHandler {
     public void showHero(Player player, Superhero hero) {
         Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
         Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
-        Title title = Title.title(colouredName, description, Title.Times.times(Duration.ofMillis(500), Duration.ofMillis(5000), Duration.ofMillis(500)));
+        Title title = Title.title(colouredName, description, Title.Times.times(Duration.ofMillis(500L), Duration.ofMillis(5000L), Duration.ofMillis(500L)));
         Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
         playerAudience.showTitle(title);
-        player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5F, 1F);
-        Component heroGainedMessage = MiniMessage.miniMessage().deserialize(configHandler.getHeroGainedMessage(),
-                Placeholder.component("hero", colouredName),
-                Placeholder.unparsed("player", player.getName()));
+        player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5f, 1.0f);
+        Component heroGainedMessage = MiniMessage.miniMessage().deserialize(configHandler.getHeroGainedMessage(), Placeholder.component("hero", colouredName), Placeholder.unparsed("player", player.getName()));
         playerAudience.sendMessage(heroGainedMessage);
     }
 
-
-
     @Nullable
     public Superhero getSuperhero(String name) {
+        if (name == null) {
+            return null;
+        }
         return nameToSuperhero.get(name.toLowerCase());
     }
 
@@ -244,3 +219,4 @@ public class HeroHandler {
         return heroIOHandler;
     }
 }
+

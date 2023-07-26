@@ -53,14 +53,17 @@ public class LightSkill extends SkillImplementation {
                     this.cancel();
                     return;
                 }
+                if (heroHandler.getSuperhero(player) != superhero) {
+                    this.cancel();
+                    return;
+                }
                 for (SkillData skillData : data) {
                     LightSkillData lightData = (LightSkillData) skillData;
                     if (player.getWorld().getBlockAt(player.getLocation()).getLightLevel() > 10) {
                         if (lightData.areConditionsTrue(player)) {
                             player.addPotionEffect(lightData.getPotionEffect());
                         }
-                    }
-                    else {
+                    } else {
                         player.removePotionEffect(lightData.getPotionEffect().getType());
                     }
                 }

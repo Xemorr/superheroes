@@ -5,10 +5,10 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class EraserData extends CooldownData {
 
-    private double range;
-    private String removedMessage;
-    private String returnedMessage;
-    private int duration;
+    private final double range;
+    private final String removedMessage;
+    private final String returnedMessage;
+    private final int duration;
 
     public EraserData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection, "You need to wait <currentcooldown> seconds before you can erase their power again!", 10);

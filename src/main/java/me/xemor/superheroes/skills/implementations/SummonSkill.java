@@ -22,7 +22,7 @@ import java.util.Collection;
 
 public class SummonSkill extends SkillImplementation {
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
     public SummonSkill(HeroHandler heroHandler) {
         super(heroHandler);

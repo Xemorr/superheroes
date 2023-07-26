@@ -9,12 +9,12 @@ import java.util.List;
 public class InstantBreakData extends SkillData {
 
     private HashSet<Material> instantBreakMaterials = new HashSet<>();
-    private Material breakUsing;
+    private final Material breakUsing;
 
     public InstantBreakData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         List<String> instantBreakMaterialsStr = configurationSection.getStringList("blocks");
-        if (instantBreakMaterialsStr == null) {
+        if (instantBreakMaterialsStr.isEmpty()) {
             instantBreakMaterials = null;
         }
         else {

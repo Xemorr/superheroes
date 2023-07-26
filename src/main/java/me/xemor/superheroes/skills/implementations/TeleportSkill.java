@@ -22,7 +22,7 @@ import java.util.Collection;
 public class TeleportSkill extends SkillImplementation {
 
 
-    SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
+    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
     public TeleportSkill(HeroHandler heroHandler) {
         super(heroHandler);
     }

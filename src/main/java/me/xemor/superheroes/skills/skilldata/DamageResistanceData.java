@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class DamageResistanceData extends SkillData {
 
-    private double damageMultiplier;
+    private final double damageMultiplier;
     private PotionEffect potionEffect;
     private HashSet<EntityDamageEvent.DamageCause> damageCauses;
 

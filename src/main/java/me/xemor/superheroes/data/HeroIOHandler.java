@@ -1,20 +1,18 @@
 package me.xemor.superheroes.data;
 
 import me.xemor.superheroes.Superheroes;
-import me.xemor.superheroes.data.storage.LegacyStorage;
 import me.xemor.superheroes.data.storage.MySQLStorage;
 import me.xemor.superheroes.data.storage.Storage;
 import me.xemor.superheroes.data.storage.YAMLStorage;
 import org.bukkit.Bukkit;
 
-import java.io.File;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.*;
 
 public class HeroIOHandler {
 
-    ExecutorService threads;
+    final ExecutorService threads;
     private Storage storage;
     private static final Object POISON = new Object();
     private final BlockingQueue<Object> loadingPlayerQueue = new LinkedBlockingQueue<>();
@@ -63,34 +61,20 @@ public class HeroIOHandler {
         return loadingPlayer.getFuture();
     }
 
-    public CompletableFuture<Object> saveSuperheroPlayerAsync(SuperheroPlayer superheroPlayer) {
+    public void saveSuperheroPlayerAsync(SuperheroPlayer superheroPlayer) {
         SavingPlayer savingPlayer = new SavingPlayer(superheroPlayer);
         try {
             savingPlayerQueue.put(savingPlayer);
         } catch (InterruptedException e) { e.printStackTrace(); }
-        return savingPlayer.getFuture();
     }
 
     public void handlePlayerData() {
         String databaseType = configHandler.getDatabaseType();
-        if (databaseType.equalsIgnoreCase("LEGACY")) {
-            LegacyStorage legacy = new LegacyStorage();
-            List<SuperheroPlayer> values = legacy.exportSuperheroPlayers();
-            File file = legacy.getCurrentDataFile();
-            file.renameTo(new File(Superheroes.getInstance().getDataFolder(), "old_data.yml"));
+        if (databaseType.equalsIgnoreCase("YAML")) {
             storage = new YAMLStorage();
-            for (SuperheroPlayer superheroPlayer: values) {
-                storage.saveSuperheroPlayer(superheroPlayer);
-            }
-            configHandler.setDatabaseType("YAML");
-        }
-        else if (databaseType.equalsIgnoreCase("YAML")) {
-            storage = new YAMLStorage();
-        }
-        else if (databaseType.equalsIgnoreCase("MySQL")) {
+        } else if (databaseType.equalsIgnoreCase("MySQL")) {
             storage = new MySQLStorage();
-        }
-        else {
+        } else {
             Bukkit.getLogger().severe("Invalid database type specified!");
         }
     }

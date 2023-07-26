@@ -7,7 +7,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class SneakingPotionData extends SkillData {
 
-    PotionEffectData potionData;
+    final PotionEffectData potionData;
 
     public SneakingPotionData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

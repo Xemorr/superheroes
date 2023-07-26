@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 public class OHKOData extends SkillData {
 
-    private Set<EntityType> entityTypes;
-    private String displayName;
+    private final Set<EntityType> entityTypes;
+    private final String displayName;
 
     public OHKOData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
