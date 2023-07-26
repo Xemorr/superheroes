@@ -208,13 +208,11 @@ public class SpellSkill extends SkillImplementation {
 
         private final Material fuel;
         private final int cost;
-        private final double cooldown;
         private final Consumer<Player> ability;
 
         public SpellAbility(Material fuel, int cost, double cooldown, Consumer<Player> consumer) {
             this.fuel = fuel;
             this.cost = cost;
-            this.cooldown = cooldown;
             this.ability = consumer;
         }
 

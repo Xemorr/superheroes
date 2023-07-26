@@ -4,6 +4,7 @@ import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
+import me.xemor.superheroes.reroll.RerollGroup;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.userinterface.ChestInterface;
 import net.kyori.adventure.audience.Audience;
@@ -155,7 +156,9 @@ public class HeroHandler {
                 uuidToData.put(player.getUniqueId(), superheroPlayer);
                 superhero = superheroPlayer.getSuperhero();
             } else {
-                superhero = configHandler.isPowerOnStartEnabled() ? getRandomHero(player) : noPower;
+                RerollGroup defaultGroup = Superheroes.getInstance().getRerollHandler().getWeightedHeroes("default");
+                if (defaultGroup == null) throw new IllegalStateException("Default Reroll Group not initialized for some reason!");
+                superhero = configHandler.isPowerOnStartEnabled() ? defaultGroup.chooseHero(player) : noPower;
                 if (configHandler.openGUIOnStart()) {
                     openHeroGUI(player);
                 }

@@ -244,8 +244,8 @@ public final class Superheroes extends JavaPlugin implements Listener {
             try {
                 Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
                 commandMapField.setAccessible(true);
-                CommandMap commandMap = (CommandMap) commandMapField.get((Object) Bukkit.getServer());
-                commandMap.register("superheroes", (Command) aliasCommand);
+                CommandMap commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
+                commandMap.register("superheroes", aliasCommand);
             } catch (IllegalAccessException | NoSuchFieldException e) {
                 e.printStackTrace();
             }

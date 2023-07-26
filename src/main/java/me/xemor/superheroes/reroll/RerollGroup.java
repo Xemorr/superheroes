@@ -52,7 +52,7 @@ public class RerollGroup {
 
     private void handleEmptyWeightedHeroes() {
         if (this.weightSum == 0) {
-            this.weightedHeroes = Superheroes.getInstance().getHeroHandler().getNameToSuperhero().values().stream().map(h -> new WeightedHero((Superhero) h, 1.0)).toList();
+            this.weightedHeroes = Superheroes.getInstance().getHeroHandler().getNameToSuperhero().values().stream().map(h -> new WeightedHero(h, 1.0)).toList();
             this.weightSum = this.weightedHeroes.size();
         }
     }

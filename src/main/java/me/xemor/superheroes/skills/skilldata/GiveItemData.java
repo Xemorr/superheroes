@@ -19,8 +19,7 @@ public class GiveItemData extends SkillData {
         loseItemOnHeroLoss = configurationSection.getBoolean("loseItemOnHeroLoss", true);
         ConfigurationSection itemConfig = configurationSection.getConfigurationSection("item");
         itemConfig = itemConfig == null ? configurationSection : itemConfig;
-        ItemStackData itemStackData = new ItemStackData(itemConfig);
-        item = itemStackData;
+        item = new ItemStackData(itemConfig);
     }
 
     public ItemStackData getItemStackData() {

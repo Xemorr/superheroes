@@ -79,7 +79,7 @@ public final class UpdateChecker {
     @NotNull
     public CompletableFuture<@NotNull UpdateResult> requestUpdateCheck() {
         return CompletableFuture.supplyAsync(() -> {
-            int responseCode = -1;
+            int responseCode;
 
             try {
                 URL url = new URL(String.format(UPDATE_URL, pluginID));
@@ -198,7 +198,7 @@ public final class UpdateChecker {
      * A functional interface to compare two version Strings with similar version schemes.
      */
     @FunctionalInterface
-    public static interface VersionScheme {
+    public interface VersionScheme {
 
         /**
          * Compare two versions and return the higher of the two. If null is returned, it
@@ -210,15 +210,14 @@ public final class UpdateChecker {
          *
          * @return the greater of the two versions. null if unsupported version schemes
          */
-        @Nullable
-        public String compareVersions(@NotNull String first, @NotNull String second);
+        @Nullable String compareVersions(@NotNull String first, @NotNull String second);
 
     }
 
     /**
      * A constant reason for the result of {@link UpdateResult}.
      */
-    public static enum UpdateReason {
+    public enum UpdateReason {
 
         /**
          * A new update is available for download on SpigotMC.
@@ -261,7 +260,7 @@ public final class UpdateChecker {
          * The plugin is up to date with the version released on SpigotMC's resources
          * section.
          */
-        UP_TO_DATE;
+        UP_TO_DATE
 
     }
 

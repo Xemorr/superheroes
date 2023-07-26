@@ -74,10 +74,7 @@ public class PhaseSkill extends SkillImplementation {
         World world = player.getWorld();
         Location location = player.getLocation();
         Block blockBelow = world.getBlockAt(location).getRelative(BlockFace.DOWN);
-        if (blockBelow.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !blockBelow.isEmpty();
     }
 
     @EventHandler
@@ -86,35 +83,5 @@ public class PhaseSkill extends SkillImplementation {
             e.setCancelled(true);
         }
     }
-
-/*
-    @EventHandler
-    public void onRightClick(PlayerInteractEvent e) {
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
-            Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = powersHandler.getSuperhero(player).getSkillData(Skill.PHASE);
-            for (SkillData skillData : skillDatas) {
-                PhaseData phaseData = (PhaseData) skillData;
-                Block block = player.getLocation().getBlock();
-                CraftBlock craftBlock = (CraftBlock) block;
-                Block block2 = block.getRelative(BlockFace.DOWN);
-                CraftBlock craftBlock2 = (CraftBlock) block2;
-                CraftPlayer craftPlayer = (CraftPlayer) player;
-                EntityPlayer handle = craftPlayer.getHandle();
-                handle.noclip = true;
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        handle.noclip = true;
-                    }
-                }.runTaskTimer(powersHandler.getPlugin(), 0L, 1L);
-                PacketPlayOutBlockChange packetPlayOutBlockBreak = new PacketPlayOutBlockChange(new BlockPosition(block.getX(), block.getY(), block.getZ()), CraftMagicNumbers.getBlock(Material.AIR, (byte) 0));
-                PacketPlayOutBlockChange packetPlayOutBlockBreak2 = new PacketPlayOutBlockChange(new BlockPosition(block.getX(), block.getY() - 1, block.getZ()), CraftMagicNumbers.getBlock(Material.AIR, (byte) 0));
-                handle.playerConnection.sendPacket(packetPlayOutBlockBreak);
-                handle.playerConnection.sendPacket(packetPlayOutBlockBreak2);
-            }
-        }
-    }
-*/
 
 }

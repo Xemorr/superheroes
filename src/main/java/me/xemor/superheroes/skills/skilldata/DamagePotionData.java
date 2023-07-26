@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class DamagePotionData extends SkillData {
 
-    private PotionEffect potionEffect;
+    private final PotionEffect potionEffect;
     private HashSet<EntityDamageEvent.DamageCause> damageCauses;
 
     public DamagePotionData(int skill, ConfigurationSection configurationSection) throws InvalidConfig {
