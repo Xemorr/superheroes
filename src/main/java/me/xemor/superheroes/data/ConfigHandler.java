@@ -83,7 +83,7 @@ public class ConfigHandler {
                 Iterator<Path> it = walk.iterator();
                 it.next();
                 while (it.hasNext()) {
-                    String path = ((Path) it.next()).toString();
+                    String path = it.next().toString();
                     if (path.charAt(0) == '/') {
                         path = path.substring(1);
                     }
@@ -153,7 +153,7 @@ public class ConfigHandler {
                 this.calculateIcon(superhero, superheroSection);
                 this.loadSkills(superhero, superheroSection);
                 SuperheroLoadEvent superheroLoadEvent = new SuperheroLoadEvent(superhero, superheroSection);
-                Bukkit.getServer().getPluginManager().callEvent((Event) superheroLoadEvent);
+                Bukkit.getServer().getPluginManager().callEvent(superheroLoadEvent);
                 if (superheroLoadEvent.isCancelled()) continue;
                 nameToSuperhero.put(superheroName.toLowerCase(), superhero);
             } catch (Exception e) {
@@ -192,20 +192,20 @@ public class ConfigHandler {
             distance = dist;
             closest = dye;
         }
-        return Material.getMaterial((String) (closest.name() + "_WOOL").toUpperCase());
+        return Material.getMaterial((closest.name() + "_WOOL").toUpperCase());
     }
 
     public void reloadConfig(HeroHandler heroHandler) {
         SuperheroesReloadEvent superheroesReloadEvent = new SuperheroesReloadEvent();
-        Bukkit.getServer().getPluginManager().callEvent((Event) superheroesReloadEvent);
+        Bukkit.getServer().getPluginManager().callEvent(superheroesReloadEvent);
         this.superheroes.reloadConfig();
         this.config = this.superheroes.getConfig();
         heroHandler.loadConfigItems();
         this.handleSuperpowersFolder();
         heroHandler.handlePlayerData();
         this.loadSuperheroes(heroHandler);
-        this.languageYAML = YamlConfiguration.loadConfiguration((File) new File(this.getDataFolder(), "language.yml"));
-        this.databaseYAML = YamlConfiguration.loadConfiguration((File) new File(this.getDataFolder(), "database.yml"));
+        this.languageYAML = YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "language.yml"));
+        this.databaseYAML = YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "database.yml"));
         this.item = new ItemComparisonData(Objects.requireNonNull(this.config.getConfigurationSection("reroll.item")));
         heroHandler.setHeroesIntoMemory(new HashMap<>());
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -214,7 +214,7 @@ public class ConfigHandler {
     }
 
     public void saveConfig() {
-        Bukkit.getScheduler().runTaskAsynchronously((Plugin) this.superheroes, () -> this.superheroes.saveConfig());
+        Bukkit.getScheduler().runTaskAsynchronously(this.superheroes, () -> this.superheroes.saveConfig());
     }
 
     private File getDataFolder() {

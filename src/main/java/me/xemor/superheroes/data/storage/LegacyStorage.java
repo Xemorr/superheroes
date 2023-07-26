@@ -17,13 +17,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class LegacyStorage implements Storage {
 
-    private final Superheroes superheroes;
     private final YamlConfiguration currentDataYAML;
     private final File currentDataFile;
     private final HeroHandler heroHandler;
 
     public LegacyStorage() {
-        this.superheroes = Superheroes.getInstance();
+        Superheroes superheroes = Superheroes.getInstance();
         this.heroHandler = superheroes.getHeroHandler();
         currentDataFile = new File(superheroes.getDataFolder(), "data.yml");
         try {

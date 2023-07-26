@@ -5,6 +5,7 @@ import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.skills.Skill;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +16,7 @@ public abstract class SkillData {
     private final ConfigurationSection configurationSection;
     private ConditionList conditions;
 
-    public SkillData(int skill, ConfigurationSection configurationSection) {
+    public SkillData(int skill, @NotNull ConfigurationSection configurationSection) {
         this.skill = skill;
         this.configurationSection = configurationSection;
         ConfigurationSection conditions = configurationSection.getConfigurationSection("conditions");

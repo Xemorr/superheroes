@@ -32,14 +32,13 @@ public class MySQLStorage implements Storage {
 
     private final HeroHandler heroHandler;
     private final Superheroes superheroes;
-    private final ConfigHandler configHandler;
     private HikariDataSource source;
     private final ReentrantLock lock = new ReentrantLock();
 
     public MySQLStorage() {
         this.superheroes = Superheroes.getInstance();
         this.heroHandler = superheroes.getHeroHandler();
-        this.configHandler = superheroes.getConfigHandler();
+        ConfigHandler configHandler = superheroes.getConfigHandler();
         String name = configHandler.getDatabaseName();
         String host = configHandler.getDatabaseHost();
         int port = configHandler.getDatabasePort();
