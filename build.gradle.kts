@@ -32,7 +32,7 @@ dependencies {
     shadow("com.zaxxer:HikariCP:4.0.3")
     shadow("net.kyori:adventure-api:4.10.1")
     shadow("org.apache.commons:commons-lang3:3.12.0")
-    compileOnly("org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary2:2.9.0")
 }
 
