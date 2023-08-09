@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "4.0.0"
+version = "4.1.1"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
     shadow("de.themoep:minedown-adventure:1.7.1-SNAPSHOT")
-    shadow("me.xemor:configurationdata:1.19.5-SNAPSHOT")
+    shadow("me.xemor:configurationdata:1.20.0-SNAPSHOT")
     shadow("org.bstats:bstats-bukkit:1.7")
     shadow("me.xemor:UserInterface:1.6.6-SNAPSHOT")
     shadow("dev.dbassett:skullcreator:3.0.1")

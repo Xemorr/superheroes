@@ -1,12 +1,12 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.configurationdata.ParticleData;
+import me.xemor.configurationdata.SoundData;
 import me.xemor.superheroes.SkillCooldownHandler;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.GunData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
-import me.xemor.superheroes.skills.skilldata.configdata.SoundData;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.World;

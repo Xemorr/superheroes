@@ -1,6 +1,6 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.superheroes.skills.skilldata.configdata.PotionEffectData;
+import me.xemor.configurationdata.PotionEffectData;
 import me.xemor.superheroes.skills.skilldata.exceptions.InvalidConfig;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.entity.EntityDamageEvent;

@@ -26,3 +26,25 @@ KingMidas:
       type: GOLD_NUGGET
       quantity: 1
       delay: 30
+  plusUltraSkills:
+    goldkill:
+      skill: CUSTOM
+      trigger:
+        type: DAMAGEDENTITY
+      effects:
+        soundeffect:
+          type: SOUND
+          mode: OTHER
+          sound:
+            sound: BLOCK_ANVIL_PLACE
+            volume: 1
+            pitch: 2
+        dropgold:
+          type: SPAWNENTITY
+          mode: OTHER
+          entity:
+            type: DROPPED_ITEM
+            extra:
+              type: GOLD_INGOT
+              amount: 1
+

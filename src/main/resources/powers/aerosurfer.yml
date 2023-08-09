@@ -19,3 +19,5 @@ Aerosurfer:
       skill: SNEAKINGPOTION
       type: SPEED
       potency: 2
+      ambient: true
+      hasParticles: false

@@ -66,6 +66,7 @@ public class ConfigHandler {
             try {
                 Path myPath;
                 URI powers;
+                FileSystem fileSystem = null;
                 try {
                     powers = this.getClass().getClassLoader().getResource("powers").toURI();
                 } catch (URISyntaxException e) {
@@ -73,9 +74,8 @@ public class ConfigHandler {
                     return;
                 }
                 if (powers.getScheme().equals("jar")) {
-                    FileSystem fileSystem = FileSystems.newFileSystem(powers, Collections.emptyMap());
+                    fileSystem = FileSystems.newFileSystem(powers, Collections.emptyMap());
                     myPath = fileSystem.getPath("powers");
-                    fileSystem.close();
                 } else {
                     myPath = Paths.get(powers);
                 }
@@ -89,6 +89,7 @@ public class ConfigHandler {
                     }
                     this.superheroes.saveResource(path, false);
                 }
+                if (fileSystem != null) fileSystem.close();
                 walk.close();
             } catch (IOException e) {
                 e.printStackTrace();

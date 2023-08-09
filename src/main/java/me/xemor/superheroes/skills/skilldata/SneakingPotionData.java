@@ -1,13 +1,13 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.superheroes.skills.skilldata.configdata.PotionEffectData;
+import me.xemor.configurationdata.PotionEffectData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class SneakingPotionData extends SkillData {
 
-    final PotionEffectData potionData;
+    private final PotionEffectData potionData;
 
     public SneakingPotionData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);

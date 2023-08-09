@@ -1,6 +1,6 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.superheroes.skills.skilldata.configdata.PotionEffectData;
+import me.xemor.configurationdata.PotionEffectData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
