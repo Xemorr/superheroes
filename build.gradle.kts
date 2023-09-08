@@ -3,11 +3,11 @@ version = "4.1.1"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-
 plugins {
     java
     `maven-publish`
     id("com.github.johnrengelman.shadow") version("7.1.2")
+    id("io.sentry.jvm.gradle") version("3.12.0")
 }
 
 repositories {
@@ -54,6 +54,13 @@ tasks.shadowJar {
     configurations = listOf(project.configurations.shadow.get())
     val folder = System.getenv("pluginFolder")
     destinationDirectory.set(file(folder))
+}
+
+sentry {
+    includeSourceContext.set(true)
+    org.set("samuel-hollis-139014fe7")
+    projectName.set("superheroes")
+    authToken.set(System.getenv("SENTRY_AUTH_TOKEN"))
 }
 
 //Auto generated from gradle init, not entirely sure what it does

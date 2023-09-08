@@ -30,13 +30,13 @@ import me.xemor.superheroes.conditions.SuperheroCondition;
 import me.xemor.superheroes.data.ConfigHandler;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.reroll.RerollHandler;
+import me.xemor.superheroes.sentry.SentryInitializer;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.implementations.*;
 import me.xemor.userinterface.ChestHandler;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -83,6 +83,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     }
 
     public void onEnable() {
+        SentryInitializer.initSentry("https://a5dfe8c79f9c3dad331ebdcb8923066a@o4505846670753792.ingest.sentry.io/4505846683992064", this);
         superheroes = this;
         this.saveDefaultConfig();
         this.configHandler = new ConfigHandler(this);
@@ -103,6 +104,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
         }
         this.handleAliases(heroCommand, command);
         this.registerUserInterfaces();
+
     }
 
     @EventHandler
