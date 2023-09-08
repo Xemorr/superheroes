@@ -44,9 +44,7 @@ public class SentryLogHandler extends ConsoleHandler {
         event.setServerName(plugin.getServer().getName());
         event.setTag("ServerVersion", plugin.getServer().getVersion());
         event.setTag("ServerImplementation", plugin.getServer().getBukkitVersion());
-        event.setExtra("Online players", plugin.getServer().getOnlinePlayers().size());
-        event.setExtra("Plugins", Arrays.stream(plugin.getServer().getPluginManager().getPlugins()).map(Plugin::getName).map(s -> s + " ").collect(Collectors.joining()));
-        event.setExtra("MinecraftSentryReporter version", plugin.getDescription().getVersion());
+        event.setTag("Version", plugin.getDescription().getVersion());
         StringBuilder systemName = new StringBuilder();
         systemName.append(System.getProperty("os.name"));
         systemName.append(" ");
