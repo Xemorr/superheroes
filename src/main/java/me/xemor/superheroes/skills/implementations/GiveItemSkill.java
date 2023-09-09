@@ -120,12 +120,13 @@ public class GiveItemSkill extends SkillImplementation {
                 return;
             }
             int hotbarSlot = e.getHotbarButton();
+            if (hotbarSlot == -1) return;
             ItemStack fromItem = e.getView().getBottomInventory().getItem(hotbarSlot);
+            if (fromItem == null) return;
             Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
             for (SkillData skillData : skillDatas) {
-                ItemStack item;
                 GiveItemData giveItemData = (GiveItemData) skillData;
-                if (giveItemData.canStore() || !fromItem.isSimilar(item = giveItemData.getItemStackData().getItem()))
+                if (giveItemData.canStore() || !fromItem.isSimilar(giveItemData.getItemStackData().getItem()))
                     continue;
                 e.setResult(Event.Result.DENY);
             }

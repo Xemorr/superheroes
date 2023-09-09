@@ -18,6 +18,7 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,8 +26,10 @@ import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.yaml.snakeyaml.parser.ParserException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -100,9 +103,21 @@ public class ConfigHandler {
     public List<ConfigurationSection> getSuperheroesConfigurationSection() {
         File powersFolder = this.getPowersFolder();
         File[] files = powersFolder.listFiles();
+        if (files == null) return Collections.emptyList();
         return (Arrays.stream(files).parallel()).map(file -> {
             if (file.getName().endsWith("yml")) {
-                YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
+                YamlConfiguration yamlConfiguration;
+                try {
+                    yamlConfiguration = new YamlConfiguration();
+                    yamlConfiguration.load(file);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InvalidConfigurationException e) {
+                    Superheroes.getInstance().getLogger().severe(file.getName() + " is an invalid YAML file!");
+                    Superheroes.getInstance().getLogger().severe(e.getMessage());
+                    Superheroes.getInstance().getLogger().severe("Please try using: https://codebeautify.org/yaml-parser-online to fix this issue!");
+                    return null;
+                }
                 return yamlConfiguration.getValues(false).values();
             }
             return null;

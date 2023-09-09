@@ -5,6 +5,7 @@ import me.xemor.superheroes.data.storage.MySQLStorage;
 import me.xemor.superheroes.data.storage.Storage;
 import me.xemor.superheroes.data.storage.YAMLStorage;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import java.util.concurrent.*;
 public class HeroIOHandler {
 
     final ExecutorService threads;
+    @Nullable
     private Storage storage;
     private static final Object POISON = new Object();
     private final BlockingQueue<Object> loadingPlayerQueue = new LinkedBlockingQueue<>();
@@ -28,6 +30,11 @@ public class HeroIOHandler {
     public void loadPlayersInQueue() {
         while (true) {
             try {
+                if (storage == null) {
+                    Superheroes.getInstance().getLogger().severe("Storage is null... waiting 250ms for server to finish loading.");
+                    Thread.sleep(250);
+                    continue;
+                }
                 Object object = loadingPlayerQueue.take();
                 if (object == POISON) {
                     return;
@@ -42,6 +49,11 @@ public class HeroIOHandler {
     public void savePlayersInQueue() {
         while (true) {
             try {
+                if (storage == null) {
+                    Superheroes.getInstance().getLogger().severe("Storage is null... waiting 250ms for server to finish loading.");
+                    Thread.sleep(250);
+                    continue;
+                }
                 Object object = savingPlayerQueue.take();
                 if (object == POISON) {
                     return;

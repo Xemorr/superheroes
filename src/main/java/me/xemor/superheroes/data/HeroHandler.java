@@ -38,6 +38,7 @@ public class HeroHandler {
     public HeroHandler(Superheroes superheroes, ConfigHandler configHandler) {
         this.configHandler = configHandler;
         this.superheroes = superheroes;
+        heroIOHandler = new HeroIOHandler();
         loadConfigItems();
     }
 
@@ -57,7 +58,6 @@ public class HeroHandler {
     }
 
     public void handlePlayerData() {
-        heroIOHandler = new HeroIOHandler();
         heroIOHandler.handlePlayerData();
     }
 

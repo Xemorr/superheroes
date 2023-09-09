@@ -49,6 +49,11 @@ public class PickpocketSkill extends SkillImplementation {
                                 cancel();
                                 return;
                             }
+                            if (!otherPlayer.getWorld().equals(player.getWorld())) {
+                                inventoryView.close();
+                                cancel();
+                                return;
+                            }
                             if (otherPlayer.getLocation().distanceSquared(player.getLocation()) > pickpocketData.getRangeSquared()) {
                                 inventoryView.close();
                                 cancel();

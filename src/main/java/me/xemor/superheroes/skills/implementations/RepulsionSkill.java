@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.Collection;
 import java.util.List;
@@ -41,7 +42,21 @@ public class RepulsionSkill extends SkillImplementation {
                     }
                     if (player.isSneaking()) {
                         List<Entity> nearbyEntities = player.getNearbyEntities(radius, radius, radius);
-                        nearbyEntities.stream().filter(entity -> !entity.equals(player) && !repulsionData.inBlacklist(entity.getType()) && skillData.areConditionsTrue(player, entity)).forEach(entity -> entity.setVelocity(entity.getVelocity().add(entity.getLocation().subtract(player.getLocation()).toVector().normalize().multiply(0.1).multiply(multiplier)))
+                        nearbyEntities
+                                .stream()
+                                .filter(entity -> !entity.equals(player))
+                                .filter(entity -> !repulsionData.inBlacklist(entity.getType()))
+                                .filter(entity -> skillData.areConditionsTrue(player, entity))
+                                .forEach(entity -> {
+                                    Vector distanceVelocity = entity.getLocation().subtract(player.getLocation()).toVector().normalize().multiply(0.1).multiply(multiplier);
+                                    try {
+                                        distanceVelocity.checkFinite();
+                                    } catch (IllegalArgumentException notFinite) {
+                                        return;
+                                    }
+                                    Vector newVelocity = entity.getVelocity().add(distanceVelocity);
+                                    entity.setVelocity(newVelocity);
+                                }
                         );
                     }
                     else {
