@@ -213,6 +213,12 @@ public class GiveItemSkill extends SkillImplementation {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(PlayerDeathEvent e) {
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(e.getEntity()).getSkillData(Skill.getSkill("GIVEITEM"));
+        for (SkillData skillData : skillDatas) {
+            if (skillData instanceof GiveItemData giveItemData) {
+                if (!giveItemData.dropsOnDeath()) e.getDrops().removeIf((item) -> giveItemData.getItemStackData().getItem().isSimilar(item));
+            }
+        }
         if (!e.getKeepInventory()) {
             e.getEntity().setMetadata("superheroes-giveitems", new FixedMetadataValue(Superheroes.getInstance(), true));
         }
