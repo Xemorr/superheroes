@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "4.3.0"
+version = "4.3.2"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -32,6 +32,7 @@ dependencies {
     shadow("com.zaxxer:HikariCP:4.0.3")
     shadow("net.kyori:adventure-api:4.10.1")
     shadow("org.apache.commons:commons-lang3:3.12.0")
+    shadow("io.sentry:sentry:6.29.0")
     compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary2:2.9.0")
 }
@@ -51,6 +52,7 @@ tasks.shadowJar {
     relocate("org.apache.commons", "me.xemor.superheroes.org.apache.commons")
     relocate("org.bstats", "me.xemor.superheroes.org.bstats")
     relocate("dev.bassett", "me.xemor.superheroes.dev.bassett")
+    relocate("io.sentry", "me.xemor.sentry")
     configurations = listOf(project.configurations.shadow.get())
     val folder = System.getenv("pluginFolder")
     destinationDirectory.set(file(folder))
@@ -61,6 +63,9 @@ sentry {
     org.set("samuel-hollis-139014fe7")
     projectName.set("superheroes")
     authToken.set(System.getenv("SENTRY_AUTH_TOKEN"))
+    autoInstallation {
+        enabled.set(true)
+    }
 }
 
 //Auto generated from gradle init, not entirely sure what it does
