@@ -29,13 +29,13 @@ public class DamagePotionSkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             DamagePotionData damagePotionData = (DamagePotionData) skillData;
             if (damagePotionData.getDamageCause() == null || damagePotionData.getDamageCause().contains(e.getCause())) {
-                if (damagePotionData.getPotionEffect() != null) {
-                    if (!player.hasPotionEffect(damagePotionData.getPotionEffect().getType())) {
+                damagePotionData.getPotionEffect().ifPresent(potionEffect -> {
+                    if (!player.hasPotionEffect(potionEffect.getType())) {
                         if (damagePotionData.areConditionsTrue(player)) {
-                            player.addPotionEffect(damagePotionData.getPotionEffect());
+                            player.addPotionEffect(potionEffect);
                         }
                     }
-                }
+                });
             }
         }
     }
@@ -44,13 +44,11 @@ public class DamagePotionSkill extends SkillImplementation {
     public void onPowerLoss(PlayerChangedSuperheroEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = e.getOldHero();
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGERESISTANCE"));
+        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGEPOTION"));
         if (!skillDatas.isEmpty()) {
             for (SkillData skillData : skillDatas) {
                 DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;
-                if (damageResistanceData.getPotionEffect() != null) {
-                    player.removePotionEffect(damageResistanceData.getPotionEffect().getType());
-                }
+                damageResistanceData.getPotionEffect().ifPresent(potionEffect -> player.removePotionEffect(potionEffect.getType()));
             }
         }
     }

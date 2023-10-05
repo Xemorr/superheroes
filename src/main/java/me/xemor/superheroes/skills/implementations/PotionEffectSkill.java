@@ -41,14 +41,15 @@ public class PotionEffectSkill extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 if (skillData.areConditionsTrue(player)) {
                     PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
-                    PotionEffect effectToApply = potionEffectSkillData.getPotionEffect();
-                    if (effectToApply.getType().equals(PotionEffectType.HEALTH_BOOST)) {
-                        PotionEffect potionEffect = player.getPotionEffect(effectToApply.getType());
-                        if (potionEffect != null && potionEffect.getDuration() > 2) {
-                            continue;
+                    potionEffectSkillData.getPotionEffect().ifPresent(effectToApply -> {
+                        if (effectToApply.getType().equals(PotionEffectType.HEALTH_BOOST)) {
+                            PotionEffect potionEffect = player.getPotionEffect(effectToApply.getType());
+                            if (potionEffect != null && potionEffect.getDuration() > 2) {
+                                return;
+                            }
                         }
-                    }
-                    player.addPotionEffect(potionEffectSkillData.getPotionEffect());
+                        player.addPotionEffect(effectToApply);
+                    });
                 }
             }
         }
@@ -70,7 +71,7 @@ public class PotionEffectSkill extends SkillImplementation {
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 if (skillData instanceof PotionEffectSkillData potionEffectData) {
-                    e.getPlayer().removePotionEffect(potionEffectData.getPotionEffect().getType());
+                    potionEffectData.getPotionEffect().map(PotionEffect::getType).ifPresent(e.getPlayer()::removePotionEffect);
                 }
             }
         }

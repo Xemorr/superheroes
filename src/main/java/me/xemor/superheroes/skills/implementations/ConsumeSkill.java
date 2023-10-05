@@ -34,9 +34,7 @@ public class ConsumeSkill extends SkillImplementation {
                 ItemStack item = e.getItem();
                 if (item == null) return;
                 if (item.getType() == consumeData.getMaterial()) {
-                    if (consumeData.getPotionEffect() != null) {
-                        player.addPotionEffect(consumeData.getPotionEffect());
-                    }
+                    consumeData.getPotionEffect().ifPresent(player::addPotionEffect);
                     player.setFoodLevel(Math.min(20, player.getFoodLevel() + consumeData.getHunger()));
                     item.setAmount(item.getAmount() - 1);
                 }

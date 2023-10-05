@@ -26,7 +26,7 @@ public class KillPotionSkill extends SkillImplementation {
             KillPotionData killPotionData = (KillPotionData) skillData;
             if (!killPotionData.getEntities().inSet(e.getEntityType())) return;
             if (!killPotionData.areConditionsTrue(player, e.getEntity())) return;
-            player.addPotionEffect(killPotionData.getPotionEffect());
+            killPotionData.getPotionEffect().ifPresent(player::addPotionEffect);
         }
     }
 }

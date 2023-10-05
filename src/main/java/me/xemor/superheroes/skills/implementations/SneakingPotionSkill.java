@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
@@ -28,11 +29,11 @@ public class SneakingPotionSkill extends SkillImplementation {
             SneakingPotionData sneakingPotionData = (SneakingPotionData) skillData;
             if (e.isSneaking()) {
                 if (skillData.areConditionsTrue(player)) {
-                    e.getPlayer().addPotionEffect(sneakingPotionData.getPotionEffect());
+                    sneakingPotionData.getPotionEffect().ifPresent(e.getPlayer()::addPotionEffect);
                 }
             }
             else {
-                e.getPlayer().removePotionEffect(sneakingPotionData.getPotionEffect().getType());
+                sneakingPotionData.getPotionEffect().ifPresent(potionEffect -> e.getPlayer().removePotionEffect(potionEffect.getType()));
             }
         }
     }
@@ -43,8 +44,7 @@ public class SneakingPotionSkill extends SkillImplementation {
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 SneakingPotionData sneakingPotionSkill = (SneakingPotionData) skillData;
-                PotionEffectType type = sneakingPotionSkill.getPotionEffect().getType();
-                e.getPlayer().removePotionEffect(type);
+                sneakingPotionSkill.getPotionEffect().map(PotionEffect::getType).ifPresent(e.getPlayer()::removePotionEffect);
             }
         }
     }
@@ -56,7 +56,7 @@ public class SneakingPotionSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SNEAKINGPOTION"));
         for (SkillData skillData : skillDatas) {
             SneakingPotionData sneakingPotionData = (SneakingPotionData) skillData;
-            e.getPlayer().removePotionEffect(sneakingPotionData.getPotionEffect().getType());
+            sneakingPotionData.getPotionEffect().map(PotionEffect::getType).ifPresent(e.getPlayer()::removePotionEffect);
         }
     }
 }

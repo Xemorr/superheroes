@@ -47,9 +47,7 @@ public class SummonSkill extends SkillImplementation {
                             if (summonData.doesRepel()) {
                                 player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
                             }
-                            if (summonData.getPotionEffect() != null) {
-                                player.addPotionEffect(summonData.getPotionEffect());
-                            }
+                            summonData.getPotionEffect().ifPresent(player::addPotionEffect);
                         }
                     }
                 }

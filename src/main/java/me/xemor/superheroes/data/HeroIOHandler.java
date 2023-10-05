@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.*;
+import java.util.logging.Level;
 
 public class HeroIOHandler {
 
@@ -31,8 +32,8 @@ public class HeroIOHandler {
         while (true) {
             try {
                 if (storage == null) {
-                    Superheroes.getInstance().getLogger().severe("Storage is null... waiting 500ms for server to finish loading.");
-                    Thread.sleep(500);
+                    Superheroes.getInstance().getLogger().log(Level.FINE, "Waiting 1000ms for server to finish loading.");
+                    Thread.sleep(1000);
                     continue;
                 }
                 Object object = loadingPlayerQueue.take();

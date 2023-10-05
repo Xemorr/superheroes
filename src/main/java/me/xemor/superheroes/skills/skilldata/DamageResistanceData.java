@@ -9,12 +9,13 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DamageResistanceData extends SkillData {
 
     private final double damageMultiplier;
-    private PotionEffect potionEffect;
+    private PotionEffectData potionEffect;
     private HashSet<EntityDamageEvent.DamageCause> damageCauses;
 
     public DamageResistanceData(int skill, ConfigurationSection configurationSection) throws InvalidConfig {
@@ -30,7 +31,7 @@ public class DamageResistanceData extends SkillData {
             if (type == null) {
                 throw new InvalidConfig("Invalid potion effect type specified in damage resistance skill " + configurationSection.getCurrentPath());
             }
-            potionEffect = new PotionEffectData(configurationSection, type, 0, 0).getPotionEffect();
+            potionEffect = new PotionEffectData(configurationSection);
         }
     }
 
@@ -38,8 +39,8 @@ public class DamageResistanceData extends SkillData {
         return damageMultiplier;
     }
 
-    public PotionEffect getPotionEffect() {
-        return potionEffect;
+    public Optional<PotionEffect> getPotionEffect() {
+        return potionEffect.getPotionEffect();
     }
 
     public HashSet<EntityDamageEvent.DamageCause> getDamageCause() {

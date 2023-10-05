@@ -9,11 +9,12 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DamagePotionData extends SkillData {
 
-    private final PotionEffect potionEffect;
+    private final PotionEffectData potionEffect;
     private HashSet<EntityDamageEvent.DamageCause> damageCauses;
 
     public DamagePotionData(int skill, ConfigurationSection configurationSection) throws InvalidConfig {
@@ -27,11 +28,11 @@ public class DamagePotionData extends SkillData {
         if (type == null) {
             throw new InvalidConfig("Invalid potion effect type specified in damage potion skill " + configurationSection.getCurrentPath());
         }
-        potionEffect = new PotionEffectData(configurationSection, type , 0, 0).getPotionEffect();
+        potionEffect = new PotionEffectData(configurationSection);
     }
 
-    public PotionEffect getPotionEffect() {
-        return potionEffect;
+    public Optional<PotionEffect> getPotionEffect() {
+        return potionEffect.getPotionEffect();
     }
 
     public HashSet<EntityDamageEvent.DamageCause> getDamageCause() {

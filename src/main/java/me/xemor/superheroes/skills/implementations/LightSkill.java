@@ -9,6 +9,7 @@ import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
@@ -32,7 +33,7 @@ public class LightSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("LIGHT"));
         for (SkillData skillData : skillDatas) {
             LightSkillData lightData = (LightSkillData) skillData;
-            e.getPlayer().removePotionEffect(lightData.getPotionEffect().getType());
+            lightData.getPotionEffect().ifPresent((potionEffect -> e.getPlayer().removePotionEffect(potionEffect.getType())));
         }
     }
 
@@ -61,10 +62,10 @@ public class LightSkill extends SkillImplementation {
                     LightSkillData lightData = (LightSkillData) skillData;
                     if (player.getWorld().getBlockAt(player.getLocation()).getLightLevel() > 10) {
                         if (lightData.areConditionsTrue(player)) {
-                            player.addPotionEffect(lightData.getPotionEffect());
+                            lightData.getPotionEffect().ifPresent(player::addPotionEffect);
                         }
                     } else {
-                        player.removePotionEffect(lightData.getPotionEffect().getType());
+                        lightData.getPotionEffect().map(PotionEffect::getType).ifPresent(player::removePotionEffect);
                     }
                 }
             }

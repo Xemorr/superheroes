@@ -60,7 +60,7 @@ public class AuraSkill extends SkillImplementation {
                     for (Entity entity : nearbyLivingEntities) {
                         if (skillData.areConditionsTrue(player, entity)) {
                             LivingEntity livingEntity = (LivingEntity) entity;
-                            livingEntity.addPotionEffect(auraData.getPotionEffect());
+                            auraData.getPotionEffect().ifPresent(livingEntity::addPotionEffect);
                         }
                     }
                 }
