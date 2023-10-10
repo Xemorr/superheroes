@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "4.4.0"
+version = "4.4.1"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 

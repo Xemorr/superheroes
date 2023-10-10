@@ -6,6 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class DamagePotionData extends SkillData {
 
+    @Nullable
     private final PotionEffectData potionEffect;
     private HashSet<EntityDamageEvent.DamageCause> damageCauses;
 
@@ -32,6 +34,7 @@ public class DamagePotionData extends SkillData {
     }
 
     public Optional<PotionEffect> getPotionEffect() {
+        if (potionEffect == null) return Optional.empty();
         return potionEffect.getPotionEffect();
     }
 

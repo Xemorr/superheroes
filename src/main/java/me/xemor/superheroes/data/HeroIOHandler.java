@@ -51,8 +51,8 @@ public class HeroIOHandler {
         while (true) {
             try {
                 if (storage == null) {
-                    Superheroes.getInstance().getLogger().severe("Storage is null... waiting 500ms for server to finish loading.");
-                    Thread.sleep(500);
+                    Superheroes.getInstance().getLogger().fine("Storage is null... waiting 1s for server to finish loading.");
+                    Thread.sleep(1000);
                     continue;
                 }
                 Object object = savingPlayerQueue.take();
