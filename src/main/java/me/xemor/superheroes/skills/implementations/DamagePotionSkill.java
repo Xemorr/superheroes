@@ -47,8 +47,8 @@ public class DamagePotionSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGEPOTION"));
         if (!skillDatas.isEmpty()) {
             for (SkillData skillData : skillDatas) {
-                DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;
-                damageResistanceData.getPotionEffect().ifPresent(potionEffect -> player.removePotionEffect(potionEffect.getType()));
+                DamagePotionData damagePotionData = (DamagePotionData) skillData;
+                damagePotionData.getPotionEffect().ifPresent(potionEffect -> player.removePotionEffect(potionEffect.getType()));
             }
         }
     }

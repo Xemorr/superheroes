@@ -33,7 +33,8 @@ public class SpellData extends SkillData implements Cooldown {
         cost = configurationSection.getInt("cost", 1);
         spellName = configurationSection.getString("spellName", spell.toString());
         cooldownMessage = configurationSection.getString("cooldownMessage", "<spellName> has <currentcooldown> seconds remaining.");
-        cooldownMessage = replaceVariables(cooldownMessage);
+        // This is necessary as we can't use the replaceVariables function for cooldownMessage due to it being used by the SkillCooldownHandler later
+        cooldownMessage = cooldownMessage.replace("<spellName>", spellName);
         moreFuelMessage = configurationSection.getString("moreFuelMessage", "This spell needs <fuelneeded> more <fuel>");
         moreFuelMessage = replaceVariables(moreFuelMessage);
         final String displayNameFormat = configurationSection.getString("displayNameFormat", "<purple><spellName>");

@@ -29,6 +29,7 @@ public class SentryLogHandler extends ConsoleHandler {
         if (exception == null) return;
         boolean hasSuperheroesError = false;
         StackTraceElement[] stackTrace = exception.getStackTrace();
+        if (stackTrace.length == 0) return;
         for (int i = 0; i < 4; i++) {
             StackTraceElement e = stackTrace[i];
             if (e.toString().contains("me.xemor.superheroes")) {
