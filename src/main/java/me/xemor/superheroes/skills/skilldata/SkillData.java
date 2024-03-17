@@ -30,6 +30,10 @@ public abstract class SkillData {
         return conditions.ANDConditions(player, false, objects);
     }
 
+    public ConditionList getConditions() {
+        return conditions;
+    }
+
     @Nullable
     public static SkillData create(int skill, ConfigurationSection configurationSection) {
         try {

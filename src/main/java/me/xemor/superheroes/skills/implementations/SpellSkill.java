@@ -5,8 +5,8 @@ import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
-import me.xemor.superheroes.skills.skilldata.Spell.Spell;
-import me.xemor.superheroes.skills.skilldata.Spell.SpellData;
+import me.xemor.superheroes.skills.skilldata.spell.Spell;
+import me.xemor.superheroes.skills.skilldata.SpellData;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -97,63 +97,14 @@ public class SpellSkill extends SkillImplementation {
         double cooldown = spellData.getCooldown();
         Material fuel = spellData.getFuel();
         if (player.getInventory().containsAtLeast(new ItemStack(spellData.getFuel()), cost)) {
-            if (spell == Spell.FIREBALL) {
-                player.launchProjectile(Fireball.class);
+            boolean success = spell.castSpell(player, e.getClickedBlock(), e.getBlockFace());
+            if (success) {
+                useFuel(player, cost, fuel);
+                skillCooldownHandler.startCooldown(spellData, cooldown, player.getUniqueId());
             }
-            else if (spell == Spell.SNOWBALL) {
-                player.launchProjectile(Snowball.class);
-            }
-            else if (spell == Spell.ARROW) {
-                SpectralArrow arrow = player.launchProjectile(SpectralArrow.class);
-                arrow.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
-            }
-            else if (spell == Spell.LIGHTNING) {
-                strikeLightning(player);
-            }
-            else if (spell == Spell.EGG) {
-                player.launchProjectile(Egg.class);
-            }
-            else if (spell == Spell.EXPLOSION) {
-                explosionSpell(player);
-            }
-            else if (spell == Spell.TRIDENT) {
-                Trident trident = player.launchProjectile(Trident.class);
-                trident.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
-            }
-            else if (spell == Spell.FANGS) {
-                World world = player.getWorld();
-                for (int i = 1; i < 10; i++) {
-                    EvokerFangs fangs = (EvokerFangs) world.spawnEntity(player.getLocation().add(player.getEyeLocation().getDirection().multiply(i)), EntityType.EVOKER_FANGS);
-                    fangs.setOwner(player);
-                }
-            }
-            else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                Block clickedBlock = e.getClickedBlock();
-                Block placeHere = clickedBlock.getRelative(e.getBlockFace());
-                if (spell == Spell.WATER) {
-                    placeHere.setType(Material.WATER);
-                }
-                else if (spell == Spell.LAVA) {
-                    placeHere.setType(Material.LAVA);
-                }
-                else if (spell == Spell.FIRE) {
-                    placeHere.setType(Material.FIRE);
-                }
-                else if (spell == Spell.TRANSMUTATION) {
-                    if (spellData.getTransmutationData().getTransmutatableBlocks().contains(clickedBlock.getType())) {
-                        clickedBlock.setType(spellData.getTransmutationData().getResultantBlock());
-                    }
-                }
-            }
-            else {
-                cost = 0;
-                cooldown = 0;
-            }
-            useFuel(player, cost, fuel);
-            skillCooldownHandler.startCooldown(spellData, cooldown, player.getUniqueId());
         }
         else {
-            Component moreFuelNeeded = MiniMessage.miniMessage().deserialize(spellData.getMoreFuelMessage(), Placeholder.unparsed("fuelneeded", String.valueOf(cost)));
+            Component moreFuelNeeded = MiniMessage.miniMessage().deserialize(spellData.getMoreFuelMessage(), Placeholder.unparsed("fuel", fuel.name()), Placeholder.unparsed("fuelneeded", String.valueOf(cost)));
             Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
             playerAudience.sendActionBar(moreFuelNeeded);
         }
@@ -176,52 +127,5 @@ public class SpellSkill extends SkillImplementation {
                 }
             }
         }
-    }
-
-    private void strikeLightning(Player player) {
-        Location location = findLookingLocation(player, 30);
-        player.getWorld().strikeLightning(location);
-    }
-
-    private void explosionSpell(Player player) {
-        TNTPrimed tnt = (TNTPrimed) player.getWorld().spawnEntity(player.getEyeLocation(), EntityType.PRIMED_TNT);
-        tnt.setFuseTicks(50);
-        tnt.setVelocity(player.getEyeLocation().getDirection().multiply(1.4));
-    }
-
-    private Location findLookingLocation(Player player, int blocksToTravel) {
-        World world = player.getWorld();
-        Location eyeLoc = player.getEyeLocation().clone();
-        Vector travelVector = eyeLoc.getDirection();
-        RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLoc, travelVector, blocksToTravel);
-        Vector hitPosition;
-        if (rayTraceResult == null) {
-            hitPosition = eyeLoc.toVector().add(travelVector.multiply(blocksToTravel));
-        } else {
-            rayTraceResult.getHitPosition();
-            hitPosition = rayTraceResult.getHitPosition();
-        }
-        return new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
-    }
-
-    public static final class SpellAbility {
-
-        private final Material fuel;
-        private final int cost;
-        private final Consumer<Player> ability;
-
-        public SpellAbility(Material fuel, int cost, double cooldown, Consumer<Player> consumer) {
-            this.fuel = fuel;
-            this.cost = cost;
-            this.ability = consumer;
-        }
-
-        public void attemptAbility(Player player) {
-            PlayerInventory inventory = player.getInventory();
-            if (inventory.containsAtLeast(new ItemStack(fuel), cost)) {
-                ability.accept(player);
-            }
-        }
-
     }
 }

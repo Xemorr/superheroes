@@ -1,7 +1,10 @@
-package me.xemor.superheroes.skills.skilldata.Spell;
+package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.superheroes.skills.skilldata.SkillData;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.skills.skilldata.configdata.Cooldown;
+import me.xemor.superheroes.skills.skilldata.spell.Spell;
+import me.xemor.superheroes.skills.skilldata.spell.Spells;
+import me.xemor.superheroes.skills.skilldata.spell.TransmutationSpell;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -22,12 +25,15 @@ public class SpellData extends SkillData implements Cooldown {
     private final double cooldown;
     private final int cost;
     private final List<String> lore;
-    private TransmutationData transmutationData;
 
 
     public SpellData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-        spell = Spell.valueOf(configurationSection.getString("spell", "SNOWBALL"));
+        int spellID = Spells.getSpell(configurationSection.getString("spell", "SNOWBALL"));
+        if (spellID == -1) {
+            Superheroes.getInstance().getLogger().severe("Invalid spell entered at " + configurationSection.getCurrentPath() + ".spell");
+        }
+        spell = Spells.createSpell(spellID, configurationSection);
         fuel = Material.valueOf(configurationSection.getString("fuel", "REDSTONE"));
         cooldown = configurationSection.getDouble("cooldown", 1);
         cost = configurationSection.getInt("cost", 1);
@@ -36,17 +42,12 @@ public class SpellData extends SkillData implements Cooldown {
         // This is necessary as we can't use the replaceVariables function for cooldownMessage due to it being used by the SkillCooldownHandler later
         cooldownMessage = cooldownMessage.replace("<spellName>", spellName);
         moreFuelMessage = configurationSection.getString("moreFuelMessage", "This spell needs <fuelneeded> more <fuel>");
-        moreFuelMessage = replaceVariables(moreFuelMessage);
         final String displayNameFormat = configurationSection.getString("displayNameFormat", "<purple><spellName>");
         displayName = replaceVariables(displayNameFormat);
         final List<String> loreFormat = configurationSection.getStringList("loreFormat");
         lore = loreFormat.stream()
                 .map(this::replaceVariables)
                 .collect(Collectors.toList());
-        final ConfigurationSection transmutationSection = configurationSection.getConfigurationSection("transmutationData");
-        if (transmutationSection != null) {
-            transmutationData = new TransmutationData(transmutationSection);
-        }
     }
 
     private String replaceVariables(String input) {
@@ -83,10 +84,6 @@ public class SpellData extends SkillData implements Cooldown {
 
     public String getDisplayName() {
         return displayName;
-    }
-
-    public TransmutationData getTransmutationData() {
-        return transmutationData;
     }
 
     public String getMoreFuelMessage() {

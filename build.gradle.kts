@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "4.4.5"
+version = "4.6.1"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -68,10 +68,36 @@ sentry {
     }
 }
 
-//Auto generated from gradle init, not entirely sure what it does
 publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
+    repositories {
+        maven {
+            name = "xemorReleases"
+            url = uri("https://repo.xemor.zip/releases")
+            credentials(PasswordCredentials::class)
+            authentication {
+                isAllowInsecureProtocol = true
+                create<BasicAuthentication>("basic")
+            }
+        }
+
+        maven {
+            name = "xemorSnapshots"
+            url = uri("https://repo.xemor.zip/snapshots")
+            credentials(PasswordCredentials::class)
+            authentication {
+                isAllowInsecureProtocol = true
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = rootProject.group.toString()
+            artifactId = rootProject.name
+            version = rootProject.version.toString()
+            from(project.components["java"])
+        }
     }
 }
 
@@ -84,4 +110,8 @@ tasks.withType<JavaCompile>() {
 tasks.processResources {
     inputs.property("version", rootProject.version)
     expand("version" to rootProject.version)
+}
+
+publishing {
+
 }

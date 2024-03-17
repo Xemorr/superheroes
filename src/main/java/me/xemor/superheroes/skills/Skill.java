@@ -2,7 +2,7 @@ package me.xemor.superheroes.skills;
 
 import com.google.common.collect.HashBiMap;
 import me.xemor.superheroes.skills.skilldata.*;
-import me.xemor.superheroes.skills.skilldata.Spell.SpellData;
+import me.xemor.superheroes.skills.skilldata.SpellData;
 
 import java.util.HashMap;
 

@@ -223,4 +223,31 @@ Sorcerer:
             pages:
               - "Hello fellow Sorcerer!\nThis book will outline all of the spells you can cast!\n<red>Fireball, Snowball, Arrow, Lightning, Egg, Water, Lava, Fire, Explosion, Trident, Transmutation, Fangs"
               - "Simply create a book and quill, and sign it with a name corresponding to a spell and it will transform into a spell book!"
-
+  plusUltraSkills: # skills only loaded if PlusUltra is on your server
+    ego:
+      skill: SPELL
+      spellName: Ego
+      spell: CUSTOM # SuperheroesPlusUltra adds CUSTOM spell functionality
+      fuel: REDSTONE
+      cost: 0
+      cooldown: 60
+      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
+      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+      displayNameFormat: <dark_purple><spellname>
+      loreFormat:
+        - <white>This is a spell book, right-click to use!
+        - '<white><fuel>: <cost>'
+        - '<white>cooldown: <cooldown>'
+      effects: # Spell that tells all players within a 16 block radius of you that you are the best at Minecraft!
+        egoAoE:
+          type: AOE
+          radius: 16
+          effects:
+            egoMessage:
+              type: MESSAGE
+              mode: OTHER
+              message: <self> is the best at Minecraft!
+        selfMessage:
+          type: MESSAGE
+          mode: SELF
+          message: <self> is the best at Minecraft!
