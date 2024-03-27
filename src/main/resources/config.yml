@@ -1,14 +1,5 @@
 config_version: ${version} # do not change unless you know what you are doing
 
-#The reroll settings customise how /hero reroll and right-clicking with a reroll item work
-reroll:
-  item:
-    types:
-      - NETHER_STAR # the types of material which trigger a reroll, by default this is disabled. Valuable items like nether stars or diamond blocks work well
-  isEnabled: false # whether rerolling via the item is enabled or not
-  eachHeroRequiresPermissions: false # whether you can only obtain heroes via rerolling and hero select that the user has permission for
-  cooldown: 1 # the cooldown between usages of the reroll item in seconds
-
 powerOnStart:
   isEnabled: false # whether they get a random hero, or no hero.
   showHero: false # whether a popup telling the user which hero they are appears on first join
