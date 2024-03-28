@@ -116,7 +116,7 @@ public class HeroHandler {
     }
 
     public void openHeroGUI(final Player player) {
-        List<Superhero> allowedSuperheroes = nameToSuperhero.values().stream().filter(hero -> !configHandler.areHeroPermissionsRequired() || player.hasPermission(hero.getPermission())).toList();
+        List<Superhero> allowedSuperheroes = nameToSuperhero.values().stream().filter(hero -> !Superheroes.getInstance().getRerollHandler().doesHeroRequirePermissions() || player.hasPermission(hero.getPermission())).toList();
         if (allowedSuperheroes.isEmpty()) {
             return;
         }
@@ -179,7 +179,7 @@ public class HeroHandler {
         Collections.shuffle(superheroes);
         Superhero newHero = noPower;
         for (Superhero superhero : superheroes) {
-            if (configHandler.areHeroPermissionsRequired() && !player.hasPermission(superhero.getPermission()) || noPower.equals(superhero))
+            if (Superheroes.getInstance().getRerollHandler().doesHeroRequirePermissions() && !player.hasPermission(superhero.getPermission()) || noPower.equals(superhero))
                 continue;
             newHero = superhero;
             break;

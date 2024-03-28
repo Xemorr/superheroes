@@ -312,10 +312,6 @@ public class ConfigHandler {
         return this.config.getLong("heroCommand.cooldown", 0L);
     }
 
-    public boolean areHeroPermissionsRequired() {
-        return this.config.getConfigurationSection("reroll").getBoolean("eachHeroRequiresPermissions", false);
-    }
-
     public String getDatabaseType() {
         return this.databaseYAML.getString("database.type", "LEGACY");
     }
