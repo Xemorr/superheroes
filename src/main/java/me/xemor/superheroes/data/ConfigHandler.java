@@ -44,14 +44,12 @@ public class ConfigHandler {
     private FileConfiguration databaseYAML;
     private FileConfiguration config;
     private final Superheroes superheroes;
-    private ItemComparisonData item;
 
     public ConfigHandler(Superheroes superheroes) {
         this.superheroes = superheroes;
         superheroes.saveDefaultConfig();
         File dataFolder = superheroes.getDataFolder();
         this.config = superheroes.getConfig();
-        this.item = new ItemComparisonData(Objects.requireNonNull(this.config.getConfigurationSection("reroll.item")));
         if (!new File(superheroes.getDataFolder(), "language.yml").exists()) {
             superheroes.saveResource("language.yml", false);
         }
@@ -222,7 +220,6 @@ public class ConfigHandler {
         this.loadSuperheroes(heroHandler);
         this.languageYAML = YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "language.yml"));
         this.databaseYAML = YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "database.yml"));
-        this.item = new ItemComparisonData(Objects.requireNonNull(this.config.getConfigurationSection("reroll.item")));
         heroHandler.setHeroesIntoMemory(new HashMap<>());
         for (Player player : Bukkit.getOnlinePlayers()) {
             heroHandler.loadSuperheroPlayer(player);
