@@ -1,6 +1,6 @@
 ![](https://cdn.discordapp.com/attachments/679434326886318108/1222682780668919889/whatitdo.png?ex=66171b13&is=6604a613&hm=11813aa50de6ef517ebcbddb05f2413e4dee0c317ca25bbc1e0c996c2200b316&)
 
-This plugin gives you the ability to **add custom origins, classes or heroes**! It does this through mix and matching skills to create whatever you want! Want a skill that isn't in the plugin yet? Come and suggest it in our [URL='https://discord.gg/RCFh4Hk']**discord**[/URL] or make an issue on our **[URL='https://github.com/Xemorr/superheroes']github[/URL]**! I am very open to feedback and try to be as helpful as possible.
+This plugin gives you the ability to **add custom origins, classes or heroes**! It does this through mix and matching skills to create whatever you want! Want a skill that isn't in the plugin yet? Come and suggest it in our [discord](https://discord.gg/RCFh4Hk) or make an issue on our **[github](https://github.com/Xemorr/superheroes)**! I am very open to feedback and try to be as helpful as possible.
 
 
 ![](https://github.com/Xemorr/superheroes/blob/master/becomedracula.gif?raw=true)
@@ -74,7 +74,7 @@ You can also give a player a hero through /hero select <heroname> <playername>
 ![](https://media.discordapp.net/attachments/679434326886318108/1222683065705304064/miscellaneous.png?ex=66171b57&is=6604a657&hm=092fe187cdb73f499b99209091f340db23838f6c555a7cca5cf230bb7eea705e&=&format=webp&quality=lossless&width=810&height=39)
 
 _Want to see how many others are using my plugin, or what superheroes are popular?_
-[URL='https://bstats.org/plugin/bukkit/Superheroes/8671']Superheroes' BStats[/URL]
+[Superheroes](https://bstats.org/plugin/bukkit/Superheroes/8671)
 
 _Is there placeholder support?_
 Yes, there is! We support PlaceholderAPI, you can learn more about how to install these placeholders [URL='https://api.extendedclip.com/expansions/superheroes/']here[/URL].
@@ -83,5 +83,4 @@ _SuperheroesPlusUltra_
 SuperheroesPlusUltra is an enormous extension to the original Superheroes plugin, it enables full integration of my plugin, SkillsLibrary, into Superheroes. This means you can **write your own abilities**for heroes you design without writing any java. It also comes with three brand new default heroes to provide an example of the abilities you can create using it.
 
 It also allows you to set **skins**for your heroes, and has **basic Skript integration**!
-[URL]https://www.spigotmc.org/resources/superheroesplusultra.102663/[/URL]
-[URL='https://billing.redlinehosting.net/aff.php?aff=13'][ATTACH=full]753612[/ATTACH][/URL]
+https://www.spigotmc.org/resources/superheroesplusultra.102663/
