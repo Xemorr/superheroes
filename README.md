@@ -1,3 +1,4 @@
+# Superheroes
 ![](https://cdn.discordapp.com/attachments/679434326886318108/1222682780668919889/whatitdo.png?ex=66171b13&is=6604a613&hm=11813aa50de6ef517ebcbddb05f2413e4dee0c317ca25bbc1e0c996c2200b316&)
 
 This plugin gives you the ability to **add custom origins, classes or heroes**! It does this through mix and matching skills to create whatever you want! Want a skill that isn't in the plugin yet? Come and suggest it in our [discord](https://discord.gg/RCFh4Hk) or make an issue on our **[github](https://github.com/Xemorr/superheroes)**! I am very open to feedback and try to be as helpful as possible.
