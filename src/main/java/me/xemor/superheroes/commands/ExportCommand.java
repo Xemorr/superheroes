@@ -20,7 +20,7 @@ public class ExportCommand implements SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
-        if (sender.hasPermission("superheroes.export")) {
+        if (sender.hasPermission("superheroes.hero.export")) {
             audience.sendMessage(exporting);
             Superheroes.getInstance().getHeroHandler().getHeroIOHandler().exportFiles();
             Superheroes.getInstance().getConfigHandler().reloadConfig(Superheroes.getInstance().getHeroHandler());

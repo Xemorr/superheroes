@@ -38,9 +38,12 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        Audience audience = Superheroes.getBukkitAudiences().sender(sender);
+        if (!sender.hasPermission("superheroes.hero")) {
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(this.configHandler.getNoPermissionMessage()));
+        }
         if (args.length >= 1) {
             SubCommands commandType;
-            Audience audience = Superheroes.getBukkitAudiences().sender(sender);
             try {
                 commandType = SubCommands.valueOf(args[0].toUpperCase());
             } catch (IllegalArgumentException e) {

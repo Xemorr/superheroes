@@ -19,7 +19,7 @@ public class RerollCommand implements SubCommand, Listener {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
-        if (sender.hasPermission("superheroes.reroll")) {
+        if (sender.hasPermission("superheroes.hero.reroll")) {
             RerollHandler rerollHandler = Superheroes.getInstance().getRerollHandler();
             String rerollGroupName;
             if (args.length >= 2) {
@@ -27,7 +27,7 @@ public class RerollCommand implements SubCommand, Listener {
             } else {
                 rerollGroupName = "default";
             }
-            if (!sender.hasPermission("superheroes.reroll." + rerollGroupName)) {
+            if (!sender.hasPermission("superheroes.hero.reroll." + rerollGroupName)) {
                 audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
                 return;
             }

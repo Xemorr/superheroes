@@ -17,9 +17,9 @@ public class CheckCommand implements SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
-        if (sender.hasPermission("superheroes.check")) {
+        if (sender.hasPermission("superheroes.hero.check")) {
             if (args.length > 1) {
-                if (sender.hasPermission("superheroes.check.others")) {
+                if (sender.hasPermission("superheroes.hero.check.others")) {
                     Player other = Bukkit.getPlayer(args[1]);
                     if (other == null) {
                         audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getInvalidPlayerMessage(),

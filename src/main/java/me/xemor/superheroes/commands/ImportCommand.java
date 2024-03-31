@@ -26,7 +26,7 @@ public class ImportCommand implements SubCommand {
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         ConfigHandler configHandler = Superheroes.getInstance().getConfigHandler();
-        if (sender.hasPermission("superheroes.import")) {
+        if (sender.hasPermission("superheroes.hero.import")) {
             audience.sendMessage(notReload);
             audience.sendMessage(importing);
             HeroHandler heroHandler = Superheroes.getInstance().getHeroHandler();

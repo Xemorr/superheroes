@@ -65,7 +65,7 @@ public class SuperheroPlayer {
 
     public boolean handleCooldown(Player player, Audience audience) {
         long seconds = this.getCooldownLeft() / 1000;
-        if (!player.hasPermission("superheroes.hero.bypasscooldown")  && !this.isCooldownOver()) {
+        if (!player.hasPermission("superheroes.hero.select.bypasscooldown")  && !this.isCooldownOver()) {
             Component message = MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getHeroCooldownMessage(),
                     Placeholder.unparsed("player", player.getName()),
                     Placeholder.unparsed("currentcooldown", String.valueOf(Math.round(seconds))),

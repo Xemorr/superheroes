@@ -16,7 +16,7 @@ public class GUICommand implements SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
-        if (!sender.hasPermission("superheroes.hero")) {
+        if (!sender.hasPermission("superheroes.hero.gui")) {
             audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
             return;
         }

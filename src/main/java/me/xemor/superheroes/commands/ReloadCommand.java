@@ -26,7 +26,7 @@ public class ReloadCommand implements SubCommand {
     @Override
     public void onCommand(CommandSender sender,  String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
-        if (sender.hasPermission("superheroes.reload")) {
+        if (sender.hasPermission("superheroes.hero.reload")) {
             audience.sendMessage(reloading);
             configHandler.reloadConfig(heroHandler);
             audience.sendMessage(done);

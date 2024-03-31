@@ -28,17 +28,23 @@ public class SelectCommand implements SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
-        if (!sender.hasPermission("superheroes.hero")) {
+        if (!sender.hasPermission("superheroes.hero.select")) {
             audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
+        Superhero power;
         if (args.length <= 1) {
-            if (sender instanceof Player player) {
+            if (sender instanceof Player player && sender.hasPermission("superheroes.hero.gui")) {
                 heroHandler.openHeroGUI(player);
+                return;
             }
-            return;
+            else {
+                power = null;
+            }
         }
-        Superhero power = heroHandler.getSuperhero(args[1].toLowerCase());
+        else {
+            power = heroHandler.getSuperhero(args[1].toLowerCase());
+        }
         if (power == null) {
             audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getInvalidHeroMessage(),
                     Placeholder.unparsed("player", sender.getName()),
@@ -46,7 +52,7 @@ public class SelectCommand implements SubCommand {
                     ));
             return;
         }
-        if (!sender.hasPermission("superheroes.hero." + power.getName().toLowerCase()) && Superheroes.getInstance().getRerollHandler().doesHeroRequirePermissions()) {
+        if (!sender.hasPermission("superheroes.hero.select." + power.getName().toLowerCase()) && Superheroes.getInstance().getRerollHandler().doesHeroRequirePermissions()) {
             audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
@@ -57,7 +63,7 @@ public class SelectCommand implements SubCommand {
             }
         }
         Player player;
-        if (args.length >= 3 && sender.hasPermission("superheroes.hero.others")) {
+        if (args.length >= 3 && sender.hasPermission("superheroes.hero.select.others")) {
             player = Bukkit.getPlayer(args[2]);
             if (player == null) {
                 MiniMessage.miniMessage().deserialize(configHandler.getInvalidPlayerMessage(), Placeholder.unparsed("player", sender.getName()));
@@ -75,7 +81,7 @@ public class SelectCommand implements SubCommand {
         heroHandler.setHero(player, power);
         SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(player);
         heroHandler.getHeroIOHandler().saveSuperheroPlayerAsync(superheroPlayer);
-        if (!sender.hasPermission("superheroes.hero.bypasscooldown") && sender instanceof Player && sender == player) {
+        if (!sender.hasPermission("superheroes.hero.select.bypasscooldown") && sender instanceof Player && sender == player) {
             superheroPlayer.setHeroCommandTimestamp(System.currentTimeMillis());
         }
     }
@@ -86,7 +92,7 @@ public class SelectCommand implements SubCommand {
         if (args.length == 2) {
             String secondArg = args[1];
             for (Superhero superhero : heroHandler.getNameToSuperhero().values()) {
-                if (superhero.getName().startsWith(secondArg) && sender.hasPermission("superheroes.hero." + superhero.getName().toLowerCase())) {
+                if (superhero.getName().startsWith(secondArg) && sender.hasPermission(superhero.getPermission())) {
                     heroesTabComplete.add(superhero.getName());
                 }
             }
