@@ -40,7 +40,7 @@ public class PotionGifterSkill extends SkillImplementation {
                 if (entity instanceof LivingEntity lEntity) {
                     if (skillData.areConditionsTrue(player, lEntity)) {
                         World world = lEntity.getWorld();
-                        world.spawnParticle(Particle.VILLAGER_HAPPY, lEntity.getLocation().add(0, 1, 0), 1);
+                        world.spawnParticle(Particle.HAPPY_VILLAGER, lEntity.getLocation().add(0, 1, 0), 1);
                         gifterData.getPotionEffect().ifPresent(lEntity::addPotionEffect);
                         skillCooldownHandler.startCooldown(gifterData, gifterData.getCooldown(), player.getUniqueId());
                         Component giverMessage = MiniMessage.miniMessage().deserialize(gifterData.getGiverMessage(), Placeholder.unparsed("player",player.getName()));

@@ -227,7 +227,7 @@ public class ConfigHandler {
     }
 
     public void saveConfig() {
-        Bukkit.getScheduler().runTaskAsynchronously(this.superheroes, () -> this.superheroes.saveConfig());
+        Bukkit.getScheduler().runTaskAsynchronously(this.superheroes, this.superheroes::saveConfig);
     }
 
     private File getDataFolder() {

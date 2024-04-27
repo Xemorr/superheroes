@@ -70,7 +70,7 @@ public class SummonSkill extends SkillImplementation {
         Block block = location.getBlock();
         if (summonSkillData.areConditionsTrue(player, block.getLocation())) {
             Entity entity;
-            if (entityType == EntityType.LIGHTNING) entity = world.strikeLightning(location);
+            if (entityType == EntityType.LIGHTNING_BOLT) entity = world.strikeLightning(location);
             else entity = world.spawnEntity(location, entityType);
             return entity;
         }

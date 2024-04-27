@@ -52,7 +52,7 @@ public class ClimbSkill extends SkillImplementation {
                         Location newLoc = currentLoc.clone().add(rngX, 0, rngZ);
                         if (rotatedManhattanDistance(newLoc, currentLoc) < climbData.getProximity()) {
                             World world = newLoc.getWorld();
-                            world.spawnParticle(Particle.DRIP_LAVA, newLoc, 1);
+                            world.spawnParticle(Particle.DRIPPING_LAVA, newLoc, 1);
                         }
                     }
                 }

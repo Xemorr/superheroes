@@ -11,6 +11,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -190,9 +191,16 @@ public class HeroHandler {
     public void showHero(Player player, Superhero hero) {
         Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
         Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
-        Title title = Title.title(colouredName, description, Title.Times.times(Duration.ofMillis(500L), Duration.ofMillis(5000L), Duration.ofMillis(500L)));
         Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
+        /*
+        Title title = Title.title(colouredName, description, Title.Times.times(Duration.ofMillis(500L), Duration.ofMillis(5000L), Duration.ofMillis(500L)));
         playerAudience.showTitle(title);
+
+        Adventure Developers aren't on top of maintaining adventure platform bukkit, so I will use a work around to prevent sendTitle from breaking every 3 milliseconds.
+         */
+        String colouredNameSpigot = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build().serialize(colouredName);
+        String descriptionSpigot = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build().serialize(description);
+        player.sendTitle(colouredNameSpigot, descriptionSpigot, 10, 100, 10);
         player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5f, 1.0f);
         Component heroGainedMessage = MiniMessage.miniMessage().deserialize(configHandler.getHeroGainedMessage(), Placeholder.component("hero", colouredName), Placeholder.unparsed("player", player.getName()));
         playerAudience.sendMessage(heroGainedMessage);

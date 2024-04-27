@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "5.0.0"
+version = "5.1.1-BETA"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -21,19 +21,18 @@ repositories {
 }
 
 dependencies {
-    shadow("de.themoep:minedown-adventure:1.7.1-SNAPSHOT")
-    shadow("me.xemor:configurationdata:2.0.0-SNAPSHOT")
+    shadow("me.xemor:configurationdata:3.1.1-SNAPSHOT")
     shadow("org.bstats:bstats-bukkit:1.7")
     shadow("me.xemor:UserInterface:1.6.6-SNAPSHOT")
     shadow("dev.dbassett:skullcreator:3.0.1")
     shadow("org.jetbrains:annotations:20.1.0")
-    shadow("net.kyori:adventure-platform-bukkit:4.1.0")
+    shadow("net.kyori:adventure-platform-bukkit:4.3.2")
     shadow("mysql:mysql-connector-java:8.0.29")
     shadow("com.zaxxer:HikariCP:4.0.3")
-    shadow("net.kyori:adventure-api:4.10.1")
+    shadow("net.kyori:adventure-api:4.16.0")
     shadow("org.apache.commons:commons-lang3:3.12.0")
     shadow("io.sentry:sentry:6.29.0")
-    compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary2:2.9.0")
 }
 
@@ -45,7 +44,6 @@ tasks.shadowJar {
     minimize()
     relocate("net.kyori", "me.xemor.superheroes.kyori")
     relocate("me.xemor.configurationdata", "me.xemor.superheroes.configurationdata")
-    relocate("de.themoep", "me.xemor.superheroes.de.themoep")
     relocate("org.jetbrains", "me.xemor.superheroes.org.jetbrains")
     relocate("mysql", "me.xemor.superheroes.mysql")
     relocate("com.zaxxer", "me.xemor.superheroes.com.zaxxer")

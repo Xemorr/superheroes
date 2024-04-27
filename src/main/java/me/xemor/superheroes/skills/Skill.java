@@ -13,6 +13,8 @@ public class Skill {
     private static int counter = 0;
 
     static {
+        registerSkill("ATTRIBUTE", AttributeSkillData.class);
+        registerSkill("FLIGHT", BlankData.class);
         registerSkill("POTIONEFFECT", PotionEffectSkillData.class);
         registerSkill("OHKO", OHKOData.class);
         registerSkill("REPULSION", RepulsionData.class);
