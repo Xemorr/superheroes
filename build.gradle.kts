@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "5.1.1-BETA"
+version = "5.1.4"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -18,6 +18,9 @@ repositories {
     maven { url = uri("https://github.com/deanveloper/SkullCreator/raw/mvn-repo/") }
     maven { url = uri("https://repo.minebench.de/") }
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
+    maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+        name = "sonatype-oss-snapshots"
+    }
 }
 
 dependencies {
@@ -26,7 +29,7 @@ dependencies {
     shadow("me.xemor:UserInterface:1.6.6-SNAPSHOT")
     shadow("dev.dbassett:skullcreator:3.0.1")
     shadow("org.jetbrains:annotations:20.1.0")
-    shadow("net.kyori:adventure-platform-bukkit:4.3.2")
+    shadow("net.kyori:adventure-platform-bukkit:4.3.3-SNAPSHOT")
     shadow("mysql:mysql-connector-java:8.0.29")
     shadow("com.zaxxer:HikariCP:4.0.3")
     shadow("net.kyori:adventure-api:4.16.0")

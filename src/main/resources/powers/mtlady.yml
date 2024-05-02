@@ -8,8 +8,13 @@ MtLady:
     giant:
       skill: ATTRIBUTE
       attributes:
-        SCALE: 2
+        SCALE: 3 # 12 is lore accurate
         STEP_HEIGHT: 2
-        SAFE_FALL_DISTANCE: 12
-        PLAYER_BLOCK_BREAK_SPEED: 2
+        SAFE_FALL_DISTANCE: 11
+        PLAYER_BLOCK_BREAK_SPEED: 3
+        PLAYER_ENTITY_INTERACTION_RANGE: 6
+        PLAYER_BLOCK_INTERACTION_RANGE: 9
+        JUMP_STRENGTH: 1.0
+        MAX_HEALTH: 30
+        KNOCKBACK_RESISTANCE: 0.3
 

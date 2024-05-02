@@ -34,6 +34,7 @@ public class AttributeSkill extends SkillImplementation {
         Collection<SkillData> newSkillData = e.getNewHero().getSkillData(Skill.getSkill("ATTRIBUTE"));
         for (SkillData data : newSkillData) {
             if (data instanceof AttributeSkillData attributeSkillData) {
+                attributeSkillData.getAttributeData().resetAttributes(e.getPlayer());
                 attributeSkillData.getAttributeData().applyAttributes(e.getPlayer());
             }
         }

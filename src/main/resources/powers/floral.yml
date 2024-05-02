@@ -113,7 +113,7 @@ Floral:
       - AZURE_BLUET
       - ALLIUM
       blocksToReplace:
-      - GRASS
+      - SHORT_GRASS
       blockRayMode: THEBLOCK
       maxDistance: 20
       shouldRevert: true
