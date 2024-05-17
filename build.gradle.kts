@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "5.1.4"
+version = "5.1.5"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -11,9 +11,8 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    mavenCentral()
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
-    maven { url = uri("https://oss.sonatype.org/content/groups/public/") }
     maven { url = uri("https://repo.codemc.org/repository/maven-public") }
     maven { url = uri("https://github.com/deanveloper/SkullCreator/raw/mvn-repo/") }
     maven { url = uri("https://repo.minebench.de/") }
@@ -21,18 +20,19 @@ repositories {
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots"
     }
+    mavenLocal()
 }
 
 dependencies {
-    shadow("me.xemor:configurationdata:3.1.1-SNAPSHOT")
+    shadow("me.xemor:configurationdata:3.2.2-SNAPSHOT")
     shadow("org.bstats:bstats-bukkit:1.7")
-    shadow("me.xemor:UserInterface:1.6.6-SNAPSHOT")
+    shadow("me.xemor:UserInterface:2.0.2-SNAPSHOT")
     shadow("dev.dbassett:skullcreator:3.0.1")
     shadow("org.jetbrains:annotations:20.1.0")
+    shadow("net.kyori:adventure-api:4.13.1")
     shadow("net.kyori:adventure-platform-bukkit:4.3.3-SNAPSHOT")
     shadow("mysql:mysql-connector-java:8.0.29")
     shadow("com.zaxxer:HikariCP:4.0.3")
-    shadow("net.kyori:adventure-api:4.16.0")
     shadow("org.apache.commons:commons-lang3:3.12.0")
     shadow("io.sentry:sentry:6.29.0")
     compileOnly("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
