@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "5.1.5"
+version = "5.1.6"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -29,14 +29,13 @@ dependencies {
     shadow("me.xemor:UserInterface:2.0.2-SNAPSHOT")
     shadow("dev.dbassett:skullcreator:3.0.1")
     shadow("org.jetbrains:annotations:20.1.0")
-    shadow("net.kyori:adventure-api:4.13.1")
     shadow("net.kyori:adventure-platform-bukkit:4.3.3-SNAPSHOT")
     shadow("mysql:mysql-connector-java:8.0.29")
     shadow("com.zaxxer:HikariCP:4.0.3")
     shadow("org.apache.commons:commons-lang3:3.12.0")
     shadow("io.sentry:sentry:6.29.0")
     compileOnly("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
-    compileOnly("me.xemor:skillslibrary2:2.9.0")
+    compileOnly("me.xemor:skillslibrary:2.19.1")
 }
 
 java {
