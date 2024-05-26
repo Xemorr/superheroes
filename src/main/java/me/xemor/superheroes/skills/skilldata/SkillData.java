@@ -31,6 +31,9 @@ public abstract class SkillData {
     }
 
     public ConditionList getConditions() {
+        if (!Superheroes.getInstance().hasSkillsLibrary()) {
+            Superheroes.getInstance().getLogger().warning("PLEASE REPORT THIS MESSAGE TO XEMOR IN THE DISCORD! getConditions() called without SkillsLibrary");
+        }
         return conditions;
     }
 

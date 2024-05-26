@@ -16,7 +16,7 @@ public class AttributeSkillData extends SkillData {
             Superheroes.getInstance().getLogger().severe("You have not specified an attributes section! " + configurationSection.getCurrentPath() + ".attributes");
         }
         attributeData = new AttributeData(attributesSection, Superheroes.getInstance().getName());
-        if (this.getConditions().iterator().hasNext()) {
+        if (Superheroes.getInstance().hasSkillsLibrary() && this.getConditions().iterator().hasNext()) {
             Superheroes.getInstance().getLogger().warning("Attribute skill does not support conditions! Your conditions will not work. " + configurationSection.getCurrentPath() + ".conditions");
         }
     }
