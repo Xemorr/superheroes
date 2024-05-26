@@ -31,7 +31,7 @@ public class SkillCooldownHandler {
             }
             long seconds = ((hashMap.get(uuid) - System.currentTimeMillis()) / 1000);
             Component cooldownMessage = MiniMessage.miniMessage().deserialize(skillData.getCooldownMessage(), Placeholder.unparsed("currentcooldown", String.valueOf(seconds)));
-            Superheroes.getBukkitAudiences().player(Bukkit.getPlayer("Xemor_")).sendActionBar(cooldownMessage);
+            Superheroes.getBukkitAudiences().player(Bukkit.getPlayer(uuid)).sendActionBar(cooldownMessage);
             return false;
         }
         else {
