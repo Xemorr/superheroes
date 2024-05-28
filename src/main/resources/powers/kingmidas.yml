@@ -47,7 +47,7 @@ KingMidas:
           mode: OTHER
           entity:
             type: DROPPED_ITEM
-            extra:
+            item:
               type: GOLD_INGOT
               amount: 1
 

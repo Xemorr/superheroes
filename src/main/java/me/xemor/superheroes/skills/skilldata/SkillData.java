@@ -20,8 +20,8 @@ public abstract class SkillData {
         this.skill = skill;
         this.configurationSection = configurationSection;
         ConfigurationSection conditions = configurationSection.getConfigurationSection("conditions");
-        if (conditions != null && Superheroes.getInstance().hasSkillsLibrary()) {
-            this.conditions = new ConditionList(conditions);
+        if (Superheroes.getInstance().hasSkillsLibrary()) {
+            this.conditions = conditions == null ? new ConditionList() : new ConditionList(conditions);
         }
     }
 
