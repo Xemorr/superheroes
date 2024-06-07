@@ -3,6 +3,7 @@ package me.xemor.superheroes.data;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
+import me.xemor.superheroes.events.PlayerCheckSuperheroEvent;
 import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.reroll.RerollGroup;
 import me.xemor.superheroes.skills.Skill;
@@ -79,7 +80,9 @@ public class HeroHandler {
         if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.getSkill("PHASE"))) {
             return noPower;
         }
-        return hero;
+        PlayerCheckSuperheroEvent event = new PlayerCheckSuperheroEvent(hero, player);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        return event.getSuperhero();
     }
 
     @NotNull

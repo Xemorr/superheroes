@@ -1,5 +1,9 @@
 package me.xemor.superheroes;
 
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
+import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import me.xemor.skillslibrary2.conditions.Conditions;
 import me.xemor.superheroes.commands.HeroCommand;
 import me.xemor.superheroes.conditions.SuperheroCondition;
@@ -41,6 +45,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     private static BukkitAudiences bukkitAudiences;
     private boolean hasSkillsLibrary;
     private static Superheroes superheroes;
+    private WorldGuardSupport worldGuardSupport;
 
     public static Superheroes getInstance() {
         return superheroes;
@@ -50,14 +55,19 @@ public final class Superheroes extends JavaPlugin implements Listener {
         return bukkitAudiences;
     }
 
-    public void registerUserInterfaces() {
-        this.getServer().getPluginManager().registerEvents(new ChestHandler(), this);
+    @Override
+    public void onLoad() {
+        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+        try {
+            // create a flag with the name "my-custom-flag", defaulting to true
+            StateFlag flag = new StateFlag("allow-heroes", true);
+            registry.register(flag);
+        } catch (FlagConflictException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void runSkillsLibraryChanges() {
-        Conditions.register("HERO", SuperheroCondition.class);
-    }
-
+    @Override
     public void onEnable() {
         SentryInitializer.initSentry("https://a5dfe8c79f9c3dad331ebdcb8923066a@o4505846670753792.ingest.sentry.io/4505846683992064", this);
         superheroes = this;
@@ -80,11 +90,13 @@ public final class Superheroes extends JavaPlugin implements Listener {
         }
         this.handleAliases(heroCommand, command);
         this.registerUserInterfaces();
-
+        if (this.getServer().getPluginManager().getPlugin("WorldGuard") != null) {
+            worldGuardSupport = new WorldGuardSupport();
+        }
     }
 
     @EventHandler
-    public void onLoad(ServerLoadEvent e) {
+    public void onServerLoad(ServerLoadEvent e) {
         this.configHandler.loadSuperheroes(this.heroHandler);
         this.rerollHandler = new RerollHandler();
         this.getServer().getPluginManager().registerEvents(this.rerollHandler, this);
@@ -106,6 +118,14 @@ public final class Superheroes extends JavaPlugin implements Listener {
         for (SkillImplementation skill : skills) {
             this.getServer().getPluginManager().registerEvents(skill, this);
         }
+    }
+
+    public void registerUserInterfaces() {
+        this.getServer().getPluginManager().registerEvents(new ChestHandler(), this);
+    }
+
+    public void runSkillsLibraryChanges() {
+        Conditions.register("HERO", SuperheroCondition.class);
     }
 
     public void plusUltraAdvertisement() {

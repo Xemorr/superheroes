@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "5.1.11"
+version = "5.2.0"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -17,6 +17,7 @@ repositories {
     maven { url = uri("https://github.com/deanveloper/SkullCreator/raw/mvn-repo/") }
     maven { url = uri("https://repo.minebench.de/") }
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
+    maven { url = uri("https://maven.enginehub.org/repo/")}
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots"
     }
@@ -36,6 +37,7 @@ dependencies {
     shadow("io.sentry:sentry:6.29.0")
     compileOnly("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary:2.19.1")
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
 }
 
 java {
