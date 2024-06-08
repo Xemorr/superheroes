@@ -27,7 +27,7 @@ public class PotionEffectSkill extends SkillImplementation {
            for (Player player : Bukkit.getOnlinePlayers()) {
                 givePotionEffects(player, heroHandler.getSuperhero(player));
            }
-        }, 0, 10);
+        }, 1, 10);
     }
 
     @EventHandler

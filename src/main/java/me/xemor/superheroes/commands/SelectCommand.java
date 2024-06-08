@@ -5,6 +5,7 @@ import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.ConfigHandler;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.data.SuperheroPlayer;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -78,7 +79,7 @@ public class SelectCommand implements SubCommand {
                 return;
             }
         }
-        heroHandler.setHero(player, power);
+        heroHandler.setHero(player, power, true, PlayerChangedSuperheroEvent.Cause.COMMAND);
         SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(player);
         heroHandler.getHeroIOHandler().saveSuperheroPlayerAsync(superheroPlayer);
         if (!sender.hasPermission("superheroes.hero.select.bypasscooldown") && sender instanceof Player && sender == player) {

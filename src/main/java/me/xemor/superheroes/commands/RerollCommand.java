@@ -1,6 +1,7 @@
 package me.xemor.superheroes.commands;
 
 import me.xemor.superheroes.Superheroes;
+import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.reroll.RerollGroup;
 import me.xemor.superheroes.reroll.RerollHandler;
 import net.kyori.adventure.audience.Audience;
@@ -48,7 +49,7 @@ public class RerollCommand implements SubCommand, Listener {
             } else {
                 return;
             }
-            Superheroes.getInstance().getHeroHandler().setHero(player, rerollGroup.chooseHero(player));
+            Superheroes.getInstance().getHeroHandler().setHero(player, rerollGroup.chooseHero(player), true, PlayerChangedSuperheroEvent.Cause.REROLL);
         } else {
             audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getNoPermissionMessage()));
         }

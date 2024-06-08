@@ -1,5 +1,6 @@
 package me.xemor.superheroes.data;
 
+import com.sk89q.worldguard.bukkit.cause.Cause;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
@@ -67,6 +68,10 @@ public class HeroHandler {
         return uuidToData.get(player.getUniqueId());
     }
 
+    public SuperheroPlayer getSuperheroPlayer(UUID uniqueId) {
+        return uuidToData.get(uniqueId);
+    }
+
     @NotNull
     public Superhero getSuperhero(Player player) {
         if (disabledWorlds.contains(player.getWorld().getName())) {
@@ -96,17 +101,27 @@ public class HeroHandler {
     }
 
     public void setHeroInMemory(Player player, Superhero hero, boolean show) {
+        setHeroInMemory(player, hero, show, PlayerChangedSuperheroEvent.Cause.OTHER);
+    }
+
+    public void setHeroInMemory(Player player, Superhero hero, boolean show, PlayerChangedSuperheroEvent.Cause cause) {
+        setHeroInMemory(player, hero, show, cause, false);
+    }
+
+    private void setHeroInMemory(Player player, Superhero hero, boolean show, PlayerChangedSuperheroEvent.Cause cause, boolean wasWrittenToDisk) {
         SuperheroPlayer superheroPlayer = uuidToData.get(player.getUniqueId());
         if (superheroPlayer == null) {
             superheroPlayer = new SuperheroPlayer(player.getUniqueId(), hero, 0L);
             uuidToData.put(player.getUniqueId(), superheroPlayer);
         }
         Superhero currentHero = superheroPlayer.getSuperhero();
-        PlayerChangedSuperheroEvent playerChangedHero = new PlayerChangedSuperheroEvent(player, hero, currentHero);
+        PlayerChangedSuperheroEvent playerChangedHero = new PlayerChangedSuperheroEvent(player, hero, currentHero, cause, wasWrittenToDisk);
         Bukkit.getServer().getPluginManager().callEvent(playerChangedHero);
-        superheroPlayer.setSuperhero(hero);
-        if (show) {
-            showHero(player, hero);
+        if (!playerChangedHero.isCancelled()) {
+            superheroPlayer.setSuperhero(playerChangedHero.getNewHero());
+            if (show) {
+                showHero(player, playerChangedHero.getNewHero());
+            }
         }
     }
 
@@ -115,7 +130,11 @@ public class HeroHandler {
     }
 
     public void setHero(Player player, Superhero hero, boolean show) {
-        setHeroInMemory(player, hero, show);
+        setHero(player, hero, show, PlayerChangedSuperheroEvent.Cause.OTHER);
+    }
+
+    public void setHero(Player player, Superhero hero, boolean show, PlayerChangedSuperheroEvent.Cause cause) {
+        setHeroInMemory(player, hero, show, cause, true);
         heroIOHandler.saveSuperheroPlayerAsync(getSuperheroPlayer(player));
     }
 
