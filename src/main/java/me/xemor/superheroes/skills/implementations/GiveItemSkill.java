@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.implementations;
 
+import me.xemor.foliahacks.PlayerPostRespawnFoliaEvent;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
@@ -225,10 +226,9 @@ public class GiveItemSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onRespawn(final PlayerRespawnEvent e) {
+    public void onRespawn(final PlayerPostRespawnFoliaEvent e) {
         if (e.getPlayer().hasMetadata("superheroes-giveitems")) {
             new BukkitRunnable() {
-
                 public void run() {
                     Player player = e.getPlayer();
                     Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));

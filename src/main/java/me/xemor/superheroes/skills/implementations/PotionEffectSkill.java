@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.implementations;
 
+import me.xemor.foliahacks.PlayerPostRespawnFoliaEvent;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
@@ -56,7 +57,7 @@ public class PotionEffectSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onRespawn(PlayerRespawnEvent e) {
+    public void onRespawn(PlayerPostRespawnFoliaEvent e) {
         new BukkitRunnable() {
             @Override
             public void run() {
