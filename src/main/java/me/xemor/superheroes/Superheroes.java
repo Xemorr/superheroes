@@ -1,9 +1,5 @@
 package me.xemor.superheroes;
 
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
-import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import me.xemor.skillslibrary2.conditions.Conditions;
 import me.xemor.superheroes.commands.HeroCommand;
 import me.xemor.superheroes.conditions.SuperheroCondition;
@@ -31,6 +27,8 @@ import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+import me.xemor.foliahacks.FoliaHacks;
+import space.arim.morepaperlib.scheduling.GracefulScheduling;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -46,6 +44,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     private boolean hasSkillsLibrary;
     private static Superheroes superheroes;
     private WorldGuardSupport worldGuardSupport;
+    private static FoliaHacks foliaHacks;
 
     public static Superheroes getInstance() {
         return superheroes;
@@ -55,15 +54,14 @@ public final class Superheroes extends JavaPlugin implements Listener {
         return bukkitAudiences;
     }
 
+    public static GracefulScheduling getScheduling() {
+        return foliaHacks.getScheduling();
+    }
+
     @Override
     public void onLoad() {
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        try {
-            // create a flag with the name "my-custom-flag", defaulting to true
-            StateFlag flag = new StateFlag("allow-heroes", true);
-            registry.register(flag);
-        } catch (FlagConflictException e) {
-            e.printStackTrace();
+        if (this.getServer().getPluginManager().getPlugin("WorldGuard") != null) {
+            WorldGuardSupport.setupFlag();
         }
     }
 
@@ -71,6 +69,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     public void onEnable() {
         SentryInitializer.initSentry("https://a5dfe8c79f9c3dad331ebdcb8923066a@o4505846670753792.ingest.sentry.io/4505846683992064", this);
         superheroes = this;
+        foliaHacks = new FoliaHacks(this);
         this.saveDefaultConfig();
         this.configHandler = new ConfigHandler(this);
         this.heroHandler = new HeroHandler(this, this.configHandler);
@@ -130,22 +129,19 @@ public final class Superheroes extends JavaPlugin implements Listener {
     }
 
     public void plusUltraAdvertisement() {
-        new BukkitRunnable() {
-
-            public void run() {
-                if (Bukkit.getOnlinePlayers().size() > 25 && Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") == null) {
-                    Superheroes.this.getLogger().info("This server has quite a few players online! You may benefit from my premium addon SuperheroesPlusUltra");
-                    Superheroes.this.getLogger().info("This plugin adds a few extra default heroes, unlocks new powers in existing heroes");
-                    Superheroes.this.getLogger().info("adds skins to many heroes, adds skript compatibility, and even lets you write CUSTOM skills for your heroes!");
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (!player.hasPermission("superheroes.notify")) continue;
-                        player.sendMessage("This server has quite a few players online! You may benefit from my premium addon SuperheroesPlusUltra");
-                        player.sendMessage("This plugin adds a few extra default heroes, unlocks new powers in existing heroes");
-                        player.sendMessage("adds skins to many heroes, adds skript compatibility, and even lets you write CUSTOM skills for your heroes!");
-                    }
+        getScheduling().globalRegionalScheduler().runAtFixedRate(() -> {
+            if (Bukkit.getOnlinePlayers().size() > 25 && Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") == null) {
+                Superheroes.this.getLogger().info("This server has quite a few players online! You may benefit from my premium addon SuperheroesPlusUltra");
+                Superheroes.this.getLogger().info("This plugin adds a few extra default heroes, unlocks new powers in existing heroes");
+                Superheroes.this.getLogger().info("adds skins to many heroes, adds skript compatibility, and even lets you write CUSTOM skills for your heroes!");
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (!player.hasPermission("superheroes.notify")) continue;
+                    player.sendMessage("This server has quite a few players online! You may benefit from my premium addon SuperheroesPlusUltra");
+                    player.sendMessage("This plugin adds a few extra default heroes, unlocks new powers in existing heroes");
+                    player.sendMessage("adds skins to many heroes, adds skript compatibility, and even lets you write CUSTOM skills for your heroes!");
                 }
             }
-        }.runTaskTimer(this, 3000L, 469000L);
+        }, 3000L, 469000L);
     }
 
     public void checkForNewUpdate() {
@@ -205,7 +201,19 @@ public final class Superheroes extends JavaPlugin implements Listener {
             }
             return valueMap;
         }));
+        metrics.addCustomChart(new Metrics.AdvancedPie("superheroes_using_each_skill", () -> {
+            HashMap<String, Integer> valueMap = new HashMap<>();
+            for (Superhero superhero : Superheroes.getInstance().getHeroHandler().getNameToSuperhero().values()) {
+                Collection<Integer> skills = superhero.getSkills();
+                for (int skill : skills) {
+                    int currentCount = valueMap.getOrDefault(Skill.getName(skill), 0);
+                    valueMap.put(Skill.getName(skill), ++currentCount);
+                }
+            }
+            return valueMap;
+        }));
         metrics.addCustomChart(new Metrics.SimplePie("superheroes_plus_ultra_usage", () -> Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") != null ? "Yes" : "No"));
+        metrics.addCustomChart(new Metrics.SimplePie("has_worldguard", () -> Bukkit.getPluginManager().getPlugin("WorldGuard") != null ? "Yes" : "No"));
     }
 
     public ConfigHandler getConfigHandler() {

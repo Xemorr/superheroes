@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "5.2.2"
+version = "5.2.4"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -19,6 +19,7 @@ repositories {
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
     maven { url = uri("https://maven.enginehub.org/repo/")}
     maven { url = uri("https://repo.xemor.zip/releases")}
+    maven { url = uri("https://mvn-repo.arim.space/lesser-gpl3")}
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots"
     }
@@ -36,6 +37,8 @@ dependencies {
     shadow("com.zaxxer:HikariCP:4.0.3")
     shadow("org.apache.commons:commons-lang3:3.12.0")
     shadow("io.sentry:sentry:6.29.0")
+    shadow("space.arim.morepaperlib:morepaperlib:0.4.3")
+    shadow("me.xemor:foliahacks:1.3")
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary:2.23.0")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
