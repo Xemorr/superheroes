@@ -74,20 +74,16 @@ public class EraserSkill extends SkillImplementation {
         }
         Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
         playerAudience.sendMessage(removedMessage);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (heroHandler.getSuperhero(player) == erased) {
-                    heroHandler.setHeroInMemory(player, oldPower);
-                    Component returnedMessage = MiniMessage.miniMessage().deserialize(eraserData.getReturnedMessage(), Placeholder.unparsed("player", player.getName()));
-                    if (remover != null) {
-                        Audience removerAudience = Superheroes.getBukkitAudiences().player(remover);
-                        removerAudience.sendMessage(returnedMessage);
-                    }
-                    Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
-                    playerAudience.sendMessage(returnedMessage);
+        Superheroes.getScheduling().entitySpecificScheduler(player).runDelayed(() -> {
+            if (heroHandler.getSuperhero(player) == erased) {
+                heroHandler.setHeroInMemory(player, oldPower);
+                Component returnedMessage = MiniMessage.miniMessage().deserialize(eraserData.getReturnedMessage(), Placeholder.unparsed("player", player.getName()));
+                if (remover != null) {
+                    Audience removerAudience = Superheroes.getBukkitAudiences().player(remover);
+                    removerAudience.sendMessage(returnedMessage);
                 }
+                playerAudience.sendMessage(returnedMessage);
             }
-        }.runTaskLater(heroHandler.getPlugin(), eraserData.getDuration());
+        }, () -> {}, eraserData.getDuration());
     }
 }

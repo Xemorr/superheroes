@@ -7,7 +7,7 @@ Zeus:
   skills:
     lightning:
       skill: SUMMON
-      entity: LIGHTNING
+      entity: LIGHTNING_BOLT
       range: 30
       repel: true
       cooldown: 10

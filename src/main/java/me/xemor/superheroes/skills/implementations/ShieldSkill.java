@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.implementations;
 
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.ShieldData;
@@ -24,12 +25,9 @@ public class ShieldSkill extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 ShieldData shieldData = (ShieldData) skillData;
                 if (shieldData.areConditionsTrue(player, e.getDamager())) {
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            player.setCooldown(Material.SHIELD, shieldData.getCooldown());
-                        }
-                    }.runTaskLater(heroHandler.getPlugin(), 1L);
+                    Superheroes.getScheduling().entitySpecificScheduler(player).runDelayed(() -> {
+                        player.setCooldown(Material.SHIELD, shieldData.getCooldown());
+                    }, () -> {}, 1L);
                 }
             }
         }

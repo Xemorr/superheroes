@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.BlockRayData;
@@ -56,14 +57,11 @@ public class BlockRaySkill extends SkillImplementation {
                         final Material newType = blockRayData.getRandomBlockToPlace();
                         toChange.setType(newType);
                         if (blockRayData.shouldRevert()) {
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if (toChange.getType() == newType) {
-                                        toChange.setType(originalType);
-                                    }
+                            Superheroes.getScheduling().regionSpecificScheduler(toChange.getLocation()).runDelayed(() -> {
+                                if (toChange.getType() == newType) {
+                                    toChange.setType(originalType);
                                 }
-                            }.runTaskLater(heroHandler.getPlugin(), blockRayData.getRevertsAfter());
+                            }, blockRayData.getRevertsAfter());
                         }
                     }
                 }

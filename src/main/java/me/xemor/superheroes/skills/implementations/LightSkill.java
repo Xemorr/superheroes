@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.skills.Skill;
@@ -46,30 +47,27 @@ public class LightSkill extends SkillImplementation {
     }
 
     public void runnable(Player player, Superhero superhero) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Collection<SkillData> data = superhero.getSkillData(Skill.getSkill("LIGHT"));
-                if (data.isEmpty()) {
-                    this.cancel();
-                    return;
-                }
-                if (heroHandler.getSuperhero(player) != superhero) {
-                    this.cancel();
-                    return;
-                }
-                for (SkillData skillData : data) {
-                    LightSkillData lightData = (LightSkillData) skillData;
-                    if (player.getWorld().getBlockAt(player.getLocation()).getLightLevel() > 10) {
-                        if (lightData.areConditionsTrue(player)) {
-                            lightData.getPotionEffect().ifPresent(player::addPotionEffect);
-                        }
-                    } else {
-                        lightData.getPotionEffect().map(PotionEffect::getType).ifPresent(player::removePotionEffect);
+        Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate(task -> {
+            Collection<SkillData> data = superhero.getSkillData(Skill.getSkill("LIGHT"));
+            if (data.isEmpty()) {
+                task.cancel();
+                return;
+            }
+            if (heroHandler.getSuperhero(player) != superhero) {
+                task.cancel();
+                return;
+            }
+            for (SkillData skillData : data) {
+                LightSkillData lightData = (LightSkillData) skillData;
+                if (player.getWorld().getBlockAt(player.getLocation()).getLightLevel() > 10) {
+                    if (lightData.areConditionsTrue(player)) {
+                        lightData.getPotionEffect().ifPresent(player::addPotionEffect);
                     }
+                } else {
+                    lightData.getPotionEffect().map(PotionEffect::getType).ifPresent(player::removePotionEffect);
                 }
             }
-        }.runTaskTimer(heroHandler.getPlugin(), 0L, 20L);
+        }, () -> {}, 1L, 20L);
     }
 
 

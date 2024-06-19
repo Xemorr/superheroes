@@ -123,22 +123,15 @@ public class DecoySkill extends SkillImplementation {
 
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent e) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                removeDecoys(e.getChunk());
-            }
-        }.runTaskLater(Superheroes.getInstance(), 50L);
+        Superheroes.getScheduling().regionSpecificScheduler(e.getWorld(), e.getChunk().getX(), e.getChunk().getZ())
+                .runDelayed(() -> removeDecoys(e.getChunk()), 50L);
     }
 
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                removeDecoys(e.getChunk());
-            }
-        }.runTaskLater(Superheroes.getInstance(), 50L);
+        Superheroes.getScheduling().regionSpecificScheduler(e.getWorld(), e.getChunk().getX(), e.getChunk().getZ())
+                .runDelayed(() -> removeDecoys(e.getChunk()), 50L
+        );
     }
 
     public void removeDecoys(Chunk chunk) {

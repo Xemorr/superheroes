@@ -29,8 +29,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HeroHandler {
-    private final HashMap<UUID, SuperheroPlayer> uuidToData = new HashMap<>();
-    private final ConcurrentHashMap<UUID, CompletableFuture<SuperheroPlayer>> isProcessing = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, SuperheroPlayer> uuidToData = new ConcurrentHashMap<>();
     private final Superheroes superheroes;
     private final ConfigHandler configHandler;
     private Superhero noPower;
@@ -157,23 +156,23 @@ public class HeroHandler {
                     setHero(p, superhero);
                 }
                 chestInterface.getInteractions().getData()[0] = true;
+                player.closeInventory();
             });
             if (this.configHandler.canCloseGUI()) continue;
-            chestInterface.getInteractions().addCloseInteraction(p -> new BukkitRunnable() {
-
-                public void run() {
-                    if (!((boolean[]) chestInterface.getInteractions().getData())[0]) {
-                        openHeroGUI(player);
-                    }
-                }
-            }.runTaskLater(superheroes, 1L));
+            chestInterface.getInteractions().addCloseInteraction(p -> Superheroes.getScheduling().entitySpecificScheduler(player)
+                    .runDelayed(() -> {
+                        if (!((boolean[]) chestInterface.getInteractions().getData())[0]) {
+                            openHeroGUI(player);
+                        }
+                    }, () -> {}, 1L)
+            );
         }
         player.openInventory(chestInterface.getInventory());
     }
 
     public void loadSuperheroPlayer(@NotNull Player player) {
         CompletableFuture<SuperheroPlayer> future = heroIOHandler.loadSuperHeroPlayerAsync(player.getUniqueId());
-        future.thenAccept(superheroPlayer -> Bukkit.getScheduler().runTask(superheroes, () -> {
+        future.thenAccept(superheroPlayer -> Superheroes.getScheduling().entitySpecificScheduler(player).run(() -> {
             Superhero superhero;
             if (superheroPlayer != null) {
                 uuidToData.put(player.getUniqueId(), superheroPlayer);
@@ -189,7 +188,7 @@ public class HeroHandler {
             }
             SuperheroPlayerJoinEvent playerJoinEvent = new SuperheroPlayerJoinEvent(superhero, player);
             Bukkit.getPluginManager().callEvent(playerJoinEvent);
-        }));
+        }, () -> {}));
     }
 
     public void unloadSuperheroPlayer(@NotNull Player player) {

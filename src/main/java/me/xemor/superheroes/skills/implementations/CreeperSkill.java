@@ -44,26 +44,23 @@ public class CreeperSkill extends SkillImplementation {
                             return;
                         }
                         world.playSound(player.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 1.0F, 1.0F);
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                if (!player.isSneaking()) {
-                                    cancel(); return;
-                                }
-                                if (heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CREEPER")).isEmpty()) {
-                                    cancel(); return;
-                                }
-                                if (!isOnGround(player)) {
-                                    cancel(); return;
-                                }
-                                if (timer[0] >= creeperData.getFuse()) {
-                                    explosion(creeperData, player, world);
-                                    cancel();
-                                } else {
-                                    timer[0]++;
-                                }
+                        Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate((task) -> {
+                            if (!player.isSneaking()) {
+                                task.cancel(); return;
                             }
-                        }.runTaskTimer(JavaPlugin.getPlugin(Superheroes.class), 0L, 1L);
+                            if (heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CREEPER")).isEmpty()) {
+                                task.cancel(); return;
+                            }
+                            if (!isOnGround(player)) {
+                                task.cancel(); return;
+                            }
+                            if (timer[0] >= creeperData.getFuse()) {
+                                explosion(creeperData, player, world);
+                                task.cancel();
+                            } else {
+                                timer[0]++;
+                            }
+                        }, () -> {}, 1L, 1L);
                     }
                 }
             }

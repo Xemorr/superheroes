@@ -16,10 +16,10 @@ Enderman:
       cooldownMessage: <bold><dark_purple>Teleport </dark_purple></bold><gray>has
         <currentcooldown> seconds until it can be used again!
       particle:
-        isHelix: true
-        radius: 1
+        type: PORTAL
+        shape:
+          type: HELIX
         duration: 2.5
-        particleType: PORTAL
     ohko:
       skill: OHKO
       entityTypes:

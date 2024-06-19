@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.ClimbData;
@@ -30,9 +31,9 @@ public class ClimbSkill extends SkillImplementation {
 
     public ClimbSkill(HeroHandler heroHandler) {
         super(heroHandler);
-        Bukkit.getScheduler().runTaskTimer(heroHandler.getPlugin(), () -> {
+        Superheroes.getScheduling().globalRegionalScheduler().runAtFixedRate(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                performClimbSkill(player);
+                Superheroes.getScheduling().entitySpecificScheduler(player).run(() -> performClimbSkill(player), () -> {});
             }
         }, 10L, 1L);
     }

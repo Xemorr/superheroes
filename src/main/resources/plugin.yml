@@ -4,6 +4,7 @@ main: me.xemor.superheroes.Superheroes
 api-version: 1.16
 authors: [Xemor_]
 softdepend: [SkillsLibrary2, WorldGuard]
+folia-supported: true
 description: Adds superheroes to your world - these can be customized completely and are extremely modular.
 commands:
   hero:

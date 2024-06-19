@@ -52,19 +52,16 @@ public class AttributeSkill extends SkillImplementation {
             }
         }
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(player);
-                    Collection<SkillData> oldSkillData = superhero.getSkillData(Skill.getSkill("ATTRIBUTE"));
-                    for (SkillData data : oldSkillData) {
-                        if (data instanceof AttributeSkillData attributeSkillData) {
-                            attributeSkillData.getAttributeData().applyAttributes(player);
-                        }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Superheroes.getScheduling().entitySpecificScheduler(player).runDelayed((task) -> {
+                Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(player);
+                Collection<SkillData> oldSkillData = superhero.getSkillData(Skill.getSkill("ATTRIBUTE"));
+                for (SkillData data : oldSkillData) {
+                    if (data instanceof AttributeSkillData attributeSkillData) {
+                        attributeSkillData.getAttributeData().applyAttributes(player);
                     }
                 }
-            }
-        }.runTaskLater(Superheroes.getInstance(), 1L);
+            }, () -> {}, 1L);
+        }
     }
 }

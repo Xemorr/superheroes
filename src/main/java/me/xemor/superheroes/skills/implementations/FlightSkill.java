@@ -22,34 +22,26 @@ public class FlightSkill extends SkillImplementation {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer());
-                Collection<SkillData> newSkillData = superhero.getSkillData(Skill.getSkill("FLIGHT"));
-                for (SkillData data : newSkillData) {
-                    e.getPlayer().setAllowFlight(true);
-                    e.getPlayer().setFlying(true);
-                }
+        Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(() -> {
+            Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer());
+            Collection<SkillData> newSkillData = superhero.getSkillData(Skill.getSkill("FLIGHT"));
+            for (SkillData data : newSkillData) {
+                e.getPlayer().setAllowFlight(true);
+                e.getPlayer().setFlying(true);
             }
-        }.runTaskLater(Superheroes.getInstance(), 10L);
-
+        }, () -> {}, 10L);
     }
 
     @EventHandler
     public void onRespawn(PlayerPostRespawnFoliaEvent e) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer());
-                Collection<SkillData> newSkillData = superhero.getSkillData(Skill.getSkill("FLIGHT"));
-                for (SkillData data : newSkillData) {
-                    e.getPlayer().setAllowFlight(true);
-                    e.getPlayer().setFlying(true);
-                }
+        Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(() -> {
+            Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer());
+            Collection<SkillData> newSkillData = superhero.getSkillData(Skill.getSkill("FLIGHT"));
+            for (SkillData data : newSkillData) {
+                e.getPlayer().setAllowFlight(true);
+                e.getPlayer().setFlying(true);
             }
-        }.runTaskLater(Superheroes.getInstance(), 1L);
+        }, () -> {}, 1L);
     }
 
     @EventHandler
