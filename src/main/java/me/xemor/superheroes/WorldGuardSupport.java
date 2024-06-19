@@ -58,12 +58,9 @@ public class WorldGuardSupport implements Listener {
             if (handler != null) {
                 if (getFlag(e.getPlayer(), allowHeroes) == StateFlag.State.DENY) {
                     handler.previousHero = e.getNewHero();
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            Superheroes.getInstance().getHeroHandler().setHeroInMemory(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getNoPower(), false, PlayerChangedSuperheroEvent.Cause.WORLDGUARD);
-                        }
-                    }.runTask(Superheroes.getInstance());
+                    Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).run(() -> {
+                        Superheroes.getInstance().getHeroHandler().setHeroInMemory(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getNoPower(), false, PlayerChangedSuperheroEvent.Cause.WORLDGUARD);
+                    }, () -> {});
                 }
             }
         }

@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -33,16 +34,13 @@ public class SlimeSkill extends SkillImplementation {
                     if (isOnGround(world, e.getTo()) && !isOnGround(world, e.getFrom())) {
                         if (slimeData.areConditionsTrue(player)) {
                             Vector velocity = e.getPlayer().getVelocity();
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
+                            Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(() -> {
                                     if (velocity.getY() < -0.26 && !e.getPlayer().isSneaking()) {
                                         velocity.setY(velocity.getY() * -1);
                                         velocity.add(e.getPlayer().getEyeLocation().clone().getDirection().setY(0).multiply(slimeData.getSpeedMultiplier()));
                                         e.getPlayer().setVelocity(velocity);
                                     }
-                                }
-                            }.runTaskLater(heroHandler.getPlugin(), 2L);
+                                    }, () -> {}, 2L);
                         }
                     }
                 }

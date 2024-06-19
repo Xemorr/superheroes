@@ -31,7 +31,7 @@ public class ImportCommand implements SubCommand {
             audience.sendMessage(importing);
             HeroHandler heroHandler = Superheroes.getInstance().getHeroHandler();
             heroHandler.getHeroIOHandler().importFiles()
-                    .thenAccept((ignored) -> Bukkit.getScheduler().runTask(heroHandler.getPlugin(), () -> configHandler.reloadConfig(heroHandler)));
+                    .thenAccept((ignored) -> Superheroes.getScheduling().asyncScheduler().run(() -> configHandler.reloadConfig(heroHandler)));
             audience.sendMessage(done);
         }
         else {

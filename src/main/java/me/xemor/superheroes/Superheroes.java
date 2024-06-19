@@ -1,5 +1,6 @@
 package me.xemor.superheroes;
 
+import me.creeves.particleslibrary.ParticlesLibrary;
 import me.xemor.skillslibrary2.conditions.Conditions;
 import me.xemor.superheroes.commands.HeroCommand;
 import me.xemor.superheroes.conditions.SuperheroCondition;
@@ -69,6 +70,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     public void onEnable() {
         SentryInitializer.initSentry("https://a5dfe8c79f9c3dad331ebdcb8923066a@o4505846670753792.ingest.sentry.io/4505846683992064", this);
         superheroes = this;
+        ParticlesLibrary.registerParticlesLibrary(this);
         foliaHacks = new FoliaHacks(this);
         this.saveDefaultConfig();
         this.configHandler = new ConfigHandler(this);
@@ -146,9 +148,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
 
     public void checkForNewUpdate() {
         UpdateChecker.init(this, 79766);
-        new BukkitRunnable() {
-
-            public void run() {
+        getScheduling().globalRegionalScheduler().runAtFixedRate(() -> {
                 if (UpdateChecker.isInitialized()) {
                     UpdateChecker updateChecker = UpdateChecker.get();
                     updateChecker.requestUpdateCheck().thenAccept(result -> {
@@ -167,8 +167,8 @@ public final class Superheroes extends JavaPlugin implements Listener {
                         }
                     });
                 }
-            }
-        }.runTaskTimer(this, 6000L, 432000L);
+            }, 6000L, 432000L
+        );
     }
 
     public void onDisable() {
@@ -234,9 +234,8 @@ public final class Superheroes extends JavaPlugin implements Listener {
 
     private void handleAliases(final HeroCommand heroCommand, PluginCommand command) {
         List<String> commandAliases = this.configHandler.getCommandAliases();
-        if (commandAliases.size() > 0) {
+        if (!commandAliases.isEmpty()) {
             BukkitCommand aliasCommand = new BukkitCommand(commandAliases.get(0)) {
-
                 public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
                     return heroCommand.onCommand(sender, this, commandLabel, args);
                 }
@@ -248,14 +247,8 @@ public final class Superheroes extends JavaPlugin implements Listener {
             };
             aliasCommand.setDescription(command.getDescription());
             aliasCommand.setAliases(commandAliases.subList(1, commandAliases.size()));
-            try {
-                Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                commandMapField.setAccessible(true);
-                CommandMap commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
-                commandMap.register("superheroes", aliasCommand);
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+            CommandMap commandMap = Superheroes.foliaHacks.getMorePaperLib().commandRegistration().getServerCommandMap();
+            commandMap.register("superheroes", aliasCommand);
         }
     }
 }

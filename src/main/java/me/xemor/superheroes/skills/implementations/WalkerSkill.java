@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -74,15 +75,12 @@ public class WalkerSkill extends SkillImplementation {
     }
 
     public void revertRunnable(WalkerData walkerData, Block block, Material newMaterial, Material originalMaterial) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                block.removeMetadata("blockDrops", heroHandler.getPlugin());
-                if (newMaterial == block.getType()) {
-                    block.setType(originalMaterial);
-                }
+        Superheroes.getScheduling().regionSpecificScheduler(block.getLocation()).runDelayed(() -> {
+            block.removeMetadata("blockDrops", heroHandler.getPlugin());
+            if (newMaterial == block.getType()) {
+                block.setType(originalMaterial);
             }
-        }.runTaskLater(heroHandler.getPlugin(), walkerData.getRevertsAfter());
+        }, walkerData.getRevertsAfter());
     }
 
     @EventHandler

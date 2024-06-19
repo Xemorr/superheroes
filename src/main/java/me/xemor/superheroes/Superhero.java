@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Superhero {
 
@@ -15,6 +16,7 @@ public class Superhero {
     protected final String description;
     private String base64Skin;
     private String signature;
+    private boolean isLocked; // Indicate whether hero has entered read-only mode - don't add skills once created
 
     private ItemStack icon;
     protected final Multimap<Integer, SkillData> skillToData = HashMultimap.create();
@@ -34,7 +36,12 @@ public class Superhero {
     }
 
     public void addSkill(SkillData skill) {
-        skillToData.put(skill.getSkill(), skill);
+        if (!isLocked) {
+            skillToData.put(skill.getSkill(), skill);
+        }
+        else {
+            throw new IllegalStateException("This Superhero has entered read-only mode");
+        }
     }
 
     public void addSkills(SkillData... skills) {
@@ -44,14 +51,17 @@ public class Superhero {
     }
 
     public boolean hasSkill(int skill) {
+        isLocked = true;
         return skillToData.containsKey(skill);
     }
 
     public Collection<SkillData> getSkillData(int skill) {
+        isLocked = true;
         return skillToData.get(skill);
     }
 
     public Collection<Integer> getSkills() {
+        isLocked = true;
         return skillToData.keys();
     }
 

@@ -1,6 +1,8 @@
 package me.xemor.superheroes.skills.implementations;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
@@ -15,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import space.arim.morepaperlib.scheduling.ScheduledTask;
 
 import java.util.Collection;
 import java.util.Set;
@@ -22,7 +25,7 @@ import java.util.UUID;
 
 public class EggLayerSkill extends SkillImplementation {
 
-    public final HashMultimap<UUID, EggLayerRunnable> map = HashMultimap.create();
+    public final Multimap<UUID, EggLayerRunnable> map = Multimaps.synchronizedSetMultimap(HashMultimap.create());
 
     public EggLayerSkill(HeroHandler heroHandler) {
         super(heroHandler);
@@ -51,10 +54,10 @@ public class EggLayerSkill extends SkillImplementation {
     public void removeSkill(Player player, Superhero oldHero) {
         Collection<SkillData> skillDatas = oldHero.getSkillData(Skill.getSkill("EGGLAYER"));
         for (SkillData skillData : skillDatas) {
-            Set<EggLayerRunnable> eggLayerRunnables = map.get(player.getUniqueId());
+            Collection<EggLayerRunnable> eggLayerRunnables = map.get(player.getUniqueId());
             for (EggLayerRunnable eggLayerRunnable : eggLayerRunnables) {
                 if (skillData == eggLayerRunnable.eggLayerData()) {
-                    eggLayerRunnable.bukkitRunnable().cancel();
+                    eggLayerRunnable.task().cancel();
                 }
             }
         }
@@ -69,32 +72,26 @@ public class EggLayerSkill extends SkillImplementation {
     }
 
     public void startRunnable(Player player, EggLayerData eggLayerData, Superhero superhero) {
-        BukkitRunnable runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                Superhero currentPower = heroHandler.getSuperhero(player);
-                if (!player.isOnline()) {
-                    cancel();
-                    return;
-                }
-                if (!superhero.equals(currentPower)) {
-                    cancel();
-                    return;
-                }
-                if (!superhero.getSkillData(Skill.getSkill("EGGLAYER")).contains(eggLayerData)) {
-                    cancel();
-                    return;
-                }
-                if (eggLayerData.areConditionsTrue(player)) {
-                    World world = player.getWorld();
-                    Location location = player.getLocation();
-                    world.dropItemNaturally(location, eggLayerData.getToLay());
-                }
+        ScheduledTask[] taskSingleton = new ScheduledTask[1];
+        ScheduledTask task = Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate(() -> {
+            Superhero currentPower = heroHandler.getSuperhero(player);
+            if (!superhero.equals(currentPower)) {
+                taskSingleton[0].cancel();
+                return;
             }
-        };
-        runnable.runTaskTimer(heroHandler.getPlugin(), eggLayerData.getTickDelay(), eggLayerData.getTickDelay());
-        map.put(player.getUniqueId(), new EggLayerRunnable(eggLayerData, runnable));
+            if (!superhero.getSkillData(Skill.getSkill("EGGLAYER")).contains(eggLayerData)) {
+                taskSingleton[0].cancel();
+                return;
+            }
+            if (eggLayerData.areConditionsTrue(player)) {
+                World world = player.getWorld();
+                Location location = player.getLocation();
+                world.dropItemNaturally(location, eggLayerData.getToLay());
+            }
+        }, () -> {}, eggLayerData.getTickDelay(), eggLayerData.getTickDelay());
+        taskSingleton[0] = task;
+        map.put(player.getUniqueId(), new EggLayerRunnable(eggLayerData, task));
     }
 
-    public record EggLayerRunnable(EggLayerData eggLayerData, BukkitRunnable bukkitRunnable) {}
+    public record EggLayerRunnable(EggLayerData eggLayerData, ScheduledTask task) {}
 }

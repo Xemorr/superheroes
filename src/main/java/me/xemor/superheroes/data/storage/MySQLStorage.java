@@ -94,7 +94,7 @@ public class MySQLStorage implements Storage {
     @Override
     public CompletableFuture<Void> importSuperheroPlayers(List<SuperheroPlayer> superheroPlayers) {
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
-        Bukkit.getScheduler().runTaskAsynchronously(Superheroes.getInstance(), () -> {
+        Superheroes.getScheduling().asyncScheduler().run(() -> {
             for (SuperheroPlayer superheroPlayer : superheroPlayers) {
                 saveSuperheroPlayer(superheroPlayer);
             }

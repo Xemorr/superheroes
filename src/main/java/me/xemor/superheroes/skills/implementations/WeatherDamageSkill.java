@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -14,11 +15,11 @@ public class WeatherDamageSkill extends SkillImplementation {
 
     public WeatherDamageSkill(HeroHandler heroHandler) {
         super(heroHandler);
-        Bukkit.getScheduler().runTaskTimer(heroHandler.getPlugin(), () -> {
+        Superheroes.getScheduling().globalRegionalScheduler().runAtFixedRate(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                applyDamage(player);
+                Superheroes.getScheduling().entitySpecificScheduler(player).run(() -> applyDamage(player), () -> {});
             }
-        }, 0, 20);
+        }, 1L, 20L);
     }
 
     public void applyDamage(Player player) {

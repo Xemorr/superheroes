@@ -1,10 +1,12 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import me.creeves.particleslibrary.ParticleData;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
-import me.xemor.superheroes.skills.skilldata.configdata.ParticleData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.jetbrains.annotations.Nullable;
 
 public class TeleportData extends CooldownData {
 
@@ -12,7 +14,8 @@ public class TeleportData extends CooldownData {
     private final int distance;
     private final double yAxisMultiplier;
     private final PlayerTeleportEvent.TeleportCause teleportCause;
-    private final ParticleData particleData;
+    @Nullable
+    private ParticleData particleData;
     private final Material teleportItem;
 
     public TeleportData(int skill, ConfigurationSection configurationSection) {
@@ -25,7 +28,12 @@ public class TeleportData extends CooldownData {
         if (particleSection == null) {
             particleSection = configurationSection;
         }
-        particleData = new ParticleData(particleSection);
+        if (particleSection.contains("particleType")) {
+            Superheroes.getInstance().getLogger().warning("This particle section is outdated! It needs upgrading to the new style of specifying particles! " + particleSection.getCurrentPath());
+        }
+        else {
+            particleData = new ParticleData(particleSection);
+        }
         teleportItem = Material.valueOf(configurationSection.getString("teleportItem", "AIR"));
     }
 
@@ -45,7 +53,7 @@ public class TeleportData extends CooldownData {
         return teleportCause;
     }
 
-    public ParticleData getParticleData() {
+    public @Nullable ParticleData getParticleData() {
         return particleData;
     }
 

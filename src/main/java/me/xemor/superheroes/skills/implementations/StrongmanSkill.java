@@ -51,7 +51,7 @@ public class StrongmanSkill extends SkillImplementation {
     }
 
     public Entity getTopEntity(Entity entity) {
-        if (entity.getPassengers().size() > 0) {
+        if (!entity.getPassengers().isEmpty()) {
             return getTopEntity(entity.getPassengers().get(0));
         }
         else {
@@ -61,7 +61,7 @@ public class StrongmanSkill extends SkillImplementation {
 
     public int countPassengers(Entity entity) {
         int x = 0;
-        if (entity.getPassengers().size() > 0) {
+        if (!entity.getPassengers().isEmpty()) {
             return countPassengers(entity.getPassengers().get(0), ++x);
         }
         else {
@@ -70,7 +70,7 @@ public class StrongmanSkill extends SkillImplementation {
     }
 
     public int countPassengers(Entity entity, int x) {
-        if (entity.getPassengers().size() > 0) {
+        if (!entity.getPassengers().isEmpty()) {
             return countPassengers(entity.getPassengers().get(0), ++x);
         }
         else {
@@ -86,23 +86,19 @@ public class StrongmanSkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
             if (e.isSneaking()) {
-                while (player.getPassengers().size() > 0) {
+                while (!player.getPassengers().isEmpty()) {
                     Entity topEntity = getTopEntity(player);
                     Vector velocity = player.getEyeLocation().getDirection().normalize();
                     velocity.setX(velocity.getX() * strongmanData.getVelocity());
                     velocity.setZ(velocity.getZ() * strongmanData.getVelocity());
                     velocity.setY(velocity.getY() * strongmanData.getUpwardsVelocity());
                     topEntity.getVehicle().removePassenger(topEntity);
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            topEntity.setVelocity(velocity);
-                        }
-                    }.runTaskLater(heroHandler.getPlugin(), 1L);
+                    Superheroes.getScheduling().entitySpecificScheduler(topEntity).runDelayed(
+                            () -> topEntity.setVelocity(velocity), () -> {}, 1L
+                    );
                 }
             }
         }
-        Component.text().color(NamedTextColor.WHITE).append();
     }
 
     @EventHandler
@@ -119,12 +115,9 @@ public class StrongmanSkill extends SkillImplementation {
                 velocity.setZ(velocity.getZ() * strongmanData.getVelocity());
                 velocity.setY(velocity.getY() * strongmanData.getUpwardsVelocity());
                 topEntity.getVehicle().removePassenger(topEntity);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        topEntity.setVelocity(velocity);
-                    }
-                }.runTaskLater(heroHandler.getPlugin(), 1L);
+                Superheroes.getScheduling().entitySpecificScheduler(topEntity).runDelayed(
+                        () -> topEntity.setVelocity(velocity), () -> {}, 1L
+                );
             }
         }
     }

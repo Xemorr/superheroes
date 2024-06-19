@@ -24,11 +24,11 @@ public class PotionEffectSkill extends SkillImplementation {
 
     public PotionEffectSkill(HeroHandler heroHandler) {
         super(heroHandler);
-        Bukkit.getScheduler().runTaskTimer(heroHandler.getPlugin(), () -> {
-           for (Player player : Bukkit.getOnlinePlayers()) {
-                givePotionEffects(player, heroHandler.getSuperhero(player));
-           }
-        }, 1, 10);
+        Superheroes.getScheduling().globalRegionalScheduler().runAtFixedRate(() -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Superheroes.getScheduling().entitySpecificScheduler(player).run(() -> givePotionEffects(player, heroHandler.getSuperhero(player)), () -> {});
+            }
+        }, 1L, 20L);
     }
 
     @EventHandler
@@ -58,12 +58,9 @@ public class PotionEffectSkill extends SkillImplementation {
 
     @EventHandler
     public void onRespawn(PlayerPostRespawnFoliaEvent e) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                givePotionEffects(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
-            }
-        }.runTaskLater(heroHandler.getPlugin(), 5L);
+        Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(() -> {
+            givePotionEffects(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
+        }, () -> {}, 5L);
     }
 
     @EventHandler
@@ -81,12 +78,9 @@ public class PotionEffectSkill extends SkillImplementation {
     @EventHandler
     public void onMilkDrink(PlayerItemConsumeEvent e) {
         if (e.getItem().getType() == Material.MILK_BUCKET) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    givePotionEffects(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
-                }
-            }.runTaskLater(heroHandler.getPlugin(), 3L);
+            Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(() -> {
+                givePotionEffects(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
+            }, () -> {}, 3L);
         }
     }
 }

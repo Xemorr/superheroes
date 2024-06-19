@@ -35,37 +35,33 @@ public class AuraSkill extends SkillImplementation {
     }
 
     public void runnable(Player player, Superhero oldHero) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (player == null) {
-                    cancel();
-                    return;
-                }
-                if (!player.isOnline()) {
-                    cancel();
-                    return;
-                }
-                Collection<SkillData> skillDatas = oldHero.getSkillData(Skill.getSkill("AURA"));
-                if (skillDatas.isEmpty()) {
-                    cancel();
-                    return;
-                }
-                for (SkillData skillData : skillDatas) {
-                    AuraData auraData = (AuraData) skillData;
-                    World world = player.getWorld();
-                    Location location = player.getLocation();
-                    double diameter = auraData.getDiameter();
-                    Collection<Entity> nearbyLivingEntities = world.getNearbyEntities(location, diameter, diameter, diameter, (entity) -> !player.equals(entity) && entity instanceof LivingEntity);
-                    for (Entity entity : nearbyLivingEntities) {
-                        if (skillData.areConditionsTrue(player, entity)) {
-                            LivingEntity livingEntity = (LivingEntity) entity;
-                            auraData.getPotionEffect().ifPresent(livingEntity::addPotionEffect);
-                        }
+        Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate((task) -> {
+            if (player == null) {
+                task.cancel();
+                return;
+            }
+            if (!player.isOnline()) {
+                task.cancel();
+                return;
+            }
+            Collection<SkillData> skillDatas = oldHero.getSkillData(Skill.getSkill("AURA"));
+            if (skillDatas.isEmpty()) {
+                task.cancel();
+                return;
+            }
+            for (SkillData skillData : skillDatas) {
+                AuraData auraData = (AuraData) skillData;
+                World world = player.getWorld();
+                Location location = player.getLocation();
+                double diameter = auraData.getDiameter();
+                Collection<Entity> nearbyLivingEntities = world.getNearbyEntities(location, diameter, diameter, diameter, (entity) -> !player.equals(entity) && entity instanceof LivingEntity);
+                for (Entity entity : nearbyLivingEntities) {
+                    if (skillData.areConditionsTrue(player, entity)) {
+                        LivingEntity livingEntity = (LivingEntity) entity;
+                        auraData.getPotionEffect().ifPresent(livingEntity::addPotionEffect);
                     }
                 }
             }
-        }.runTaskTimer(heroHandler.getPlugin(), 10L, 10L);
-
+        }, () -> {}, 10L, 10L);
     }
 }

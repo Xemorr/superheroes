@@ -1,8 +1,9 @@
 package me.xemor.superheroes.skills.implementations;
 
-import me.xemor.superheroes.ParticleHandler;
+import io.papermc.lib.PaperLib;
 import me.xemor.superheroes.SkillCooldownHandler;
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -18,6 +19,7 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TeleportSkill extends SkillImplementation {
 
@@ -62,10 +64,17 @@ public class TeleportSkill extends SkillImplementation {
         Location eyeLocation = player.getEyeLocation();
         location.setYaw(eyeLocation.getYaw());
         location.setPitch(eyeLocation.getPitch());
-        player.teleport(location, teleportData.getTeleportCause());
-        ParticleHandler particleHandler = new ParticleHandler(player);
-        particleHandler.setupFromParticleData(teleportData.getParticleData());
-        particleHandler.runTaskTimer(heroHandler.getPlugin(), 0L, 5L);
+        PaperLib.teleportAsync(player, location, teleportData.getTeleportCause());
+        AtomicInteger count = new AtomicInteger(0);
+        if (teleportData.getParticleData() != null) {
+            Superheroes.getScheduling().regionSpecificScheduler(location).runAtFixedRate((task) -> {
+                teleportData.getParticleData().spawnParticle(location);
+                count.addAndGet(1);
+                if (count.get() == 5) {
+                    task.cancel();
+                }
+            }, 1L, 1L);
+        }
     }
 
 }

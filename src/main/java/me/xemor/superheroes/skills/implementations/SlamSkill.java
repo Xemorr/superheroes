@@ -2,6 +2,7 @@ package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.SkillCooldownHandler;
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -60,29 +61,26 @@ public class SlamSkill extends SkillImplementation {
 
     public void doDoomfistJump(Player player, Superhero superhero, SlamData slamData) {
         player.setVelocity(player.getEyeLocation().getDirection().multiply(1.8).add(new Vector(0, 0.5, 0)));
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Block under = player.getWorld().getBlockAt(player.getLocation().subtract(0, 1, 0));
-                if (!heroHandler.getSuperhero(player).equals(superhero)) {
-                    cancel();
-                    return;
-                }
-                if (!under.getType().isAir()) {
-                    World world = player.getWorld();
-                    Collection<Entity> entities = world.getNearbyEntities(player.getLocation(), slamData.getDiameterRadius(), 3, slamData.getDiameterRadius(), entity -> entity instanceof LivingEntity);
-                    for (Entity entity : entities) {
-                        if (!player.equals(entity)) {
-                            LivingEntity livingEntity = (LivingEntity) entity;
-                            if (slamData.getDamage() > 0) {
-                                livingEntity.damage(slamData.getDamage(), player);
-                            }
+        Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate((task) -> {
+            Block under = player.getWorld().getBlockAt(player.getLocation().subtract(0, 1, 0));
+            if (!heroHandler.getSuperhero(player).equals(superhero)) {
+                task.cancel();
+                return;
+            }
+            if (!under.getType().isAir()) {
+                World world = player.getWorld();
+                Collection<Entity> entities = world.getNearbyEntities(player.getLocation(), slamData.getDiameterRadius(), 3, slamData.getDiameterRadius(), entity -> entity instanceof LivingEntity);
+                for (Entity entity : entities) {
+                    if (!player.equals(entity)) {
+                        LivingEntity livingEntity = (LivingEntity) entity;
+                        if (slamData.getDamage() > 0) {
+                            livingEntity.damage(slamData.getDamage(), player);
                         }
                     }
-                    skillCooldownHandler.startCooldown(slamData, player.getUniqueId());
-                    cancel();
                 }
+                skillCooldownHandler.startCooldown(slamData, player.getUniqueId());
+                task.cancel();
             }
-        }.runTaskTimer(heroHandler.getPlugin(), 6L, 2L);
+        }, () -> {}, 6L, 2L);
     }
 }

@@ -1,6 +1,8 @@
 package me.xemor.superheroes.skills.implementations;
 
+import io.papermc.lib.PaperLib;
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -35,37 +37,38 @@ public class PhaseSkill extends SkillImplementation {
             Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("PHASE"));
             for (SkillData skillData : skillDatas) {
                 player.setVelocity(new Vector(0, -0.1, 0));
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (!heroHandler.getSuperhero(player).equals(superhero)) {
-                            cancel();
-                            player.setGameMode(GameMode.SURVIVAL);
-                            return;
-                        }
-                        if (player.isSneaking() && player.getLocation().getY() > player.getWorld().getMinHeight() + 5 && skillData.areConditionsTrue(player)) {
-                            player.setGameMode(GameMode.SPECTATOR);
-                            player.setGravity(true);
-                            player.setAllowFlight(false);
-                            player.setFlying(false);
-                            try {
-                                player.setVelocity(player.getVelocity().normalize());
-                            }
-                            catch(IllegalArgumentException ignored) {} // vector of 0 length
-                        }
-                        else {
-                            if (!player.getAllowFlight()) {
+                Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate(
+                        (task) -> {
+                            if (!heroHandler.getSuperhero(player).equals(superhero)) {
+                                task.cancel();
                                 player.setGameMode(GameMode.SURVIVAL);
-                                player.removePotionEffect(PotionEffectType.BLINDNESS);
-                                player.setVelocity(new Vector(0, 1.33, 0));
-                                player.teleport(player.getEyeLocation().add(0, 0.35, 0));
-                                if (player.getWorld().getBlockAt(player.getLocation()).isPassable()) {
-                                    cancel();
+                                return;
+                            }
+                            if (player.isSneaking() && player.getLocation().getY() > player.getWorld().getMinHeight() + 5 && skillData.areConditionsTrue(player)) {
+                                player.setGameMode(GameMode.SPECTATOR);
+                                player.setGravity(true);
+                                player.setAllowFlight(false);
+                                player.setFlying(false);
+                                try {
+                                    player.setVelocity(player.getVelocity().normalize());
+                                }
+                                catch(IllegalArgumentException ignored) {} // vector of 0 length
+                            }
+                            else {
+                                if (!player.getAllowFlight()) {
+                                    player.setGameMode(GameMode.SURVIVAL);
+                                    player.removePotionEffect(PotionEffectType.BLINDNESS);
+                                    player.setVelocity(new Vector(0, 1.33, 0));
+                                    PaperLib.teleportAsync(player, player.getEyeLocation().add(0, 0.35, 0));
+                                    if (player.getWorld().getBlockAt(player.getLocation()).isPassable()) {
+                                        task.cancel();
+                                    }
                                 }
                             }
-                        }
-                    }
-                }.runTaskTimer(heroHandler.getPlugin(), 0L, 3L);
+                        },
+                        () -> {},
+                        1L, 3L
+                );
             }
         }
     }

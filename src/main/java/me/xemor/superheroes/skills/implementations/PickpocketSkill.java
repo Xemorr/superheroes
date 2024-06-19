@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.Superhero;
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.PickpocketData;
@@ -37,29 +38,26 @@ public class PickpocketSkill extends SkillImplementation {
                     otherPlayer.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1F, 0.5F);
                     Inventory inventory =  otherPlayer.getInventory();
                     InventoryView inventoryView = player.openInventory(inventory);
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            if (inventoryView == null) {
-                                cancel();
-                                return;
-                            }
-                            if (!superhero.equals(heroHandler.getSuperhero(player))) {
-                                inventoryView.close();
-                                cancel();
-                                return;
-                            }
-                            if (!otherPlayer.getWorld().equals(player.getWorld())) {
-                                inventoryView.close();
-                                cancel();
-                                return;
-                            }
-                            if (otherPlayer.getLocation().distanceSquared(player.getLocation()) > pickpocketData.getRangeSquared()) {
-                                inventoryView.close();
-                                cancel();
-                            }
+                    Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate((task) -> {
+                        if (inventoryView == null) {
+                            task.cancel();
+                            return;
                         }
-                    }.runTaskTimer(heroHandler.getPlugin(), 0L, 4L);
+                        if (!superhero.equals(heroHandler.getSuperhero(player))) {
+                            inventoryView.close();
+                            task.cancel();
+                            return;
+                        }
+                        if (!otherPlayer.getWorld().equals(player.getWorld())) {
+                            inventoryView.close();
+                            task.cancel();
+                            return;
+                        }
+                        if (otherPlayer.getLocation().distanceSquared(player.getLocation()) > pickpocketData.getRangeSquared()) {
+                            inventoryView.close();
+                            task.cancel();
+                        }
+                    }, () -> {}, 1L, 4L);
                 }
             }
         }
