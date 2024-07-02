@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "6.0.0-ALPHA"
+version = "6.0.1-ALPHA"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -64,6 +64,7 @@ tasks.shadowJar {
     relocate("org.bstats", "me.xemor.superheroes.org.bstats")
     relocate("dev.bassett", "me.xemor.superheroes.dev.bassett")
     relocate("io.sentry", "me.xemor.sentry")
+    relocate("space.arim.morepaperlib", "me.xemor.superheroes.morepaperlib")
     relocate("me.xemor.foliahacks", "me.xemor.superheroes.foliahacks")
     relocate("me.creeves.ParticlesLibrary", "me.xemor.superheroes.ParticlesLibrary")
     relocate("io.papermc.paperlib", "me.xemor.superheroes.paperlib")
