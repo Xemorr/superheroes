@@ -25,6 +25,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
     private final GUICommand guiCommand;
     private final CheckCommand checkCommand;
     private final RerollCommand rerollCommand;
+    private final RemoveAttributesCommand removeAttributesCommand;
 
     public HeroCommand(HeroHandler heroHandler) {
         this.rerollCommand = new RerollCommand();
@@ -35,12 +36,14 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
         this.exportCommand = new ExportCommand();
         this.guiCommand = new GUICommand();
         this.checkCommand = new CheckCommand();
+        this.removeAttributesCommand = new RemoveAttributesCommand();
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         if (!sender.hasPermission("superheroes.hero")) {
             audience.sendMessage(MiniMessage.miniMessage().deserialize(this.configHandler.getNoPermissionMessage()));
+            return true;
         }
         if (args.length >= 1) {
             SubCommands commandType;
@@ -57,6 +60,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
                 case EXPORT -> this.exportCommand.onCommand(sender, args);
                 case IMPORT -> this.importCommand.onCommand(sender, args);
                 case CHECK -> this.checkCommand.onCommand(sender, args);
+                case REMOVEATTRIBUTES -> this.removeAttributesCommand.onCommand(sender, args);
                 case GUI -> this.guiCommand.onCommand(sender, args);
             }
         }
@@ -88,6 +92,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
                     case IMPORT -> importCommand.tabComplete(sender, args);
                     case CHECK -> checkCommand.tabComplete(sender, args);
                     case GUI -> guiCommand.tabComplete(sender, args);
+                    case REMOVEATTRIBUTES -> removeAttributesCommand.tabComplete(sender, args);
                 };
             } catch(IllegalArgumentException ignored) {}
         }
