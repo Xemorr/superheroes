@@ -1,6 +1,7 @@
 package me.xemor.superheroes;
 
 import me.creeves.particleslibrary.ParticlesLibrary;
+import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.skillslibrary2.conditions.Conditions;
 import me.xemor.superheroes.commands.HeroCommand;
 import me.xemor.superheroes.conditions.SuperheroCondition;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import me.xemor.foliahacks.FoliaHacks;
 import space.arim.morepaperlib.scheduling.GracefulScheduling;
 
+import java.io.ObjectInputFilter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +71,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
         SentryInitializer.initSentry("https://a5dfe8c79f9c3dad331ebdcb8923066a@o4505846670753792.ingest.sentry.io/4505846683992064", this);
         superheroes = this;
         ParticlesLibrary.registerParticlesLibrary(this);
+        ConfigurationData.setup(this);
         foliaHacks = new FoliaHacks(this);
         this.saveDefaultConfig();
         this.configHandler = new ConfigHandler(this);
