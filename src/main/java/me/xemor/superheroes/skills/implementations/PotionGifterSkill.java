@@ -49,7 +49,7 @@ public class PotionGifterSkill extends SkillImplementation {
                             Component receiverMessage = MiniMessage.miniMessage().deserialize(gifterData.getReceiverMessage(),
                                     Placeholder.unparsed("gifter", player.getName()),
                                     Placeholder.unparsed("player", receiver.getName()));
-                            Superheroes.getBukkitAudiences().player(player).sendMessage(receiverMessage);
+                            Superheroes.getBukkitAudiences().player(receiver).sendMessage(receiverMessage);
                         }
                     }
                 }
