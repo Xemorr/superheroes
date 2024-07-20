@@ -1,8 +1,7 @@
-package space.planetangus.damagecontrol.skilldata;
+package me.xemor.superheroes.skills.skilldata;
 
 import me.xemor.superheroes.configurationdata.comparison.SetData;
 import me.xemor.superheroes.org.jetbrains.annotations.NotNull;
-import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent;

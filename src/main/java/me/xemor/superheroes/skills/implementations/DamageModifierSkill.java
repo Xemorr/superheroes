@@ -1,14 +1,13 @@
-package space.planetangus.damagecontrol.implementations;
+package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
-import me.xemor.superheroes.skills.implementations.SkillImplementation;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import space.planetangus.damagecontrol.skilldata.DamageModifierData;
+import me.xemor.superheroes.skills.skilldata.DamageModifierData;
 
 import java.util.Collection;
 
@@ -29,8 +28,7 @@ public class DamageModifierSkill extends SkillImplementation {
 
         double oldDamage = event.getDamage();
         // damager
-        if (event.getDamager() instanceof Player) {
-            Player damagerPlayer = (Player) event.getDamager();
+        if (event.getDamager() instanceof Player damagerPlayer) {
 
             Collection<SkillData> skillDataCollection =
                 heroHandler.getSuperhero(damagerPlayer).getSkillData(
@@ -50,8 +48,7 @@ public class DamageModifierSkill extends SkillImplementation {
             }
         }
         // damagee
-        if (event.getEntity() instanceof Player) {
-            Player damageePlayer = (Player) event.getEntity();
+        if (event.getEntity() instanceof Player damageePlayer) {
             Collection<SkillData> skillDataCollection =
                 heroHandler.getSuperhero(damageePlayer).getSkillData(
                     Skill.getSkill("DAMAGEMODIFIER"));
