@@ -8,49 +8,41 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class DamageModifierData extends SkillData {
 
-    private final SetData<EntityType> entitywhitelist;
+    private final SetData<EntityType> entities;
 
-    private final SetData<EntityType> entityblacklist;
+    private final SetData<EntityDamageEvent.DamageCause> causes;
 
-    private final SetData<EntityDamageEvent.DamageCause> causeblacklist;
+    private final boolean whitelist;
 
-    private final SetData<EntityDamageEvent.DamageCause> causewhitelist;
+    private final double expectedMaxDamage;
 
+    private final double maxDamage;
 
-    private final double expectedMaximumDamage;
-
-    private final double damageCap;
-
-    private final double damageMin;
+    private final double minDamage;
     private final int priority;
     private final boolean incoming;
     private final boolean outgoing;
     private final boolean eased;
 
-    public DamageModifierData(int skill,
-                              @NotNull ConfigurationSection configurationSection) {
+    public DamageModifierData(int skill, @NotNull ConfigurationSection configurationSection) {
         super(skill, configurationSection);
 
-        expectedMaximumDamage = configurationSection.getDouble("expectedMaxDamage", 30);
-        damageCap = configurationSection.getDouble("damageMax", 15);
-        damageMin = configurationSection.getDouble("damageMin", 0);
-        causeblacklist =
-            new SetData<>(EntityDamageEvent.DamageCause.class, "causeblacklist",
-                configurationSection);
-        causewhitelist =
-            new SetData<>(EntityDamageEvent.DamageCause.class, "causewhitelist",
-                configurationSection);
+        expectedMaxDamage = configurationSection.getDouble("expectedmaxdamage", 30);
+        maxDamage = configurationSection.getDouble("maxdamage", 15);
+        minDamage = configurationSection.getDouble("mindamage", 0);
+        causes= new SetData<>(EntityDamageEvent.DamageCause.class, "causes",
+            configurationSection);
+        entities = new SetData<>(EntityDamageEvent.DamageCause.class, "entities",
+            configurationSection);
 
-        entitywhitelist = new SetData<>(EntityType.class, "entityblacklist", configurationSection);
-        entityblacklist = new SetData<>(EntityType.class, "entitywhitelist", configurationSection);
+        whitelist = configurationSection.getBoolean("whitelist", false);
+
 
         incoming = configurationSection.getBoolean("incoming", false);
         outgoing = configurationSection.getBoolean("outgoing", false);
 
         eased = configurationSection.getBoolean("eased", false);
         priority = configurationSection.getInt("priority", 0);
-
-
     }
 
     public boolean isOutgoing() {
@@ -69,34 +61,27 @@ public class DamageModifierData extends SkillData {
         // blacklist nonempty and it is NOT in it
         // whitelist nonempty and it is IN it
         // both are empty
-        return (!causeblacklist.getSet().isEmpty() && !causeblacklist.inSet(damageCause)) ||
-            (!causewhitelist.getSet().isEmpty() && causewhitelist.inSet(damageCause)) ||
-            (causewhitelist.getSet().isEmpty() && causeblacklist.getSet()
-                .isEmpty());
+        return (whitelist && !causes.inSet(damageCause));
     }
 
     public final boolean isValidEntity(EntityType entityType) {
         // blacklist nonempty and it is NOT in it
         // whitelist nonempty and it is IN it
         // both are empty
-        return (!entityblacklist.getSet().isEmpty() && !entityblacklist.inSet(entityType)) ||
-            (!entitywhitelist.getSet().isEmpty() && entitywhitelist.inSet(entityType)) ||
-            (entitywhitelist.getSet().isEmpty() && entityblacklist.getSet()
-                .isEmpty());
+        return (whitelist && !entities.inSet(entityType));
     }
 
-    public final double calculateDamage(double damage) {
-        double x = damage;
+    public final double calculateDamage(double x) {
 
-        if (x < damageMin) {
-            x = damageMin;
+        if (x < minDamage) {
+            x = minDamage;
         }
 
         if (eased) {
-            return x > expectedMaximumDamage ? damageCap :
-                damageCap * (1 - (1 - x / expectedMaximumDamage) * (1 - x / expectedMaximumDamage));
+            return x > expectedMaxDamage ? maxDamage :
+                maxDamage * (1 - (1 - x / expectedMaxDamage) * (1 - x / expectedMaxDamage));
         } else {
-            return Math.min(Math.max(x, damageMin), damageCap);
+            return Math.min(Math.max(x, minDamage), maxDamage);
         }
     }
 }

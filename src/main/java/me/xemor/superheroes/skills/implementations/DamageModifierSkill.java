@@ -26,7 +26,6 @@ public class DamageModifierSkill extends SkillImplementation {
         double defence = event.getDamage();
         double defencePriority = Integer.MIN_VALUE;
 
-        double oldDamage = event.getDamage();
         // damager
         if (event.getDamager() instanceof Player damagerPlayer) {
 
@@ -43,7 +42,6 @@ public class DamageModifierSkill extends SkillImplementation {
                         offence = damageModifierData.calculateDamage(event.getDamage());
                         offencePrioity = damageModifierData.getPriority();
                     }
-
                 }
             }
         }
@@ -75,8 +73,7 @@ public class DamageModifierSkill extends SkillImplementation {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
+        if (event.getEntity() instanceof Player player) {
 
             Collection<SkillData> skillDataCollection =
                 heroHandler.getSuperhero(player).getSkillData(
@@ -90,11 +87,8 @@ public class DamageModifierSkill extends SkillImplementation {
                 if (damageModifierData.isValidCause(event.getCause())) {
                     double newDamage = damageModifierData.calculateDamage(event.getDamage());
                     event.setDamage(newDamage);
-
                 }
-
             }
-
         }
     }
 }
