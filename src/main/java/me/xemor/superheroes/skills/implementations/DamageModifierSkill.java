@@ -18,15 +18,12 @@ public class DamageModifierSkill extends SkillImplementation {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-
-
         double offence = event.getDamage();
         double offencePrioity = Integer.MIN_VALUE;
 
         double defence = event.getDamage();
         double defencePriority = Integer.MIN_VALUE;
 
-        // damager
         if (event.getDamager() instanceof Player damagerPlayer) {
 
             Collection<SkillData> skillDataCollection =
@@ -45,7 +42,7 @@ public class DamageModifierSkill extends SkillImplementation {
                 }
             }
         }
-        // damagee
+
         if (event.getEntity() instanceof Player damageePlayer) {
             Collection<SkillData> skillDataCollection =
                 heroHandler.getSuperhero(damageePlayer).getSkillData(

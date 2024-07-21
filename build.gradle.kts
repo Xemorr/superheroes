@@ -18,6 +18,7 @@ repositories {
     maven { url = uri("https://repo.minebench.de/") }
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
     maven { url = uri("https://maven.enginehub.org/repo/")}
+    maven { url = uri("https://repo.xemor.zip/releases")}
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots"
     }
@@ -25,9 +26,9 @@ repositories {
 }
 
 dependencies {
-    shadow("me.xemor:configurationdata:3.2.2-SNAPSHOT")
+    shadow("me.xemor:configurationdata:3.4.2-SNAPSHOT")
     shadow("org.bstats:bstats-bukkit:1.7")
-    shadow("me.xemor:UserInterface:2.0.2-SNAPSHOT")
+    shadow("me.xemor:userinterfaces:2.0.2-SNAPSHOT")
     shadow("dev.dbassett:skullcreator:3.0.1")
     shadow("org.jetbrains:annotations:20.1.0")
     shadow("net.kyori:adventure-platform-bukkit:4.3.3-SNAPSHOT")
@@ -35,7 +36,7 @@ dependencies {
     shadow("com.zaxxer:HikariCP:4.0.3")
     shadow("org.apache.commons:commons-lang3:3.12.0")
     shadow("io.sentry:sentry:6.29.0")
-    compileOnly("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary:2.19.1")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
 }

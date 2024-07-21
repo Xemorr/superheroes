@@ -1,10 +1,10 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.superheroes.configurationdata.comparison.SetData;
-import me.xemor.superheroes.org.jetbrains.annotations.NotNull;
+import me.xemor.configurationdata.comparison.SetData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class DamageModifierData extends SkillData {
 
@@ -26,13 +26,12 @@ public class DamageModifierData extends SkillData {
 
     public DamageModifierData(int skill, @NotNull ConfigurationSection configurationSection) {
         super(skill, configurationSection);
-
         expectedMaxDamage = configurationSection.getDouble("expectedMaxDamage", 30);
         maxDamage = configurationSection.getDouble("maxDamage", 15);
         minDamage = configurationSection.getDouble("minDamage", 0);
         causes= new SetData<>(EntityDamageEvent.DamageCause.class, "causes",
             configurationSection);
-        entities = new SetData<>(EntityDamageEvent.DamageCause.class, "entities",
+        entities = new SetData<>(EntityType.class, "entities",
             configurationSection);
 
         whitelist = configurationSection.getBoolean("whitelist", false);
