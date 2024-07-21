@@ -20,7 +20,10 @@ Tinkerbell:
         FLYING_SPEED: 0.5
     flight:
       skill: FLIGHT
-    weakness:
-      skill: POTIONEFFECT
-      type: WEAKNESS
-      potency: 1
+    damageModifier:
+      skill: DAMAGEMODIFIER
+      maxDamage: 7
+      minDamage: 0
+      expectedMaxDamage: 30
+      eased: true
+      outgoing: true

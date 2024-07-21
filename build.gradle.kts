@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "6.0.3-BETA"
+version = "6.1.0"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -43,7 +43,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary:2.23.0")
     shadow("io.papermc:paperlib:1.0.7")
-    shadow("me.creeves:ParticlesLibrary:1.1-SNAPSHOT")
+    shadow("me.creeves:particleslibrary:1.1-SNAPSHOT")
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary:2.19.1")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
