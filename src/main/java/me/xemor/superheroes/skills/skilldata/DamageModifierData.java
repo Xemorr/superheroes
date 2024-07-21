@@ -27,9 +27,9 @@ public class DamageModifierData extends SkillData {
     public DamageModifierData(int skill, @NotNull ConfigurationSection configurationSection) {
         super(skill, configurationSection);
 
-        expectedMaxDamage = configurationSection.getDouble("expectedmaxdamage", 30);
-        maxDamage = configurationSection.getDouble("maxdamage", 15);
-        minDamage = configurationSection.getDouble("mindamage", 0);
+        expectedMaxDamage = configurationSection.getDouble("expectedMaxDamage", 30);
+        maxDamage = configurationSection.getDouble("maxDamage", 15);
+        minDamage = configurationSection.getDouble("minDamage", 0);
         causes= new SetData<>(EntityDamageEvent.DamageCause.class, "causes",
             configurationSection);
         entities = new SetData<>(EntityDamageEvent.DamageCause.class, "entities",
@@ -71,17 +71,17 @@ public class DamageModifierData extends SkillData {
         return (whitelist && !entities.inSet(entityType));
     }
 
-    public final double calculateDamage(double x) {
+    public final double calculateDamage(double damage) {
 
-        if (x < minDamage) {
-            x = minDamage;
+        if (damage < minDamage) {
+            damage = minDamage;
         }
 
         if (eased) {
-            return x > expectedMaxDamage ? maxDamage :
-                maxDamage * (1 - (1 - x / expectedMaxDamage) * (1 - x / expectedMaxDamage));
+            return damage > expectedMaxDamage ? maxDamage :
+                maxDamage * (1 - (1 - damage / expectedMaxDamage) * (1 - damage / expectedMaxDamage));
         } else {
-            return Math.min(Math.max(x, minDamage), maxDamage);
+            return Math.min(Math.max(damage, minDamage), maxDamage);
         }
     }
 }
