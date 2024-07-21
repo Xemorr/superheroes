@@ -40,12 +40,10 @@ dependencies {
     shadow("io.sentry:sentry:6.29.0")
     shadow("space.arim.morepaperlib:morepaperlib:0.4.3")
     shadow("me.xemor:foliahacks:1.3")
-    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.xemor:skillslibrary:2.23.0")
     shadow("io.papermc:paperlib:1.0.7")
-    shadow("me.creeves:particleslibrary:1.1-SNAPSHOT")
+    shadow("me.xemor:particleslibrary:1.1-SNAPSHOT")
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    compileOnly("me.xemor:skillslibrary:2.19.1")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
 }
 
@@ -66,7 +64,7 @@ tasks.shadowJar {
     relocate("io.sentry", "me.xemor.sentry")
     relocate("space.arim.morepaperlib", "me.xemor.superheroes.morepaperlib")
     relocate("me.xemor.foliahacks", "me.xemor.superheroes.foliahacks")
-    relocate("me.creeves.ParticlesLibrary", "me.xemor.superheroes.ParticlesLibrary")
+    relocate("me.creeves.particleslibrary", "me.xemor.superheroes.particleslibrary")
     relocate("io.papermc.paperlib", "me.xemor.superheroes.paperlib")
     configurations = listOf(project.configurations.shadow.get())
     val folder = System.getenv("pluginFolder")
@@ -74,12 +72,15 @@ tasks.shadowJar {
 }
 
 sentry {
-    includeSourceContext.set(true)
-    org.set("samuel-hollis-139014fe7")
-    projectName.set("superheroes")
-    authToken.set(System.getenv("SENTRY_AUTH_TOKEN"))
-    autoInstallation {
-        enabled.set(true)
+    var token = System.getenv("SENTRY_AUTH_TOKEN")
+    if (token != null) {
+        includeSourceContext.set(true)
+        org.set("samuel-hollis-139014fe7")
+        projectName.set("superheroes")
+        authToken.set(token)
+        autoInstallation {
+            enabled.set(true)
+        }
     }
 }
 
