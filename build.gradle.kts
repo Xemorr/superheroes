@@ -37,7 +37,7 @@ dependencies {
     shadow("org.apache.commons:commons-lang3:3.12.0")
     shadow("io.sentry:sentry:6.29.0")
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    compileOnly("me.xemor:skillslibrary:2.19.1")
+    compileOnly("me.xemor:skillslibrary:2.23.0")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
 }
 
