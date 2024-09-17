@@ -17,7 +17,7 @@ IronGolem:
       potency: 1
     resistance:
       skill: POTIONEFFECT
-      type: DAMAGE_RESISTANCE
+      type: RESISTANCE
       potency: 1
     noFall:
       skill: DAMAGERESISTANCE

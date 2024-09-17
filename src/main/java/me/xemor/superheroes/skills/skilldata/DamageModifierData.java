@@ -23,6 +23,7 @@ public class DamageModifierData extends SkillData {
     private final boolean incoming;
     private final boolean outgoing;
     private final boolean eased;
+    private final boolean limitProjectiles;
 
     public DamageModifierData(int skill, @NotNull ConfigurationSection configurationSection) {
         super(skill, configurationSection);
@@ -35,7 +36,7 @@ public class DamageModifierData extends SkillData {
             configurationSection);
 
         whitelist = configurationSection.getBoolean("whitelist", false);
-
+        limitProjectiles = configurationSection.getBoolean("limitProjectiles", true);
 
         incoming = configurationSection.getBoolean("incoming", false);
         outgoing = configurationSection.getBoolean("outgoing", false);
@@ -56,29 +57,39 @@ public class DamageModifierData extends SkillData {
         return priority;
     }
 
+    public boolean limitProjectiles() {
+        return limitProjectiles;
+    }
+
     public final boolean isValidCause(EntityDamageEvent.DamageCause damageCause) {
         // blacklist nonempty and it is NOT in it
         // whitelist nonempty and it is IN it
         // both are empty
-        return (whitelist && !causes.inSet(damageCause));
+        boolean in = causes.getSet().contains(damageCause);
+        if (!whitelist) {
+            in = !in;
+        };
+        return in;
     }
 
     public final boolean isValidEntity(EntityType entityType) {
         // blacklist nonempty and it is NOT in it
         // whitelist nonempty and it is IN it
         // both are empty
-        return (whitelist && !entities.inSet(entityType));
+        boolean in = entities.getSet().contains(entityType);
+        if (!whitelist) {
+            in = !in;
+        };
+        return in;
     }
 
     public final double calculateDamage(double damage) {
-
         if (damage < minDamage) {
             damage = minDamage;
         }
 
         if (eased) {
-            return damage > expectedMaxDamage ? maxDamage :
-                maxDamage * (1 - (1 - damage / expectedMaxDamage) * (1 - damage / expectedMaxDamage));
+            return damage > expectedMaxDamage ? maxDamage : maxDamage * (1 - (1 - damage / expectedMaxDamage) * (1 - damage / expectedMaxDamage));
         } else {
             return Math.min(Math.max(damage, minDamage), maxDamage);
         }

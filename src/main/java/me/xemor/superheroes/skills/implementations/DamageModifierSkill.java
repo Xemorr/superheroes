@@ -3,7 +3,9 @@ package me.xemor.superheroes.skills.implementations;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -24,7 +26,14 @@ public class DamageModifierSkill extends SkillImplementation {
         double defence = event.getDamage();
         double defencePriority = Integer.MIN_VALUE;
 
-        if (event.getDamager() instanceof Player damagerPlayer) {
+        Entity damager = event.getDamager();
+        if (damager instanceof Projectile proj) {
+            if (proj.getShooter() instanceof Player shooter) {
+                damager = shooter;
+            };
+        }
+
+        if (damager instanceof Player damagerPlayer) {
 
             Collection<SkillData> skillDataCollection =
                 heroHandler.getSuperhero(damagerPlayer).getSkillData(
@@ -32,7 +41,9 @@ public class DamageModifierSkill extends SkillImplementation {
 
             for (SkillData skillData : skillDataCollection) {
                 DamageModifierData damageModifierData = (DamageModifierData) skillData;
-
+                if (!damageModifierData.limitProjectiles() && event.getDamager() instanceof Projectile) {
+                    continue;
+                }
                 if (damageModifierData.isOutgoing() &&
                     damageModifierData.isValidEntity(event.getEntity().getType())) {
                     if (damageModifierData.getPriority() > offencePrioity) {
@@ -43,16 +54,18 @@ public class DamageModifierSkill extends SkillImplementation {
             }
         }
 
-        if (event.getEntity() instanceof Player damageePlayer) {
+        if (event.getEntity() instanceof Player damagedPlayer) {
             Collection<SkillData> skillDataCollection =
-                heroHandler.getSuperhero(damageePlayer).getSkillData(
+                heroHandler.getSuperhero(damagedPlayer).getSkillData(
                     Skill.getSkill("DAMAGEMODIFIER"));
 
             for (SkillData skillData : skillDataCollection) {
                 DamageModifierData damageModifierData = (DamageModifierData) skillData;
-
+                if (!damageModifierData.limitProjectiles() && event.getDamager() instanceof Projectile) {
+                    continue;
+                }
                 if (damageModifierData.isIncoming() &&
-                    damageModifierData.isValidEntity(event.getDamager().getType())) {
+                    damageModifierData.isValidEntity(damager.getType())) {
                     if (damageModifierData.getPriority() > offencePrioity) {
                         defence = damageModifierData.calculateDamage(event.getDamage());
                         defencePriority = damageModifierData.getPriority();
