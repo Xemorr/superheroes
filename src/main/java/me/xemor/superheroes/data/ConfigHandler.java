@@ -208,7 +208,7 @@ public class ConfigHandler {
         if (base64Skin.isEmpty()) return Optional.empty();
         try {
             return Optional.of(SkullCreator.itemFromBase64(base64Skin));
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             Superheroes.getInstance().getLogger().severe("Failed to make skull icons");
             e.printStackTrace();
             return Optional.empty();
