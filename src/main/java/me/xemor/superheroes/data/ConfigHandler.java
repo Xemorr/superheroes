@@ -184,7 +184,7 @@ public class ConfigHandler {
             icon = new ItemStackData(iconSection).getItem();
         } else {
             Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
-            icon = createSkullIcon(hero).orElseGet(() -> createWoolIcon(hero, colouredName));
+            icon = createSkullIcon(hero).orElseGet(() -> createWoolIcon(llcolouredName));
             ItemMeta meta = icon.getItemMeta();
             meta.setDisplayName(legacySerializer.serialize(colouredName));
             Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
