@@ -181,7 +181,7 @@ public class ConfigHandler {
         ItemStack icon;
         ConfigurationSection iconSection = heroSection.getConfigurationSection("icon");
         if (iconSection != null) {
-            icon = new ItemStackData(heroSection.getConfigurationSection("icon")).getItem();
+            icon = new ItemStackData(iconSection).getItem();
         } else {
             Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
             icon = createSkullIcon(hero).orElseGet(() -> createWoolIcon(hero, colouredName));
