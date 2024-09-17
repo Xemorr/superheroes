@@ -195,7 +195,7 @@ public class ConfigHandler {
         hero.setIcon(icon);
     }
 
-    private ItemStack createWoolIcon(Superhero hero, Component colouredName) {
+    private ItemStack createWoolIcon(Component colouredName) {
         TextColor color = colouredName.color();
         if (color == null) {
             return new ItemStack(Material.BLACK_WOOL);
