@@ -236,7 +236,7 @@ public class HeroHandler {
         return superheroes;
     }
 
-    public HashMap<String, Superhero> getNameToSuperhero() {
+    public Map<String, Superhero> getNameToSuperhero() {
         return nameToSuperhero;
     }
 
