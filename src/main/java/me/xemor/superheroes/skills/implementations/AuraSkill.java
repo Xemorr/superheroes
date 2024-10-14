@@ -1,6 +1,5 @@
 package me.xemor.superheroes.skills.implementations;
 
-import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
@@ -14,7 +13,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
 
@@ -26,15 +24,15 @@ public class AuraSkill extends SkillImplementation {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        runnable(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
+        runnable(e.getPlayer());
     }
 
     @EventHandler
     public void onPowerGain(PlayerChangedSuperheroEvent e) {
-        runnable(e.getPlayer(), e.getOldHero());
+        runnable(e.getPlayer());
     }
 
-    public void runnable(Player player, Superhero oldHero) {
+    public void runnable(Player player) {
         Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate((task) -> {
             if (player == null) {
                 task.cancel();
@@ -44,7 +42,7 @@ public class AuraSkill extends SkillImplementation {
                 task.cancel();
                 return;
             }
-            Collection<SkillData> skillDatas = oldHero.getSkillData(Skill.getSkill("AURA"));
+            Collection<SkillData> skillDatas = Superheroes.getInstance().getHeroHandler().getSuperhero(player).getSkillData(Skill.getSkill("AURA"));
             if (skillDatas.isEmpty()) {
                 task.cancel();
                 return;

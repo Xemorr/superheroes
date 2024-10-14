@@ -31,7 +31,7 @@ public class HeroHandler {
     private Superhero noPower;
     private HeroIOHandler heroIOHandler;
     private List<String> disabledWorlds;
-    private HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
+    private ConcurrentHashMap<String, Superhero> nameToSuperhero = new ConcurrentHashMap<>();
 
     public HeroHandler(Superheroes superheroes, ConfigHandler configHandler) {
         this.configHandler = configHandler;
@@ -45,8 +45,9 @@ public class HeroHandler {
         disabledWorlds = configHandler.getDisabledWorlds();
     }
 
-    public void registerHeroes(HashMap<String, Superhero> nameToSuperhero) {
-        this.nameToSuperhero = nameToSuperhero;
+    public void registerHeroes(Map<String, Superhero> nameToSuperhero) {
+        this.nameToSuperhero.clear();
+        this.nameToSuperhero.putAll(nameToSuperhero);
         nameToSuperhero.put(noPower.getName().toLowerCase(), noPower);
     }
 
