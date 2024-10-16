@@ -1,6 +1,5 @@
 package me.xemor.superheroes.data;
 
-import dev.dbassett.skullcreator.SkullCreator;
 import me.xemor.configurationdata.ItemStackData;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.Superhero;
@@ -27,6 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.yaml.snakeyaml.parser.ParserException;
+import me.sepdron.headcreator.HeadCreator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -184,7 +184,7 @@ public class ConfigHandler {
             icon = new ItemStackData(iconSection).getItem();
         } else {
             Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
-            icon = createSkullIcon(hero).orElseGet(() -> createWoolIcon(colouredName));
+            icon = HeadCreator.createFromBase64(hero.getBase64Skin());
             ItemMeta meta = icon.getItemMeta();
             meta.setDisplayName(legacySerializer.serialize(colouredName));
             Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
@@ -201,18 +201,6 @@ public class ConfigHandler {
             return new ItemStack(Material.BLACK_WOOL);
         }
         return new ItemStack(this.woolFromColor(color.red(), color.green(), color.blue()));
-    }
-
-    private Optional<ItemStack> createSkullIcon(Superhero hero) {
-        String base64Skin = hero.getBase64Skin();
-        if (base64Skin.isEmpty()) return Optional.empty();
-        try {
-            return Optional.of(SkullCreator.itemFromBase64(base64Skin));
-        } catch (IllegalArgumentException e) {
-            Superheroes.getInstance().getLogger().severe("Failed to make skull icons");
-            e.printStackTrace();
-            return Optional.empty();
-        }
     }
 
     public Material woolFromColor(int red, int green, int blue) {
