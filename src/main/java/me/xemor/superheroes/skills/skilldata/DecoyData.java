@@ -1,6 +1,6 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import dev.dbassett.skullcreator.SkullCreator;
+import me.sepdron.headcreator.HeadCreator;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -23,7 +23,7 @@ public class DecoyData extends SkillData {
         String base64skin = configurationSection.getString("base64Skin", "SELF");
         if ("SELF".equals(base64skin)) skull = null;
         else {
-            skull = SkullCreator.itemFromBase64(base64skin);
+            skull = HeadCreator.createFromBase64(base64skin);
         }
     }
 

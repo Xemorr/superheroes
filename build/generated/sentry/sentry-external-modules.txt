@@ -1,1 +1,0 @@
-io.sentry:sentry:6.28.0
