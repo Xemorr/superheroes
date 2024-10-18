@@ -184,7 +184,7 @@ public class ConfigHandler {
             icon = new ItemStackData(iconSection).getItem();
         } else {
             Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
-            icon = HeadCreator.createFromBase64(hero.getBase64Skin());
+            icon = createSkullIcon(hero).orElseGet(() -> createWoolIcon(colouredName));;
             ItemMeta meta = icon.getItemMeta();
             meta.setDisplayName(legacySerializer.serialize(colouredName));
             Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
@@ -193,6 +193,12 @@ public class ConfigHandler {
             icon.setItemMeta(meta);
         }
         hero.setIcon(icon);
+    }
+
+    private Optional<ItemStack> createSkullIcon(Superhero hero) {
+        String base64Skin = hero.getBase64Skin();
+        if (base64Skin.isEmpty()) return Optional.empty();
+        return Optional.of(HeadCreator.createFromBase64(base64Skin));
     }
 
     private ItemStack createWoolIcon(Component colouredName) {
