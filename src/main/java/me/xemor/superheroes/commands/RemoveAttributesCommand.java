@@ -37,7 +37,9 @@ public class RemoveAttributesCommand implements SubCommand {
             if (attributeInstance != null) {
                 List<AttributeModifier> modifiers = new ArrayList<>();
                 attributeInstance.getModifiers().forEach((am) -> {
-                    if (am.getKey().getNamespace().equalsIgnoreCase(Superheroes.getInstance().getName())) {
+                    String namespace = am.getKey().getNamespace();
+                    if (namespace.equalsIgnoreCase(Superheroes.getInstance().getName())
+                     || namespace.equalsIgnoreCase("superheroes-heartsteal")) {
                         modifiers.add(am);
                     }
                 });

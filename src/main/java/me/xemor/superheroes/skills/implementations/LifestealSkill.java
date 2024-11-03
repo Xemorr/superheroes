@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import java.util.Collection;
 
 public class LifestealSkill extends SkillImplementation {
+
     public LifestealSkill(HeroHandler heroHandler) {
         super(heroHandler);
     }
