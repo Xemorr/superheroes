@@ -59,7 +59,7 @@ public class SelectCommand implements SubCommand {
         }
         if (sender instanceof Player senderPlayer) {
             SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(senderPlayer);
-            if (!superheroPlayer.handleCooldown(senderPlayer, audience)) {
+            if (!sender.hasPermission("superheroes.hero.select.bypasscooldown") && !superheroPlayer.handleCooldown(senderPlayer, audience)) {
                 return;
             }
         }
@@ -82,9 +82,6 @@ public class SelectCommand implements SubCommand {
         heroHandler.setHero(player, power, true, PlayerChangedSuperheroEvent.Cause.COMMAND);
         SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(player);
         heroHandler.getHeroIOHandler().saveSuperheroPlayerAsync(superheroPlayer);
-        if (!sender.hasPermission("superheroes.hero.select.bypasscooldown") && sender instanceof Player && sender == player) {
-            superheroPlayer.setHeroCommandTimestamp(System.currentTimeMillis());
-        }
     }
 
     @Override

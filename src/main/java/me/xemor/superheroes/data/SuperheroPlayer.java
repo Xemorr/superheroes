@@ -73,6 +73,7 @@ public class SuperheroPlayer {
             audience.sendMessage(message);
             return false;
         }
+        setHeroCommandTimestamp(System.currentTimeMillis());
         return true;
     }
 }
