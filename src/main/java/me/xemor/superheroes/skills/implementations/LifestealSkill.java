@@ -31,7 +31,7 @@ public class LifestealSkill extends SkillImplementation {
                 if (!lifestealData.areConditionsTrue(player, e.getEntity())) {
                     return;
                 }
-                double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                double maxHealth = player.getAttribute(Attribute.MAX_HEALTH).getValue();
                 if (player.getHealth() >= maxHealth) {
                     return;
                 }

@@ -38,8 +38,11 @@ public class RemoveAttributesCommand implements SubCommand {
                 List<AttributeModifier> modifiers = new ArrayList<>();
                 attributeInstance.getModifiers().forEach((am) -> {
                     String namespace = am.getKey().getNamespace();
-                    if (namespace.equalsIgnoreCase(Superheroes.getInstance().getName())
-                     || namespace.equalsIgnoreCase("superheroes-heartsteal")) {
+                    if (namespace.equalsIgnoreCase(Superheroes.getInstance().getName())) {
+                        modifiers.add(am);
+                    } else if (am.getKey().getNamespace().equalsIgnoreCase("minecraft") && am.getKey().getKey().matches(
+                            "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    )) {
                         modifiers.add(am);
                     }
                 });
