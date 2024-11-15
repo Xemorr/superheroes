@@ -26,6 +26,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerLoadEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import me.xemor.foliahacks.FoliaHacks;
@@ -82,25 +83,17 @@ public final class Superheroes extends JavaPlugin implements Listener {
         PluginCommand command = this.getCommand("hero");
         command.setExecutor(heroCommand);
         command.setTabCompleter(heroCommand);
-        this.handleMetrics();
-        this.plusUltraAdvertisement();
-        this.checkForNewUpdate();
+        handleMetrics();
+        plusUltraAdvertisement();
+        checkForNewUpdate();
         bukkitAudiences = BukkitAudiences.create(this);
         this.hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary2");
         if (this.hasSkillsLibrary) {
             this.runSkillsLibraryChanges();
         }
-        this.handleAliases(heroCommand, command);
-        this.registerUserInterfaces();
-        try {
-            if (this.getServer().getPluginManager().getPlugin("WorldGuard") != null) {
-                worldGuardSupport = new WorldGuardSupport();
-                this.getServer().getPluginManager().registerEvents(worldGuardSupport, this);
-            }
-        } catch(NoClassDefFoundError e) {
-            getLogger().severe("Disabling WorldGuard compatibility...");
-            e.printStackTrace();
-        }
+        handleAliases(heroCommand, command);
+        registerUserInterfaces();
+        handleWorldGuardCompatibility();
     }
 
     @EventHandler
@@ -119,6 +112,19 @@ public final class Superheroes extends JavaPlugin implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         this.heroHandler.unloadSuperheroPlayer(e.getPlayer());
+    }
+
+    public void handleWorldGuardCompatibility() {
+        try {
+            Plugin worldguard = this.getServer().getPluginManager().getPlugin("WorldGuard");
+            if (worldguard != null && worldguard.isEnabled()) {
+                worldGuardSupport = new WorldGuardSupport();
+                this.getServer().getPluginManager().registerEvents(worldGuardSupport, this);
+            }
+        } catch(NoClassDefFoundError e) {
+            getLogger().severe("Disabling WorldGuard compatibility...");
+            e.printStackTrace();
+        }
     }
 
     public void registerSkills() {

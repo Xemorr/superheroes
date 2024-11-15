@@ -16,14 +16,12 @@ import com.sk89q.worldguard.session.Session;
 import com.sk89q.worldguard.session.SessionManager;
 import com.sk89q.worldguard.session.handler.FlagValueChangeHandler;
 import com.sk89q.worldguard.session.handler.Handler;
-import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class WorldGuardSupport implements Listener {
 
@@ -39,7 +37,6 @@ public class WorldGuardSupport implements Listener {
     public static void setupFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
-            // create a flag with the name "my-custom-flag", defaulting to true
             StateFlag flag = new StateFlag("allow-heroes", true);
             registry.register(flag);
         } catch (FlagConflictException e) {
