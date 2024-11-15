@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "6.1.7"
+version = "6.1.8"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT")
-    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
     compileOnly("me.xemor:skillslibrary:2.23.0")
     shadow("me.xemor:configurationdata:3.5.1-SNAPSHOT")
     shadow("org.bstats:bstats-bukkit:1.7")

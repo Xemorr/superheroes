@@ -92,9 +92,14 @@ public final class Superheroes extends JavaPlugin implements Listener {
         }
         this.handleAliases(heroCommand, command);
         this.registerUserInterfaces();
-        if (this.getServer().getPluginManager().getPlugin("WorldGuard") != null) {
-            worldGuardSupport = new WorldGuardSupport();
-            this.getServer().getPluginManager().registerEvents(worldGuardSupport, this);
+        try {
+            if (this.getServer().getPluginManager().getPlugin("WorldGuard") != null) {
+                worldGuardSupport = new WorldGuardSupport();
+                this.getServer().getPluginManager().registerEvents(worldGuardSupport, this);
+            }
+        } catch(NoClassDefFoundError e) {
+            getLogger().severe("Disabling WorldGuard compatibility...");
+            e.printStackTrace();
         }
     }
 
