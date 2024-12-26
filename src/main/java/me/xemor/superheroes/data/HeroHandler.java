@@ -48,7 +48,7 @@ public class HeroHandler {
     public void registerHeroes(Map<String, Superhero> nameToSuperhero) {
         this.nameToSuperhero.clear();
         this.nameToSuperhero.putAll(nameToSuperhero);
-        nameToSuperhero.put(noPower.getName().toLowerCase(), noPower);
+        this.nameToSuperhero.put(noPower.getName().toLowerCase(), noPower);
     }
 
     public void setHeroesIntoMemory(HashMap<UUID, SuperheroPlayer> playerHeroes) {
