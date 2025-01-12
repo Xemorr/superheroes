@@ -54,10 +54,12 @@ public class AuraSkill extends SkillImplementation {
                 double diameter = auraData.getDiameter();
                 Collection<Entity> nearbyLivingEntities = world.getNearbyEntities(location, diameter, diameter, diameter, (entity) -> !player.equals(entity) && entity instanceof LivingEntity);
                 for (Entity entity : nearbyLivingEntities) {
-                    if (skillData.areConditionsTrue(player, entity)) {
+                    skillData.ifConditionsTrue(() -> {
                         LivingEntity livingEntity = (LivingEntity) entity;
-                        auraData.getPotionEffect().ifPresent(livingEntity::addPotionEffect);
-                    }
+                        Superheroes.getFoliaHacks().runASAP(livingEntity, () ->
+                                auraData.getPotionEffect().ifPresent(livingEntity::addPotionEffect)
+                        );
+                    }, player, entity);
                 }
             }
         }, () -> {}, 10L, 10L);

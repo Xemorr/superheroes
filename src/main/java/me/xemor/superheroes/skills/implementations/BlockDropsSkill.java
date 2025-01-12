@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.implementations;
 
+import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.HeroBlockBreakEvent;
 import me.xemor.superheroes.skills.Skill;
@@ -27,17 +28,19 @@ public class BlockDropsSkill extends SkillImplementation{
         Block block = e.getBlock();
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         for (SkillData skillData : skillDatas) {
-            if (skillData.areConditionsTrue(player, block.getLocation())) {
-                BlockDropsData blockDropsData = (BlockDropsData) skillData;
-                e.setDropItems(!blockDropsData.shouldReplaceDrops());
-                if (mainHand.hasItemMeta() && mainHand.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH) && !blockDropsData.shouldReplaceDrops()) {
-                    continue;
-                }
-                Collection<ItemStack> drops = blockDropsData.getDrops(block.getType());
-                for (ItemStack itemStack : drops) {
-                    world.dropItemNaturally(block.getLocation(), itemStack);
-                }
-            }
+            BlockDropsData blockDropsData = (BlockDropsData) skillData;
+            skillData.ifConditionsTrue(() -> {
+                Superheroes.getFoliaHacks().runASAP(block.getLocation(), () -> {
+                    if (e.isDropItems()) e.setDropItems(!blockDropsData.shouldReplaceDrops());
+                    if (mainHand.hasItemMeta() && mainHand.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH) && !blockDropsData.shouldReplaceDrops()) {
+                        return;
+                    }
+                    Collection<ItemStack> drops = blockDropsData.getDrops(block.getType());
+                    for (ItemStack itemStack : drops) {
+                        world.dropItemNaturally(block.getLocation(), itemStack);
+                    }
+                });
+            }, player, block.getLocation());
         }
     }
 }
