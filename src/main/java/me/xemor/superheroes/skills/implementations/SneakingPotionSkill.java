@@ -28,9 +28,9 @@ public class SneakingPotionSkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             SneakingPotionData sneakingPotionData = (SneakingPotionData) skillData;
             if (e.isSneaking()) {
-                if (skillData.areConditionsTrue(player)) {
+                skillData.ifConditionsTrue(() -> {
                     sneakingPotionData.getPotionEffect().ifPresent(e.getPlayer()::addPotionEffect);
-                }
+                }, player);
             }
             else {
                 sneakingPotionData.getPotionEffect().ifPresent(potionEffect -> e.getPlayer().removePotionEffect(potionEffect.getType()));

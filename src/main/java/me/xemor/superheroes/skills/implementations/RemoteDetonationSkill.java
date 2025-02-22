@@ -35,10 +35,8 @@ public class RemoteDetonationSkill extends SkillImplementation {
                 RemoteDetonationData remoteDetonationData = (RemoteDetonationData) skillData;
                 if (skillCooldownHandler.isCooldownOver(remoteDetonationData, player.getUniqueId())) {
                     Entity entity = raytrace(player, remoteDetonationData.getExplodable());
-                    if (entity == null) {
-                        return;
-                    }
-                    if (skillData.areConditionsTrue(player, entity)) {
+                    if (entity == null) return;
+                    skillData.ifConditionsTrue(() -> {
                         Location location = entity.getLocation();
                         if (!(entity instanceof Player) && remoteDetonationData.removeDetonatedEntity()) {
                             if (entity instanceof LivingEntity) {
@@ -51,7 +49,7 @@ public class RemoteDetonationSkill extends SkillImplementation {
                         World world = player.getWorld();
                         world.createExplosion(location, remoteDetonationData.getExplosionStrength(), remoteDetonationData.spawnsFire(), remoteDetonationData.breakBlocks(), entity);
                         skillCooldownHandler.startCooldown(remoteDetonationData, player.getUniqueId());
-                    }
+                    }, player, entity);
                 }
             }
         }

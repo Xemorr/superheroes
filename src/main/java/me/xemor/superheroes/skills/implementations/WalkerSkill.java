@@ -19,6 +19,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
+import java.util.List;
 
 public class WalkerSkill extends SkillImplementation {
 
@@ -30,12 +31,11 @@ public class WalkerSkill extends SkillImplementation {
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("WALKER"));
+        List<WalkerData> walkerDatas = superhero.getSkillData(WalkerData.class);
         if (player.isInsideVehicle()) {
             return;
         }
-        for (SkillData skillData : skillDatas) {
-            WalkerData walkerData = (WalkerData) skillData;
+        for (WalkerData walkerData : walkerDatas) {
             if (walkerData.isSneaking() != e.getPlayer().isSneaking()) {
                 continue;
             }
@@ -62,14 +62,14 @@ public class WalkerSkill extends SkillImplementation {
             }
             Material originalMaterial = block.getType();
             if (walkerData.shouldReplace(block.getType())) {
-                if (skillData.areConditionsTrue(player, block.getLocation())) {
+                walkerData.ifConditionsTrue(() -> {
                     Material newMaterial = walkerData.getReplacementBlock();
                     block.setType(newMaterial, false);
                     block.setMetadata("blockDrops", new FixedMetadataValue(heroHandler.getPlugin(), walkerData.doesBlockDrop()));
                     if (walkerData.shouldRevert()) {
                         revertRunnable(walkerData, block, newMaterial, originalMaterial);
                     }
-                }
+                }, player, block.getLocation());
             }
         }
     }

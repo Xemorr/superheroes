@@ -32,22 +32,21 @@ public class SummonSkill extends SkillImplementation {
     public void onPunch(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SUMMON"));
-        for (SkillData skillData : skillDatas) {
-            SummonSkillData summonData = (SummonSkillData) skillData;
+        Collection<SummonSkillData> summonDatas = superhero.getSkillData(SummonSkillData.class);
+        for (SummonSkillData summonData : summonDatas) {
             if (summonData.getAction().contains(e.getAction())) {
                 if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                     if (summonData.mustSneak() == player.isSneaking()) {
                         if (skillCooldownHandler.isCooldownOver(summonData, player.getUniqueId())) {
-                            Entity entity = summonEntity(player, summonData.getEntityType(), summonData);
-                            if (entity == null) {
-                                return;
-                            }
-                            skillCooldownHandler.startCooldown(summonData, player.getUniqueId());
-                            if (summonData.doesRepel()) {
-                                player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
-                            }
-                            summonData.getPotionEffect().ifPresent(player::addPotionEffect);
+                            Location location = getRaytraceLocation(player, summonData);
+                            summonData.ifConditionsTrue(() -> {
+                                summonEntity(location, summonData.getEntityType());
+                                skillCooldownHandler.startCooldown(summonData, player.getUniqueId());
+                                if (summonData.doesRepel()) {
+                                    player.setVelocity(player.getEyeLocation().getDirection().multiply(-0.5));
+                                }
+                                summonData.getPotionEffect().ifPresent(player::addPotionEffect);
+                            }, player, location);
                         }
                     }
                 }
@@ -55,25 +54,23 @@ public class SummonSkill extends SkillImplementation {
         }
     }
 
-    public Entity summonEntity(Player player, EntityType entityType, SummonSkillData summonSkillData) {
+    public Location getRaytraceLocation(Player player, SummonSkillData summonData) {
         World world = player.getWorld();
         Location eyeLoc = player.getEyeLocation().clone();
         Vector travelVector = eyeLoc.getDirection();
-        RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLoc, travelVector, summonSkillData.getRange());
+        RayTraceResult rayTraceResult = world.rayTraceBlocks(eyeLoc, travelVector, summonData.getRange());
         Vector hitPosition;
         if (rayTraceResult == null) {
-            hitPosition = eyeLoc.toVector().add(travelVector.multiply(summonSkillData.getRange()));
+            hitPosition = eyeLoc.toVector().add(travelVector.multiply(summonData.getRange()));
         } else {
             hitPosition = rayTraceResult.getHitPosition();
         }
-        Location location = new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
-        Block block = location.getBlock();
-        if (summonSkillData.areConditionsTrue(player, block.getLocation())) {
-            Entity entity;
-            if (entityType == EntityType.LIGHTNING_BOLT) entity = world.strikeLightning(location);
-            else entity = world.spawnEntity(location, entityType);
-            return entity;
-        }
-        return null;
+        return new Location(world, hitPosition.getX(), hitPosition.getY(), hitPosition.getZ());
+    }
+
+    public void summonEntity(Location location, EntityType entityType) {
+        World world = location.getWorld();
+        if (entityType == EntityType.LIGHTNING_BOLT) world.strikeLightning(location);
+        else world.spawnEntity(location, entityType);
     }
 }

@@ -83,11 +83,11 @@ public class EggLayerSkill extends SkillImplementation {
                 taskSingleton[0].cancel();
                 return;
             }
-            if (eggLayerData.areConditionsTrue(player)) {
+            eggLayerData.ifConditionsTrue(() -> {
                 World world = player.getWorld();
                 Location location = player.getLocation();
                 world.dropItemNaturally(location, eggLayerData.getToLay());
-            }
+            }, player);
         }, () -> {}, eggLayerData.getTickDelay(), eggLayerData.getTickDelay());
         taskSingleton[0] = task;
         map.put(player.getUniqueId(), new EggLayerRunnable(eggLayerData, task));

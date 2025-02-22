@@ -5,11 +5,12 @@ import me.xemor.superheroes.skills.skilldata.*;
 import me.xemor.superheroes.skills.skilldata.SpellData;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Skill {
 
     private static final HashBiMap<String, Integer> nameToSkill = HashBiMap.create();
-    private static final HashMap<Integer, Class<? extends SkillData>> skillToData = new HashMap<>();
+    private static final HashBiMap<Integer, Class<? extends SkillData>> skillToData = HashBiMap.create();
     private static int counter = 0;
 
     static {
@@ -67,6 +68,12 @@ public class Skill {
     }
 
     public static Class<? extends SkillData> getClass(int trigger) { return skillToData.getOrDefault(trigger, SkillData.class); }
+
+    public static Class<? extends SkillData> getClass(String name) { return skillToData.getOrDefault(getSkill(name), SkillData.class); }
+
+    public static int getSkill(Class<? extends SkillData> clazz) {
+        return skillToData.inverse().get(clazz);
+    }
 
     public static int getSkill(String name) {
         return nameToSkill.getOrDefault(name, -1);

@@ -27,9 +27,11 @@ public class OHKOSkill extends SkillImplementation {
                 LivingEntity livingEntity = (LivingEntity) e.getEntity();
                 if (ohkoData.getDisplayName() == null || ohkoData.getDisplayName().equals(livingEntity.getCustomName())) {
                     if (ohkoData.getEntityTypes().contains(e.getEntity().getType())) {
-                        if (skillData.areConditionsTrue(player, livingEntity)) {
-                            e.setDamage(livingEntity.getHealth() * 100);
-                        }
+                        skillData.ifConditionsTrue(
+                                () -> e.setDamage(livingEntity.getHealth() * 100),
+                                player,
+                                livingEntity
+                        );
                     }
                 }
             }

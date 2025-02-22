@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
+import java.util.List;
 
 public class WeatherDamageSkill extends SkillImplementation {
 
@@ -24,21 +25,18 @@ public class WeatherDamageSkill extends SkillImplementation {
 
     public void applyDamage(Player player) {
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("WEATHERDAMAGE"));
-        if (skillDatas != null) {
-            for (SkillData skillData : skillDatas) {
-                if (skillData.areConditionsTrue(player)) {
-                    if (!player.getWorld().isClearWeather()) {
-                        WeatherDamageData weatherDamageData = (WeatherDamageData) skillData;
-                        if (weatherDamageData.checkShelter()) {
-                            if (player.getWorld().getBlockAt(player.getLocation()).getLightFromSky() != 15) {
-                                return;
-                            }
+        List<WeatherDamageData> weatherDamageDatas = superhero.getSkillData(WeatherDamageData.class);
+        for (WeatherDamageData weatherDamageData : weatherDamageDatas) {
+            weatherDamageData.ifConditionsTrue(() -> {
+                if (!player.getWorld().isClearWeather()) {
+                    if (weatherDamageData.checkShelter()) {
+                        if (player.getWorld().getBlockAt(player.getLocation()).getLightFromSky() != 15) {
+                            return;
                         }
-                        player.damage(weatherDamageData.getDamage());
                     }
+                    player.damage(weatherDamageData.getDamage());
                 }
-            }
+            }, player);
         }
     }
 }

@@ -39,12 +39,13 @@ public class HeartStealSkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             HeartStealData heartStealData = (HeartStealData) skillData;
             if (!heartStealData.getEntities().inSet(e.getEntityType())) return;
-            if (!heartStealData.areConditionsTrue(player, e.getEntity())) return;
-            AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
-            if (maxHealth.getValue() >= heartStealData.getMaxHearts()) {
-                return;
-            }
-            maxHealth.addModifier(new AttributeModifier(new NamespacedKey(Superheroes.getInstance(), "Superheroes-HeartSteal" + UUID.randomUUID()), heartStealData.getHeartsGained(), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
+            heartStealData.ifConditionsTrue(() -> {
+                AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
+                if (maxHealth.getValue() >= heartStealData.getMaxHearts()) {
+                    return;
+                }
+                maxHealth.addModifier(new AttributeModifier(new NamespacedKey(Superheroes.getInstance(), "Superheroes-HeartSteal" + UUID.randomUUID()), heartStealData.getHeartsGained(), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY));
+            }, player, e.getEntity());
         }
     }
 

@@ -27,18 +27,17 @@ public class ConvertItemSkill extends SkillImplementation {
                 ItemStack itemStack = e.getItem().getItemStack();
                 if (itemStack.isSimilar(convertItemData.getInputItem())) {
                     if (Math.random() <= convertItemData.getChance()) {
-                        if (!skillData.areConditionsTrue(player)) {
-                            return;
-                        }
-                        ItemStack outputItem = convertItemData.getOutputItem().clone();
-                        outputItem.setAmount(itemStack.getAmount());
-                        e.getItem().remove();
-                        e.setCancelled(true);
-                        HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(outputItem);
-                        World world = player.getWorld();
-                        for (ItemStack item : leftovers.values()) {
-                            world.dropItem(player.getLocation(), item);
-                        }
+                        skillData.ifConditionsTrue(() -> {
+                            ItemStack outputItem = convertItemData.getOutputItem().clone();
+                            outputItem.setAmount(itemStack.getAmount());
+                            e.getItem().remove();
+                            e.setCancelled(true);
+                            HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(outputItem);
+                            World world = player.getWorld();
+                            for (ItemStack item : leftovers.values()) {
+                                world.dropItem(player.getLocation(), item);
+                            }
+                        }, player);
                     }
                 }
             }

@@ -5,6 +5,7 @@ import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
+import me.xemor.superheroes.skills.skilldata.PotionEffectSkillData;
 import me.xemor.superheroes.skills.skilldata.PotionGifterSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import net.kyori.adventure.text.Component;
@@ -32,13 +33,12 @@ public class PotionGifterSkill extends SkillImplementation {
     public void onPlayerInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("POTIONGIFTER"));
-        for (SkillData skillData : skillDatas) {
-            PotionGifterSkillData gifterData = (PotionGifterSkillData) skillData;
+        Collection<PotionGifterSkillData> gifterDatas = superhero.getSkillData(PotionGifterSkillData.class);
+        for (PotionGifterSkillData gifterData : gifterDatas) {
             Entity entity = e.getRightClicked();
             if (skillCooldownHandler.isCooldownOver(gifterData, player.getUniqueId())) {
                 if (entity instanceof LivingEntity lEntity) {
-                    if (skillData.areConditionsTrue(player, lEntity)) {
+                    gifterData.ifConditionsTrue(() -> {
                         World world = lEntity.getWorld();
                         world.spawnParticle(Particle.HAPPY_VILLAGER, lEntity.getLocation().add(0, 1, 0), 1);
                         gifterData.getPotionEffect().ifPresent(lEntity::addPotionEffect);
@@ -51,7 +51,7 @@ public class PotionGifterSkill extends SkillImplementation {
                                     Placeholder.unparsed("player", receiver.getName()));
                             Superheroes.getBukkitAudiences().player(receiver).sendMessage(receiverMessage);
                         }
-                    }
+                    }, player, lEntity);
                 }
             }
         }

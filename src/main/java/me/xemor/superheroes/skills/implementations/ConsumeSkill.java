@@ -30,7 +30,7 @@ public class ConsumeSkill extends SkillImplementation {
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CONSUME"));
         for (SkillData skillData : skillDatas) {
             ConsumeSkillData consumeData = (ConsumeSkillData) skillData;
-            if (consumeData.areConditionsTrue(player)) {
+            consumeData.ifConditionsTrue(() -> {
                 ItemStack item = e.getItem();
                 if (item == null) return;
                 if (item.getType() == consumeData.getMaterial()) {
@@ -38,7 +38,7 @@ public class ConsumeSkill extends SkillImplementation {
                     player.setFoodLevel(Math.min(20, player.getFoodLevel() + consumeData.getHunger()));
                     item.setAmount(item.getAmount() - 1);
                 }
-            }
+            }, player);
         }
     }
 

@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
+import java.util.List;
 
 public class ThrowerSkill extends SkillImplementation {
 
@@ -25,16 +26,15 @@ public class ThrowerSkill extends SkillImplementation {
     @EventHandler
     public void onThrow(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("THROWER"));
-        for (SkillData skillData : skillDatas) {
-            ThrowerData throwerData = (ThrowerData) skillData;
+        List<ThrowerData> throwerDatas = heroHandler.getSuperhero(player).getSkillData(ThrowerData.class);
+        for (ThrowerData throwerData : throwerDatas) {
             if (throwerData.getActions().contains(e.getAction())) {
                 ItemStack item = e.getItem();
                 if (item != null) {
                     if (item.getAmount() >= throwerData.getAmmoCost() && throwerData.getAmmo().matches(item)) {
                         if (skillCooldownHandler.isCooldownOver(throwerData, player.getUniqueId())) {
-                            if (skillData.areConditionsTrue(player)) {
-                                e.setCancelled(true);
+                            e.setCancelled(true);
+                            throwerData.ifConditionsTrue(() -> {
                                 EntityType entityType = throwerData.getEntityType();
                                 World world = player.getWorld();
                                 Entity entity = world.spawnEntity(player.getEyeLocation(), entityType);
@@ -48,7 +48,7 @@ public class ThrowerSkill extends SkillImplementation {
                                 }
                                 useAmmo(throwerData.getAmmoCost(), item);
                                 skillCooldownHandler.startCooldown(throwerData, throwerData.getCooldown(), player.getUniqueId());
-                            }
+                            }, player);
                         }
                     }
                 }

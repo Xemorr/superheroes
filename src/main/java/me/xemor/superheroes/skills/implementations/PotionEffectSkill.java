@@ -37,11 +37,10 @@ public class PotionEffectSkill extends SkillImplementation {
     }
 
     public void givePotionEffects(Player player, Superhero superhero) {
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("POTIONEFFECT"));
-        if (skillDatas != null) {
-            for (SkillData skillData : skillDatas) {
-                if (skillData.areConditionsTrue(player)) {
-                    PotionEffectSkillData potionEffectSkillData = (PotionEffectSkillData) skillData;
+        Collection<PotionEffectSkillData> potionEffectSkillDatas = superhero.getSkillData(PotionEffectSkillData.class);
+        if (potionEffectSkillDatas != null) {
+            for (PotionEffectSkillData potionEffectSkillData : potionEffectSkillDatas) {
+                potionEffectSkillData.ifConditionsTrue(() -> {
                     potionEffectSkillData.getPotionEffect().ifPresent(effectToApply -> {
                         if (effectToApply.getType().equals(PotionEffectType.HEALTH_BOOST)) {
                             PotionEffect potionEffect = player.getPotionEffect(effectToApply.getType());
@@ -51,7 +50,7 @@ public class PotionEffectSkill extends SkillImplementation {
                         }
                         player.addPotionEffect(effectToApply);
                     });
-                }
+                }, player);
             }
         }
     }

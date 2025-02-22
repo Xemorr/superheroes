@@ -32,16 +32,16 @@ public class SlimeSkill extends SkillImplementation {
                 if (skillData instanceof SlimeData slimeData) {
                     World world = e.getPlayer().getWorld();
                     if (isOnGround(world, e.getTo()) && !isOnGround(world, e.getFrom())) {
-                        if (slimeData.areConditionsTrue(player)) {
+                        slimeData.ifConditionsTrue(() -> {
                             Vector velocity = e.getPlayer().getVelocity();
                             Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(() -> {
-                                    if (velocity.getY() < -0.26 && !e.getPlayer().isSneaking()) {
-                                        velocity.setY(velocity.getY() * -1);
-                                        velocity.add(e.getPlayer().getEyeLocation().clone().getDirection().setY(0).multiply(slimeData.getSpeedMultiplier()));
-                                        e.getPlayer().setVelocity(velocity);
-                                    }
-                                    }, () -> {}, 2L);
-                        }
+                                if (velocity.getY() < -0.26 && !e.getPlayer().isSneaking()) {
+                                    velocity.setY(velocity.getY() * -1);
+                                    velocity.add(e.getPlayer().getEyeLocation().clone().getDirection().setY(0).multiply(slimeData.getSpeedMultiplier()));
+                                    e.getPlayer().setVelocity(velocity);
+                                }
+                            }, () -> {}, 2L);
+                        }, player);
                     }
                 }
             }

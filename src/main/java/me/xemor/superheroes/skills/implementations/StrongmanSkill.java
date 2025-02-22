@@ -33,11 +33,10 @@ public class StrongmanSkill extends SkillImplementation {
     public void onInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("STRONGMAN"));
-        for (SkillData skillData : skillDatas) {
-            StrongmanData strongmanData = (StrongmanData) skillData;
+        Collection<StrongmanData> strongmanDatas = superhero.getSkillData(StrongmanData.class);
+        for (StrongmanData strongmanData : strongmanDatas) {
             Entity topEntity = getTopEntity(e.getPlayer());
-            if (skillData.areConditionsTrue(player, e.getRightClicked())) {
+            strongmanData.ifConditionsTrue(() -> {
                 if (!e.getRightClicked().equals(topEntity) && countPassengers(topEntity) <= strongmanData.getMaxPassengers()) {
                     topEntity.addPassenger(e.getRightClicked());
                 }
@@ -46,7 +45,7 @@ public class StrongmanSkill extends SkillImplementation {
                     Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
                     playerAudience.sendActionBar(tooMuscular);
                 }
-            }
+            }, player, e.getRightClicked());
         }
     }
 

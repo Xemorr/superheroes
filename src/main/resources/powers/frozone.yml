@@ -53,7 +53,7 @@ Frozone:
                 type: SHOOTER
                 mode: OTHER
           effects:
-            repulse:
+            slow:
               type: VELOCITY
               mode: OTHER
               value: 0.95

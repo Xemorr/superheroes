@@ -41,28 +41,27 @@ public class InstantBreak extends SkillImplementation {
                 ItemStack toBreakWith = new ItemStack(instantBreakData.getBreakUsing());
                 toBreakWith.addUnsafeEnchantments(item.getEnchantments());
                 if (instantBreakData.canBreak(block.getType())) {
-                    if (!skillData.areConditionsTrue(player, block.getLocation())) {
-                        return;
-                    }
-                    Collection<ItemStack> itemStackDrops = block.getDrops(toBreakWith);
-                    final List<Item> entityDrops = new ArrayList<>();
-                    World world = block.getWorld();
-                    itemStackDrops.forEach((itemStack) -> entityDrops.add(world.dropItemNaturally(block.getLocation(), itemStack)));
-                    BlockDropItemEvent blockDropItemEvent = new BlockDropItemEvent(block, block.getState(), e.getPlayer(), entityDrops);
-                    Bukkit.getPluginManager().callEvent(blockDropItemEvent);
-                    if (blockDropItemEvent.isCancelled()) {
-                        for (Item drop : blockDropItemEvent.getItems()) {
-                            drop.remove();
+                    skillData.ifConditionsTrue(() -> {
+                        Collection<ItemStack> itemStackDrops = block.getDrops(toBreakWith);
+                        final List<Item> entityDrops = new ArrayList<>();
+                        World world = block.getWorld();
+                        itemStackDrops.forEach((itemStack) -> entityDrops.add(world.dropItemNaturally(block.getLocation(), itemStack)));
+                        BlockDropItemEvent blockDropItemEvent = new BlockDropItemEvent(block, block.getState(), e.getPlayer(), entityDrops);
+                        Bukkit.getPluginManager().callEvent(blockDropItemEvent);
+                        if (blockDropItemEvent.isCancelled()) {
+                            for (Item drop : blockDropItemEvent.getItems()) {
+                                drop.remove();
+                            }
                         }
-                    }
-                    else {
-                        int experience = calculateExperience(block.getType());
-                        if (experience > 0 && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-                            ExperienceOrb spawn = world.spawn(block.getLocation(), ExperienceOrb.class);
-                            spawn.setExperience(experience);
+                        else {
+                            int experience = calculateExperience(block.getType());
+                            if (experience > 0 && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+                                ExperienceOrb spawn = world.spawn(block.getLocation(), ExperienceOrb.class);
+                                spawn.setExperience(experience);
+                            }
+                            block.setType(Material.AIR);
                         }
-                        block.setType(Material.AIR);
-                    }
+                    }, player, block.getLocation());
                 }
             }
         }

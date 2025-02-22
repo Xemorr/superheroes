@@ -42,7 +42,7 @@ public class ClimbSkill extends SkillImplementation {
         Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CLIMB"));
         for (SkillData skillData : skillDatas) {
-            if (skillData.areConditionsTrue(player)) {
+            skillData.ifConditionsTrue(() -> {
                 ClimbData climbData = (ClimbData) skillData;
                 if (climbData.isDebug()) {
                     for (int i = 0; i < 1000; i++) {
@@ -61,7 +61,7 @@ public class ClimbSkill extends SkillImplementation {
                     Vector finalVelocity = player.getVelocity().setY(climbData.getClimbSpeed());
                     player.setVelocity(finalVelocity);
                 }
-            }
+            }, player);
         }
     }
 
@@ -94,14 +94,16 @@ public class ClimbSkill extends SkillImplementation {
         Superhero superhero = heroHandler.getSuperhero(player);
         Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CLIMB"));
         for (SkillData skillData : skillDatas) {
-            if (skillData.areConditionsTrue(player)) {
-                ClimbData climbData = (ClimbData) skillData;
-                if (isClimbing(player, climbData)) {
-                    if (e.getVelocity().getY() > 0 && e.getVelocity().getY() < climbData.getClimbSpeed()) {
-                        e.setVelocity(e.getVelocity().clone().setY(climbData.getClimbSpeed()));
+            skillData.ifConditionsTrue(
+                () -> {
+                    ClimbData climbData = (ClimbData) skillData;
+                    if (isClimbing(player, climbData)) {
+                        if (e.getVelocity().getY() > 0 && e.getVelocity().getY() < climbData.getClimbSpeed()) {
+                            e.setVelocity(e.getVelocity().clone().setY(climbData.getClimbSpeed()));
+                        }
                     }
-                }
-            }
+                }, player
+            );
         }
     }
 
