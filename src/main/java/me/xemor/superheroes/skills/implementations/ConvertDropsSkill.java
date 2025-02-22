@@ -40,22 +40,22 @@ public class ConvertDropsSkill extends SkillImplementation{
                 ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
                 if (item.containsEnchantment(Enchantment.SILK_TOUCH)) continue;
             }
-            if (!skillData.areConditionsTrue(player, block.getLocation())) {
-                continue;
-            }
-            List<Item> drops = e.getItems();
-            Map<Material, ItemStack> dropToNewDrop = convertDropsData.getDropToNewDrop();
-            for (Item item : drops) {
-                ItemStack itemStack = item.getItemStack();
-                int amount = itemStack.getAmount();
-                ItemStack resultingItem = dropToNewDrop.get(itemStack.getType());
-                ItemStack toDrop;
-                if (resultingItem != null) {
-                    toDrop = resultingItem.clone();
-                    toDrop.setAmount(amount * toDrop.getAmount());
-                    item.setItemStack(toDrop);
+            skillData.ifConditionsTrue(() -> {
+                List<Item> drops = e.getItems();
+                Map<Material, ItemStack> dropToNewDrop = convertDropsData.getDropToNewDrop();
+                for (Item item : drops) {
+                    ItemStack itemStack = item.getItemStack();
+                    int amount = itemStack.getAmount();
+                    ItemStack resultingItem = dropToNewDrop.get(itemStack.getType());
+                    ItemStack toDrop;
+                    if (resultingItem != null) {
+                        toDrop = resultingItem.clone();
+                        toDrop.setAmount(amount * toDrop.getAmount());
+                        item.setItemStack(toDrop);
+                    }
                 }
-            }
+            }, player, block.getLocation());
+
         }
     }
 }

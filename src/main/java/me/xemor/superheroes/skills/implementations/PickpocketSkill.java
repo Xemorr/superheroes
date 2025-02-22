@@ -25,18 +25,17 @@ public class PickpocketSkill extends SkillImplementation {
     public void onRightClick(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("PICKPOCKET"));
+        Collection<PickpocketData> pickpocketDatas = superhero.getSkillData(PickpocketData.class);
         if (e.getRightClicked() instanceof Player) {
-            for (SkillData skillData : skillDatas) {
-                PickpocketData pickpocketData = (PickpocketData) skillData;
+            for (PickpocketData pickpocketData : pickpocketDatas) {
                 if (player.isSneaking() != pickpocketData.isSneaking()) {
                     return;
                 }
                 Player otherPlayer = (Player) e.getRightClicked();
-                if (skillData.areConditionsTrue(player, otherPlayer)) {
+                pickpocketData.ifConditionsTrue(() -> {
                     player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1F, 0.5F);
                     otherPlayer.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1F, 0.5F);
-                    Inventory inventory =  otherPlayer.getInventory();
+                    Inventory inventory = otherPlayer.getInventory();
                     InventoryView inventoryView = player.openInventory(inventory);
                     Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate((task) -> {
                         if (inventoryView == null) {
@@ -57,8 +56,9 @@ public class PickpocketSkill extends SkillImplementation {
                             inventoryView.close();
                             task.cancel();
                         }
-                    }, () -> {}, 1L, 4L);
-                }
+                    }, () -> {
+                    }, 1L, 4L);
+                }, player, otherPlayer);
             }
         }
     }

@@ -31,9 +31,7 @@ public class DamagePotionSkill extends SkillImplementation {
             if (damagePotionData.getDamageCause() == null || damagePotionData.getDamageCause().contains(e.getCause())) {
                 damagePotionData.getPotionEffect().ifPresent(potionEffect -> {
                     if (!player.hasPotionEffect(potionEffect.getType())) {
-                        if (damagePotionData.areConditionsTrue(player)) {
-                            player.addPotionEffect(potionEffect);
-                        }
+                        damagePotionData.ifConditionsTrue(() -> player.addPotionEffect(potionEffect), player);
                     }
                 });
             }

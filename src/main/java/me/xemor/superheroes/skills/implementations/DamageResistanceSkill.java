@@ -28,7 +28,7 @@ public class DamageResistanceSkill extends SkillImplementation {
         for (SkillData skillData : skillDatas) {
             DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;
             if (damageResistanceData.getDamageCause() == null || damageResistanceData.getDamageCause().contains(e.getCause())) {
-                if (damageResistanceData.areConditionsTrue(player)) {
+                damageResistanceData.ifConditionsTrue(() -> {
                     e.setDamage(e.getDamage() * damageResistanceData.getDamageMultiplier());
                     if (damageResistanceData.getDamageMultiplier() == 0) {
                         e.setCancelled(true);
@@ -38,7 +38,7 @@ public class DamageResistanceSkill extends SkillImplementation {
                             player.addPotionEffect(potionEffect);
                         }
                     }));
-                }
+                }, player);
             }
         }
     }

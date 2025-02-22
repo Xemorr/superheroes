@@ -19,6 +19,7 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TeleportSkill extends SkillImplementation {
@@ -33,16 +34,15 @@ public class TeleportSkill extends SkillImplementation {
     public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = getPowersHandler().getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("TELEPORT"));
-        for (SkillData skillData : skillDatas) {
-            TeleportData teleportData = (TeleportData) skillData;
+        List<TeleportData> teleportDatas = superhero.getSkillData(TeleportData.class);
+        for (TeleportData teleportData : teleportDatas) {
             if ((e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) == teleportData.isLeftClick()) {
                 if ((e.getItem() == null ? Material.AIR : e.getItem().getType()) == teleportData.getTeleportItem()) {
                     if (skillCooldownHandler.isCooldownOver(teleportData, player.getUniqueId())) {
-                        if (skillData.areConditionsTrue(player)) {
+                        teleportData.ifConditionsTrue(() -> {
                             doEnderTeleport(player, teleportData);
                             skillCooldownHandler.startCooldown(teleportData, teleportData.getCooldown(), player.getUniqueId());
-                        }
+                        }, player);
                     }
                 }
             }

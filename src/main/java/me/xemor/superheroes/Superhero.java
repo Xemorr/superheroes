@@ -2,11 +2,13 @@ package me.xemor.superheroes;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Superhero {
@@ -58,6 +60,11 @@ public class Superhero {
     public Collection<SkillData> getSkillData(int skill) {
         isLocked = true;
         return skillToData.get(skill);
+    }
+
+    public <T extends SkillData> List<T> getSkillData(Class<T> skillClazz) {
+        isLocked = true;
+        return skillToData.get(Skill.getSkill(skillClazz)).stream().map(skillClazz::cast).toList();
     }
 
     public Collection<Integer> getSkills() {

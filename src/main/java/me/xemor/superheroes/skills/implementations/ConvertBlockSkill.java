@@ -32,14 +32,14 @@ public class ConvertBlockSkill extends SkillImplementation {
                 if (block == null) {
                     return;
                 }
-                if (convertBlockData.areConditionsTrue(player, block)) {
+                convertBlockData.ifConditionsTrue(() -> {
                     if (skillCooldownHandler.isCooldownOver(convertBlockData, player.getUniqueId())) {
                         if (convertBlockData.getInputBlocks().contains(block.getType())) {
                             block.setType(convertBlockData.getOutputBlock());
                             skillCooldownHandler.startCooldown(convertBlockData, player.getUniqueId());
                         }
                     }
-                }
+                }, player, block);
             }
         }
     }

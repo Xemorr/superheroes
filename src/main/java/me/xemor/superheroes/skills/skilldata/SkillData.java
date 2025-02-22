@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class SkillData {
 
@@ -25,9 +26,16 @@ public abstract class SkillData {
         }
     }
 
-    public boolean areConditionsTrue(Player player, Object... objects) {
-        if (conditions == null) return true;
+    public CompletableFuture<Boolean> areConditionsTrue(Player player, Object... objects) {
+        if (conditions == null) return CompletableFuture.completedFuture(true);
         return conditions.ANDConditions(player, false, objects);
+    }
+
+    public void ifConditionsTrue(Runnable runnable, Player player, Object... objects) {
+        if (conditions == null) runnable.run();
+        conditions.ANDConditions(player, true, objects).thenAccept((b) -> {
+            if (b) runnable.run();
+        });
     }
 
     public ConditionList getConditions() {

@@ -32,7 +32,6 @@ import org.jetbrains.annotations.NotNull;
 import me.xemor.foliahacks.FoliaHacks;
 import space.arim.morepaperlib.scheduling.GracefulScheduling;
 
-import java.io.ObjectInputFilter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +57,10 @@ public final class Superheroes extends JavaPlugin implements Listener {
 
     public static GracefulScheduling getScheduling() {
         return foliaHacks.getScheduling();
+    }
+
+    public static FoliaHacks getFoliaHacks() {
+        return foliaHacks;
     }
 
     @Override

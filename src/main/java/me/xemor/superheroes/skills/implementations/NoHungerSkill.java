@@ -23,9 +23,7 @@ public class NoHungerSkill extends SkillImplementation {
             for (SkillData skillData : skillDatas) {
                 if (skillData instanceof NoHungerData data) {
                     if ((player.getFoodLevel() <= data.getMinimumHunger() && (e.getFoodLevel() - player.getFoodLevel() <= 0))) {
-                        if (skillData.areConditionsTrue(player)) {
-                            e.setCancelled(true);
-                        }
+                        skillData.ifConditionsTrue(() -> e.setCancelled(true), player);
                     }
                 }
             }

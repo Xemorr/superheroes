@@ -36,9 +36,8 @@ public class SlamSkill extends SkillImplementation {
         if (e.getAction() == Action.LEFT_CLICK_AIR) {
             Player player = e.getPlayer();
             Superhero superhero = heroHandler.getSuperhero(player);
-            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SLAM"));
-            for (SkillData skillData : skillDatas) {
-                SlamData slamData = (SlamData) skillData;
+            Collection<SlamData> slamDatas = superhero.getSkillData(SlamData.class);
+            for (SlamData slamData : slamDatas) {
                 ItemStack currentHand = player.getInventory().getItemInMainHand();
                 if (currentHand.getType().equals(Material.AIR)) {
                     currentHand = new ItemStack(Material.AIR);
@@ -47,11 +46,11 @@ public class SlamSkill extends SkillImplementation {
                     UUID uuid = player.getUniqueId();
                     if (skillCooldownHandler.isCooldownOver(slamData, uuid)) {
                         if (player.getFoodLevel() > slamData.getMinimumFood()) {
-                            if (slamData.areConditionsTrue(player)) {
+                            slamData.ifConditionsTrue(() -> {
                                 skillCooldownHandler.startCooldown(slamData, slamData.getAirCooldown(), uuid);
                                 player.setFoodLevel(player.getFoodLevel() - slamData.getFoodCost());
                                 doDoomfistJump(player, superhero, slamData);
-                            }
+                            }, player);
                         }
                     }
                 }

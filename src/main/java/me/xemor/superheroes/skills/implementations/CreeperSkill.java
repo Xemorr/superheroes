@@ -40,27 +40,26 @@ public class CreeperSkill extends SkillImplementation {
                     final int[] timer = {0};
                     World world = player.getWorld();
                     if (skillCooldownHandler.isCooldownOver(creeperData, player.getUniqueId())) {
-                        if (!creeperData.areConditionsTrue(player)) {
-                            return;
-                        }
-                        world.playSound(player.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 1.0F, 1.0F);
-                        Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate((task) -> {
-                            if (!player.isSneaking()) {
-                                task.cancel(); return;
-                            }
-                            if (heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CREEPER")).isEmpty()) {
-                                task.cancel(); return;
-                            }
-                            if (!isOnGround(player)) {
-                                task.cancel(); return;
-                            }
-                            if (timer[0] >= creeperData.getFuse()) {
-                                explosion(creeperData, player, world);
-                                task.cancel();
-                            } else {
-                                timer[0]++;
-                            }
-                        }, () -> {}, 1L, 1L);
+                        creeperData.ifConditionsTrue(() -> {
+                            world.playSound(player.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 1.0F, 1.0F);
+                            Superheroes.getScheduling().entitySpecificScheduler(player).runAtFixedRate((task) -> {
+                                if (!player.isSneaking()) {
+                                    task.cancel(); return;
+                                }
+                                if (heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CREEPER")).isEmpty()) {
+                                    task.cancel(); return;
+                                }
+                                if (!isOnGround(player)) {
+                                    task.cancel(); return;
+                                }
+                                if (timer[0] >= creeperData.getFuse()) {
+                                    explosion(creeperData, player, world);
+                                    task.cancel();
+                                } else {
+                                    timer[0]++;
+                                }
+                            }, () -> {}, 1L, 1L);
+                        }, player);
                     }
                 }
             }

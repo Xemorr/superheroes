@@ -79,9 +79,17 @@ public class SpellSkill extends SkillImplementation {
                             if (displayName.equals(spellData.getDisplayName())) {
                                 e.setUseItemInHand(Event.Result.DENY);
                                 if (skillCooldownHandler.isCooldownOver(spellData, player.getUniqueId())) {
-                                    if (((e.getClickedBlock() == null && skillData.areConditionsTrue(player))) || skillData.areConditionsTrue(player, e.getClickedBlock().getLocation())) {
-                                        handleSpells(player, spellData, e);
+                                    if (e.getClickedBlock() == null) {
+                                        skillData.ifConditionsTrue(
+                                            () -> handleSpells(player, spellData, e),
+                                            player
+                                        );
                                     }
+                                    else skillData.ifConditionsTrue(
+                                        () -> handleSpells(player, spellData, e),
+                                        player,
+                                        e.getClickedBlock().getLocation()
+                                    );
                                 }
                             }
                         }

@@ -46,16 +46,17 @@ public class RepulsionSkill extends SkillImplementation {
                                     .stream()
                                     .filter(entity -> !entity.equals(player))
                                     .filter(entity -> !repulsionData.inBlacklist(entity.getType()))
-                                    .filter(entity -> skillData.areConditionsTrue(player, entity))
                                     .forEach(entity -> {
-                                                Vector distanceVelocity = entity.getLocation().subtract(player.getLocation()).toVector().normalize().multiply(0.1).multiply(multiplier);
-                                                try {
-                                                    distanceVelocity.checkFinite();
-                                                } catch (IllegalArgumentException notFinite) {
-                                                    return;
-                                                }
-                                                Vector newVelocity = entity.getVelocity().add(distanceVelocity);
-                                                entity.setVelocity(newVelocity);
+                                                skillData.ifConditionsTrue(() -> {
+                                                    Vector distanceVelocity = entity.getLocation().subtract(player.getLocation()).toVector().normalize().multiply(0.1).multiply(multiplier);
+                                                    try {
+                                                        distanceVelocity.checkFinite();
+                                                    } catch (IllegalArgumentException notFinite) {
+                                                        return;
+                                                    }
+                                                    Vector newVelocity = entity.getVelocity().add(distanceVelocity);
+                                                    entity.setVelocity(newVelocity);
+                                                }, player, entity);
                                             }
                                     );
                         }

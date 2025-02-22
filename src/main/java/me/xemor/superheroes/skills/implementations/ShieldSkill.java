@@ -21,14 +21,13 @@ public class ShieldSkill extends SkillImplementation {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player player) {
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("SHIELD"));
-            for (SkillData skillData : skillDatas) {
-                ShieldData shieldData = (ShieldData) skillData;
-                if (shieldData.areConditionsTrue(player, e.getDamager())) {
+            Collection<ShieldData> shieldDatas = heroHandler.getSuperhero(player).getSkillData(ShieldData.class);
+            for (ShieldData shieldData : shieldDatas) {
+                shieldData.ifConditionsTrue(() -> {
                     Superheroes.getScheduling().entitySpecificScheduler(player).runDelayed(() -> {
                         player.setCooldown(Material.SHIELD, shieldData.getCooldown());
                     }, () -> {}, 1L);
-                }
+                }, player, e.getDamager());
             }
         }
     }

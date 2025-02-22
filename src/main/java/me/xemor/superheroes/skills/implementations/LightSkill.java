@@ -60,9 +60,10 @@ public class LightSkill extends SkillImplementation {
             for (SkillData skillData : data) {
                 LightSkillData lightData = (LightSkillData) skillData;
                 if (player.getWorld().getBlockAt(player.getLocation()).getLightLevel() > 10) {
-                    if (lightData.areConditionsTrue(player)) {
-                        lightData.getPotionEffect().ifPresent(player::addPotionEffect);
-                    }
+                    lightData.areConditionsTrue(player).thenAccept((b) -> {
+                        if (b) lightData.getPotionEffect().ifPresent(player::addPotionEffect);
+                        else lightData.getPotionEffect().map(PotionEffect::getType).ifPresent(player::removePotionEffect);
+                    });
                 } else {
                     lightData.getPotionEffect().map(PotionEffect::getType).ifPresent(player::removePotionEffect);
                 }
