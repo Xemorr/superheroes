@@ -1,5 +1,8 @@
 package me.xemor.superheroes.data;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import me.xemor.configurationdata.ItemStackData;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.Superhero;
@@ -173,6 +176,24 @@ public class ConfigHandler {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        heroHandler.registerHeroes(nameToSuperhero);
+    }
+
+    public void loadSuperheroesJackson(HeroHandler heroHandler) {
+        File[] files = this.getPowersFolder().listFiles();
+        HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
+        for (File file : files) {
+            ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+            for (Map.Entry<String, Class<? extends SkillData>> entry : Skill.getSkillDataClasses()) {
+                objectMapper.registerSubtypes(new NamedType(entry.getValue(), entry.getKey()));
+            }
+            objectMapper.findAndRegisterModules();
+            Superhero superhero = objectMapper.readValue(file, Superhero.class);
+            SuperheroLoadEvent superheroLoadEvent = new SuperheroLoadEvent(superhero, superheroSection);
+            Bukkit.getServer().getPluginManager().callEvent(superheroLoadEvent);
+            if (superheroLoadEvent.isCancelled()) continue;
+            nameToSuperhero.put(superhero.name().toLowerCase(), superhero);
         }
         heroHandler.registerHeroes(nameToSuperhero);
     }

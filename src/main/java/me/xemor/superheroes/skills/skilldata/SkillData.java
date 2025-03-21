@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import me.xemor.skillslibrary2.conditions.ConditionList;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.skills.Skill;
@@ -11,9 +12,10 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.CompletableFuture;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "skill")
 public abstract class SkillData {
 
-    private final int skill;
+    private final String skill;
     private final ConfigurationSection configurationSection;
     private ConditionList conditions;
 
@@ -59,7 +61,7 @@ public abstract class SkillData {
         return configurationSection;
     }
 
-    public int getSkill() {
+    public String getSkill() {
         return skill;
     }
 

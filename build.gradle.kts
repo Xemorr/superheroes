@@ -45,6 +45,9 @@ dependencies {
     shadow("me.xemor:foliahacks:1.7.0")
     shadow("io.papermc:paperlib:1.0.7")
     shadow("me.xemor:particleslibrary:1.1-SNAPSHOT")
+    shadow("com.fasterxml.jackson.core:jackson-core:2.18.0")
+    shadow("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    shadow("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.0")
 }
 
 java {

@@ -1,106 +1,33 @@
 package me.xemor.superheroes;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import me.xemor.superheroes.skills.Skill;
+import me.xemor.superheroes.skills.SkillsContainer;
 import me.xemor.superheroes.skills.skilldata.SkillData;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Superhero {
+public record Superhero(String name, String colouredName, String description, Skin skin, SkillsContainer skills) {
 
-    protected final String name;
-    protected final String colouredName;
-    protected final String description;
-    private String base64Skin;
-    private String signature;
-    private boolean isLocked; // Indicate whether hero has entered read-only mode - don't add skills once created
-
-    private ItemStack icon;
-    protected final Multimap<Integer, SkillData> skillToData = HashMultimap.create();
-
-    public Superhero(String name, String colouredName, String description) {
-        this.name = name;
-        this.colouredName = colouredName;
-        this.description = description;
+    public boolean hasSkill(String skill) {
+        return skills.getSkills().containsKey(skill);
     }
 
-    public ItemStack getIcon() {
-        return icon;
+    public Collection<SkillData> getSkillData(String skill) {
+        return skills.getSkills().get(skill);
     }
 
-    public void setIcon(ItemStack icon) {
-        this.icon = icon;
-    }
-
-    public void addSkill(SkillData skill) {
-        if (!isLocked) {
-            skillToData.put(skill.getSkill(), skill);
-        }
-        else {
-            throw new IllegalStateException("This Superhero has entered read-only mode");
-        }
-    }
-
-    public void addSkills(SkillData... skills) {
-        for (SkillData skill : skills) {
-            addSkill(skill);
-        }
-    }
-
-    public boolean hasSkill(int skill) {
-        isLocked = true;
-        return skillToData.containsKey(skill);
-    }
-
-    public Collection<SkillData> getSkillData(int skill) {
-        isLocked = true;
-        return skillToData.get(skill);
-    }
-
-    public <T extends SkillData> List<T> getSkillData(Class<T> skillClazz) {
-        isLocked = true;
-        return skillToData.get(Skill.getSkill(skillClazz)).stream().map(skillClazz::cast).toList();
-    }
-
-    public Collection<Integer> getSkills() {
-        isLocked = true;
-        return skillToData.keys();
-    }
-
-    public String getColouredName() {
-        return colouredName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getName() {
-        return name;
+    public Collection<String> getSkills() {
+        return skills.getSkills().keys();
     }
 
     public String getBase64Skin() {
-        return base64Skin == null ? "" : base64Skin;
-    }
-
-    public void setBase64Skin(String base64Skin) {
-        this.base64Skin = base64Skin;
+        return skin.value();
     }
 
     public String getSignature() {
-        return signature == null ? "" : signature;
+        return skin.signature();
     }
 
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
-    public String getPermission() { return "superheroes.hero." + getName().toLowerCase();}
+    public String getPermission() { return "superheroes.hero." + name.toLowerCase();}
 
     @Override
     public boolean equals(Object other) {
