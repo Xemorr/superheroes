@@ -1,17 +1,18 @@
 package me.xemor.superheroes.skills;
 
+import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import me.xemor.superheroes.skills.skilldata.*;
-import me.xemor.superheroes.skills.skilldata.SpellData;
+import me.xemor.superheroes.skills.skilldata.spell.SpellData;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Skill {
 
     private static int counter = 0;
-    private static final Map<String, Class<? extends SkillData>> skillToData = new HashMap<>();
+    private static final BiMap<String, Class<? extends SkillData>> skillToData = HashBiMap.create();
 
     static {
         registerSkill("DAMAGEMODIFIER", DamageModifierData.class);
@@ -65,11 +66,15 @@ public class Skill {
         skillToData.put(name, effectDataClass);
     }
 
-    public static Class<? extends SkillData> getClass(int trigger) { return skillToData.getOrDefault(trigger, SkillData.class); }
+    public static String getName(Class<? extends SkillData> clazz) { return skillToData.inverse().get(clazz); }
+
+    public static Class<? extends SkillData> getClass(String name) { return skillToData.getOrDefault(name, SkillData.class); }
 
     public static Collection<Map.Entry<String, Class<? extends SkillData>>> getSkillDataClasses() {
         return skillToData.entrySet();
     }
 
-
+    public static NamedType[] getNamedTypes() {
+        return skillToData.entrySet().stream().map((entry) -> new NamedType(entry.getValue(), entry.getKey())).toArray(NamedType[]::new);
+    }
 }

@@ -1,21 +1,21 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.comparison.SetData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
 public class HeartStealData extends SkillData {
 
-    private final int heartsGained;
-    private final SetData<EntityType> entities;
-    private final int maxHearts;
-
-    public HeartStealData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        heartsGained = configurationSection.getInt("heartsgained", 2);
-        maxHearts = configurationSection.getInt("maxhearts", 24);
-        entities = new SetData<>(EntityType.class, "entities", configurationSection);
-    }
+    @JsonPropertyWithDefault
+    @JsonAlias("heartsgained")
+    private int heartsGained = 2;
+    @JsonPropertyWithDefault
+    private SetData<EntityType> entities = new SetData<>();
+    @JsonPropertyWithDefault
+    @JsonAlias("maxhearts")
+    private int maxHearts = 24;
 
     public int getHeartsGained() {
         return heartsGained;

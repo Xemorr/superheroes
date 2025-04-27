@@ -50,7 +50,7 @@ public class DecoySkill extends SkillImplementation {
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DECOY"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("DECOY");
         for (SkillData skillData : skillDatas) {
             DecoyData decoyData = (DecoyData) skillData;
             removeArmorStand(player, decoyData);
@@ -105,7 +105,7 @@ public class DecoySkill extends SkillImplementation {
     @EventHandler
     public void onLost(PlayerChangedSuperheroEvent e) {
         Superhero superhero = e.getOldHero();
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DECOY"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("DECOY");
         for (SkillData skillData : skillDatas) {
             removeArmorStand(e.getPlayer(), (DecoyData) skillData);
         }
@@ -114,7 +114,7 @@ public class DecoySkill extends SkillImplementation {
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DECOY"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("DECOY");
         for (SkillData skillData : skillDatas) {
             removeArmorStand(e.getPlayer(), (DecoyData) skillData);
         }

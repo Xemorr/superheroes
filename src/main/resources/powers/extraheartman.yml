@@ -1,21 +1,21 @@
-ExtraHeartMan:
-  colouredName: <bold><yellow>ExtraHeartMan
-  description: Has extra hearts and can give extra hearts to others
-  skills:
-    AbsorptionGiver:
-      skill: POTIONGIFTER
-      type: ABSORPTION
-      duration: 60
-      potency: 1
-      cooldown: 10
-      receiverMessage: <italic><gray>You have received free absorption hearts!
-      giverMessage: <italic><gray>You have gave absorption hearts!
-      cooldownMessage: <italic><gray>You have <currentcooldown> seconds until you
-        can give absorption again!
-    ExtraHearts:
-      skill: POTIONEFFECT
-      type: HEALTH_BOOST
-      potency: 2
-      duration: 10000000
-      receiverMessage: <italic><gray>You have received a potion effect.
-      giverMessage: <italic><gray>You gave them a potion effect.
+name: ExtraHeartMan
+colouredName: <bold><yellow>ExtraHeartMan
+description: Has extra hearts and can give extra hearts to others
+skills:
+  AbsorptionGiver:
+    skill: POTIONGIFTER
+    type: ABSORPTION
+    duration: 60
+    potency: 1
+    cooldown: 10
+    receiverMessage: <italic><gray>You have received free absorption hearts!
+    giverMessage: <italic><gray>You have gave absorption hearts!
+    cooldownMessage: <italic><gray>You have <currentcooldown> seconds until you
+      can give absorption again!
+  ExtraHearts:
+    skill: POTIONEFFECT
+    type: HEALTH_BOOST
+    potency: 2
+    duration: 10000000
+    receiverMessage: <italic><gray>You have received a potion effect.
+    giverMessage: <italic><gray>You gave them a potion effect.

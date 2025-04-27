@@ -33,7 +33,7 @@ public class CreeperSkill extends SkillImplementation {
         if (e.isSneaking()) {
             Player player = e.getPlayer();
             Superhero superhero = heroHandler.getSuperhero(player);
-            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CREEPER"));
+            Collection<SkillData> skillDatas = superhero.getSkillData("CREEPER");
             for (SkillData skillData : skillDatas) {
                 final CreeperData creeperData = (CreeperData) skillData;
                 if (isOnGround(player)) {
@@ -46,7 +46,7 @@ public class CreeperSkill extends SkillImplementation {
                                 if (!player.isSneaking()) {
                                     task.cancel(); return;
                                 }
-                                if (heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CREEPER")).isEmpty()) {
+                                if (heroHandler.getSuperhero(player).getSkillData("CREEPER").isEmpty()) {
                                     task.cancel(); return;
                                 }
                                 if (!isOnGround(player)) {
@@ -74,7 +74,7 @@ public class CreeperSkill extends SkillImplementation {
         world.createExplosion(player.getLocation(), creeperData.getCreeperPower(), false);
         skillCooldownHandler.startCooldown(creeperData, creeperData.getCooldown(), player.getUniqueId());
         player.setVelocity(new Vector(0, creeperData.getUpwardsVelocity(), 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, creeperData.getSlowfallDuration(), 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, (int) creeperData.getSlowfallDuration(), 0));
     }
 
 }

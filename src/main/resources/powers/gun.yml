@@ -1,45 +1,44 @@
-Gun:
-  colouredName: <bold><dark_gray>Gun
-  description: You have a gun.
-  skills:
-    gunItem:
-      skill: GIVEITEM
-      canStore: false
-      canDrop: false
-      canLoseOnDeath: false
-      canDropOnDeath: false
-      loseItemOnHeroLoss: true
-      item:
-        type: STONE_HOE
-        amount: 1
-        metadata:
-          displayName: <bold><dark_gray>Gun
-          isUnbreakable: true
-          lore:
-            - <italic><white>This is a legitimate superpower, I promise.
-    gun:
-      skill: GUN
-      damage: 5.0
-      cooldown: 2.0
-      cooldownMessage: <bold><dark_gray>Gun </dark_gray></bold><gray>has <currentcooldown>
-        seconds left until it can be used again!
-      maxDistance: 64
-      bulletSize: 1.0
-      item:
-        type: STONE_HOE
-        amount: 1
-        metadata:
-          displayName: <bold><dark_gray>Gun
-          isUnbreakable: true
-          lore:
-            - <italic><white>This is a legitimate superpower, I promise.
-      shootSound:
-        sound: ENTITY_GENERIC_EXPLODE
-        volume: 0.5
-        pitch: 1.0
-      trailParticle:
-        particle: FLAME
-        numberOfParticles: 1
-      hitParticle:
-        particle: EXPLOSION_LARGE
-        numberOfParticles: 1
+name: Gun
+colouredName: <bold><dark_gray>Gun
+description: You have a gun.
+skills:
+  gunItem:
+    skill: GIVEITEM
+    canStore: false
+    canDrop: false
+    canLoseOnDeath: false
+    canDropOnDeath: false
+    loseItemOnHeroLoss: true
+    item:
+      type: STONE_HOE
+      amount: 1
+      metadata:
+        displayName: <bold><dark_gray>Gun
+        isUnbreakable: true
+        lore:
+          - <italic><white>This is a legitimate superpower, I promise.
+  gun:
+    skill: GUN
+    damage: 5.0
+    cooldown: 2.0
+    cooldownMessage: <bold><dark_gray>Gun </dark_gray></bold><gray>has <currentcooldown>
+      seconds left until it can be used again!
+    maxDistance: 64
+    bulletSize: 1.0
+    item:
+      type: STONE_HOE
+      amount: 1
+      metadata:
+        displayName: <bold><dark_gray>Gun
+        lore:
+          - <italic><white>This is a legitimate superpower, I promise.
+    shootSound:
+      sound: entity.generic.explode
+      volume: 0.5
+      pitch: 1.0
+    trailParticle:
+      particle: FLAME
+      amount: 1
+    hitParticle:
+      particle: EXPLOSION
+      amount: 1

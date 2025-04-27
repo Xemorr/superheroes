@@ -25,16 +25,16 @@ public class ConvertBlockSkill extends SkillImplementation {
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CONVERTBLOCK"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("CONVERTBLOCK");
             for (SkillData skillData : skillDatas) {
                 ConvertBlockData convertBlockData = (ConvertBlockData) skillData;
                 Block block = e.getClickedBlock();
-                if (block == null) {
-                    return;
-                }
+
+                if (block == null) return;
+
                 convertBlockData.ifConditionsTrue(() -> {
                     if (skillCooldownHandler.isCooldownOver(convertBlockData, player.getUniqueId())) {
-                        if (convertBlockData.getInputBlocks().contains(block.getType())) {
+                        if (convertBlockData.isInputBlock(block.getType())) {
                             block.setType(convertBlockData.getOutputBlock());
                             skillCooldownHandler.startCooldown(convertBlockData, player.getUniqueId());
                         }

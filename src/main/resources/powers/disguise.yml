@@ -1,23 +1,23 @@
-Disguise:
-  colouredName: <bold><gray>Disguise
-  description: You can trick players with your waifu disguise.
-  skills:
-    sneak:
-      skill: SNEAK # stops mobs from targeting the player while they are meeting the below conditions.
-      needsInvisibility: true
-      mustSneak: true
-    invisibility:
-      skill: SNEAKINGPOTION
-      type: INVISIBILITY
-      potency: 1
-    speed:
-      skill: SNEAKINGPOTION
-      type: SPEED
-      potency: 2
-    decoy:
-      skill: DECOY
-      color: # color of the leather armor
-        red: 255
-        green: 0
-        blue: 255
-      base64Skin: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjQ0ZDM4ZWZjNmFmMGNkNTQ5NGFiNmMzZWYxZDNlYTZlODRiMWZhZTIxNGNlMTRhZmMxMzQ4NzFlMWM4MWM1In19fQ==
+name: Disguise
+colouredName: <bold><gray>Disguise
+description: You can trick players with your waifu disguise.
+skills:
+  sneak:
+    skill: SNEAK # stops mobs from targeting the player while they are meeting the below conditions.
+    needsInvisibility: true
+    mustSneak: true
+  invisibility:
+    skill: SNEAKINGPOTION
+    type: INVISIBILITY
+    potency: 1
+  speed:
+    skill: SNEAKINGPOTION
+    type: SPEED
+    potency: 2
+  decoy:
+    skill: DECOY
+    color: # color of the leather armor
+      red: 255
+      green: 0
+      blue: 255
+    base64Skin: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjQ0ZDM4ZWZjNmFmMGNkNTQ5NGFiNmMzZWYxZDNlYTZlODRiMWZhZTIxNGNlMTRhZmMxMzQ4NzFlMWM4MWM1In19fQ==

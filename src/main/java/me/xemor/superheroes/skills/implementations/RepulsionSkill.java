@@ -25,7 +25,7 @@ public class RepulsionSkill extends SkillImplementation {
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("REPULSION"));
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("REPULSION");
         for (SkillData skillData : skillDatas) {
             RepulsionData repulsionData = (RepulsionData) skillData;
             double multiplier = repulsionData.getMultiplier();

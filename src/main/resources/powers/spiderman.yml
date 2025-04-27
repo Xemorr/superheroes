@@ -1,45 +1,45 @@
-Spiderman:
-  colouredName: <red><b>Spiderman
-  description: You can climb blocks!
-  skin:
-    value: eyJ0aW1lc3RhbXAiOjE0OTk5MjM1MTUzOTEsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iNWE1M2E0NGZkN2JjNGI0ZDdiYTI2Yzc0ODQ4YjVlNDQzODkyNWNmM2Q4YzdiNGI4ZDQzMTFlOGI2ZmEifX19
-    signature: KsSv8po6QPyiJ5GsRSXxtX8G9riMnUc0/M7HFICxOp6jMXwyy7XzOokjt5McwtKimmi0gX8a11QdBI8FOYEh8OpD6g6oR9537INdANP0rIMT5CX3gOT73ko6z9vDuv9EUp2S2iqKIi1LZOIVwtG0Jsy9TBPk/YBnEAXkpskPbdjFm3SgnLJaolOYsven+j+Aeuthf7H0y0xwysgwg8c6HmXy9Li9A2k3EtGKrd+kOrAt2fyurTlOls4Kc5QDz+n8TMZBpmyD/2AhM0E5n0PsVWqp2eDkHyG7fWUIZuIMFkupho5Q3Ys0RpHMx2tEnoeyUmI9kGOy1ZTRYfvodbHVdjVw9KVBU9QyWVrjxeb62HqE7SuDWz9NwdHP5I+Uv9Xph++YdI5Ka2o3KACcEojnWUdx7r2p2nDrk1T+GqPQprsnCFsQDP9XLG7TsexTFDmRi4ZrkPjA2j7g+tz9MxqggrXVz0fw8CxhANsJ/E0XhfkhZXSIZqKQX26aQlwUbetn9ZooSObNJOp6o/GN+k7y9jYnuIIUVrIvlJfYyzYJcuca3LiIzWU0r0bd4H0ZU4yDQeGmyFGNm9FUeQbAhqUAco0kyMBsSIgqSyNBhodGcymGzcGXouscj/zPcURCy4nECmp9zOxtaqpENdiFVxxnmA93gMpI2ICKZQcGyjpFqYw=
-  skills:
-    climb:
-      skill: CLIMB
-      proximity: 1.1
-      speed: 0.25
-      debug: false
-      blocks: [] # empty means allow anything if whitelist is on
-      whitelist: true
-    noFallDamage:
-      skill: DAMAGERESISTANCE
-      damageMultiplier: 0.1
-      damageCause:
-        - FALL
-  plusUltraSkills: # requires SuperheroesPlusUltra to be installed in order to work
-    cobweb:
-      skill: CUSTOM
-      trigger:
-        type: COMBAT
-        conditions:
-          chance:
-            type: CHANCE
-            mode: SELF
-            chance: 0.1
-          cooldown:
-            type: COOLDOWN
-            mode: SELF
-            cooldown: 10
-      effects:
-        trapMob:
-          type: LOCATIONCUBE # need to be on SkillsLibrary 2.12.4 or higher for this to work correctly!
-          mode: OTHER
-          verticalRadius: 0
-          horizontalRadius: 0
-          effects:
-            place:
-              type: PLACEBLOCK
-              mode: LOCATION
-              block:
-                type: COBWEB
+name: Spiderman
+colouredName: <red><b>Spiderman
+description: You can climb blocks!
+skin:
+  value: eyJ0aW1lc3RhbXAiOjE0OTk5MjM1MTUzOTEsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iNWE1M2E0NGZkN2JjNGI0ZDdiYTI2Yzc0ODQ4YjVlNDQzODkyNWNmM2Q4YzdiNGI4ZDQzMTFlOGI2ZmEifX19
+  signature: KsSv8po6QPyiJ5GsRSXxtX8G9riMnUc0/M7HFICxOp6jMXwyy7XzOokjt5McwtKimmi0gX8a11QdBI8FOYEh8OpD6g6oR9537INdANP0rIMT5CX3gOT73ko6z9vDuv9EUp2S2iqKIi1LZOIVwtG0Jsy9TBPk/YBnEAXkpskPbdjFm3SgnLJaolOYsven+j+Aeuthf7H0y0xwysgwg8c6HmXy9Li9A2k3EtGKrd+kOrAt2fyurTlOls4Kc5QDz+n8TMZBpmyD/2AhM0E5n0PsVWqp2eDkHyG7fWUIZuIMFkupho5Q3Ys0RpHMx2tEnoeyUmI9kGOy1ZTRYfvodbHVdjVw9KVBU9QyWVrjxeb62HqE7SuDWz9NwdHP5I+Uv9Xph++YdI5Ka2o3KACcEojnWUdx7r2p2nDrk1T+GqPQprsnCFsQDP9XLG7TsexTFDmRi4ZrkPjA2j7g+tz9MxqggrXVz0fw8CxhANsJ/E0XhfkhZXSIZqKQX26aQlwUbetn9ZooSObNJOp6o/GN+k7y9jYnuIIUVrIvlJfYyzYJcuca3LiIzWU0r0bd4H0ZU4yDQeGmyFGNm9FUeQbAhqUAco0kyMBsSIgqSyNBhodGcymGzcGXouscj/zPcURCy4nECmp9zOxtaqpENdiFVxxnmA93gMpI2ICKZQcGyjpFqYw=
+skills:
+  climb:
+    skill: CLIMB
+    proximity: 1.1
+    speed: 0.25
+    debug: false
+    blocks: [] # empty means allow anything if whitelist is on
+    whitelist: true
+  noFallDamage:
+    skill: DAMAGERESISTANCE
+    damageMultiplier: 0.1
+    damageCause:
+      - FALL
+plusUltraSkills: # requires SuperheroesPlusUltra to be installed in order to work
+  cobweb:
+    skill: CUSTOM
+    trigger:
+      type: COMBAT
+      conditions:
+        chance:
+          type: CHANCE
+          mode: SELF
+          chance: 0.1
+        cooldown:
+          type: COOLDOWN
+          mode: SELF
+          cooldown: 10
+    effects:
+      trapMob:
+        type: LOCATIONCUBE
+        mode: OTHER
+        verticalRadius: 0
+        horizontalRadius: 0
+        effects:
+          place:
+            type: PLACEBLOCK
+            mode: LOCATION
+            block:
+              type: COBWEB

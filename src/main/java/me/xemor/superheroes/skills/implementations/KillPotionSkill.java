@@ -21,7 +21,7 @@ public class KillPotionSkill extends SkillImplementation {
         Player player = e.getEntity().getKiller();
         if (player == null) return;
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("KILLPOTION"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("KILLPOTION");
         for (SkillData skillData : skillDatas) {
             KillPotionData killPotionData = (KillPotionData) skillData;
             if (!killPotionData.getEntities().inSet(e.getEntityType())) return;

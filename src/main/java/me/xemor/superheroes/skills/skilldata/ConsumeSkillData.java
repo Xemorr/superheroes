@@ -1,5 +1,7 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.PotionEffectData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,18 +12,12 @@ import java.util.Optional;
 
 public class ConsumeSkillData extends SkillData {
 
-    private final Material material;
-    private final int hunger;
+    @JsonPropertyWithDefault
+    private Material material = Material.DIRT;
+    @JsonPropertyWithDefault
+    private int hunger = 0;
+    @JsonUnwrapped
     private PotionEffectData potionData;
-
-    public ConsumeSkillData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        if (configurationSection.contains("type")) {
-            potionData = new PotionEffectData(configurationSection);
-        }
-        material = Material.valueOf(configurationSection.getString("material", "DIRT"));
-        hunger = configurationSection.getInt("hunger", 0);
-    }
 
     public int getHunger() {
         return hunger;
@@ -32,6 +28,7 @@ public class ConsumeSkillData extends SkillData {
     }
 
     public Optional<PotionEffect> getPotionEffect() {
-        return potionData.getPotionEffect();
+        if (potionData == null) return Optional.empty();
+        else return potionData.createPotion();
     }
 }

@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.comparison.SetData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -8,42 +9,28 @@ import org.jetbrains.annotations.NotNull;
 
 public class DamageModifierData extends SkillData {
 
-    private final SetData<EntityType> entities;
-
-    private final SetData<EntityDamageEvent.DamageCause> causes;
-
-    private final boolean whitelist;
-
-    private final double expectedMaxDamage;
-
-    private final double maxDamage;
-
-    private final double minDamage;
-    private final int priority;
-    private final boolean incoming;
-    private final boolean outgoing;
-    private final boolean eased;
-    private final boolean limitProjectiles;
-
-    public DamageModifierData(int skill, @NotNull ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        expectedMaxDamage = configurationSection.getDouble("expectedMaxDamage", 30);
-        maxDamage = configurationSection.getDouble("maxDamage", 15);
-        minDamage = configurationSection.getDouble("minDamage", 0);
-        causes= new SetData<>(EntityDamageEvent.DamageCause.class, "causes",
-            configurationSection);
-        entities = new SetData<>(EntityType.class, "entities",
-            configurationSection);
-
-        whitelist = configurationSection.getBoolean("whitelist", false);
-        limitProjectiles = configurationSection.getBoolean("limitProjectiles", true);
-
-        incoming = configurationSection.getBoolean("incoming", false);
-        outgoing = configurationSection.getBoolean("outgoing", false);
-
-        eased = configurationSection.getBoolean("eased", false);
-        priority = configurationSection.getInt("priority", 0);
-    }
+    @JsonPropertyWithDefault
+    private SetData<EntityType> entities = new SetData<>();
+    @JsonPropertyWithDefault
+    private SetData<EntityDamageEvent.DamageCause> causes = new SetData<>();
+    @JsonPropertyWithDefault
+    private boolean whitelist = false;
+    @JsonPropertyWithDefault
+    private double expectedMaxDamage = 30;
+    @JsonPropertyWithDefault
+    private double maxDamage = 15;
+    @JsonPropertyWithDefault
+    private double minDamage = 0;
+    @JsonPropertyWithDefault
+    private int priority = 0;
+    @JsonPropertyWithDefault
+    private boolean incoming = false;
+    @JsonPropertyWithDefault
+    private boolean outgoing = false;
+    @JsonPropertyWithDefault
+    private boolean eased = false;
+    @JsonPropertyWithDefault
+    private boolean limitProjectiles = true;
 
     public boolean isOutgoing() {
         return outgoing;
@@ -61,7 +48,7 @@ public class DamageModifierData extends SkillData {
         return limitProjectiles;
     }
 
-    public final boolean isValidCause(EntityDamageEvent.DamageCause damageCause) {
+    public boolean isValidCause(EntityDamageEvent.DamageCause damageCause) {
         // blacklist nonempty and it is NOT in it
         // whitelist nonempty and it is IN it
         // both are empty
@@ -72,7 +59,7 @@ public class DamageModifierData extends SkillData {
         return in;
     }
 
-    public final boolean isValidEntity(EntityType entityType) {
+    public boolean isValidEntity(EntityType entityType) {
         // blacklist nonempty and it is NOT in it
         // whitelist nonempty and it is IN it
         // both are empty
@@ -83,7 +70,7 @@ public class DamageModifierData extends SkillData {
         return in;
     }
 
-    public final double calculateDamage(double damage) {
+    public double calculateDamage(double damage) {
         if (damage < minDamage) {
             damage = minDamage;
         }

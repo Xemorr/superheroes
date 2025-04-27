@@ -1,25 +1,21 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import me.xemor.configurationdata.PotionEffectData;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class PotionEffectSkillData extends SkillData {
 
-    @NotNull
-    final PotionEffectData potionData;
+    @JsonUnwrapped
+    private PotionEffectData potionData;
 
-    public PotionEffectSkillData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        potionData = new PotionEffectData(configurationSection);
-    }
+    public PotionEffectSkillData() {}
 
     public Optional<PotionEffect> getPotionEffect() {
-        return potionData.getPotionEffect();
+        if (potionData == null) return Optional.empty();
+        else return potionData.createPotion();
     }
 
 }

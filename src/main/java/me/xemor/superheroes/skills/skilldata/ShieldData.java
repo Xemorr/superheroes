@@ -1,17 +1,14 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import org.bukkit.configuration.ConfigurationSection;
+import me.xemor.configurationdata.Duration;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 
 public class ShieldData extends SkillData {
 
-    private final int cooldown;
+    @JsonPropertyWithDefault
+    private Duration cooldown = new Duration(100D);
 
-    public ShieldData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        cooldown = (int) Math.round(configurationSection.getDouble("cooldown", 100) * 20);
-    }
-
-    public int getCooldown() {
-        return cooldown;
+    public long getCooldown() {
+        return cooldown.getDurationInTicks().orElse(2000L);
     }
 }

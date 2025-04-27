@@ -64,7 +64,7 @@ public class PotionEffectSkill extends SkillImplementation {
 
     @EventHandler
     public void onPowerLost(PlayerChangedSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getOldHero().getSkillData(Skill.getSkill("POTIONEFFECT"));
+        Collection<SkillData> skillDatas = e.getOldHero().getSkillData("POTIONEFFECT");
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 if (skillData instanceof PotionEffectSkillData potionEffectData) {

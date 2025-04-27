@@ -53,7 +53,7 @@ public class SelectCommand implements SubCommand {
                     ));
             return;
         }
-        if (!sender.hasPermission("superheroes.hero.select." + power.getName().toLowerCase()) && Superheroes.getInstance().getRerollHandler().doesHeroRequirePermissions()) {
+        if (!sender.hasPermission("superheroes.hero.select." + power.getName().toLowerCase()) && Superheroes.getInstance().getRerollHandler().getRerollConfig().getGlobalRerollSettings().doesEachHeroRequirePermissions()) {
             audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
             return;
         }

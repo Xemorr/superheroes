@@ -1,6 +1,8 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import me.xemor.configurationdata.ItemStackData;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -8,28 +10,20 @@ import org.bukkit.inventory.ItemStack;
 
 public class SlamData extends CooldownData {
 
-    private final ItemStack hand;
-    private final double airCooldown;
-    private final int foodCost;
-    private final int minimumFood;
-    private final double diameterRadius;
-    private final double damage;
-
-    public SlamData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "<dark_gray><bold>Slam <white>Cooldown: <currentcooldown> seconds", 10);
-        ConfigurationSection handSection = configurationSection.getConfigurationSection("item");
-        if (handSection == null) {
-            hand = new ItemStack(Material.AIR);
-        }
-        else {
-            hand = new ItemStackData(handSection, "AIR").getItem();
-        }
-        airCooldown = configurationSection.getDouble("airCooldown", 1);
-        foodCost = configurationSection.getInt("foodCost", 0);
-        minimumFood = configurationSection.getInt("minimumFood", 0);
-        diameterRadius = configurationSection.getDouble("radius", 5) * 2;
-        damage = configurationSection.getDouble("damage", 0);
-    }
+    @JsonPropertyWithDefault
+    @JsonAlias("item")
+    private ItemStack hand = new ItemStack(Material.AIR);
+    @JsonPropertyWithDefault
+    private double airCooldown = 1;
+    @JsonPropertyWithDefault
+    private int foodCost = 0;
+    @JsonPropertyWithDefault
+    private int minimumFood = 0;
+    @JsonPropertyWithDefault
+    @JsonAlias("diameterRadius")
+    private double radius = 5;
+    @JsonPropertyWithDefault
+    private double damage = 0;
 
     public ItemStack getHand() {
         return hand;
@@ -47,8 +41,8 @@ public class SlamData extends CooldownData {
         return minimumFood;
     }
 
-    public double getDiameterRadius() {
-        return diameterRadius;
+    public double getDiameter() {
+        return radius * 2;
     }
 
     public double getDamage() {

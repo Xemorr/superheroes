@@ -27,7 +27,7 @@ public class ConsumeSkill extends SkillImplementation {
         if (!(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CONSUME"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("CONSUME");
         for (SkillData skillData : skillDatas) {
             ConsumeSkillData consumeData = (ConsumeSkillData) skillData;
             consumeData.ifConditionsTrue(() -> {

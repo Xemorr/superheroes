@@ -17,6 +17,7 @@ import org.bukkit.util.RayTraceResult;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class RemoteDetonationSkill extends SkillImplementation {
 
@@ -30,11 +31,11 @@ public class RemoteDetonationSkill extends SkillImplementation {
     public void onShift(PlayerToggleSneakEvent e) {
         if (e.isSneaking()) {
             Player player = e.getPlayer();
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("REMOTEDETONATION"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("REMOTEDETONATION");
             for (SkillData skillData : skillDatas) {
                 RemoteDetonationData remoteDetonationData = (RemoteDetonationData) skillData;
                 if (skillCooldownHandler.isCooldownOver(remoteDetonationData, player.getUniqueId())) {
-                    Entity entity = raytrace(player, remoteDetonationData.getExplodable());
+                    Entity entity = raytrace(player, remoteDetonationData::isExplodable);
                     if (entity == null) return;
                     skillData.ifConditionsTrue(() -> {
                         Location location = entity.getLocation();
@@ -55,9 +56,9 @@ public class RemoteDetonationSkill extends SkillImplementation {
         }
     }
 
-    public Entity raytrace(Player player, List<EntityType> explodable) {
+    public Entity raytrace(Player player, Predicate<EntityType> isExplodable) {
         World world = player.getWorld();
-        RayTraceResult rayTraceResult = world.rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 32, 0.5, (entity) -> entity != player && explodable.contains(entity.getType()));
+        RayTraceResult rayTraceResult = world.rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 32, 0.5, (entity) -> entity != player && isExplodable.test(entity.getType()));
         if (rayTraceResult == null) {
             return null;
         }

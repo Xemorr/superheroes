@@ -1,39 +1,30 @@
 package me.xemor.superheroes.skills.skilldata.spell;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import me.xemor.configurationdata.CompulsoryJsonProperty;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
+import me.xemor.configurationdata.comparison.SetData;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.stream.Collectors;
+public class TransmutationSpell extends SpellData {
 
-public class TransmutationSpell extends Spell {
-
-    private final List<Material> transmutableBlocks;
-    private final Material resultantBlock;
-
-    public TransmutationSpell(int spell, ConfigurationSection configurationSection) {
-        super(spell, configurationSection);
-        resultantBlock = Material.valueOf(configurationSection.getString("transmutationData.resultantBlock", "REDSTONE_BLOCK"));
-        transmutableBlocks = configurationSection.getStringList("transmutationData.transmutableBlocks").stream().map(Material::valueOf).collect(Collectors.toList());
-    }
-
-    public List<Material> getTransmutatableBlocks() {
-        return transmutableBlocks;
-    }
-
-    public Material getResultantBlock() {
-        return resultantBlock;
-    }
+    @JsonPropertyWithDefault
+    private SetData<Material> transmutableBlocks = new SetData<>();
+    @JsonPropertyWithDefault
+    @JsonAlias("resultantBlock")
+    private BlockData block = Bukkit.createBlockData(Material.REDSTONE_BLOCK);
 
     @Override
     public boolean castSpell(Player player, @Nullable Block clickedBlock, @Nullable BlockFace blockFace) {
         if (clickedBlock != null) {
-            if (transmutableBlocks.contains(clickedBlock.getType())) {
-                clickedBlock.setType(resultantBlock);
+            if (transmutableBlocks.inSet(clickedBlock.getType())) {
+                clickedBlock.setBlockData(block);
                 return true;
             }
         }

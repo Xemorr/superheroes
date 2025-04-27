@@ -1,44 +1,36 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.creeves.particleslibrary.ParticleData;
-import me.xemor.superheroes.Superheroes;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
+import me.xemor.configurationdata.comparison.ItemComparisonData;
+import me.xemor.configurationdata.particles.ParticleData;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
 
 public class TeleportData extends CooldownData {
 
-    private final boolean leftClick;
-    private final int distance;
-    private final double yAxisMultiplier;
-    private final PlayerTeleportEvent.TeleportCause teleportCause;
-    @Nullable
-    private ParticleData particleData;
-    private final Material teleportItem;
+    @JsonPropertyWithDefault
+    @JsonAlias("action")
+    private Set<Action> actions = Set.of(Action.LEFT_CLICK_AIR, Action.LEFT_CLICK_BLOCK);
+    @JsonPropertyWithDefault
+    private int distance = 30;
+    @JsonPropertyWithDefault
+    private double yAxisMultiplier = 1;
+    @JsonPropertyWithDefault
+    private PlayerTeleportEvent.TeleportCause teleportCause = PlayerTeleportEvent.TeleportCause.ENDER_PEARL;
+    @JsonPropertyWithDefault
+    private ParticleData particle = null;
+    @JsonPropertyWithDefault
+    private ItemComparisonData teleportItem = new ItemComparisonData(Set.of(Material.AIR));
 
-    public TeleportData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "<purple><bold>Teleport <grey>has <s> seconds until it can be used again!", 10);
-        leftClick = configurationSection.getBoolean("leftClick", true);
-        distance = configurationSection.getInt("distance", 30);
-        yAxisMultiplier = configurationSection.getDouble("yAxisDistanceMultiplier", 1);
-        teleportCause = PlayerTeleportEvent.TeleportCause.valueOf(configurationSection.getString("teleportCause", "ENDER_PEARL"));
-        ConfigurationSection particleSection = configurationSection.getConfigurationSection("particle");
-        if (particleSection == null) {
-            particleSection = configurationSection;
-        }
-        if (particleSection.contains("particleType")) {
-            Superheroes.getInstance().getLogger().warning("This particle section is outdated! It needs upgrading to the new style of specifying particles! " + particleSection.getCurrentPath());
-        }
-        else {
-            particleData = new ParticleData(particleSection);
-        }
-        teleportItem = Material.valueOf(configurationSection.getString("teleportItem", "AIR"));
-    }
-
-    public boolean isLeftClick() {
-        return leftClick;
+    public boolean isValidAction(Action action) {
+        return actions.contains(action);
     }
 
     public int getDistance() {
@@ -53,11 +45,11 @@ public class TeleportData extends CooldownData {
         return teleportCause;
     }
 
-    public @Nullable ParticleData getParticleData() {
-        return particleData;
+    public @Nullable ParticleData getParticle() {
+        return particle;
     }
 
-    public Material getTeleportItem() {
-        return teleportItem;
+    public boolean isValidItem(ItemStack item) {
+        return teleportItem.matches(item);
     }
 }

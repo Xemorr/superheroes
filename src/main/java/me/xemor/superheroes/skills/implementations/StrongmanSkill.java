@@ -81,7 +81,7 @@ public class StrongmanSkill extends SkillImplementation {
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("STRONGMAN"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("STRONGMAN");
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
             if (e.isSneaking()) {
@@ -106,7 +106,7 @@ public class StrongmanSkill extends SkillImplementation {
     public void onLostPower(PlayerChangedSuperheroEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = e.getOldHero();
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("STRONGMAN"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("STRONGMAN");
         for (SkillData skillData : skillDatas) {
             StrongmanData strongmanData = (StrongmanData) skillData;
             while (player.getPassengers().size() > 0) {

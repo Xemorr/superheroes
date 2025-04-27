@@ -24,7 +24,7 @@ public class SneakingPotionSkill extends SkillImplementation {
     public void onSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = getPowersHandler().getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SNEAKINGPOTION"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("SNEAKINGPOTION");
         for (SkillData skillData : skillDatas) {
             SneakingPotionData sneakingPotionData = (SneakingPotionData) skillData;
             if (e.isSneaking()) {
@@ -40,7 +40,7 @@ public class SneakingPotionSkill extends SkillImplementation {
 
     @EventHandler
     public void onPowerLost(PlayerChangedSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getOldHero().getSkillData(Skill.getSkill("SNEAKINGPOTION"));
+        Collection<SkillData> skillDatas = e.getOldHero().getSkillData("SNEAKINGPOTION");
         if (skillDatas != null) {
             for (SkillData skillData : skillDatas) {
                 SneakingPotionData sneakingPotionSkill = (SneakingPotionData) skillData;
@@ -53,7 +53,7 @@ public class SneakingPotionSkill extends SkillImplementation {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = getPowersHandler().getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("SNEAKINGPOTION"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("SNEAKINGPOTION");
         for (SkillData skillData : skillDatas) {
             SneakingPotionData sneakingPotionData = (SneakingPotionData) skillData;
             sneakingPotionData.getPotionEffect().map(PotionEffect::getType).ifPresent(e.getPlayer()::removePotionEffect);

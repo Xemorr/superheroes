@@ -1,29 +1,31 @@
-Tinkerbell:
-  colouredName: <bold><green>Tinkerbell
-  description: You are Tinkerbell, from Peter Pan!
-  skin:
-    value: ewogICJ0aW1lc3RhbXAiIDogMTY0MzEzNTczNzk4OSwKICAicHJvZmlsZUlkIiA6ICJjNzQ1Mzc4MDY5MzY0ODg2ODkwNzRkOTQ3ZjBlOTlmNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJjdWN1bWkwNyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mMDBkMzI5ZTBjMWYwMzBlMmI4NDAwNmE3NzYyYmQwZDg3MWZlZTM5ZTcxYzQ4MzZiYmRhZTk2ZjVlNDg0ODA3IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=
-    signature: GUbKG5DbGN+sgMzDza2tl0Y/h6lyzYZzbcw+xAeoUCC7aRwhWC9JedE+Jh8y3mcDeKkvF/eMs1O4/QuS/bytmqJ+K/xg19z5ylEFqiOA3rzputMRwjrfqMc9xx7KVYjAxoEnLxAYEBiCvpMQsHke4FvWMGtJ0/8WZj1140rqESRB/oBkTRxfrYNnwnN2koUx/yfK4WbrxJoCnA00dRpqNXB93NYz3INf/jw7V26BYoAwjoJezptEI22r+eV35DNDGeehuWTXx9YONhGRJh3+Zu9Jn5HXvvq8h8tl+E+u9c0cbWFIsqr0y2uvIsIuaZFTMpV3FiL4sUudEl6lFihCecD3GbsPkpX6e6T1xOhGBXhT6VJAasNZw1vVLPRPgAQeDymmsaekCVuhaPobfi4PSC9Z9YB4PpN/lpoNWMbbBy6zFpgW9DzRPjXYNCBDT0owSr+nEgc6JSuDch2eby8juKDz4AHp04a04DTIopoY004SS9aifeJuKczL3Cjo5mkXpGOSktru4kKi/6lOtEFInToMGi1OJl/jh/WbxDPaZK3kG6RTX7WadbldJ32vY6W9GCRi16pZ3R3u1UmrulvR0+921Hh/nE//aebSNDu2+nNQAw76XEtR1opF+m7V6biXEU6camxSpRJQq3pPl1svTccMr0KHmwTydk7jUYX6phU=
-  skills:
-    tiny:
-      skill: ATTRIBUTE
-      attributes:
-        SCALE: 0.25
-        STEP_HEIGHT: 0.5
-        SAFE_FALL_DISTANCE: 1
-        PLAYER_BLOCK_BREAK_SPEED: 0.75
-        PLAYER_ENTITY_INTERACTION_RANGE: 2
-        MAX_HEALTH: 4
-        JUMP_STRENGTH: 0.15
-        ATTACK_KNOCKBACK: 0
-        GRAVITY: 0.02
-        FLYING_SPEED: 0.5
-    flight:
-      skill: FLIGHT
-    damageModifier:
-      skill: DAMAGEMODIFIER
-      maxDamage: 7
-      minDamage: 0
-      expectedMaxDamage: 30
-      eased: true
-      outgoing: true
+name: Tinkerbell
+colouredName: <bold><green>Tinkerbell
+description: You are Tinkerbell, from Peter Pan!
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTY0MzEzNTczNzk4OSwKICAicHJvZmlsZUlkIiA6ICJjNzQ1Mzc4MDY5MzY0ODg2ODkwNzRkOTQ3ZjBlOTlmNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJjdWN1bWkwNyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mMDBkMzI5ZTBjMWYwMzBlMmI4NDAwNmE3NzYyYmQwZDg3MWZlZTM5ZTcxYzQ4MzZiYmRhZTk2ZjVlNDg0ODA3IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=
+  signature: GUbKG5DbGN+sgMzDza2tl0Y/h6lyzYZzbcw+xAeoUCC7aRwhWC9JedE+Jh8y3mcDeKkvF/eMs1O4/QuS/bytmqJ+K/xg19z5ylEFqiOA3rzputMRwjrfqMc9xx7KVYjAxoEnLxAYEBiCvpMQsHke4FvWMGtJ0/8WZj1140rqESRB/oBkTRxfrYNnwnN2koUx/yfK4WbrxJoCnA00dRpqNXB93NYz3INf/jw7V26BYoAwjoJezptEI22r+eV35DNDGeehuWTXx9YONhGRJh3+Zu9Jn5HXvvq8h8tl+E+u9c0cbWFIsqr0y2uvIsIuaZFTMpV3FiL4sUudEl6lFihCecD3GbsPkpX6e6T1xOhGBXhT6VJAasNZw1vVLPRPgAQeDymmsaekCVuhaPobfi4PSC9Z9YB4PpN/lpoNWMbbBy6zFpgW9DzRPjXYNCBDT0owSr+nEgc6JSuDch2eby8juKDz4AHp04a04DTIopoY004SS9aifeJuKczL3Cjo5mkXpGOSktru4kKi/6lOtEFInToMGi1OJl/jh/WbxDPaZK3kG6RTX7WadbldJ32vY6W9GCRi16pZ3R3u1UmrulvR0+921Hh/nE//aebSNDu2+nNQAw76XEtR1opF+m7V6biXEU6camxSpRJQq3pPl1svTccMr0KHmwTydk7jUYX6phU=
+skills:
+  tiny:
+    skill: ATTRIBUTE
+    unique_key: "MtLadyAttributes"
+    operation: MULTIPLY_SCALAR
+    attributes:
+      SCALE: 0.25
+      STEP_HEIGHT: 0.5
+      SAFE_FALL_DISTANCE: 0.5
+      BLOCK_BREAK_SPEED: 0.75
+      ENTITY_INTERACTION_RANGE: 0.66
+      MAX_HEALTH: 0.2
+      JUMP_STRENGTH: 0.15
+      ATTACK_KNOCKBACK: 0
+      GRAVITY: 0.3
+      FLYING_SPEED: 0.3
+  flight:
+    skill: FLIGHT
+  damageModifier:
+    skill: DAMAGEMODIFIER
+    maxDamage: 7
+    minDamage: 0
+    expectedMaxDamage: 30
+    eased: true
+    outgoing: true

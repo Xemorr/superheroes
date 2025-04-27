@@ -11,13 +11,11 @@ public class SuperheroLoadEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private final Superhero superhero;
-    private final ConfigurationSection section;
 
     private boolean isCancelled = false;
 
-    public SuperheroLoadEvent(Superhero superhero, ConfigurationSection section) {
+    public SuperheroLoadEvent(Superhero superhero) {
         this.superhero = superhero;
-        this.section = section;
     }
 
     @NotNull
@@ -28,10 +26,6 @@ public class SuperheroLoadEvent extends Event implements Cancellable {
 
     public Superhero getSuperhero() {
         return superhero;
-    }
-
-    public ConfigurationSection getSection() {
-        return section;
     }
 
     public static HandlerList getHandlerList() {

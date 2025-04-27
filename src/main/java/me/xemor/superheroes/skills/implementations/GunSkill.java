@@ -1,7 +1,7 @@
 package me.xemor.superheroes.skills.implementations;
 
-import me.xemor.configurationdata.ParticleData;
 import me.xemor.configurationdata.SoundData;
+import me.xemor.configurationdata.particles.ParticleData;
 import me.xemor.superheroes.SkillCooldownHandler;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.skills.Skill;
@@ -33,23 +33,23 @@ public class GunSkill extends SkillImplementation {
     @EventHandler
     public void useGun(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(e.getPlayer()).getSkillData(Skill.getSkill("GUN"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(e.getPlayer()).getSkillData("GUN");
             Player player = e.getPlayer();
             for (SkillData skillData : skillDatas) {
                 GunData gunData = (GunData) skillData;
-                if (gunData.getItemStackData().matches(e.getItem())) {
+                if (gunData.getItemComparison().matches(e.getItem())) {
                     if (skillCooldownHandler.isCooldownOver(gunData, player.getUniqueId())) {
                         Location currentLocation = player.getEyeLocation();
                         Vector increment = player.getEyeLocation().getDirection();
                         World world = player.getWorld();
-                        SoundData shootSound = gunData.getShootSoundData();
-                        world.playSound(player.getEyeLocation(), shootSound.getSound(), shootSound.getVolume(), shootSound.getPitch());
+                        SoundData shootSound = gunData.getShootSound();
+                        world.playSound(player.getEyeLocation(), shootSound.sound(), shootSound.volume(), shootSound.pitch());
                         RayTraceResult rayTraceResult = world.rayTrace(currentLocation, increment, gunData.getMaxDistance(), FluidCollisionMode.NEVER, true, gunData.getBulletSize(),
                                 (entity) -> (entity instanceof LivingEntity || entity instanceof EnderCrystal)&& !player.equals(entity));
                         skillCooldownHandler.startCooldown(gunData, gunData.getCooldown(), player.getUniqueId());
                         ParticleData trailData = gunData.getTrailParticle();
                         for (int i = 0; i < gunData.getMaxDistance(); i++) {
-                            world.spawnParticle(trailData.getParticle(), currentLocation, trailData.getNumberOfParticles());
+                            trailData.spawnParticle(currentLocation);
                             currentLocation = currentLocation.add(increment);
                         }
                         if (rayTraceResult == null) {
@@ -72,7 +72,7 @@ public class GunSkill extends SkillImplementation {
                             }
                             livingEntity.damage(gunData.getDamage(), player); //doesn't work on edragon for some reason
                             ParticleData hitParticle = gunData.getHitParticle();
-                            world.spawnParticle(hitParticle.getParticle(), livingEntity.getLocation().add(0, 1, 0), hitParticle.getNumberOfParticles());
+                            hitParticle.spawnParticle(livingEntity.getLocation().add(0, 1, 0));
                         }, player, livingEntity);
                     }
                 }

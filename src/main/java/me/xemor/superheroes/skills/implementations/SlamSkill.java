@@ -17,7 +17,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -68,7 +67,7 @@ public class SlamSkill extends SkillImplementation {
             }
             if (!under.getType().isAir()) {
                 World world = player.getWorld();
-                Collection<Entity> entities = world.getNearbyEntities(player.getLocation(), slamData.getDiameterRadius(), 3, slamData.getDiameterRadius(), entity -> entity instanceof LivingEntity);
+                Collection<Entity> entities = world.getNearbyEntities(player.getLocation(), slamData.getDiameter(), 3, slamData.getDiameter(), entity -> entity instanceof LivingEntity);
                 for (Entity entity : entities) {
                     if (!player.equals(entity)) {
                         LivingEntity livingEntity = (LivingEntity) entity;

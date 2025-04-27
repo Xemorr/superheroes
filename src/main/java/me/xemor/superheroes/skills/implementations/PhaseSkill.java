@@ -91,7 +91,7 @@ public class PhaseSkill extends SkillImplementation {
 
     @EventHandler
     public void teleport(PlayerTeleportEvent e) {
-        if (e.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE && heroHandler.getSuperhero(e.getPlayer()).hasSkill(Skill.getSkill("PHASE"))) {
+        if (e.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE && heroHandler.getSuperhero(e.getPlayer()).hasSkill("PHASE")) {
             e.setCancelled(true);
         }
     }

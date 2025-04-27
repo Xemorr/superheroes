@@ -40,7 +40,7 @@ public class ClimbSkill extends SkillImplementation {
 
     public void performClimbSkill(Player player) {
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CLIMB"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("CLIMB");
         for (SkillData skillData : skillDatas) {
             skillData.ifConditionsTrue(() -> {
                 ClimbData climbData = (ClimbData) skillData;
@@ -92,7 +92,7 @@ public class ClimbSkill extends SkillImplementation {
     public void onVelocityChange(PlayerVelocityEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("CLIMB"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("CLIMB");
         for (SkillData skillData : skillDatas) {
             skillData.ifConditionsTrue(
                 () -> {

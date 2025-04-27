@@ -1,256 +1,261 @@
-Sorcerer:
-  colouredName: <bold><dark_purple>Sorcerer
-  description: You can create magical spell books and wield them using redstone
-  skin:
-    value: eyJ0aW1lc3RhbXAiOjE1MjQ0OTY0MTM4NTIsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zY2RlNzk4ZThhY2IyNjlkYjAzNTQzNTA1NjdlYTQyMzQzM2U5MDQ3N2NmZTYxNWU1YWIyOWVkMzc1NmM0MiJ9fX0=
-    signature: jGQ/l8l3VPS+TwTESD24OGeKf4DlxTd0+8L2l9UH7MX/9vOZbEqJkIYAV3lyUXrLSla8hqkCd5tIQeXEqevA5OwO5OXEGLmU8zb4qofd0WERBy8xDhr/ru6A7LWNcBnSqqEmznmZg+V2m8ZcVhtOdp3Yc7Z4RssVSJHWY+vTEyECIAR321M6fexw9U25/EPdHp+QMVx1e5Ox/HOYIoBxtxspAQ3dDDG0dWdHUTmOTzcU7nG1oKFCmxjGk0nYZA4bu2qD9zXx+tbnW0PJJ7lEO4GjRhia82Tmk7Pu4+bsBiJ6drfrcs9vJ9nkWd9hHBXLxdnXg/b0VJrQUBw0kfi5xvC7dJTwhfwUtXSRh5M/aGK4NRq0YDOomET8dGSmav6uK90ObgPYPJe3LJYZ9AJFo+ONR6O4XyMXRnOvE2f0IcfiecMd5L1dJAHz7M2gd26QtJPc7Z8oIBo78X11/lJp1F5yE2IqwES8yRb+askOTax3y1c4G7qmP1pN+subOjyEgiObMSOGPsOwqDMT7RO3o1AZNsWR0fWWo0eUdx1cx9ws14xdOeRGXVw/p0timBzNrMXpUGot3v78Qqzim/sPfTqxGqJQtR3iByrm30aDSG2w63Zpq0FHTHdlMlNGRFIqGxqT7GdPdc1GTLy/mqXd0YbmqaPJLG5Qcw0T+JUUgmA=
-  icon:
-    type: WRITTEN_BOOK
-    amount: 1
-    metadata:
-      displayName: <bold><dark_purple>Sorcerer
-      lore:
-        - <white>You can create magical spell books and wield them using redstone
-        - "<white>The spells are: Fireball, Snowball, Arrow, Lightning, Egg"
-        - "<white>Water, Lava, Fire, Explosion, Trident and Transmutation"
-  skills:
-    recyclable_book:
-      skill: CRAFTING
-      isShaped: false
+name: Sorcerer
+colouredName: <bold><dark_purple>Sorcerer
+description: You can create magical spell books and wield them using redstone
+skin:
+  value: eyJ0aW1lc3RhbXAiOjE1MjQ0OTY0MTM4NTIsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zY2RlNzk4ZThhY2IyNjlkYjAzNTQzNTA1NjdlYTQyMzQzM2U5MDQ3N2NmZTYxNWU1YWIyOWVkMzc1NmM0MiJ9fX0=
+  signature: jGQ/l8l3VPS+TwTESD24OGeKf4DlxTd0+8L2l9UH7MX/9vOZbEqJkIYAV3lyUXrLSla8hqkCd5tIQeXEqevA5OwO5OXEGLmU8zb4qofd0WERBy8xDhr/ru6A7LWNcBnSqqEmznmZg+V2m8ZcVhtOdp3Yc7Z4RssVSJHWY+vTEyECIAR321M6fexw9U25/EPdHp+QMVx1e5Ox/HOYIoBxtxspAQ3dDDG0dWdHUTmOTzcU7nG1oKFCmxjGk0nYZA4bu2qD9zXx+tbnW0PJJ7lEO4GjRhia82Tmk7Pu4+bsBiJ6drfrcs9vJ9nkWd9hHBXLxdnXg/b0VJrQUBw0kfi5xvC7dJTwhfwUtXSRh5M/aGK4NRq0YDOomET8dGSmav6uK90ObgPYPJe3LJYZ9AJFo+ONR6O4XyMXRnOvE2f0IcfiecMd5L1dJAHz7M2gd26QtJPc7Z8oIBo78X11/lJp1F5yE2IqwES8yRb+askOTax3y1c4G7qmP1pN+subOjyEgiObMSOGPsOwqDMT7RO3o1AZNsWR0fWWo0eUdx1cx9ws14xdOeRGXVw/p0timBzNrMXpUGot3v78Qqzim/sPfTqxGqJQtR3iByrm30aDSG2w63Zpq0FHTHdlMlNGRFIqGxqT7GdPdc1GTLy/mqXd0YbmqaPJLG5Qcw0T+JUUgmA=
+icon:
+  type: WRITTEN_BOOK
+  amount: 1
+  metadata:
+    displayName: <bold><dark_purple>Sorcerer
+    lore:
+      - <white>You can create magical spell books and wield them using redstone
+      - "<white>The spells are: Fireball, Snowball, Arrow, Lightning, Egg"
+      - "<white>Water, Lava, Fire, Explosion, Trident and Transmutation"
+skills:
+  recyclable_book:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "RecyclableBook"
       result:
         type: WRITABLE_BOOK
         amount: 1
       ingredients:
         WRITTEN_BOOK: 1
-    cheap_writable_book:
-      skill: CRAFTING
-      isShaped: false
+  cheap_writable_book:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "PaperOnlyBook"
       result:
         type: WRITABLE_BOOK
         amount: 1
       ingredients:
         PAPER: 3
-    arrow:
-      skill: SPELL
-      spell: ARROW
-      fuel: REDSTONE
-      cost: 3
-      cooldown: 6
-      spellName: Arrow
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    snowball:
-      skill: SPELL
-      spell: SNOWBALL
-      fuel: REDSTONE
-      cost: 0
-      cooldown: 0
-      spellName: Snowball
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    trident:
-      skill: SPELL
-      spell: TRIDENT
-      fuel: REDSTONE
-      cost: 4
-      cooldown: 10
-      spellName: Trident
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    egg:
-      skill: SPELL
-      spell: EGG
-      fuel: REDSTONE
-      cost: 1
-      cooldown: 1
-      spellName: Egg
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    fireball:
-      skill: SPELL
-      spell: FIREBALL
-      fuel: REDSTONE
-      cost: 4
-      cooldown: 6
-      spellName: Fireball
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    lightning:
-      skill: SPELL
-      spell: LIGHTNING
-      fuel: REDSTONE
-      cost: 6
-      cooldown: 15
-      spellName: Lightning
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    water:
-      skill: SPELL
-      spell: WATER
-      fuel: REDSTONE
-      cost: 0
-      cooldown: 3
-      spellName: Water
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    lava:
-      skill: SPELL
-      spell: LAVA
-      fuel: REDSTONE
-      cost: 4
-      cooldown: 5
-      spellName: Lava
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    fire:
-      skill: SPELL
-      spell: FIRE
-      fuel: REDSTONE
-      cost: 1
-      cooldown: 1
-      spellName: Fire
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    explosion:
-      skill: SPELL
-      spell: EXPLOSION
-      fuel: REDSTONE
-      cost: 12
-      cooldown: 20
-      spellName: Explosion
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    transmutation:
-      skill: SPELL
-      spell: TRANSMUTATION
-      fuel: REDSTONE
-      cost: 0
-      cooldown: 60
-      spellName: Transmutation
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-      transmutationData:
-        resultantBlock: REDSTONE_BLOCK
-        transmutableBlocks:
-          - IRON_BLOCK
-          - DIAMOND_BLOCK
-          - NETHERITE_BLOCK
-          - GOLD_BLOCK
-          - COAL_BLOCK
-          - LAPIS_BLOCK
-          - EMERALD_BLOCK
-    fangs:
-      skill: SPELL
-      spell: FANGS
-      fuel: REDSTONE
-      cost: 6
-      cooldown: 15
-      spellName: Fangs
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-    giveTutorialBook:
-      skill: GIVEITEM
-      canStore: true
-      canDrop: true
-      canLoseOnDeath: false
-      canDropOnDeath: false
-      loseItemOnHeroLoss: true
-      item:
-        type: WRITTEN_BOOK
-        amount: 1
-        metadata:
-          displayName: "<bold><dark_purple>Sorcerer's Guide"
-          book:
-            author: Xemor_
-            title: "Sorcerer's Guide"
-            pages:
-              - "Hello fellow Sorcerer!\nThis book will outline all of the spells you can cast!\n<red>Fireball, Snowball, Arrow, Lightning, Egg, Water, Lava, Fire, Explosion, Trident, Transmutation, Fangs"
-              - "Simply create a book and quill, and sign it with a name corresponding to a spell and it will transform into a spell book!"
-  plusUltraSkills: # skills only loaded if PlusUltra is on your server
-    ego:
-      skill: SPELL
-      spellName: Ego
-      spell: CUSTOM # SuperheroesPlusUltra adds CUSTOM spell functionality
-      fuel: REDSTONE
-      cost: 0
-      cooldown: 60
-      cooldownMessage: <gray><spellName> has <currentcooldown> seconds remaining.
-      moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
-      displayNameFormat: <dark_purple><spellname>
-      loreFormat:
-        - <white>This is a spell book, right-click to use!
-        - '<white><fuel>: <cost>'
-        - '<white>cooldown: <cooldown>'
-      effects: # Spell that tells all players within a 16 block radius of you that you are the best at Minecraft!
-        egoAoE:
-          type: AOE
-          radius: 16
-          effects:
-            egoMessage:
-              type: MESSAGE
-              mode: OTHER
-              message: <self> is the best at Minecraft!
-        selfMessage:
-          type: MESSAGE
-          mode: SELF
-          message: <self> is the best at Minecraft!
+  arrow:
+    skill: PROJECTILE_SPELL
+    projectile:
+      type: ARROW
+    fuel: REDSTONE
+    cost: 3
+    cooldown: 6
+    spellName: Arrow
+    cooldownMessage: <gray>Arrow Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  snowball:
+    skill: PROJECTILE_SPELL
+    projectile:
+      type: SNOWBALL
+    fuel: REDSTONE
+    cost: 0
+    cooldown: 0
+    spellName: Snowball
+    cooldownMessage: <gray>Snowball Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  trident:
+    skill: PROJECTILE_SPELL
+    projectile:
+      type: TRIDENT
+    fuel: REDSTONE
+    cost: 4
+    cooldown: 10
+    spellName: Trident
+    cooldownMessage: <gray>Trident Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  egg:
+    skill: PROJECTILE_SPELL
+    projectile:
+      type: EGG
+    fuel: REDSTONE
+    cost: 1
+    cooldown: 1
+    spellName: Egg
+    cooldownMessage: <gray>Egg Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  fireball:
+    skill: PROJECTILE_SPELL
+    projectile:
+      type: FIREBALL
+    fuel: REDSTONE
+    cost: 4
+    cooldown: 6
+    spellName: Fireball
+    cooldownMessage: <gray>Fireball Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  lightning:
+    skill: LIGHTNING_SPELL
+    fuel: REDSTONE
+    cost: 6
+    cooldown: 15
+    spellName: Lightning
+    cooldownMessage: <gray>Lightning Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  water:
+    skill: BLOCK_SPELL
+    block:
+      material: WATER
+    fuel: REDSTONE
+    cost: 0
+    cooldown: 3
+    spellName: Water
+    cooldownMessage: <gray>Water Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  lava:
+    skill: BLOCK_SPELL
+    block:
+      material: LAVA
+    fuel: REDSTONE
+    cost: 4
+    cooldown: 5
+    spellName: Lava
+    cooldownMessage: <gray>Lava Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  fire:
+    skill: BLOCK_SPELL
+    block:
+      material: FIRE
+    fuel: REDSTONE
+    cost: 1
+    cooldown: 1
+    spellName: Fire
+    cooldownMessage: <gray>Fire Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  explosion:
+    skill: EXPLOSION_SPELL
+    fuel: REDSTONE
+    cost: 12
+    cooldown: 20
+    spellName: Explosion
+    cooldownMessage: <gray>Explosion Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  transmutation:
+    skill: TRANSMUTATION_SPELL
+    fuel: REDSTONE
+    cost: 0
+    cooldown: 60
+    spellName: Transmutation
+    cooldownMessage: <gray>Transmutation Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+    resultantBlock:
+      material: REDSTONE_BLOCK
+    transmutableBlocks:
+      - IRON_BLOCK
+      - DIAMOND_BLOCK
+      - NETHERITE_BLOCK
+      - GOLD_BLOCK
+      - COAL_BLOCK
+      - LAPIS_BLOCK
+      - EMERALD_BLOCK
+  fangs:
+    skill: FANGS_SPELL
+    fuel: REDSTONE
+    cost: 6
+    cooldown: 15
+    spellName: Fangs
+    cooldownMessage: <gray>Fangs Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+  giveTutorialBook:
+    skill: GIVEITEM
+    canStore: true
+    canDrop: true
+    canLoseOnDeath: false
+    canDropOnDeath: false
+    loseItemOnHeroLoss: true
+    item:
+      type: WRITTEN_BOOK
+      amount: 1
+      metadata:
+        displayName: "<bold><dark_purple>Sorcerer's Guide"
+        book:
+          author: Xemor_
+          title: "Sorcerer's Guide"
+          pages:
+            - "Hello fellow Sorcerer!\nThis book will outline all of the spells you can cast!\n<red>Fireball, Snowball, Arrow, Lightning, Egg, Water, Lava, Fire, Explosion, Trident, Transmutation, Fangs"
+            - "Simply create a book and quill, and sign it with a name corresponding to a spell and it will transform into a spell book!"
+plusUltraSkills: # skills only loaded if PlusUltra is on your server
+  ego:
+    skill: CUSTOM_SPELL # SuperheroesPlusUltra adds CUSTOM spell functionality
+    spellName: Ego
+    fuel: REDSTONE
+    cost: 0
+    cooldown: 60
+    cooldownMessage: <gray>Ego Spell has <currentcooldown> seconds remaining.
+    moreFuelMessage: <gray>This spell needs <fuelneeded> more <fuel>
+    displayNameFormat: <dark_purple><spellname>
+    loreFormat:
+      - <white>This is a spell book, right-click to use!
+      - '<white><fuel>: <cost>'
+      - '<white>cooldown: <cooldown>'
+    effects: # Spell that tells all players within a 16 block radius of you that you are the best at Minecraft!
+      egoAoE:
+        type: AOE
+        radius: 16
+        effects:
+          egoMessage:
+            type: MESSAGE
+            mode: OTHER
+            message: <self> is the best at Minecraft!
+      selfMessage:
+        type: MESSAGE
+        mode: SELF
+        message: <self> is the best at Minecraft!

@@ -26,7 +26,7 @@ public class ConvertDropsSkill extends SkillImplementation{
     @EventHandler
     public void onBreak(BlockDropItemEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("CONVERTDROPS"));
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("CONVERTDROPS");
         BlockState block = e.getBlockState();
         if (block instanceof Container) {
             return;

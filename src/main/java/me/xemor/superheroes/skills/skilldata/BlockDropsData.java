@@ -1,8 +1,11 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import me.xemor.configurationdata.CompulsoryJsonProperty;
 import me.xemor.configurationdata.ItemStackData;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -12,9 +15,13 @@ import java.util.Map;
 
 public class BlockDropsData extends SkillData {
 
-    private final Multimap<Material, ItemStack> dropToNewDrop = HashMultimap.create();
-    private final boolean replaceDrops;
+    @JsonPropertyWithDefault
+    @JsonAlias("convertMap")
+    private Multimap<Material, ItemStack> dropToNewDrop = HashMultimap.create();
+    @JsonPropertyWithDefault
+    private boolean replaceDrops = false;
 
+    /*
     public BlockDropsData(int skill, ConfigurationSection configurationSection) {
         super(skill, configurationSection);
         final ConfigurationSection convertMapSection = configurationSection.getConfigurationSection("convertMap");
@@ -29,6 +36,7 @@ public class BlockDropsData extends SkillData {
             }
         }
     }
+     */
 
     public Collection<ItemStack> getDrops(Material materialBeingBroken) {
         return dropToNewDrop.get(materialBeingBroken);

@@ -1,43 +1,30 @@
 package me.xemor.superheroes.skills.skilldata.spell;
 
+import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.google.common.collect.HashBiMap;
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
 
 public class Spells {
 
     private static final HashBiMap<String, Integer> nameToSpell = HashBiMap.create();
-    private static final List<BiFunction<Integer, ConfigurationSection, Spell>> spellToData = new ArrayList<>();
+    private static final List<Class<? extends SpellData>> spellToData = new ArrayList<>();
     private static int counter = 0;
 
     static {
-        registerSpell("TRANSMUTATION", TransmutationSpell::new);
-        registerSpell("FIRE", (spell, section) -> new PlaceBlockSpell(Material.FIRE, spell, section));
-        registerSpell("LAVA", (spell, section) -> new PlaceBlockSpell(Material.LAVA, spell, section));
-        registerSpell("WATER", (spell, section) -> new PlaceBlockSpell(Material.WATER, spell, section));
-        registerSpell("SNOWBALL", (spell, section) -> new LaunchProjectileSpell(Snowball.class, spell, section));
-        registerSpell("EGG", (spell, section) -> new LaunchProjectileSpell(Egg.class, spell, section));
-        registerSpell("ARROW", (spell, section) -> new LaunchProjectileSpell(SpectralArrow.class, spell, section));
-        registerSpell("FIREBALL", (spell, section) -> new LaunchProjectileSpell(Fireball.class, spell, section));
-        registerSpell("TRIDENT", (spell, section) -> new LaunchProjectileSpell(Trident.class, spell, section));
-        registerSpell("LIGHTNING", LightningSpell::new);
-        registerSpell("EXPLOSION", ExplosionSpell::new);
-        registerSpell("FANGS", FangsSpell::new);
+        registerSpell("TRANSMUTATION", TransmutationSpell.class);
+        registerSpell("BLOCK", PlaceBlockSpell.class);
+        registerSpell("PROJECTILE", LaunchProjectileSpell.class);
+        registerSpell("LIGHTNING", LightningSpell.class);
+        registerSpell("EXPLOSION", ExplosionSpell.class);
+        registerSpell("FANGS", FangsSpell.class);
     }
 
-    public static void registerSpell(String name, BiFunction<Integer, ConfigurationSection, Spell> constructor) {
+    public static void registerSpell(String name, Class<? extends SpellData> clazz) {
         nameToSpell.put(name, counter);
-        spellToData.add(constructor);
+        spellToData.add(clazz);
         counter++;
-    }
-
-    public static Spell createSpell(int spell, ConfigurationSection section) {
-        return spellToData.get(spell).apply(spell, section);
     }
 
     public static int getSpell(String name) {
@@ -46,6 +33,10 @@ public class Spells {
 
     public static String getName(int effect) {
         return nameToSpell.inverse().get(effect);
+    }
+
+    public static NamedType[] getNamedTypes() {
+        return nameToSpell.entrySet().stream().map((entry) -> new NamedType(spellToData.get(entry.getValue()), entry.getKey() + "_SPELL")).toArray(NamedType[]::new);
     }
 
 }

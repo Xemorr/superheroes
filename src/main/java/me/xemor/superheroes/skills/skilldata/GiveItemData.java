@@ -1,30 +1,28 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import me.xemor.configurationdata.ItemStackData;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 public class GiveItemData extends SkillData {
 
-    private final ItemStackData item;
-    private final boolean canStore;
-    private final boolean canDrop;
-    private final boolean canLoseOnDeath;
-    private final boolean loseItemOnHeroLoss;
-    private final boolean dropsOnDeath;
+    @JsonPropertyWithDefault
+    private ItemStack item;
+    @JsonPropertyWithDefault
+    private boolean canStore = true;
+    @JsonPropertyWithDefault
+    private boolean canDrop = true;
+    @JsonPropertyWithDefault
+    private boolean canLoseOnDeath = true;
+    @JsonPropertyWithDefault
+    private boolean loseItemOnHeroLoss = true;
+    @JsonPropertyWithDefault
+    @JsonAlias("canDropOnDeath")
+    private boolean dropsOnDeath = true;
 
-    public GiveItemData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        canStore = configurationSection.getBoolean("canStore", true);
-        canDrop = configurationSection.getBoolean("canDrop", true);
-        dropsOnDeath = configurationSection.getBoolean("canDropOnDeath", true);
-        canLoseOnDeath = configurationSection.getBoolean("canLoseOnDeath", true);
-        loseItemOnHeroLoss = configurationSection.getBoolean("loseItemOnHeroLoss", true);
-        ConfigurationSection itemConfig = configurationSection.getConfigurationSection("item");
-        itemConfig = itemConfig == null ? configurationSection : itemConfig;
-        item = new ItemStackData(itemConfig);
-    }
-
-    public ItemStackData getItemStackData() {
+    public ItemStack getItem() {
         return item;
     }
 

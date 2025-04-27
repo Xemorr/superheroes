@@ -24,10 +24,10 @@ public class DamageResistanceSkill extends SkillImplementation {
             return;
         }
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGERESISTANCE"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("DAMAGERESISTANCE");
         for (SkillData skillData : skillDatas) {
             DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;
-            if (damageResistanceData.getDamageCause() == null || damageResistanceData.getDamageCause().contains(e.getCause())) {
+            if (damageResistanceData.isValidDamageCause(e.getCause())) {
                 damageResistanceData.ifConditionsTrue(() -> {
                     e.setDamage(e.getDamage() * damageResistanceData.getDamageMultiplier());
                     if (damageResistanceData.getDamageMultiplier() == 0) {
@@ -47,7 +47,7 @@ public class DamageResistanceSkill extends SkillImplementation {
     public void onPowerLoss(PlayerChangedSuperheroEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = e.getOldHero();
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGERESISTANCE"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("DAMAGERESISTANCE");
         if (!skillDatas.isEmpty()) {
             for (SkillData skillData : skillDatas) {
                 DamageResistanceData damageResistanceData = (DamageResistanceData) skillData;

@@ -21,12 +21,12 @@ public class OHKOSkill extends SkillImplementation {
     public void onHit(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player player && e.getEntity() instanceof LivingEntity) {
             Superhero superhero = heroHandler.getSuperhero(player);
-            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("OHKO"));
+            Collection<SkillData> skillDatas = superhero.getSkillData("OHKO");
             for (SkillData skillData : skillDatas) {
                 OHKOData ohkoData = (OHKOData) skillData;
                 LivingEntity livingEntity = (LivingEntity) e.getEntity();
                 if (ohkoData.getDisplayName() == null || ohkoData.getDisplayName().equals(livingEntity.getCustomName())) {
-                    if (ohkoData.getEntityTypes().contains(e.getEntity().getType())) {
+                    if (ohkoData.inEntityTypes(e.getEntity().getType())) {
                         skillData.ifConditionsTrue(
                                 () -> e.setDamage(livingEntity.getHealth() * 100),
                                 player,

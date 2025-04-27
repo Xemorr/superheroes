@@ -1,64 +1,38 @@
 package me.xemor.superheroes.skills.skilldata;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import me.xemor.skillslibrary2.conditions.ConditionList;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.superheroes.Superheroes;
-import me.xemor.superheroes.skills.Skill;
-import org.bukkit.configuration.ConfigurationSection;
+import me.xemor.superheroes.skills.ConditionListWrapper;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.CompletableFuture;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "skill")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "skill", visible = true)
 public abstract class SkillData {
 
-    private final String skill;
-    private final ConfigurationSection configurationSection;
-    private ConditionList conditions;
-
-    public SkillData(int skill, @NotNull ConfigurationSection configurationSection) {
-        this.skill = skill;
-        this.configurationSection = configurationSection;
-        ConfigurationSection conditions = configurationSection.getConfigurationSection("conditions");
-        if (Superheroes.getInstance().hasSkillsLibrary()) {
-            this.conditions = conditions == null ? new ConditionList() : new ConditionList(conditions);
-        }
-    }
+    @JsonPropertyWithDefault
+    private ConditionListWrapper conditions = new ConditionListWrapper();
+    @JsonPropertyWithDefault
+    private String skill;
 
     public CompletableFuture<Boolean> areConditionsTrue(Player player, Object... objects) {
-        if (conditions == null) return CompletableFuture.completedFuture(true);
-        return conditions.ANDConditions(player, false, objects);
+        if (conditions.getConditionListIfSkillsLibraryPresent().isEmpty()) return CompletableFuture.completedFuture(true);
+        else return conditions.getConditionListIfSkillsLibraryPresent().orElseThrow().ANDConditions(player, false, objects);
     }
 
     public void ifConditionsTrue(Runnable runnable, Player player, Object... objects) {
         if (conditions == null) runnable.run();
-        conditions.ANDConditions(player, true, objects).thenAccept((b) -> {
+        areConditionsTrue(player, objects).thenAccept((b) -> {
             if (b) runnable.run();
         });
     }
 
-    public ConditionList getConditions() {
+    public ConditionListWrapper getConditions() {
         if (!Superheroes.getInstance().hasSkillsLibrary()) {
             Superheroes.getInstance().getLogger().warning("PLEASE REPORT THIS MESSAGE TO XEMOR IN THE DISCORD! getConditions() called without SkillsLibrary");
         }
         return conditions;
-    }
-
-    @Nullable
-    public static SkillData create(int skill, ConfigurationSection configurationSection) {
-        try {
-            return Skill.getClass(skill).getConstructor(int.class, ConfigurationSection.class).newInstance(skill, configurationSection);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public ConfigurationSection getData() {
-        return configurationSection;
     }
 
     public String getSkill() {

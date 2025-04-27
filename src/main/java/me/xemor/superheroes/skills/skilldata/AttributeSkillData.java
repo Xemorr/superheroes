@@ -1,27 +1,36 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.configurationdata.AttributeData;
-import me.xemor.superheroes.Superheroes;
-import org.bukkit.configuration.ConfigurationSection;
-import org.jetbrains.annotations.NotNull;
+import com.fasterxml.jackson.annotation.*;
+import me.xemor.configurationdata.AttributesData;
+import me.xemor.configurationdata.ConfigurationData;
+import org.bukkit.Registry;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.inventory.EquipmentSlotGroup;
+
+import java.util.Map;
 
 public class AttributeSkillData extends SkillData {
 
-    private final AttributeData attributeData;
+    @JsonIgnore
+    private AttributesData attributes;
 
-    public AttributeSkillData(int skill, @NotNull ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        ConfigurationSection attributesSection = configurationSection.getConfigurationSection("attributes");
-        if (attributesSection == null) {
-            Superheroes.getInstance().getLogger().severe("You have not specified an attributes section! " + configurationSection.getCurrentPath() + ".attributes");
+    @JsonCreator
+    public AttributeSkillData(
+            @JsonProperty("attributes") Map<Attribute, Double> attributes,
+            @JsonProperty("equipmentSlot") @JsonAlias("equipment_slot") EquipmentSlotGroup equipmentSlot,
+            @JsonProperty("operation") AttributesData.Operation operation,
+            @JsonProperty("uniqueKey") @JsonAlias("unique_key") String uniqueKey
+    ) {
+        if (attributes.remove(null) != null) {
+            ConfigurationData.getLogger()
+                    .severe("AttributeSkillData has a null key! Please see valid attributes here: "
+                            + Registry.ATTRIBUTE.stream().map((attr) -> attr.getKey().getKey()).reduce((s1, s2) -> s1 + ", " + s2).orElse("")
+                    );
         }
-        attributeData = new AttributeData(attributesSection, Superheroes.getInstance().getName());
-        if (Superheroes.getInstance().hasSkillsLibrary() && this.getConditions().iterator().hasNext()) {
-            Superheroes.getInstance().getLogger().warning("Attribute skill does not support conditions! Your conditions will not work. " + configurationSection.getCurrentPath() + ".conditions");
-        }
+        this.attributes = new AttributesData(attributes, equipmentSlot, operation, uniqueKey);
     }
 
-    public AttributeData getAttributeData() {
-        return attributeData;
+    public AttributesData getAttributes() {
+        return attributes;
     }
 }

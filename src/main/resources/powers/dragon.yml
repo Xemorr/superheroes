@@ -1,37 +1,37 @@
-Dragon:
-  colouredName: <bold><dark_purple>Dragon
-  description: You can throw fireballs.
-  skin:
-    value: ewogICJ0aW1lc3RhbXAiIDogMTU5MzE4MzE0MTA2NiwKICAicHJvZmlsZUlkIiA6ICI3M2ZkNzU2NWJkZTY0MGQzYWE4MGUxMWUwMTMwMjc3OCIsCiAgInByb2ZpbGVOYW1lIiA6ICJHYUJySWVMVnR6IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzk2NTZmN2FlZTRkNDVjNmI2YTJhODZlZDRmZDVjOWZkOTZmODhjZmQ0ZjE1M2QyYmFhZmI3NDcyY2MwMWU5N2MiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==
-    signature: HBZzZMd4TKOltF1CyAy8hLSH299zS/yGXm24EWtP5gc1uU7GUGBRp4oozYE+/PiAt10FzPYC7iolkFD9txNqoR35G+If1qDxomBkfTV9aau9zq+EClok2tt3QLd9ZX5V17W6CKmqxARI8756YSsTLiu58URH1UmvCXtbwe1+Pjk+UyIfA2bHMOH13n+tftSUYNdDXdTSpV3INTCwjPDzrWwspECeHb7jazHMYUD2/gYJp3S+iQDNJ7O60hardJZOA9ymbGgheK5HhKgKrqMy/x0eUOPDJO3cJ2WPw+pHnQCJ52PQjVnmD8PJS7c9PkYGT0VVek/LMAk+aFqeXfozy4R8eaRLu6gmCSRAvYQew/yWQugS52G44vqnNRPMmvi09fAIcxx6URLEK/oerF2rrGbeyMpPXBGfXX8VHln+f5HZ8ESiPcgUc/mOv0+nyR7etZrvNpHjUPwRugK03Nz2oDNeq/WCWlhQ3bZtDr97MsBsqKdfTqovcjedk2Wd5LOszbKFYd8MUCP32w/4cc0X+bDZCsVRxETYMNRMONhHMVlvqmIxAHc36PyxEZlfCIa1gJLNvBqsvUbE9wuuxp9om7uSJA/QgT8YSVBb08nU+wsA0WNkUeyZ6M3sbiuyT2D2JfuosW3am5nNB+3OwFRkzmWHlB4bZJm47gZoMQZcwsE=
-  skills:
-    fireballItem:
-      skill: GIVEITEM
-      canStore: false
-      canDrop: false
-      canLoseOnDeath: false
-      canDropOnDeath: false
-      loseItemOnHeroLoss: false
-      item:
-        type: BLAZE_POWDER
-        amount: 1
-        metadata:
-          displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
-          isUnbreakable: true
-          lore:
-          - <italic><white>You can use this to throw dragon fireballs!
-    throwableFireballs:
-      skill: THROWER
-      item:
-        types:
-          - BLAZE_POWDER
-        metadata:
-          displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
-          lore:
-          - <italic><white>You can use this to throw dragon fireballs!
-      ammoCost: 0
-      projectile: DRAGON_FIREBALL
-      cooldown: 30
-      cooldownMessage: '<bold><#110000>F</#110000><#150000>i</#150000><#1a0000>r</#1a0000><#1e0000>e</#1e0000><#220000>b</#220000><#260000>a</#260000><#2b0000>l</#2b0000><#2f0000>l</#2f0000><#330000>
-        </#330000></bold><white>Cooldown: <currentcooldown> seconds'
-      velocity: 0.5
+name: Dragon
+colouredName: <bold><dark_purple>Dragon
+description: You can throw fireballs.
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTU5MzE4MzE0MTA2NiwKICAicHJvZmlsZUlkIiA6ICI3M2ZkNzU2NWJkZTY0MGQzYWE4MGUxMWUwMTMwMjc3OCIsCiAgInByb2ZpbGVOYW1lIiA6ICJHYUJySWVMVnR6IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzk2NTZmN2FlZTRkNDVjNmI2YTJhODZlZDRmZDVjOWZkOTZmODhjZmQ0ZjE1M2QyYmFhZmI3NDcyY2MwMWU5N2MiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==
+  signature: HBZzZMd4TKOltF1CyAy8hLSH299zS/yGXm24EWtP5gc1uU7GUGBRp4oozYE+/PiAt10FzPYC7iolkFD9txNqoR35G+If1qDxomBkfTV9aau9zq+EClok2tt3QLd9ZX5V17W6CKmqxARI8756YSsTLiu58URH1UmvCXtbwe1+Pjk+UyIfA2bHMOH13n+tftSUYNdDXdTSpV3INTCwjPDzrWwspECeHb7jazHMYUD2/gYJp3S+iQDNJ7O60hardJZOA9ymbGgheK5HhKgKrqMy/x0eUOPDJO3cJ2WPw+pHnQCJ52PQjVnmD8PJS7c9PkYGT0VVek/LMAk+aFqeXfozy4R8eaRLu6gmCSRAvYQew/yWQugS52G44vqnNRPMmvi09fAIcxx6URLEK/oerF2rrGbeyMpPXBGfXX8VHln+f5HZ8ESiPcgUc/mOv0+nyR7etZrvNpHjUPwRugK03Nz2oDNeq/WCWlhQ3bZtDr97MsBsqKdfTqovcjedk2Wd5LOszbKFYd8MUCP32w/4cc0X+bDZCsVRxETYMNRMONhHMVlvqmIxAHc36PyxEZlfCIa1gJLNvBqsvUbE9wuuxp9om7uSJA/QgT8YSVBb08nU+wsA0WNkUeyZ6M3sbiuyT2D2JfuosW3am5nNB+3OwFRkzmWHlB4bZJm47gZoMQZcwsE=
+skills:
+  fireballItem:
+    skill: GIVEITEM
+    canStore: false
+    canDrop: false
+    canLoseOnDeath: false
+    canDropOnDeath: false
+    loseItemOnHeroLoss: false
+    item:
+      type: BLAZE_POWDER
+      amount: 1
+      metadata:
+        displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
+        isUnbreakable: true
+        lore:
+        - <italic><white>You can use this to throw dragon fireballs!
+  throwableFireballs:
+    skill: THROWER
+    item:
+      types:
+        - BLAZE_POWDER
+      metadata:
+        displayName: <bold><dark_purple>Dragon </dark_purple></bold><bold><gray>Fireball
+        lore:
+        - <italic><white>You can use this to throw dragon fireballs!
+    ammoCost: 0
+    projectile: DRAGON_FIREBALL
+    cooldown: 30
+    cooldownMessage: '<bold><#110000>F</#110000><#150000>i</#150000><#1a0000>r</#1a0000><#1e0000>e</#1e0000><#220000>b</#220000><#260000>a</#260000><#2b0000>l</#2b0000><#2f0000>l</#2f0000><#330000>
+      </#330000></bold><white>Cooldown: <currentcooldown> seconds'
+    velocity: 0.5

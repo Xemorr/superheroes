@@ -1,37 +1,37 @@
-Speleologist:
-  colouredName: <bold><gray>Speleologist
-  description: Instantly smelt and double ores!
-  skills:
-    dropConverter:
-      skill: CONVERTDROPS
-      ignoreSilkTouch: false
-      ignoredBlocks:
-      - REDSTONE
-      convertMap:
-        RAW_IRON:
-          type: IRON_INGOT
-          amount: 2
-        RAW_GOLD:
-          type: GOLD_INGOT
-          amount: 2
-        DIAMOND:
-          type: DIAMOND
-          amount: 2
-        ANCIENT_DEBRIS:
-          type: NETHERITE_SCRAP
-          amount: 2
-        RAW_COPPER:
-          type: COPPER_INGOT
-          amount: 2
-        COAL:
-          type: COAL
-          amount: 2
-        LAPIS_LAZULI:
-          type: LAPIS_LAZULI
-          amount: 2
-        REDSTONE:
-          type: REDSTONE
-          amount: 2
-        EMERALD:
-          type: EMERALD
-          amount: 2
+name: Speleologist
+colouredName: <bold><gray>Speleologist
+description: Instantly smelt and double ores!
+skills:
+  dropConverter:
+    skill: CONVERTDROPS
+    ignoreSilkTouch: false
+    ignoredBlocks:
+    - REDSTONE
+    convertMap:
+      RAW_IRON:
+        type: IRON_INGOT
+        amount: 2
+      RAW_GOLD:
+        type: GOLD_INGOT
+        amount: 2
+      DIAMOND:
+        type: DIAMOND
+        amount: 2
+      ANCIENT_DEBRIS:
+        type: NETHERITE_SCRAP
+        amount: 2
+      RAW_COPPER:
+        type: COPPER_INGOT
+        amount: 2
+      COAL:
+        type: COAL
+        amount: 2
+      LAPIS_LAZULI:
+        type: LAPIS_LAZULI
+        amount: 2
+      REDSTONE:
+        type: REDSTONE
+        amount: 2
+      EMERALD:
+        type: EMERALD
+        amount: 2

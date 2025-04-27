@@ -1,5 +1,7 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import me.xemor.configurationdata.JsonPropertyWithDefault;
+import me.xemor.configurationdata.comparison.SetData;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -9,27 +11,23 @@ import java.util.stream.Collectors;
 
 public class RemoteDetonationData extends CooldownData {
 
-    final private boolean spawnsFire;
-    final private boolean breakBlocks;
-    final private boolean removeDetonatedEntity;
-    final private float explosionStrength;
-    final private List<EntityType> explodable;
-
-    public RemoteDetonationData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "You have <s> seconds remaining before you can remote detonate again", 10);
-        explosionStrength = (float) configurationSection.getDouble("explosionStrength", 1);
-        explodable = configurationSection.getStringList("explodable").stream().map(EntityType::valueOf).collect(Collectors.toList());
-        spawnsFire = configurationSection.getBoolean("spawnsFire", false);
-        breakBlocks = configurationSection.getBoolean("breakBlocks", true);
-        removeDetonatedEntity = configurationSection.getBoolean("removeDetonatedEntity", true);
-    }
+    @JsonPropertyWithDefault
+    private boolean spawnsFire = false;
+    @JsonPropertyWithDefault
+    private boolean breakBlocks = true;
+    @JsonPropertyWithDefault
+    private boolean removeDetonatedEntity = true;
+    @JsonPropertyWithDefault
+    private float explosionStrength = 1;
+    @JsonPropertyWithDefault
+    private SetData<EntityType> explodable = new SetData<>();
 
     public float getExplosionStrength() {
         return explosionStrength;
     }
 
-    public List<EntityType> getExplodable() {
-        return explodable;
+    public boolean isExplodable(EntityType entityType) {
+        return explodable.inSet(entityType);
     }
 
     public boolean spawnsFire() {

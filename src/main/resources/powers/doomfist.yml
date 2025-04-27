@@ -1,25 +1,25 @@
-Doomfist:
-  colouredName: <bold><dark_gray>Doomfist
-  description: You are Doomfist.
-  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
-  skin:
-    value: ewogICJ0aW1lc3RhbXAiIDogMTYwNTgyNjc0ODIxMiwKICAicHJvZmlsZUlkIiA6ICI5ZDQyNWFiOGFmZjg0MGU1OWM3NzUzZjc5Mjg5YjMyZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJUb21wa2luNDIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTM2ZWJlMjVjNzMzZjZkYThjZDgwNTJlMzFlMDJkNjNiZjUyYzE2NzYyZWEyNjljOGNjZDk5YzgyMmEwNzBkZSIKICAgIH0KICB9Cn0=
-    signature: SGQvYk0zpKEcVUsLhTptbA8Nmdm2ldzFGF5NYe8O45m9oEAN8DiUBZIq7ppK3bAFSZVLPes26cytYE4O8JKRYYdShtibpOUaBBSgCGIu0ODBpWgAhv5RMV+Y/bDZ4nCZSq5bJftYwVJ+oHVLmvlUpUgDqWPBShoELJrLScR0AdjYkHQsSYQvmSOwJeTysJYUYUc5lqncByRnuxLmuGYfQCJDM7tXvQojeIeu5TUERrkShXdbKJ2FOMz/q2xqm62oUnAjEtNouLkRRj08yRC5AeBJEdfu8U35yI1YNxPV6y0VLgNAnnsLYsH+o1SEDeQpSVMwUI0/MpYGbI+/vVTuBtjmZEo4AJsV+kLAG17/dISjfSVzrGwE/wuInjlbE2+to3Ta14sXcw8LT31oLIUS+VVsbNmhYIjIxp8KJ8mL3KefMHcjh4tuJnpzpiS5LATkKSASfp6peDqcYIL9GHq9I0paRbYVCCDrtNnWoS1vldH++kqJCRgH5HH8IapfZxwUMay84xtKIP8hl6W1b8d+ZR0s6gSRzCR8xgx05ejqNYm4UwY3qK/7HzvczVt2tdH3EFsAmIEcRD6pB04WhJhsUmhNOLy1oWF0LM/9K3AAMgLPvYWOEN3jyaL7lB08f5G6+HF1/Zg/R7XA8jnkUCzFRxYbK9G9byIfxECRhu8Q+wk=
-  skills:
-    punch:
-      skill: SLAM
-      item:
-        type: AIR
-      cooldown: 10
-      airCooldown: 1
-      foodCost: 3
-      minimumFood: 6
-      diameterRadius: 5
-      damage: 8
-      cooldownMessage: '<bold><#ff00ff>S</#ff00ff><#bf00bf>l</#bf00bf><#800080>a</#800080><#400040>m</#400040><black>
-        </black></bold><white>Cooldown: <currentcooldown> seconds'
-    noFallDamage:
-      skill: DAMAGERESISTANCE
-      damageMultiplier: 0
-      damageCause:
-        - FALL
+name: Doomfist
+colouredName: <bold><dark_gray>Doomfist
+description: You are Doomfist.
+# Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTYwNTgyNjc0ODIxMiwKICAicHJvZmlsZUlkIiA6ICI5ZDQyNWFiOGFmZjg0MGU1OWM3NzUzZjc5Mjg5YjMyZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJUb21wa2luNDIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTM2ZWJlMjVjNzMzZjZkYThjZDgwNTJlMzFlMDJkNjNiZjUyYzE2NzYyZWEyNjljOGNjZDk5YzgyMmEwNzBkZSIKICAgIH0KICB9Cn0=
+  signature: SGQvYk0zpKEcVUsLhTptbA8Nmdm2ldzFGF5NYe8O45m9oEAN8DiUBZIq7ppK3bAFSZVLPes26cytYE4O8JKRYYdShtibpOUaBBSgCGIu0ODBpWgAhv5RMV+Y/bDZ4nCZSq5bJftYwVJ+oHVLmvlUpUgDqWPBShoELJrLScR0AdjYkHQsSYQvmSOwJeTysJYUYUc5lqncByRnuxLmuGYfQCJDM7tXvQojeIeu5TUERrkShXdbKJ2FOMz/q2xqm62oUnAjEtNouLkRRj08yRC5AeBJEdfu8U35yI1YNxPV6y0VLgNAnnsLYsH+o1SEDeQpSVMwUI0/MpYGbI+/vVTuBtjmZEo4AJsV+kLAG17/dISjfSVzrGwE/wuInjlbE2+to3Ta14sXcw8LT31oLIUS+VVsbNmhYIjIxp8KJ8mL3KefMHcjh4tuJnpzpiS5LATkKSASfp6peDqcYIL9GHq9I0paRbYVCCDrtNnWoS1vldH++kqJCRgH5HH8IapfZxwUMay84xtKIP8hl6W1b8d+ZR0s6gSRzCR8xgx05ejqNYm4UwY3qK/7HzvczVt2tdH3EFsAmIEcRD6pB04WhJhsUmhNOLy1oWF0LM/9K3AAMgLPvYWOEN3jyaL7lB08f5G6+HF1/Zg/R7XA8jnkUCzFRxYbK9G9byIfxECRhu8Q+wk=
+skills:
+  punch:
+    skill: SLAM
+    item:
+      type: AIR
+    cooldown: 10
+    airCooldown: 1
+    foodCost: 3
+    minimumFood: 6
+    radius: 5
+    damage: 8
+    cooldownMessage: '<bold><#ff00ff>S</#ff00ff><#bf00bf>l</#bf00bf><#800080>a</#800080><#400040>m</#400040><black>
+      </black></bold><white>Cooldown: <currentcooldown> seconds'
+  noFallDamage:
+    skill: DAMAGERESISTANCE
+    damageMultiplier: 0
+    damageCause:
+      - FALL

@@ -1,5 +1,13 @@
 package me.xemor.superheroes.reroll;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import me.xemor.configurationdata.ConfigurationData;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
@@ -15,50 +23,30 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RerollGroup {
-    private int weightSum = 0;
+
+    @JsonIgnore
+    private int weightSum = -1;
+    @JsonPropertyWithDefault
+    @JsonAlias("heroes")
     private List<WeightedHero> weightedHeroes = new ArrayList<>();
-    @Nullable
+    @JsonPropertyWithDefault
+    @JsonAlias("item")
     private ItemComparisonData itemComparator = null;
 
-    public RerollGroup(ConfigurationSection configuration) {
-        ConfigurationSection itemSection = configuration.getConfigurationSection("item");
-        if (itemSection != null) {
-            this.itemComparator = new ItemComparisonData(itemSection);
-        }
-        List<Map<?, ?>> heroes = configuration.getMapList("heroes");
-        int i = 0;
-        for (Map<?, ?> weightHeroMap : heroes) {
-            int weight;
-            String heroName = (String) weightHeroMap.get("hero");
-            Object weightUnsure = weightHeroMap.get("weight");
-            ++i;
-            if (!(weightUnsure instanceof Integer) || (weight = (Integer) weightUnsure) <= 0) {
-                Superheroes.getInstance().getLogger().severe("There is an invalid number specified at: " + configuration.getCurrentPath() + "." + i + ".hero");
-                Superheroes.getInstance().getLogger().severe("This may be because it is not a number, or because it is <= 0");
-                continue;
-            }
-            Superhero hero = Superheroes.getInstance().getHeroHandler().getSuperhero(heroName);
-            if (hero == null) {
-                Superheroes.getInstance().getLogger().severe("There is an invalid hero specified at: " + configuration.getCurrentPath() + "." + i + ".hero");
-                continue;
-            }
-            weightSum += weight;
-            weightedHeroes.add(new WeightedHero(hero, weight));
-        }
-    }
-
-    public RerollGroup() {
-    }
+    public RerollGroup() {}
 
     private void handleEmptyWeightedHeroes() {
         if (this.weightSum == 0) {
-            this.weightedHeroes = Superheroes.getInstance().getHeroHandler().getNameToSuperhero().values().stream().map(h -> new WeightedHero(h, 1.0)).toList();
+            this.weightedHeroes = Superheroes.getInstance().getHeroHandler().getNameToSuperhero().values().stream().map(h -> new WeightedHero(h, 1)).toList();
             this.weightSum = this.weightedHeroes.size();
         }
     }
 
     @Nullable
     public Superhero chooseHero(@NotNull Player player) {
+        if (weightSum == -1) {
+            weightSum = weightedHeroes.stream().map((it) -> it.weight).reduce(Integer::sum).orElse(0);
+        }
         if (this.weightedHeroes.isEmpty()) {
             this.handleEmptyWeightedHeroes();
         }
@@ -77,7 +65,7 @@ public class RerollGroup {
             double currentWeight = 0.0;
             double rng = ThreadLocalRandom.current().nextDouble();
             for (WeightedHero wHero : this.weightedHeroes) {
-                if (!(rng <= (currentWeight += wHero.weight / this.weightSum))) continue;
+                if (!(rng <= (currentWeight += (double) wHero.weight / this.weightSum))) continue;
                 chosen = wHero.hero;
                 continue block1;
             }
@@ -89,7 +77,7 @@ public class RerollGroup {
         if (hero == null) {
             return false;
         }
-        return !Superheroes.getInstance().getRerollHandler().doesHeroRequirePermissions() || player.hasPermission(hero.getPermission());
+        return !Superheroes.getInstance().getRerollHandler().getRerollConfig().getGlobalRerollSettings().doesEachHeroRequirePermissions() || player.hasPermission(hero.getPermission());
     }
 
     public boolean matchesItem(ItemStack item) {
@@ -99,7 +87,13 @@ public class RerollGroup {
         return this.itemComparator.matches(item);
     }
 
-    private record WeightedHero(Superhero hero, double weight) {
+    private record WeightedHero(Superhero hero, int weight) {
+
+        @JsonCreator
+        public WeightedHero(@JsonProperty("hero") String hero, @JsonProperty("weight") int weight) {
+            this(Superheroes.getInstance().getHeroHandler().getSuperhero(hero), weight);
+        }
+
     }
 }
 
