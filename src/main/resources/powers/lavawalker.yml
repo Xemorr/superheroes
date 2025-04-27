@@ -1,33 +1,33 @@
-LavaWalker:
-  colouredName: <bold><red>Lava-Walker
-  description: You can walk on lava and fire heals you!
-  skills:
-    lavawalker:
-      skill: WALKER
-      blocksToReplace:
-      - LAVA
-      blocksToPlace:
-      - MAGMA_BLOCK
-      isSneaking: false
-      blocksDrop: true
-      shouldRevert: false
-    fireHealing:
-      skill: DAMAGEPOTION
-      type: REGENERATION
-      duration: 20
-      potency: 1
-      damageCause:
-      - FIRE_TICK
-      - FIRE
-      - LAVA
-      - HOT_FLOOR
-    noFireDamage:
-      skill: DAMAGERESISTANCE
-      damageMultiplier: 0
-      damageCause:
-      - FIRE_TICK
-      - FIRE
-      - LAVA
-      - HOT_FLOOR
+name: LavaWalker
+colouredName: <bold><red>Lava-Walker
+description: You can walk on lava and fire heals you!
+skills:
+  lavawalker:
+    skill: WALKER
+    blocksToReplace:
+    - LAVA
+    blocksToPlace:
+    - MAGMA_BLOCK
+    isSneaking: false
+    blocksDrop: true
+    shouldRevert: false
+  fireHealing:
+    skill: DAMAGEPOTION
+    type: REGENERATION
+    duration: 20
+    potency: 1
+    damageCause:
+    - FIRE_TICK
+    - FIRE
+    - LAVA
+    - HOT_FLOOR
+  noFireDamage:
+    skill: DAMAGERESISTANCE
+    damageMultiplier: 0
+    damageCause:
+    - FIRE_TICK
+    - FIRE
+    - LAVA
+    - HOT_FLOOR
 
 

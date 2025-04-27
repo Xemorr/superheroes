@@ -39,7 +39,7 @@ public class EraserSkill extends SkillImplementation {
         if (e.isSneaking()) {
             Player player = e.getPlayer();
             Superhero superhero = heroHandler.getSuperhero(player);
-            Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("ERASER"));
+            Collection<SkillData> skillDatas = superhero.getSkillData("ERASER");
             for (SkillData skillData : skillDatas) {
                 EraserData eraserData = (EraserData) skillData;
                 if (skillCooldownHandler.isCooldownOver(eraserData, player.getUniqueId())) {

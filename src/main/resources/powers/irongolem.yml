@@ -1,27 +1,43 @@
-IronGolem:
-  colouredName: <bold><white>Iron Golem
-  description: You're an iron golem
-  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
-  skin:
-    value: ewogICJ0aW1lc3RhbXAiIDogMTYxOTA3NTM2Njk2MCwKICAicHJvZmlsZUlkIiA6ICI0YjMyOTM3YTgyNWU0ZWZkYjFmYzFkZTZiYmYyOWFhOSIsCiAgInByb2ZpbGVOYW1lIiA6ICJHb2xlbSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yMmJjYWNlZWI0MTYyZjQwMGQ0NDc0MzMxNTkzMmFjODIwZDMxMTlhYzg5ODZhMDE2MWE3MjYxNjFjY2M5M2ZjIgogICAgfQogIH0KfQ==
-    signature: SGsp3PpAvBSLEWC5R5pSusoblXsquYt7xdVYJKjaxzKikiNHl8MbpjBQIFqkkyqSknyTp1Nbihfj2ReexSmqK03tEkOhHic6ArdQjO7p7ctqRyaJNg8eAfU1G9yhZBBu0YJ3dJI2BLFhwUyq/F8lyckCJ1+qye4b/FWwIWpgWcqfhnnUPJpr1ZdyzcHdmNSDCnTpBdkKQRLtOVMcA/HSv9jnzKQB93nE6SeBkQMCjdt8RHozS/h8zoBv4hQdKMn+eAzPnqYaQyzB2eBnI5AOSR6LE7x6eg3bs9qCqHZT9O8NMmg+n67hhbqLCPioUIpnaHBLgywDDKqIspuE8B9fF/v3Oaw4Ud58aThXImXZhr0ZCwIBIqJ5k/BmlKRZNfVLA5dmTyFdkfeJtkhZ+VJoVHx/OBO6B9UQro0FtkV0gCPxAcRqV2CmnuNmh9vKbSSuZHLX3+c1QImCAiLq8ULFCLRcrFfBbLVCGjF0SBNLIpJR6uAClAC2qPFwbcphsDmdVPncLyEyByz4RfImrrQRpA3R89BFfES4HSQwmOCMkbdaF+IglbiIM/pV+pSr+1b8EPt5it6UkH9tgDkIy9Zdh3nq8tIed7kp2aBxt7b85Q4x+BoF6Xdca3dnn53hTPolYF/mNRbNgkF6VKXHM1hFYtmid2Bs2n4hYEbQquwgikU=
-  skills:
-    ironFarm:
-      skill: EGGLAYER
-      type: IRON_INGOT
-      quantity: 1
-      delay: 60
-    slowness:
-      skill: POTIONEFFECT
-      type: SLOW
-      potency: 1
-    resistance:
-      skill: POTIONEFFECT
-      type: RESISTANCE
-      potency: 1
-    noFall:
-      skill: DAMAGERESISTANCE
-      damageMultiplier: 0
-      damageCause:
-      - FALL
+name: IronGolem
+colouredName: <bold><white>Iron Golem
+description: You're an iron golem
+# Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTYxOTA3NTM2Njk2MCwKICAicHJvZmlsZUlkIiA6ICI0YjMyOTM3YTgyNWU0ZWZkYjFmYzFkZTZiYmYyOWFhOSIsCiAgInByb2ZpbGVOYW1lIiA6ICJHb2xlbSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yMmJjYWNlZWI0MTYyZjQwMGQ0NDc0MzMxNTkzMmFjODIwZDMxMTlhYzg5ODZhMDE2MWE3MjYxNjFjY2M5M2ZjIgogICAgfQogIH0KfQ==
+  signature: SGsp3PpAvBSLEWC5R5pSusoblXsquYt7xdVYJKjaxzKikiNHl8MbpjBQIFqkkyqSknyTp1Nbihfj2ReexSmqK03tEkOhHic6ArdQjO7p7ctqRyaJNg8eAfU1G9yhZBBu0YJ3dJI2BLFhwUyq/F8lyckCJ1+qye4b/FWwIWpgWcqfhnnUPJpr1ZdyzcHdmNSDCnTpBdkKQRLtOVMcA/HSv9jnzKQB93nE6SeBkQMCjdt8RHozS/h8zoBv4hQdKMn+eAzPnqYaQyzB2eBnI5AOSR6LE7x6eg3bs9qCqHZT9O8NMmg+n67hhbqLCPioUIpnaHBLgywDDKqIspuE8B9fF/v3Oaw4Ud58aThXImXZhr0ZCwIBIqJ5k/BmlKRZNfVLA5dmTyFdkfeJtkhZ+VJoVHx/OBO6B9UQro0FtkV0gCPxAcRqV2CmnuNmh9vKbSSuZHLX3+c1QImCAiLq8ULFCLRcrFfBbLVCGjF0SBNLIpJR6uAClAC2qPFwbcphsDmdVPncLyEyByz4RfImrrQRpA3R89BFfES4HSQwmOCMkbdaF+IglbiIM/pV+pSr+1b8EPt5it6UkH9tgDkIy9Zdh3nq8tIed7kp2aBxt7b85Q4x+BoF6Xdca3dnn53hTPolYF/mNRbNgkF6VKXHM1hFYtmid2Bs2n4hYEbQquwgikU=
+skills:
+  ironFarm:
+    skill: EGGLAYER
+    type: IRON_INGOT
+    quantity: 1
+    delay: 60
+  slowness:
+    skill: POTIONEFFECT
+    type: SLOWNESS
+    potency: 1
+  resistance:
+    skill: POTIONEFFECT
+    type: RESISTANCE
+    potency: 1
+  noFall:
+    skill: DAMAGERESISTANCE
+    damageMultiplier: 0
+    damageCause:
+    - FALL
+plusUltraSkills:
+  knock_up:
+    skill: CUSTOM
+    trigger:
+      type: DAMAGEDENTITY
+    effects:
+      delay:
+        type: WAIT
+        delay: 0.05
+        effects:
+          velocity:
+            type: VELOCITY
+            mode: OTHER
+            component: Y
+            value: 0.6
+            operation: ADD
 

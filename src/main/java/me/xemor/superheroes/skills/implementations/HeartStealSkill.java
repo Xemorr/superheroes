@@ -35,7 +35,7 @@ public class HeartStealSkill extends SkillImplementation {
         Player player = e.getEntity().getKiller();
         if (player == null) return;
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("HEARTSTEAL"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("HEARTSTEAL");
         for (SkillData skillData : skillDatas) {
             HeartStealData heartStealData = (HeartStealData) skillData;
             if (!heartStealData.getEntities().inSet(e.getEntityType())) return;
@@ -50,7 +50,7 @@ public class HeartStealSkill extends SkillImplementation {
     }
 
     public void removeExtraHearts(Player player, Superhero superhero) {
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("HEARTSTEAL"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("HEARTSTEAL");
         if (!skillDatas.isEmpty()) {
             AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
             List<AttributeModifier> toRemove = new ArrayList<>();

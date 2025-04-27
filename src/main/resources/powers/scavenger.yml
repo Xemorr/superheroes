@@ -1,21 +1,23 @@
-Scavenger:
-  colouredName: <bold><yellow>Scavenger
-  description: You unlock additional crafting recipes
-  skin:
-    value: ewogICJ0aW1lc3RhbXAiIDogMTY0NTMwNjAyNjQ4NSwKICAicHJvZmlsZUlkIiA6ICI2MjM5ZWRhM2ExY2Y0YjJiYWMyODk2NGQ0NmNlOWVhOSIsCiAgInByb2ZpbGVOYW1lIiA6ICJGYXRGYXRHb2QiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTE0Mzk2NDIxYzcyYzEzYzM1OGMyZDE3OWY3ZTg5MzRjNjdkMGFmY2U4ZTk5YTc2ODRlMzQyYjE3Mzg1YWZlNiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9
-    signature: EHT2DDRSMKheu198NKrb3w+n06VcfhKWBD07JZ4GU+FReGGdzTQgQxQ74Z5DESJES+iKQSfVyYbanIKIeeLKslshEAdaaYooyYmyf+GzhlZ+JBaj7ZGzqP7L3VlwPeSsyf1M3ufCCRgNilPcCC88aci3uJESqBWfwc1WQg1jn81Vt44ZmTHE555c+7F/mW65Z6pBQ+wyzPAUkcc1OYsGu66rIi1EIxnqF1gUvSM5H8v3b07uKxYKaTUfuUl2oUfS+PQbiEDoP5ZSgvwiLxhoDhKJi+BiXWW3NXbSf+HoXDOyEby6cSHfs/vblmEcZ01OSTxZ7SWPRYawDRd5tjXcZGviGAWkiTl9H+HclIlYPYx9fOgC+n9nN+6lO8K85p+TZP+aF3We9n+aKueiTOmwYK97I1LZhCcmyx10cnhso76cFc6bpFMkQAc7bZSVykNy5icgrPl0bxbOiSzZsYkqarATUxw9sXdR4Jv9AoCwXV9RTbM1kVmWpIt1q66v6KoD4MwYLESc+B55h9BUSK+2RaFFyvMp+KGNx9bAH4/vjHfs3uyVWrdT3mOqMizCwt67307Lxi+CKwtatyk6bq1SAI9xz2ceoJn64zM4SfpvqVbPMFzr5RnU307ECzg0R7eOpCT/aJVdW8Bkzsn88NLFK9A2Lcb9R7dY2fRcjBwHNow=
-  skills:
-    rotten_flesh:
-      skill: CRAFTING
-      isShaped: false
+name: Scavenger
+colouredName: <bold><yellow>Scavenger
+description: You unlock additional crafting recipes
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTY0NTMwNjAyNjQ4NSwKICAicHJvZmlsZUlkIiA6ICI2MjM5ZWRhM2ExY2Y0YjJiYWMyODk2NGQ0NmNlOWVhOSIsCiAgInByb2ZpbGVOYW1lIiA6ICJGYXRGYXRHb2QiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTE0Mzk2NDIxYzcyYzEzYzM1OGMyZDE3OWY3ZTg5MzRjNjdkMGFmY2U4ZTk5YTc2ODRlMzQyYjE3Mzg1YWZlNiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9
+  signature: EHT2DDRSMKheu198NKrb3w+n06VcfhKWBD07JZ4GU+FReGGdzTQgQxQ74Z5DESJES+iKQSfVyYbanIKIeeLKslshEAdaaYooyYmyf+GzhlZ+JBaj7ZGzqP7L3VlwPeSsyf1M3ufCCRgNilPcCC88aci3uJESqBWfwc1WQg1jn81Vt44ZmTHE555c+7F/mW65Z6pBQ+wyzPAUkcc1OYsGu66rIi1EIxnqF1gUvSM5H8v3b07uKxYKaTUfuUl2oUfS+PQbiEDoP5ZSgvwiLxhoDhKJi+BiXWW3NXbSf+HoXDOyEby6cSHfs/vblmEcZ01OSTxZ7SWPRYawDRd5tjXcZGviGAWkiTl9H+HclIlYPYx9fOgC+n9nN+6lO8K85p+TZP+aF3We9n+aKueiTOmwYK97I1LZhCcmyx10cnhso76cFc6bpFMkQAc7bZSVykNy5icgrPl0bxbOiSzZsYkqarATUxw9sXdR4Jv9AoCwXV9RTbM1kVmWpIt1q66v6KoD4MwYLESc+B55h9BUSK+2RaFFyvMp+KGNx9bAH4/vjHfs3uyVWrdT3mOqMizCwt67307Lxi+CKwtatyk6bq1SAI9xz2ceoJn64zM4SfpvqVbPMFzr5RnU307ECzg0R7eOpCT/aJVdW8Bkzsn88NLFK9A2Lcb9R7dY2fRcjBwHNow=
+skills:
+  rotten_flesh:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "FLESH2LEATHER"
       result:
         type: LEATHER
         amount: 1
       ingredients:
         ROTTEN_FLESH: 1
-    diamond_sword:
-      skill: CRAFTING
-      isShaped: false
+  diamond_sword:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "CheapDiamondSword"
       result:
         type: DIAMOND_SWORD
         amount: 1
@@ -24,9 +26,10 @@ Scavenger:
       ingredients:
         IRON_SWORD: 1
         DIAMOND: 1
-    diamond_axe:
-      skill: CRAFTING
-      isShaped: false
+  diamond_axe:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "CheapDiamondAxe"
       result:
         type: DIAMOND_AXE
         amount: 1
@@ -35,9 +38,10 @@ Scavenger:
       ingredients:
         IRON_AXE: 1
         DIAMOND: 2
-    diamond_pickaxe:
-      skill: CRAFTING
-      isShaped: false
+  diamond_pickaxe:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "CheapDiamondPickaxe"
       result:
         type: DIAMOND_PICKAXE
         amount: 1
@@ -46,9 +50,10 @@ Scavenger:
       ingredients:
         IRON_PICKAXE: 1
         DIAMOND: 2
-    diamond_helmet:
-      skill: CRAFTING
-      isShaped: false
+  diamond_helmet:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "CheapDiamondHelmet"
       result:
         type: DIAMOND_HELMET
         amount: 1
@@ -57,9 +62,10 @@ Scavenger:
       ingredients:
         IRON_HELMET: 1
         DIAMOND: 2
-    diamond_chestplate:
-      skill: CRAFTING
-      isShaped: false
+  diamond_chestplate:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "CheapDiamondChestplate"
       result:
         type: DIAMOND_CHESTPLATE
         amount: 1
@@ -68,9 +74,10 @@ Scavenger:
       ingredients:
         IRON_CHESTPLATE: 1
         DIAMOND: 4
-    diamond_leggings:
-      skill: CRAFTING
-      isShaped: false
+  diamond_leggings:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "CheapDiamondLeggings"
       result:
         type: DIAMOND_LEGGINGS
         amount: 1
@@ -79,9 +86,10 @@ Scavenger:
       ingredients:
         IRON_LEGGINGS: 1
         DIAMOND: 4
-    diamond_boots:
-      skill: CRAFTING
-      isShaped: false
+  diamond_boots:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "CheapDiamondBoots"
       result:
         type: DIAMOND_BOOTS
         amount: 1
@@ -90,9 +98,10 @@ Scavenger:
       ingredients:
         IRON_BOOTS: 1
         DIAMOND: 2
-    diamond_shovel:
-      skill: CRAFTING
-      isShaped: false
+  diamond_shovel:
+    skill: CRAFTING
+    shapeless:
+      unique_key: "CheapDiamondShovel"
       result:
         type: DIAMOND_SHOVEL
         amount: 1
@@ -101,9 +110,10 @@ Scavenger:
       ingredients:
         IRON_SHOVEL: 1
         LAPIS_LAZULI: 1
-    bow:
-      skill: CRAFTING
-      isShaped: true
+  bow:
+    skill: CRAFTING
+    shaped:
+      unique_key: "CheapBow"
       result:
         type: BOW
         amount: 1

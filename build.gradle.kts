@@ -1,16 +1,17 @@
 group = "me.xemor"
-version = "7.0.0"
+version = "8.2.0"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 plugins {
     java
     `maven-publish`
-    id("com.github.johnrengelman.shadow") version("7.1.2")
+    id("com.gradleup.shadow") version("8.3.6")
     id("io.sentry.jvm.gradle") version("3.12.0")
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
     maven { url = uri("https://papermc.io/repo/repository/maven-public/")}
@@ -23,14 +24,16 @@ repositories {
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots"
     }
-    mavenLocal()
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
-    compileOnly("me.xemor:skillslibrary:3.0.0")
-    shadow("me.xemor:configurationdata:3.5.1-SNAPSHOT")
+    compileOnly("me.xemor:skillslibrary:4.1.1")
+    compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.0")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    compileOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.0")
+    shadow("me.xemor:configurationdata:4.3.9")
     shadow("org.bstats:bstats-bukkit:1.7")
     shadow("me.xemor:userinterfaces:2.0.2-SNAPSHOT")
     shadow("org.jetbrains:annotations:20.1.0")
@@ -42,9 +45,8 @@ dependencies {
     shadow("org.apache.commons:commons-lang3:3.12.0")
     shadow("io.sentry:sentry:6.29.0")
     shadow("space.arim.morepaperlib:morepaperlib:0.4.3")
-    shadow("me.xemor:foliahacks:1.7.0")
+    shadow("me.xemor:foliahacks:1.7.4")
     shadow("io.papermc:paperlib:1.0.7")
-    shadow("me.xemor:particleslibrary:1.1-SNAPSHOT")
 }
 
 java {
@@ -64,7 +66,6 @@ tasks.shadowJar {
     relocate("io.sentry", "me.xemor.sentry")
     relocate("space.arim.morepaperlib", "me.xemor.superheroes.morepaperlib")
     relocate("me.xemor.foliahacks", "me.xemor.superheroes.foliahacks")
-    relocate("me.creeves.particleslibrary", "me.xemor.superheroes.particleslibrary")
     relocate("io.papermc.paperlib", "me.xemor.superheroes.paperlib")
     configurations = listOf(project.configurations.shadow.get())
     val folder = System.getenv("pluginFolder")
@@ -72,7 +73,7 @@ tasks.shadowJar {
 }
 
 sentry {
-    var token = System.getenv("SENTRY_AUTH_TOKEN")
+    val token = System.getenv("SENTRY_AUTH_TOKEN")
     if (token != null) {
         includeSourceContext.set(true)
         org.set("samuel-hollis-139014fe7")

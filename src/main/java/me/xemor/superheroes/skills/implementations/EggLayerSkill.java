@@ -52,7 +52,7 @@ public class EggLayerSkill extends SkillImplementation {
     }
 
     public void removeSkill(Player player, Superhero oldHero) {
-        Collection<SkillData> skillDatas = oldHero.getSkillData(Skill.getSkill("EGGLAYER"));
+        Collection<SkillData> skillDatas = oldHero.getSkillData("EGGLAYER");
         for (SkillData skillData : skillDatas) {
             Collection<EggLayerRunnable> eggLayerRunnables = map.get(player.getUniqueId());
             for (EggLayerRunnable eggLayerRunnable : eggLayerRunnables) {
@@ -64,7 +64,7 @@ public class EggLayerSkill extends SkillImplementation {
     }
 
     public void initialiseSkill(Player player, Superhero superhero) {
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("EGGLAYER"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("EGGLAYER");
         for (SkillData skillData : skillDatas) {
             EggLayerData eggLayerData = (EggLayerData) skillData;
             startRunnable(player, eggLayerData, superhero);
@@ -79,7 +79,7 @@ public class EggLayerSkill extends SkillImplementation {
                 taskSingleton[0].cancel();
                 return;
             }
-            if (!superhero.getSkillData(Skill.getSkill("EGGLAYER")).contains(eggLayerData)) {
+            if (!superhero.getSkillData("EGGLAYER").contains(eggLayerData)) {
                 taskSingleton[0].cancel();
                 return;
             }

@@ -1,17 +1,13 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import org.bukkit.configuration.ConfigurationSection;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 public class LifestealData extends SkillData {
 
-    private final double lifesteal;
+    @JsonAlias({"lifestealpercentage"})
+    private double lifestealPercentage = 5;
 
-    public LifestealData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        lifesteal = configurationSection.getDouble("lifestealPercentage", 5) / 100;
-    }
-
-    public double getLifesteal() {
-        return lifesteal;
+    public double getLifestealPercentage() {
+        return lifestealPercentage / 100;
     }
 }

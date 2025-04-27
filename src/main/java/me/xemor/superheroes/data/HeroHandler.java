@@ -78,7 +78,7 @@ public class HeroHandler {
             return noPower;
         }
         Superhero hero = heroPlayer.getSuperhero();
-        if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill(Skill.getSkill("PHASE"))) {
+        if (player.getGameMode() == GameMode.SPECTATOR && !hero.hasSkill("PHASE")) {
             return noPower;
         }
         PlayerAsyncCheckSuperheroEvent event = new PlayerAsyncCheckSuperheroEvent(hero, player);
@@ -135,7 +135,9 @@ public class HeroHandler {
     }
 
     public void openHeroGUI(final Player player) {
-        List<Superhero> allowedSuperheroes = nameToSuperhero.values().stream().filter(hero -> !Superheroes.getInstance().getRerollHandler().doesHeroRequirePermissions() || player.hasPermission(hero.getPermission())).toList();
+        List<Superhero> allowedSuperheroes = nameToSuperhero.values().stream()
+                .filter(hero -> !Superheroes.getInstance().getRerollHandler().getRerollConfig().getGlobalRerollSettings().doesEachHeroRequirePermissions() || player.hasPermission(hero.getPermission()))
+                .toList();
         if (allowedSuperheroes.isEmpty()) {
             return;
         }
@@ -198,7 +200,7 @@ public class HeroHandler {
         Collections.shuffle(superheroes);
         Superhero newHero = noPower;
         for (Superhero superhero : superheroes) {
-            if (Superheroes.getInstance().getRerollHandler().doesHeroRequirePermissions() && !player.hasPermission(superhero.getPermission()) || noPower.equals(superhero))
+            if (Superheroes.getInstance().getRerollHandler().getRerollConfig().getGlobalRerollSettings().doesEachHeroRequirePermissions() && !player.hasPermission(superhero.getPermission()) || noPower.equals(superhero))
                 continue;
             newHero = superhero;
             break;

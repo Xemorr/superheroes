@@ -1,6 +1,5 @@
 package me.xemor.superheroes;
 
-import me.creeves.particleslibrary.ParticlesLibrary;
 import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.skillslibrary2.conditions.Conditions;
 import me.xemor.superheroes.commands.HeroCommand;
@@ -9,7 +8,6 @@ import me.xemor.superheroes.data.ConfigHandler;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.reroll.RerollHandler;
 import me.xemor.superheroes.sentry.SentryInitializer;
-import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.implementations.*;
 import me.xemor.userinterface.ChestHandler;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -74,7 +72,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     public void onEnable() {
         SentryInitializer.initSentry("https://a5dfe8c79f9c3dad331ebdcb8923066a@o4505846670753792.ingest.sentry.io/4505846683992064", this);
         superheroes = this;
-        ParticlesLibrary.registerParticlesLibrary(this);
+        this.hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary2");
         ConfigurationData.setup(this);
         foliaHacks = new FoliaHacks(this);
         this.saveDefaultConfig();
@@ -90,7 +88,6 @@ public final class Superheroes extends JavaPlugin implements Listener {
         plusUltraAdvertisement();
         checkForNewUpdate();
         bukkitAudiences = BukkitAudiences.create(this);
-        this.hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary2");
         if (this.hasSkillsLibrary) {
             this.runSkillsLibraryChanges();
         }
@@ -208,10 +205,10 @@ public final class Superheroes extends JavaPlugin implements Listener {
         metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_skill", () -> {
             HashMap<String, Integer> valueMap = new HashMap<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Collection<Integer> skills = this.heroHandler.getSuperhero(player).getSkills();
-                for (int skill : skills) {
-                    int currentCount = valueMap.getOrDefault(Skill.getName(skill), 0);
-                    valueMap.put(Skill.getName(skill), ++currentCount);
+                Collection<String> skills = this.heroHandler.getSuperhero(player).getSkills();
+                for (String skill : skills) {
+                    int currentCount = valueMap.getOrDefault(skill, 0);
+                    valueMap.put(skill, ++currentCount);
                 }
             }
             return valueMap;
@@ -219,10 +216,10 @@ public final class Superheroes extends JavaPlugin implements Listener {
         metrics.addCustomChart(new Metrics.AdvancedPie("superheroes_using_each_skill", () -> {
             HashMap<String, Integer> valueMap = new HashMap<>();
             for (Superhero superhero : Superheroes.getInstance().getHeroHandler().getNameToSuperhero().values()) {
-                Collection<Integer> skills = superhero.getSkills();
-                for (int skill : skills) {
-                    int currentCount = valueMap.getOrDefault(Skill.getName(skill), 0);
-                    valueMap.put(Skill.getName(skill), ++currentCount);
+                Collection<String> skills = superhero.getSkills();
+                for (String skill : skills) {
+                    int currentCount = valueMap.getOrDefault(skill, 0);
+                    valueMap.put(skill, ++currentCount);
                 }
             }
             return valueMap;
@@ -241,6 +238,10 @@ public final class Superheroes extends JavaPlugin implements Listener {
 
     public boolean hasSkillsLibrary() {
         return this.hasSkillsLibrary;
+    }
+
+    public boolean hasPlusUltra() {
+        return Bukkit.getPluginManager().isPluginEnabled("SuperheroesPlusUltra");
     }
 
     public RerollHandler getRerollHandler() {

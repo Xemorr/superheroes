@@ -1,27 +1,25 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import me.xemor.configurationdata.Duration;
+import me.xemor.configurationdata.ItemStackData;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 public class EggLayerData extends SkillData {
 
-    private final ItemStack toLay;
-    private final long tickDelay;
-
-    public EggLayerData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        String materialStr = configurationSection.getString("type", "EGG");
-        int quantity = configurationSection.getInt("quantity", 1);
-        toLay = new ItemStack(Material.valueOf(materialStr), quantity);
-        tickDelay = Math.round(configurationSection.getDouble("delay", 15) * 20);
-    }
+    @JsonUnwrapped
+    private ItemStackData toLay = null;
+    @JsonPropertyWithDefault
+    private Duration tickDelay = new Duration(15D);
 
     public ItemStack getToLay() {
-        return toLay;
+        return toLay == null ? new ItemStack(Material.EGG) : toLay.item();
     }
 
     public long getTickDelay() {
-        return tickDelay;
+        return tickDelay.getDurationInTicks().orElse(15 * 20L);
     }
 }

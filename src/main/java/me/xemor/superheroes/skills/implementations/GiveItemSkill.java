@@ -39,10 +39,10 @@ public class GiveItemSkill extends SkillImplementation {
 
     @EventHandler
     public void heroGained(PlayerChangedSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getNewHero().getSkillData(Skill.getSkill("GIVEITEM"));
+        Collection<SkillData> skillDatas = e.getNewHero().getSkillData("GIVEITEM");
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
-            HashMap<Integer, ItemStack> leftovers = e.getPlayer().getInventory().addItem(giveItemData.getItemStackData().getItem());
+            HashMap<Integer, ItemStack> leftovers = e.getPlayer().getInventory().addItem(giveItemData.getItem());
             World world = e.getPlayer().getWorld();
             Location location = e.getPlayer().getLocation();
             skillData.ifConditionsTrue(() -> {
@@ -55,7 +55,7 @@ public class GiveItemSkill extends SkillImplementation {
 
     @EventHandler
     public void heroLoss(PlayerChangedSuperheroEvent e) {
-        Collection<SkillData> skillDatas = e.getOldHero().getSkillData(Skill.getSkill("GIVEITEM"));
+        Collection<SkillData> skillDatas = e.getOldHero().getSkillData("GIVEITEM");
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             if (!giveItemData.canLoseItemOnHeroLoss()) continue;
@@ -66,7 +66,7 @@ public class GiveItemSkill extends SkillImplementation {
     private void removeItem(Player player, GiveItemData giveItemData) {
         ItemStack[] contents = player.getInventory().getContents();
         for (int i = 0; i < contents.length; ++i) {
-            if (!giveItemData.getItemStackData().getItem().isSimilar(contents[i])) continue;
+            if (!giveItemData.getItem().isSimilar(contents[i])) continue;
             contents[i] = null;
         }
         player.getInventory().setContents(contents);
@@ -75,10 +75,10 @@ public class GiveItemSkill extends SkillImplementation {
     @EventHandler
     public void itemDropped(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("GIVEITEM");
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
-            if (giveItemData.canDrop() || !e.getItemDrop().getItemStack().isSimilar(giveItemData.getItemStackData().getItem()))
+            if (giveItemData.canDrop() || !e.getItemDrop().getItemStack().isSimilar(giveItemData.getItem()))
                 continue;
             e.setCancelled(true);
         }
@@ -87,24 +87,20 @@ public class GiveItemSkill extends SkillImplementation {
     @EventHandler
     public void itemStored(InventoryClickEvent e) {
         if (!(e.getClickedInventory() instanceof PlayerInventory)) {
-            if (e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
-                return;
-            }
-            if (e.getCursor() == null) {
-                return;
-            }
-            if (e.getViewers().size() == 0) {
-                return;
-            }
+
+            if (e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) return;
+            if (e.getCursor() == null) return;
+            if (e.getViewers().isEmpty()) return;
+
             Entity possiblePlayer = e.getViewers().get(0);
             if (!(possiblePlayer instanceof Player player)) {
                 return;
             }
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("GIVEITEM");
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (giveItemData.canStore()) continue;
-                ItemStack item = giveItemData.getItemStackData().getItem();
+                ItemStack item = giveItemData.getItem();
                 if (!e.getCursor().isSimilar(item)) continue;
                 e.setResult(Event.Result.DENY);
             }
@@ -114,21 +110,20 @@ public class GiveItemSkill extends SkillImplementation {
     @EventHandler
     public void itemSwapped(InventoryClickEvent e) {
         if (!(e.getClickedInventory() instanceof PlayerInventory) && e.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD) {
-            if (e.getViewers().size() == 0) {
-                return;
-            }
+            if (e.getViewers().isEmpty()) return;
+
             Entity possiblePlayer = e.getViewers().get(0);
-            if (!(possiblePlayer instanceof Player player)) {
-                return;
-            }
+
+            if (!(possiblePlayer instanceof Player player)) return;
+
             int hotbarSlot = e.getHotbarButton();
             if (hotbarSlot == -1) return;
             ItemStack fromItem = e.getView().getBottomInventory().getItem(hotbarSlot);
             if (fromItem == null) return;
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("GIVEITEM");
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
-                if (giveItemData.canStore() || !fromItem.isSimilar(giveItemData.getItemStackData().getItem()))
+                if (giveItemData.canStore() || !fromItem.isSimilar(giveItemData.getItem()))
                     continue;
                 e.setResult(Event.Result.DENY);
             }
@@ -139,11 +134,11 @@ public class GiveItemSkill extends SkillImplementation {
     public void itemFrameStore(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         if (e.getRightClicked() instanceof ItemFrame) {
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("GIVEITEM");
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (giveItemData.canStore()) continue;
-                ItemStack item = giveItemData.getItemStackData().getItem();
+                ItemStack item = giveItemData.getItem();
                 ItemStack playerItem = player.getInventory().getItem(e.getHand());
                 if (!playerItem.isSimilar(item)) continue;
                 e.setCancelled(true);
@@ -154,11 +149,11 @@ public class GiveItemSkill extends SkillImplementation {
     @EventHandler
     public void armorStandStore(PlayerArmorStandManipulateEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("GIVEITEM");
         for (SkillData skillData : skillDatas) {
             GiveItemData giveItemData = (GiveItemData) skillData;
             if (giveItemData.canStore()) continue;
-            ItemStack item = giveItemData.getItemStackData().getItem();
+            ItemStack item = giveItemData.getItem();
             ItemStack playerItem = e.getPlayerItem();
             if (!playerItem.isSimilar(item)) continue;
             e.setCancelled(true);
@@ -181,11 +176,11 @@ public class GiveItemSkill extends SkillImplementation {
             if (!(possiblePlayer instanceof Player player)) {
                 return;
             }
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("GIVEITEM");
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (giveItemData.canStore()) continue;
-                ItemStack item = giveItemData.getItemStackData().getItem();
+                ItemStack item = giveItemData.getItem();
                 if (!e.getCurrentItem().isSimilar(item)) continue;
                 e.setCancelled(true);
             }
@@ -195,18 +190,17 @@ public class GiveItemSkill extends SkillImplementation {
     @EventHandler
     public void onDrag(InventoryDragEvent e) {
         if (!(e.getInventory() instanceof PlayerInventory)) {
-            if (e.getViewers().size() == 0) {
-                return;
-            }
+            if (e.getViewers().isEmpty()) return;
+
             Entity possiblePlayer = e.getViewers().get(0);
             if (!(possiblePlayer instanceof Player player)) {
                 return;
             }
-            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+            Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("GIVEITEM");
             for (SkillData skillData : skillDatas) {
                 GiveItemData giveItemData = (GiveItemData) skillData;
                 if (giveItemData.canStore()) continue;
-                ItemStack item = giveItemData.getItemStackData().getItem();
+                ItemStack item = giveItemData.getItem();
                 if (!e.getOldCursor().isSimilar(item)) continue;
                 e.setResult(Event.Result.DENY);
             }
@@ -215,10 +209,10 @@ public class GiveItemSkill extends SkillImplementation {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(PlayerDeathEvent e) {
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(e.getEntity()).getSkillData(Skill.getSkill("GIVEITEM"));
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(e.getEntity()).getSkillData("GIVEITEM");
         for (SkillData skillData : skillDatas) {
             if (skillData instanceof GiveItemData giveItemData) {
-                if (!giveItemData.dropsOnDeath()) e.getDrops().removeIf((item) -> giveItemData.getItemStackData().getItem().isSimilar(item));
+                if (!giveItemData.dropsOnDeath()) e.getDrops().removeIf((item) -> giveItemData.getItem().isSimilar(item));
             }
         }
         if (!e.getKeepInventory()) {
@@ -231,11 +225,11 @@ public class GiveItemSkill extends SkillImplementation {
         if (e.getPlayer().hasMetadata("superheroes-giveitems")) {
             Player player = e.getPlayer();
             Superheroes.getScheduling().entitySpecificScheduler(player).runDelayed(() -> {
-                Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("GIVEITEM"));
+                Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("GIVEITEM");
                 for (SkillData skillData : skillDatas) {
                     GiveItemData giveItemData = (GiveItemData) skillData;
                     if (giveItemData.canLoseOnDeath()) continue;
-                    HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(giveItemData.getItemStackData().getItem());
+                    HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(giveItemData.getItem());
                     World world = e.getPlayer().getWorld();
                     Location location = e.getPlayer().getLocation();
                     for (ItemStack items : leftovers.values()) {

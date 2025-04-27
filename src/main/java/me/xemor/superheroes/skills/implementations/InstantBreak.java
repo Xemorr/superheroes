@@ -32,7 +32,7 @@ public class InstantBreak extends SkillImplementation {
     public void onInteract(PlayerInteractEvent e) {
         if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
             Superhero hero = getPowersHandler().getSuperhero(e.getPlayer());
-            Collection<SkillData> skillDatas = hero.getSkillData(Skill.getSkill("INSTANTBREAK"));
+            Collection<SkillData> skillDatas = hero.getSkillData("INSTANTBREAK");
             for (SkillData skillData : skillDatas) {
                 InstantBreakData instantBreakData = (InstantBreakData) skillData;
                 Player player = e.getPlayer();

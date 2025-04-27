@@ -30,7 +30,7 @@ public class BlockRaySkill extends SkillImplementation {
     public void onLookChange(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("BLOCKRAY"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("BLOCKRAY");
         for (SkillData skillData : skillDatas) {
             BlockRayData blockRayData = (BlockRayData) skillData;
             World world = player.getWorld();

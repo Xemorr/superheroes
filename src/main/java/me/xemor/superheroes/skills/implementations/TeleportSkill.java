@@ -24,8 +24,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TeleportSkill extends SkillImplementation {
 
+    private final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
 
-    final SkillCooldownHandler skillCooldownHandler = new SkillCooldownHandler();
     public TeleportSkill(HeroHandler heroHandler) {
         super(heroHandler);
     }
@@ -36,8 +36,8 @@ public class TeleportSkill extends SkillImplementation {
         Superhero superhero = getPowersHandler().getSuperhero(player);
         List<TeleportData> teleportDatas = superhero.getSkillData(TeleportData.class);
         for (TeleportData teleportData : teleportDatas) {
-            if ((e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) == teleportData.isLeftClick()) {
-                if ((e.getItem() == null ? Material.AIR : e.getItem().getType()) == teleportData.getTeleportItem()) {
+            if (teleportData.isValidAction(e.getAction())) {
+                if (teleportData.isValidItem(e.getItem())) {
                     if (skillCooldownHandler.isCooldownOver(teleportData, player.getUniqueId())) {
                         teleportData.ifConditionsTrue(() -> {
                             doEnderTeleport(player, teleportData);
@@ -66,9 +66,9 @@ public class TeleportSkill extends SkillImplementation {
         location.setPitch(eyeLocation.getPitch());
         PaperLib.teleportAsync(player, location, teleportData.getTeleportCause());
         AtomicInteger count = new AtomicInteger(0);
-        if (teleportData.getParticleData() != null) {
+        if (teleportData.getParticle() != null) {;
             Superheroes.getScheduling().regionSpecificScheduler(location).runAtFixedRate((task) -> {
-                teleportData.getParticleData().spawnParticle(location);
+                teleportData.getParticle().spawnParticle(player);
                 count.addAndGet(1);
                 if (count.get() == 5) {
                     task.cancel();

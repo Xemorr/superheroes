@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.implementations;
 
+import me.xemor.foliahacks.PlayerPostRespawnFoliaEvent;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
@@ -15,8 +16,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
@@ -31,30 +34,45 @@ public class CraftingSkill extends SkillImplementation {
 
     @EventHandler
     public void onPowerGain(PlayerChangedSuperheroEvent e) {
-        Superhero superhero = e.getNewHero();
-        Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
-        for (SkillData skill : skills) {
-            CraftingData craftingData = (CraftingData) skill;
-            NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
-            e.getPlayer().discoverRecipe(namespacedKey);
-        }
+        discoverRecipes(e.getPlayer(), e.getNewHero());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onJoin(PlayerJoinEvent e) {
+        Superheroes.getFoliaHacks().getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(
+                () -> {
+                    Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
+                    discoverRecipes(e.getPlayer(), superhero);
+                },
+                () -> {},
+                150L
+        );
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
+    public void onPostRespawn(PlayerPostRespawnFoliaEvent e) {
+        // just in case
+        discoverRecipes(e.getPlayer(), heroHandler.getSuperhero(e.getPlayer()));
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onServerLoad(ServerLoadEvent e) {
+        discoverForAllLate();
+    }
+
+    public void discoverRecipes(Player player, Superhero hero) {
+        Collection<SkillData> skills = hero.getSkillData("CRAFTING");
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
             NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
-            e.getPlayer().discoverRecipe(namespacedKey);
+            player.discoverRecipe(namespacedKey);
         }
     }
 
     @EventHandler
     public void onPowerLost(PlayerChangedSuperheroEvent e) {
         Superhero superhero = e.getOldHero();
-        Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
+        Collection<SkillData> skills = superhero.getSkillData("CRAFTING");
         for (SkillData skill : skills) {
             CraftingData craftingData = (CraftingData) skill;
             NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
@@ -66,13 +84,25 @@ public class CraftingSkill extends SkillImplementation {
     public void onReload(SuperheroesReloadEvent e) {
         Collection<Superhero> values = Superheroes.getInstance().getHeroHandler().getNameToSuperhero().values();
         for (Superhero hero : values) {
-            Collection<SkillData> skills = hero.getSkillData(Skill.getSkill("CRAFTING"));
+            Collection<SkillData> skills = hero.getSkillData("CRAFTING");
             for (SkillData skill : skills) {
                 CraftingData craftingData = (CraftingData) skill;
                 NamespacedKey namespacedKey = ((Keyed) craftingData.getRecipe()).getKey();
                 Bukkit.removeRecipe(namespacedKey);
             }
         }
+        discoverForAllLate();
+    }
+
+    public void discoverForAllLate() {
+        Bukkit.getOnlinePlayers().forEach((player) -> Superheroes.getFoliaHacks().getScheduling().entitySpecificScheduler(player).runDelayed(
+                () -> {
+                    Superhero superhero = heroHandler.getSuperhero(player);
+                    discoverRecipes(player, superhero);
+                },
+                () -> {},
+                5L
+        ));
     }
 
     @EventHandler
@@ -93,7 +123,7 @@ public class CraftingSkill extends SkillImplementation {
         for (HumanEntity humanEntity : viewers) {
             if (humanEntity instanceof Player player) {
                 Superhero superhero = heroHandler.getSuperhero(player);
-                Collection<SkillData> skills = superhero.getSkillData(Skill.getSkill("CRAFTING"));
+                Collection<SkillData> skills = superhero.getSkillData("CRAFTING");
                 for (SkillData skill : skills) {
                     CraftingData craftingData = (CraftingData) skill;
                     NamespacedKey namespacedKey = ((Keyed)craftingData.getRecipe()).getKey();

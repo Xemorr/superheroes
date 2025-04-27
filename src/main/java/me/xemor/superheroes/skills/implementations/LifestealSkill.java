@@ -32,7 +32,7 @@ public class LifestealSkill extends SkillImplementation {
                     if (player.getHealth() >= maxHealth) {
                         return;
                     }
-                    double lifesteal = e.getFinalDamage() * lifestealData.getLifesteal();
+                    double lifesteal = e.getFinalDamage() * lifestealData.getLifestealPercentage();
                     if (player.getHealth() + lifesteal >= maxHealth) {
                         player.setHealth(maxHealth);
                         return;

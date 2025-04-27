@@ -1,54 +1,38 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import me.xemor.configurationdata.ParticleData;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.SoundData;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
+import me.xemor.configurationdata.particles.ParticleData;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
-import org.bukkit.configuration.ConfigurationSection;
 
 public class GunData extends CooldownData {
 
-    private final double damage;
-    private final double maxDistance;
-    private final double bulletSize;
-    private ItemComparisonData itemStackData;
-    private SoundData shootSoundData;
+    @JsonPropertyWithDefault
+    private double damage = 5.0;
+    @JsonPropertyWithDefault
+    private double maxDistance = 64;
+    @JsonPropertyWithDefault
+    private double bulletSize = 1.0;
+    @JsonPropertyWithDefault
+    private ItemComparisonData item = new ItemComparisonData();
+    @JsonPropertyWithDefault
+    private SoundData shootSound;
+    @JsonPropertyWithDefault
     private ParticleData trailParticle;
+    @JsonPropertyWithDefault
     private ParticleData hitParticle;
-
-    public GunData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "<dark_grey><bold>Gun <grey>has <s> seconds left until it can be used again!", 2);
-        maxDistance = configurationSection.getDouble("maxDistance", 64);
-        bulletSize = configurationSection.getDouble("bulletSize", 1.0);
-        damage = configurationSection.getDouble("damage", 5.0);
-        ConfigurationSection itemSection = configurationSection.getConfigurationSection("item");
-        if (itemSection != null) {
-            itemStackData = new ItemComparisonData(itemSection);
-        }
-        ConfigurationSection shootSoundSection = configurationSection.getConfigurationSection("shootSound");
-        if (shootSoundSection != null) {
-            shootSoundData = new SoundData(shootSoundSection);
-        }
-        ConfigurationSection trailParticleSection = configurationSection.getConfigurationSection("trailParticle");
-        if (trailParticleSection != null) {
-            trailParticle = new ParticleData(trailParticleSection);
-        }
-        ConfigurationSection hitParticleSection = configurationSection.getConfigurationSection("hitParticle");
-        if (hitParticleSection != null) {
-            hitParticle = new ParticleData(hitParticleSection);
-        }
-    }
 
     public double getDamage() {
         return damage;
     }
 
-    public ItemComparisonData getItemStackData() {
-        return itemStackData;
+    public ItemComparisonData getItemComparison() {
+        return item;
     }
 
-    public SoundData getShootSoundData() {
-        return shootSoundData;
+    public SoundData getShootSound() {
+        return shootSound;
     }
 
     public double getMaxDistance() {

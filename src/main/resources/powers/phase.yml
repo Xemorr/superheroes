@@ -1,17 +1,17 @@
-Phase:
-  colouredName: <bold><dark_purple>Phase
-  description: You can phase through the ground by sneaking!
-  skills:
-    phase:
-      skill: PHASE
-      minimumPhaseYAxis: 5
-    noFallDamage:
-      skill: DAMAGERESISTANCE
-      damageMultiplier: 0
-      damageCause:
-      - FALL
-      - SUFFOCATION
-    onSneak:
-      skill: SNEAKINGPOTION
-      type: BLINDNESS
-      potency: 1
+name: Phase
+colouredName: <bold><dark_purple>Phase
+description: You can phase through the ground by sneaking!
+skills:
+  phase:
+    skill: PHASE
+    minimumPhaseYAxis: 5
+  noFallDamage:
+    skill: DAMAGERESISTANCE
+    damageMultiplier: 0
+    damageCause:
+    - FALL
+    - SUFFOCATION
+  onSneak:
+    skill: SNEAKINGPOTION
+    type: BLINDNESS
+    potency: 1

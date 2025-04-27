@@ -1,15 +1,15 @@
-BlackHole:
-  colouredName: <bold><gradient:#222222:#DDDDDD>Black Hole
-  description: When you sneak, entities are attracted!
-  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
-  skin:
-    value: ewogICJ0aW1lc3RhbXAiIDogMTY3NjExMTAzMDgzOCwKICAicHJvZmlsZUlkIiA6ICI0NmY3N2NjNmQ2MjU0NjEzYjc2NmYyZDRmMDM2MzZhNiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNaXNzV29sZiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83YWVkZTJhNTBiNzhlNjMwMjM1MDgxOTc4ZGZhNmU5ZWY0NjdhY2I4NmY3MjkyNjc0YWRiOTk5YmMyNzMyNzM4IgogICAgfQogIH0KfQ==
-    signature: W+Ufo8YmSJQAevQsdW+IN1A1+4wpdx4sifFQR85YT65thkfpkmNYpF/K1Ab+lmvgdRIXzBiynw22tNK5a+vBqzJGWHPWno10ve2TstPkwJKOhYB77JW73kFynSY8EIv7xIBtoZEjkKRDpolhJIZe0aSeaiTeAbbmhNEoZkyGZVy+mRQaI6RCPXdnaJqCdtCRPAiCENoaSZWdtAF8+MCw0pd5Sy7VC3YMGvTjTG1DVCgVtBvcNZhXrOlammqwGby/mHbpdbabXIwbU5KJ9vD75tPih32uhYw3crB1IbSY/4h2nH3ehR88J371CgNoasbheSopvEZWCIllmOhS6yubvJdBHENkGQS+KZgzn7a/fanM84p9hFw9EQ2R/3hH0OTsY7u13mNceLVtQEVo2DElrF0MdGrTTn5thqbMuZvVetvvEY84A4a6G6f8m8BDmBkvYqy2xChcubMlQ2jMKP0t5Oykq3TsISdfL/MiVnmT6dbjvgOdswy1tkgj6XTMvN1lizmenf8j/61oeX7BbsSyHqDMmdDlNRtHqu7fgRoYiSbeURPNQpdNzpjybxuMg5qR86xcTncHHF4VoJWVVPqKdRvjaRtrpoFmCCzqFrHwYqPgwqGj7pQW44DeOMz5aV6ltgfhHRfeIxZGTmdodO4XHqeIJRco8s4QgMSLQW8O7wY=
-  skills:
-    repulsion:
-      skill: REPULSION
-      multiplier: -0.35 # set this to a positive number to repulse.
-      radius: 15
-      entityBlacklist:
-        - ARMOR_STAND
-        - ARROW
+name: BlackHole
+colouredName: <bold><gradient:#222222:#DDDDDD>Black Hole
+description: When you sneak, entities are attracted!
+# Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTY3NjExMTAzMDgzOCwKICAicHJvZmlsZUlkIiA6ICI0NmY3N2NjNmQ2MjU0NjEzYjc2NmYyZDRmMDM2MzZhNiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNaXNzV29sZiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83YWVkZTJhNTBiNzhlNjMwMjM1MDgxOTc4ZGZhNmU5ZWY0NjdhY2I4NmY3MjkyNjc0YWRiOTk5YmMyNzMyNzM4IgogICAgfQogIH0KfQ==
+  signature: W+Ufo8YmSJQAevQsdW+IN1A1+4wpdx4sifFQR85YT65thkfpkmNYpF/K1Ab+lmvgdRIXzBiynw22tNK5a+vBqzJGWHPWno10ve2TstPkwJKOhYB77JW73kFynSY8EIv7xIBtoZEjkKRDpolhJIZe0aSeaiTeAbbmhNEoZkyGZVy+mRQaI6RCPXdnaJqCdtCRPAiCENoaSZWdtAF8+MCw0pd5Sy7VC3YMGvTjTG1DVCgVtBvcNZhXrOlammqwGby/mHbpdbabXIwbU5KJ9vD75tPih32uhYw3crB1IbSY/4h2nH3ehR88J371CgNoasbheSopvEZWCIllmOhS6yubvJdBHENkGQS+KZgzn7a/fanM84p9hFw9EQ2R/3hH0OTsY7u13mNceLVtQEVo2DElrF0MdGrTTn5thqbMuZvVetvvEY84A4a6G6f8m8BDmBkvYqy2xChcubMlQ2jMKP0t5Oykq3TsISdfL/MiVnmT6dbjvgOdswy1tkgj6XTMvN1lizmenf8j/61oeX7BbsSyHqDMmdDlNRtHqu7fgRoYiSbeURPNQpdNzpjybxuMg5qR86xcTncHHF4VoJWVVPqKdRvjaRtrpoFmCCzqFrHwYqPgwqGj7pQW44DeOMz5aV6ltgfhHRfeIxZGTmdodO4XHqeIJRco8s4QgMSLQW8O7wY=
+skills:
+  repulsion:
+    skill: REPULSION
+    multiplier: -0.35 # set this to a positive number to repulse.
+    radius: 15
+    entityBlacklist:
+      - ARMOR_STAND
+      - ARROW

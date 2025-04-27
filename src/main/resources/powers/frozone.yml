@@ -1,65 +1,112 @@
-Frozone:
-  colouredName: <bold><aqua>Frozone
-  description: You can walk on water, and slow others near you.
-  # Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
-  skin:
-    value: ewogICJ0aW1lc3RhbXAiIDogMTYxNTkxODI4NTcyMCwKICAicHJvZmlsZUlkIiA6ICIxZDUyMzNkMzg4NjI0YmFmYjAwZTMxNTBhN2FhM2E4OSIsCiAgInByb2ZpbGVOYW1lIiA6ICIwMDAwMDAwMDAwMDAwMDBKIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2QwY2JjMThmNDUzOWZjN2RiYjI0YjNjNmY4YmQ4ZmE2MzM1MDc5YzgzNmJkMjI4YmQ1MTY1ZjhhMjJlNzhiNjYiCiAgICB9CiAgfQp9
-    signature: YOax1onVwyaAKNxEtDatdnP/xpEQJ5XbvdlSX1mDPFNdk2EvXGGxeLY/aZAQSFHpn/ixLk+SopLGTLLZKCXPal6kvAO7MRFMEb1/tFiL5b1vSXCAtjeeJlyLWaz4d1fjR7+4CEnvCdEWZ7d0GU+naexwxRtw6mdOdYccTClKEOrKM5YIAGsZLbqzItnkkTD+GMG/s2WFU885yhKEd9AO/3nall7rBs6xr94bGyhXZyUj8veqG7UFrVHzBDNzEgpmtwSnBqpE6QEqviv+j6h1JHQQLqIt59mcgaWaVD3ZCswBt3wrXTLWluqFkWHBHaTjaM/PVZ9odsKCzTZe1Sc4ao9tKCUJkRoX6UySly5r245adA0c9YR209XUjAJuoKaBY4y3A9gvr+FapI04KHSxwZL2V3kNOpIAZA/PLWEEqheFavGj6PIZs+vAoPPgfBZQ+M8rzqkjurBYZAKIcor4JDDMF/zPKCJXzNjer/yj8IDPuX/7j3CDSRcVOXt0j2TD2Hg+aCJHvcOmGZwCCG8RPQ4TrZ3QS86VhpH18iTuyagsyFzTVJelQmB6VajuE5E33KzvKQDRYuaEXLmFuoWD2SQBOsanNTSsOrs9/tl9EeJ+AEXFYo9VkY+uwKw3/qUASLic1JJm7YDfDjPvJK62TrYVnDXusbkhu44FB7EAJjM=
-  skills:
-    aura:
-      skill: AURA
-      type: SLOW
-      potency: 1
-      duration: 15
-      radius: 15
-    walkOnWater:
-      skill: WALKER
-      blocksToReplace:
-        - WATER
-      blocksToPlace:
-        - FROSTED_ICE
-      isSneaking: false
-      blocksDrop: true
-      shouldRevert: false
-  plusUltraSkills: # These skills are only loaded if SuperheroesPlusUltra is installed
-    # This skill slows down all projectiles near Frozone, rendering them almost useless. (unless they are Frozone's own projectile)
-    projectileSlow:
-      skill: CUSTOM
-      trigger:
-        type: LOOP
-        period: 0.05
-      effects:
-        aoe:
-          type: AOE
-          radius: 10
-          conditions:
+name: Frozone
+colouredName: <bold><aqua>Frozone
+description: You can walk on water, and slow others near you.
+# Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTYxNTkxODI4NTcyMCwKICAicHJvZmlsZUlkIiA6ICIxZDUyMzNkMzg4NjI0YmFmYjAwZTMxNTBhN2FhM2E4OSIsCiAgInByb2ZpbGVOYW1lIiA6ICIwMDAwMDAwMDAwMDAwMDBKIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2QwY2JjMThmNDUzOWZjN2RiYjI0YjNjNmY4YmQ4ZmE2MzM1MDc5YzgzNmJkMjI4YmQ1MTY1ZjhhMjJlNzhiNjYiCiAgICB9CiAgfQp9
+  signature: YOax1onVwyaAKNxEtDatdnP/xpEQJ5XbvdlSX1mDPFNdk2EvXGGxeLY/aZAQSFHpn/ixLk+SopLGTLLZKCXPal6kvAO7MRFMEb1/tFiL5b1vSXCAtjeeJlyLWaz4d1fjR7+4CEnvCdEWZ7d0GU+naexwxRtw6mdOdYccTClKEOrKM5YIAGsZLbqzItnkkTD+GMG/s2WFU885yhKEd9AO/3nall7rBs6xr94bGyhXZyUj8veqG7UFrVHzBDNzEgpmtwSnBqpE6QEqviv+j6h1JHQQLqIt59mcgaWaVD3ZCswBt3wrXTLWluqFkWHBHaTjaM/PVZ9odsKCzTZe1Sc4ao9tKCUJkRoX6UySly5r245adA0c9YR209XUjAJuoKaBY4y3A9gvr+FapI04KHSxwZL2V3kNOpIAZA/PLWEEqheFavGj6PIZs+vAoPPgfBZQ+M8rzqkjurBYZAKIcor4JDDMF/zPKCJXzNjer/yj8IDPuX/7j3CDSRcVOXt0j2TD2Hg+aCJHvcOmGZwCCG8RPQ4TrZ3QS86VhpH18iTuyagsyFzTVJelQmB6VajuE5E33KzvKQDRYuaEXLmFuoWD2SQBOsanNTSsOrs9/tl9EeJ+AEXFYo9VkY+uwKw3/qUASLic1JJm7YDfDjPvJK62TrYVnDXusbkhu44FB7EAJjM=
+plusUltraSkills: # These skills are only loaded if SuperheroesPlusUltra is installed
+  walkOnWaterAOE: # AoE, reduces the impact of ping on how enjoyable Frozone is to play
+    skill: CUSTOM
+    trigger:
+      type: LOOP
+      period: 0.05
+      conditions:
+        sneak:
+          type: SNEAK
+          sneak: false
+        notswimming:
+          type: NOT
+          condition:
+            type: SWIMMING
+        notinblock:
+          type: NOT
+          condition:
+            type: INBLOCK
+            blocks:
+              - WATER
+              - BUBBLE_COLUMN
+    effects:
+      plane:
+        type: LOCATIONCUBE
+        verticalRadius: 0
+        horizontalRadius: 1
+        offset:
+          x: 0
+          y: -1
+          z: 0
+        effects:
+          placeblock:
+            type: PLACEBLOCK
+            blockData:
+              material: FROSTED_ICE
+            updatePhysics: false
+            revertsAfter: 10
+        conditions:
+          blockcondition:
+            type: BLOCK
+            materials:
+              - WATER
+  projectileSlow: # This skill slows down all projectiles near Frozone, rendering them almost useless. (unless they are Frozone's own projectile)
+    skill: CUSTOM
+    trigger:
+      type: LOOP
+      period: 0.05
+    effects:
+      aoe:
+        type: AOE
+        radius: 10
+        conditions:
+          entities:
+            type: ENTITY
+            mode: OTHER
             entities:
-              type: ENTITY
+              - ARROW
+              - SNOWBALL
+              - EGG
+              - FIREBALL
+              - DRAGON_FIREBALL
+              - SMALL_FIREBALL
+          speedCondition:
+            type: SPEED
+            mode: OTHER
+            speed: 0.75 - 10000
+          not:
+            type: NOT
+            condition:
+              type: SHOOTER
               mode: OTHER
-              entities:
-                - ARROW
-                - SNOWBALL
-                - EGG
-                - FIREBALL
-                - DRAGON_FIREBALL
-                - SMALL_FIREBALL
-            speedCondition:
-              type: SPEED
-              mode: OTHER
-              speed: 0.75 - 10000
-            not:
-              type: NOT
-              condition:
-                type: SHOOTER
-                mode: OTHER
-          effects:
-            slow:
-              type: VELOCITY
-              mode: OTHER
-              value: 0.95
-              operation: MULTIPLY
-
-
-
-
-
+        effects:
+          slow:
+            type: VELOCITY
+            mode: OTHER
+            value: 0.95
+            operation: MULTIPLY
+skills:
+  aura:
+    skill: AURA
+    type: SLOWNESS
+    potency: 1
+    duration: 15
+    radius: 15
+  walkOnWater:
+    skill: WALKER
+    conditions: # if you have SkillsLibrary installed, this condition will apply
+      notswimming:
+        type: NOT
+        condition:
+          type: SWIMMING
+      notinblock:
+        type: NOT
+        condition:
+          type: INBLOCK
+          blocks:
+            - WATER
+            - BUBBLE_COLUMN
+    blocksToReplace:
+      - WATER
+    blocksToPlace:
+      - FROSTED_ICE
+    isSneaking: false
+    blocksDrop: true
+    shouldRevert: false

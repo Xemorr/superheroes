@@ -1,41 +1,35 @@
 package me.xemor.superheroes.data;
 
-import me.xemor.configurationdata.ItemStackData;
-import me.xemor.configurationdata.comparison.ItemComparisonData;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.sentry.util.FileUtils;
+import me.xemor.configurationdata.ConfigurationData;
+import me.xemor.skillslibrary2.SkillsLibrary;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.events.SuperheroLoadEvent;
 import me.xemor.superheroes.events.SuperheroesReloadEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
+import me.xemor.superheroes.skills.skilldata.spell.Spells;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
-import org.yaml.snakeyaml.parser.ParserException;
-import me.sepdron.headcreator.HeadCreator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.util.*;
-import java.util.logging.Level;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ConfigHandler {
@@ -98,128 +92,43 @@ public class ConfigHandler {
         }
     }
 
-    public List<ConfigurationSection> getSuperheroesConfigurationSection() {
-        File powersFolder = this.getPowersFolder();
-        File[] files = powersFolder.listFiles();
-        if (files == null) return Collections.emptyList();
-        return (Arrays.stream(files).parallel()).map(file -> {
-            if (file.getName().endsWith("yml")) {
-                YamlConfiguration yamlConfiguration;
-                try {
-                    yamlConfiguration = new YamlConfiguration();
-                    yamlConfiguration.load(file);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (InvalidConfigurationException e) {
-                    Superheroes.getInstance().getLogger().severe(file.getName() + " is an invalid YAML file!");
-                    Superheroes.getInstance().getLogger().severe(e.getMessage());
-                    Superheroes.getInstance().getLogger().severe("Please try using: https://codebeautify.org/yaml-parser-online to fix this issue!");
-                    return null;
-                }
-                return yamlConfiguration.getValues(false).values();
-            }
-            return null;
-        }).filter(Objects::nonNull).flatMap(Collection::stream).filter(o -> o instanceof ConfigurationSection).map(o -> (ConfigurationSection) o).toList();
-    }
-
     private File getPowersFolder() {
         return new File(this.getDataFolder(), "powers");
     }
 
-    public void loadSkills(Superhero superhero, ConfigurationSection superheroSection) {
-        ConfigurationSection skillsSection = superheroSection.getConfigurationSection("skills");
-        if (skillsSection == null) {
-            Superheroes.getInstance().getLogger().severe("The skills section is missing/invalid at " + superheroSection.getCurrentPath() + ".skills");
-        }
-        for (Object value : skillsSection.getValues(false).values()) {
-            if (value instanceof ConfigurationSection configurationSection) {
-                String skillStr = configurationSection.getString("skill");
-                int skill = Skill.getSkill(skillStr);
-                if (skill == -1) {
-                    Bukkit.getLogger().log(Level.SEVERE, superhero.getName() + " has encountered an invalid skill name!: " + configurationSection.getCurrentPath() + ".skill" + skillStr);
-                    continue;
-                }
-                SkillData skillData = SkillData.create(skill, configurationSection);
-                try {
-                    superhero.addSkill(skillData);
-                } catch (NullPointerException e) {
-                    Superheroes.getInstance().getLogger().severe("SkillData is null! This skill has not been registered!" + configurationSection.getCurrentPath());
-                }
-                continue;
-            }
-            Bukkit.getLogger().log(Level.SEVERE, superhero.getName() + " has encountered an invalid skill!");
-        }
+    public ObjectMapper setupObjectMapper() {
+        ObjectMapper objectMapper = ConfigurationData.setupObjectMapperForConfigurationData(new ObjectMapper(new YAMLFactory()));;
+        if (superheroes.hasSkillsLibrary()) objectMapper = SkillsLibrary.getInstance().setupObjectMapper(objectMapper);
+        objectMapper.registerSubtypes(Skill.getNamedTypes());
+        objectMapper.registerSubtypes(Spells.getNamedTypes());
+        return objectMapper;
     }
 
     public void loadSuperheroes(HeroHandler heroHandler) {
-        List<ConfigurationSection> sections = this.getSuperheroesConfigurationSection();
-        HashMap<String, Superhero> nameToSuperhero = new HashMap<>();
-        for (ConfigurationSection superheroSection : sections) {
-            try {
-                String superheroName = superheroSection.getName();
-                String colouredSuperheroName = superheroSection.getString("colouredName", superheroName);
-                String superheroDescription = superheroSection.getString("description", superheroName + " description");
-                String base64Skin = superheroSection.getString("skin.value");
-                String signature = superheroSection.getString("skin.signature");
-                Superhero superhero = new Superhero(superheroName, colouredSuperheroName, superheroDescription);
-                superhero.setBase64Skin(base64Skin);
-                superhero.setSignature(signature);
-                this.calculateIcon(superhero, superheroSection);
-                this.loadSkills(superhero, superheroSection);
-                SuperheroLoadEvent superheroLoadEvent = new SuperheroLoadEvent(superhero, superheroSection);
-                Bukkit.getServer().getPluginManager().callEvent(superheroLoadEvent);
-                if (superheroLoadEvent.isCancelled()) continue;
-                nameToSuperhero.put(superheroName.toLowerCase(), superhero);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        ObjectMapper objectMapper = setupObjectMapper();
+        Map<String, Superhero> nameToSuperhero = Arrays.stream(getPowersFolder().listFiles())
+                .parallel()
+                .map((file) -> {
+                    try {
+                        return objectMapper.readValue(file, Superhero.class);
+                    } catch (IOException e) {
+                        Superheroes.getInstance().getLogger().severe(e.getMessage());
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList()
+                .stream()
+                .map((hero) -> {
+                    SuperheroLoadEvent superheroLoadEvent = new SuperheroLoadEvent(hero);
+                    Bukkit.getServer().getPluginManager().callEvent(superheroLoadEvent);
+                    if (superheroLoadEvent.isCancelled()) return null;
+                    return hero;
+                })
+                .filter(Objects::nonNull)
+                .filter((it) -> it.getName() != null)
+                .collect(Collectors.toMap((hero) -> hero.getName().toLowerCase(), (hero) -> hero));
         heroHandler.registerHeroes(nameToSuperhero);
-    }
-
-    private void calculateIcon(Superhero hero, ConfigurationSection heroSection) {
-        ItemStack icon;
-        ConfigurationSection iconSection = heroSection.getConfigurationSection("icon");
-        if (iconSection != null) {
-            icon = new ItemStackData(iconSection).getItem();
-        } else {
-            Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
-            icon = createSkullIcon(hero).orElseGet(() -> createWoolIcon(colouredName));
-            ItemMeta meta = icon.getItemMeta();
-            meta.setDisplayName(legacySerializer.serialize(colouredName));
-            Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
-            description = description.colorIfAbsent(TextColor.color(255, 255, 255));
-            meta.setLore(List.of(legacySerializer.serialize(description)));
-            icon.setItemMeta(meta);
-        }
-        hero.setIcon(icon);
-    }
-
-    private Optional<ItemStack> createSkullIcon(Superhero hero) {
-        String base64Skin = hero.getBase64Skin();
-        if (base64Skin.isEmpty()) return Optional.empty();
-        return Optional.of(HeadCreator.createFromBase64(base64Skin));
-    }
-
-    private ItemStack createWoolIcon(Component colouredName) {
-        TextColor color = colouredName.color();
-        if (color == null) {
-            return new ItemStack(Material.BLACK_WOOL);
-        }
-        return new ItemStack(this.woolFromColor(color.red(), color.green(), color.blue()));
-    }
-
-    public Material woolFromColor(int red, int green, int blue) {
-        int distance = Integer.MAX_VALUE;
-        DyeColor closest = DyeColor.BLACK;
-        for (DyeColor dye : DyeColor.values()) {
-            Color color = dye.getColor();
-            int dist = Math.abs(color.getRed() - red) + Math.abs(color.getGreen() - green) + Math.abs(color.getBlue() - blue);
-            if (dist >= distance) continue;
-            distance = dist;
-            closest = dye;
-        }
-        return Material.getMaterial((closest.name() + "_WOOL").toUpperCase());
     }
 
     public void reloadConfig(HeroHandler heroHandler) {
@@ -293,7 +202,6 @@ public class ConfigHandler {
         meta.setDisplayName(legacySerializer.serialize(MiniMessage.miniMessage().deserialize(colouredName)));
         meta.setLore(List.of(legacySerializer.serialize(MiniMessage.miniMessage().deserialize("<white>" + description))));
         icon.setItemMeta(meta);
-        hero.setIcon(icon);
         return hero;
     }
 

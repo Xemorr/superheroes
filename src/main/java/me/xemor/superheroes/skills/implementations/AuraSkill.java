@@ -42,7 +42,7 @@ public class AuraSkill extends SkillImplementation {
                 task.cancel();
                 return;
             }
-            Collection<SkillData> skillDatas = Superheroes.getInstance().getHeroHandler().getSuperhero(player).getSkillData(Skill.getSkill("AURA"));
+            Collection<SkillData> skillDatas = Superheroes.getInstance().getHeroHandler().getSuperhero(player).getSkillData("AURA");
             if (skillDatas.isEmpty()) {
                 task.cancel();
                 return;

@@ -37,7 +37,7 @@ public class DamageModifierSkill extends SkillImplementation {
 
             Collection<SkillData> skillDataCollection =
                 heroHandler.getSuperhero(damagerPlayer).getSkillData(
-                    Skill.getSkill("DAMAGEMODIFIER"));
+                    "DAMAGEMODIFIER");
 
             for (SkillData skillData : skillDataCollection) {
                 DamageModifierData damageModifierData = (DamageModifierData) skillData;
@@ -57,7 +57,7 @@ public class DamageModifierSkill extends SkillImplementation {
         if (event.getEntity() instanceof Player damagedPlayer) {
             Collection<SkillData> skillDataCollection =
                 heroHandler.getSuperhero(damagedPlayer).getSkillData(
-                    Skill.getSkill("DAMAGEMODIFIER"));
+                    "DAMAGEMODIFIER");
 
             for (SkillData skillData : skillDataCollection) {
                 DamageModifierData damageModifierData = (DamageModifierData) skillData;
@@ -87,7 +87,7 @@ public class DamageModifierSkill extends SkillImplementation {
 
             Collection<SkillData> skillDataCollection =
                 heroHandler.getSuperhero(player).getSkillData(
-                    Skill.getSkill("DAMAGEMODIFIER"));
+                    "DAMAGEMODIFIER");
 
 
             for (SkillData skillData : skillDataCollection) {

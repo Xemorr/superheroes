@@ -23,7 +23,7 @@ public class BlockDropsSkill extends SkillImplementation{
     @EventHandler
     public void onBreak(HeroBlockBreakEvent e) {
         Player player = e.getPlayer();
-        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData(Skill.getSkill("BLOCKDROPS"));
+        Collection<SkillData> skillDatas = heroHandler.getSuperhero(player).getSkillData("BLOCKDROPS");
         World world = player.getWorld();
         Block block = e.getBlock();
         ItemStack mainHand = player.getInventory().getItemInMainHand();

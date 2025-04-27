@@ -1,35 +1,21 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
+import me.xemor.configurationdata.comparison.SetData;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-
-import java.util.HashSet;
-import java.util.List;
 
 public class InstantBreakData extends SkillData {
 
-    private HashSet<Material> instantBreakMaterials = new HashSet<>();
-    private final Material breakUsing;
-
-    public InstantBreakData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        List<String> instantBreakMaterialsStr = configurationSection.getStringList("blocks");
-        if (instantBreakMaterialsStr.isEmpty()) {
-            instantBreakMaterials = null;
-        }
-        else {
-            for (String materialStr : instantBreakMaterialsStr) {
-                instantBreakMaterials.add(Material.valueOf(materialStr));
-            }
-        }
-        breakUsing = Material.valueOf(configurationSection.getString("breakUsing"));
-    }
+    @JsonPropertyWithDefault
+    @JsonAlias("blocks")
+    private SetData<Material> instantBreakable = new SetData<>();
+    @JsonPropertyWithDefault
+    @JsonAlias("breakusing")
+    private Material breakUsing;
 
     public boolean canBreak(Material type) {
-        if (instantBreakMaterials != null) {
-            return instantBreakMaterials.contains(type);
-        }
-        return true;
+        return instantBreakable.inSet(type);
     }
 
     public Material getBreakUsing() {

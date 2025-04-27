@@ -1,21 +1,21 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import org.bukkit.configuration.ConfigurationSection;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 
 public class StrongmanData extends SkillData {
 
-    private final double velocity;
-    private final double upwardsVelocity;
-    private final String tooMuscularMessage;
-    private final int maxPassengers;
-
-    public StrongmanData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        velocity = configurationSection.getDouble("velocity", 2.5);
-        upwardsVelocity = configurationSection.getDouble("upwardsVelocity", 1);
-        tooMuscularMessage = configurationSection.getString("tooMuscularMessage", "<player> <white> is too strong to sit in a vehicle!");
-        maxPassengers = configurationSection.getInt("maxPassengers", 10);
-    }
+    @JsonPropertyWithDefault
+    private double velocity = 2.5;
+    @JsonPropertyWithDefault
+    @JsonAlias("upwardsvelocity")
+    private double upwardsVelocity = 1;
+    @JsonPropertyWithDefault
+    @JsonAlias("toomuscularmessage")
+    private String tooMuscularMessage = "<player> <white> is too strong to sit in a vehicle!";
+    @JsonPropertyWithDefault
+    @JsonAlias("maxpassengers")
+    private int maxPassengers = 10;
 
     public double getVelocity() {
         return velocity;

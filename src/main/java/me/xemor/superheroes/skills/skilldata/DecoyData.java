@@ -1,6 +1,8 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import me.sepdron.headcreator.HeadCreator;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,28 +12,22 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class DecoyData extends SkillData {
 
-    private final Color color;
-    private final ItemStack skull;
-
-    public DecoyData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        ConfigurationSection colorSection = configurationSection.getConfigurationSection("color");
-        int red = colorSection.getInt("red", 0);
-        int green = colorSection.getInt("green", 0);
-        int blue = colorSection.getInt("blue", 0);
-        color = Color.fromRGB(red, green, blue);
-        String base64skin = configurationSection.getString("base64Skin", "SELF");
-        if ("SELF".equals(base64skin)) skull = null;
-        else {
-            skull = HeadCreator.createFromBase64(base64skin);
-        }
-    }
+    @JsonPropertyWithDefault
+    private Color color;
+    @JsonPropertyWithDefault
+    @JsonAlias("base64skin")
+    private String base64Skin = "SELF";
 
     public Color getColor() {
         return color;
     }
 
     public ItemStack getSkull(Player player) {
+        ItemStack skull;
+        if ("SELF".equals(base64Skin)) skull = null;
+        else {
+            skull = HeadCreator.createFromBase64(base64Skin);
+        }
         if (skull == null) {
             ItemStack newSkull = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta skullMeta = (SkullMeta) newSkull.getItemMeta();

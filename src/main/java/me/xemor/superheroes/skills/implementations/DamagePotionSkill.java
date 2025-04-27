@@ -25,10 +25,10 @@ public class DamagePotionSkill extends SkillImplementation {
             return;
         }
         Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGEPOTION"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("DAMAGEPOTION");
         for (SkillData skillData : skillDatas) {
             DamagePotionData damagePotionData = (DamagePotionData) skillData;
-            if (damagePotionData.getDamageCause() == null || damagePotionData.getDamageCause().contains(e.getCause())) {
+            if (damagePotionData.isValidDamageCause(e.getCause())) {
                 damagePotionData.getPotionEffect().ifPresent(potionEffect -> {
                     if (!player.hasPotionEffect(potionEffect.getType())) {
                         damagePotionData.ifConditionsTrue(() -> player.addPotionEffect(potionEffect), player);
@@ -42,7 +42,7 @@ public class DamagePotionSkill extends SkillImplementation {
     public void onPowerLoss(PlayerChangedSuperheroEvent e) {
         Player player = e.getPlayer();
         Superhero superhero = e.getOldHero();
-        Collection<SkillData> skillDatas = superhero.getSkillData(Skill.getSkill("DAMAGEPOTION"));
+        Collection<SkillData> skillDatas = superhero.getSkillData("DAMAGEPOTION");
         if (!skillDatas.isEmpty()) {
             for (SkillData skillData : skillDatas) {
                 DamagePotionData damagePotionData = (DamagePotionData) skillData;

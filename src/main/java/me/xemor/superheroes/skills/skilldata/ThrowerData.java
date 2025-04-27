@@ -1,42 +1,32 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.comparison.ItemComparisonData;
 import me.xemor.superheroes.skills.skilldata.configdata.CooldownData;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.Action;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ThrowerData extends CooldownData {
 
-    private final int ammoCost;
-    private ItemComparisonData ammo;
-    private final EntityType entityType;
-    private final List<Action> actions;
-    private final AbstractArrow.PickupStatus canPickUp;
-    private final double velocity;
-    private final double damage;
-
-    public ThrowerData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection, "<grey>Your projectile has <s> seconds remaining!", 0);
-        ammoCost = configurationSection.getInt("ammoCost", 1);
-        final ConfigurationSection ammoItemSection = configurationSection.getConfigurationSection("item");
-        if (ammoItemSection != null) {
-            ammo = new ItemComparisonData(ammoItemSection);
-        }
-        entityType = EntityType.valueOf(configurationSection.getString("projectile", "SNOWBALL").toUpperCase());
-        actions = configurationSection.getStringList("actions").stream().map(Action::valueOf).collect(Collectors.toList());
-        if (actions.isEmpty()) {
-            actions.add(Action.RIGHT_CLICK_AIR);
-            actions.add(Action.RIGHT_CLICK_BLOCK);
-        }
-        canPickUp = configurationSection.getBoolean("canPickUp", false) ? AbstractArrow.PickupStatus.ALLOWED : AbstractArrow.PickupStatus.CREATIVE_ONLY;
-        velocity = configurationSection.getDouble("velocity", 1.4);
-        damage = configurationSection.getDouble("damage", 3);
-    }
+    @JsonPropertyWithDefault
+    private int ammoCost = 1;
+    @JsonPropertyWithDefault
+    @JsonAlias("item")
+    private ItemComparisonData ammo = new ItemComparisonData();
+    @JsonPropertyWithDefault
+    private EntityType projectile = EntityType.SNOWBALL;
+    @JsonPropertyWithDefault
+    private List<Action> actions = List.of(Action.RIGHT_CLICK_AIR, Action.RIGHT_CLICK_BLOCK);
+    @JsonPropertyWithDefault
+    private boolean canPickUp = false;
+    @JsonPropertyWithDefault
+    private double velocity = 1.4;
+    @JsonPropertyWithDefault
+    private double damage = 3;
 
     public int getAmmoCost() {
         return ammoCost;
@@ -46,16 +36,20 @@ public class ThrowerData extends CooldownData {
         return ammo;
     }
 
-    public EntityType getEntityType() {
-        return entityType;
+    public EntityType getProjectile() {
+        return projectile;
     }
 
     public List<Action> getActions() {
+        if (actions.isEmpty()) {
+            actions.add(Action.RIGHT_CLICK_AIR);
+            actions.add(Action.RIGHT_CLICK_BLOCK);
+        }
         return actions;
     }
 
     public AbstractArrow.PickupStatus canPickUp() {
-        return canPickUp;
+        return canPickUp ? AbstractArrow.PickupStatus.ALLOWED : AbstractArrow.PickupStatus.CREATIVE_ONLY;
     }
 
     public double getVelocity() {

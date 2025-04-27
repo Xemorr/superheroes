@@ -1,5 +1,11 @@
 package me.xemor.superheroes.reroll;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import me.xemor.configurationdata.ConfigurationData;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.superheroes.CooldownHandler;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
@@ -17,15 +23,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class RerollHandler implements Listener {
+    @JsonIgnore
     private final CooldownHandler cooldownHandler = new CooldownHandler("", ChatMessageType.ACTION_BAR);
-    private boolean itemEnabled;
-    private boolean eachHeroRequiresPermission;
-    private double itemCooldown;
-    private final Map<String, RerollGroup> groupToWeightedHeroes = new HashMap<>();
-    private final List<RerollGroup> rerollGroups = new ArrayList<>();
+
+    private RerollConfig rerollConfig;
 
     public RerollHandler() {
         this.loadData();
@@ -33,67 +38,51 @@ public class RerollHandler implements Listener {
 
     public void loadData() {
         File rerollConfig = new File(Superheroes.getInstance().getDataFolder(), "reroll.yml");
+
         if (!rerollConfig.exists()) {
             Superheroes.getInstance().saveResource("reroll.yml", false);
         }
-        YamlConfiguration rerollYAML = YamlConfiguration.loadConfiguration(rerollConfig);
-        ConfigurationSection rerollGroupsYAML = rerollYAML.getConfigurationSection("reroll_groups");
-        Map<String, Object> groups = rerollGroupsYAML.getValues(false);
-        for (Map.Entry<String, Object> group : groups.entrySet()) {
-            Object v = group.getValue();
-            if (!(v instanceof ConfigurationSection section)) continue;
-            RerollGroup rerollGroup = new RerollGroup(section);
-            this.groupToWeightedHeroes.put(group.getKey(), rerollGroup);
-            this.rerollGroups.add(rerollGroup);
-        }
-        if (!this.groupToWeightedHeroes.containsKey("default")) {
-            RerollGroup defaultGroup = new RerollGroup();
-            this.groupToWeightedHeroes.put("default", defaultGroup);
-            this.rerollGroups.add(defaultGroup);
-        }
-        this.itemEnabled = rerollYAML.getBoolean("global_reroll_settings.itemEnabled", true);
-        this.eachHeroRequiresPermission = rerollYAML.getBoolean("global_reroll_settings.eachHeroRequiresPermission", false);
-        this.itemCooldown = rerollYAML.getDouble("global_reroll_settings.itemCooldown", 1.0);
-    }
 
-    @EventHandler
-    public void onReload(SuperheroesReloadEvent e) {
-        groupToWeightedHeroes.clear();
-        rerollGroups.clear();
-        this.loadData();
+        try {
+            this.rerollConfig = ConfigurationData.setupObjectMapperForConfigurationData(new ObjectMapper(new YAMLFactory()))
+                    .readValue(rerollConfig, RerollConfig.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && this.itemEnabled) {
-            for (RerollGroup group : this.rerollGroups) {
+        if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && rerollConfig.getGlobalRerollSettings().isItemEnabled()) {
+            for (RerollGroup group : rerollConfig.rerollGroups().values()) {
                 if (!group.matchesItem(item) || !this.cooldownHandler.isCooldownOver(e.getPlayer().getUniqueId()))
                     continue;
                 item.setAmount(item.getAmount() - 1);
                 Superhero newHero = group.chooseHero(player);
                 Superheroes.getInstance().getHeroHandler().setHero(player, newHero);
-                this.cooldownHandler.startCooldown(this.itemCooldown, player.getUniqueId());
+                cooldownHandler.startCooldown(rerollConfig.getGlobalRerollSettings().getItemCooldown(), player.getUniqueId());
             }
         }
     }
 
-    public boolean isItemEnabled() {
-        return itemEnabled;
-    }
-
-    public boolean doesHeroRequirePermissions() {
-        return eachHeroRequiresPermission;
+    @EventHandler
+    public void onReload(SuperheroesReloadEvent e) {
+        this.loadData();
     }
 
     @Nullable
     public RerollGroup getWeightedHeroes(@NotNull String groupName) {
-        return this.groupToWeightedHeroes.get(groupName.toLowerCase());
+        return rerollConfig.rerollGroups().get(groupName.toLowerCase());
+    }
+
+    public RerollConfig getRerollConfig() {
+        return rerollConfig;
     }
 
     public Collection<Map.Entry<String, RerollGroup>> getIterator() {
-        return this.groupToWeightedHeroes.entrySet();
+        return rerollConfig.rerollGroups().entrySet();
     }
 }
 

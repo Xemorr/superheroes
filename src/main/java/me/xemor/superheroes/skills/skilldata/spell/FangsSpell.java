@@ -3,15 +3,12 @@ package me.xemor.superheroes.skills.skilldata.spell;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.Nullable;
 
-public class FangsSpell extends Spell {
+public class FangsSpell extends SpellData {
 
-    public FangsSpell(int spell, ConfigurationSection section) {
-        super(spell, section);
-    }
+    public FangsSpell() {}
 
     @Override
     public boolean castSpell(Player player, @Nullable Block clickedBlock, @Nullable BlockFace blockFace) {

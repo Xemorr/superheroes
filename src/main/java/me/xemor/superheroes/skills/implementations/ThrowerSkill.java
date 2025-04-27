@@ -2,8 +2,6 @@ package me.xemor.superheroes.skills.implementations;
 
 import me.xemor.superheroes.SkillCooldownHandler;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.skills.Skill;
-import me.xemor.superheroes.skills.skilldata.SkillData;
 import me.xemor.superheroes.skills.skilldata.ThrowerData;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
 import java.util.List;
 
 public class ThrowerSkill extends SkillImplementation {
@@ -35,7 +32,7 @@ public class ThrowerSkill extends SkillImplementation {
                         if (skillCooldownHandler.isCooldownOver(throwerData, player.getUniqueId())) {
                             e.setCancelled(true);
                             throwerData.ifConditionsTrue(() -> {
-                                EntityType entityType = throwerData.getEntityType();
+                                EntityType entityType = throwerData.getProjectile();
                                 World world = player.getWorld();
                                 Entity entity = world.spawnEntity(player.getEyeLocation(), entityType);
                                 entity.setVelocity(player.getEyeLocation().getDirection().multiply(throwerData.getVelocity()));

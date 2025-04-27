@@ -1,5 +1,8 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
+import me.xemor.configurationdata.comparison.SetData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
@@ -8,24 +11,18 @@ import java.util.stream.Collectors;
 
 public class OHKOData extends SkillData {
 
-    private final Set<EntityType> entityTypes;
-    private final String displayName;
+    @JsonPropertyWithDefault
+    @JsonAlias("entitytypes")
+    private SetData<EntityType> entityTypes;
+    @JsonAlias("displayname")
+    private String displayName;
 
-    public OHKOData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        entityTypes = configurationSection.getStringList("entityTypes").stream().map(string -> EntityType.valueOf(string.toUpperCase())).collect(Collectors.toSet());
-        displayName = configurationSection.getString("displayName");
-    }
-
-    public Set<EntityType> getEntityTypes() {
-        return entityTypes;
+    public boolean inEntityTypes(EntityType entityType) {
+        return entityTypes.inSet(entityType);
     }
 
     public String getDisplayName() {
         return displayName;
     }
-
-
-
 
 }

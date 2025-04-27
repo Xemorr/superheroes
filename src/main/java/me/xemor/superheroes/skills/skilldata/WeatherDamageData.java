@@ -1,17 +1,13 @@
 package me.xemor.superheroes.skills.skilldata;
 
-import org.bukkit.configuration.ConfigurationSection;
+import me.xemor.configurationdata.JsonPropertyWithDefault;
 
 public class WeatherDamageData extends SkillData {
 
-    private final double damage;
-    private final boolean checkShelter;
-
-    public WeatherDamageData(int skill, ConfigurationSection configurationSection) {
-        super(skill, configurationSection);
-        this.damage = configurationSection.getDouble("damage", 1.0);
-        this.checkShelter = configurationSection.getBoolean("checkShelter", true);
-    }
+    @JsonPropertyWithDefault
+    private double damage = 1.0;
+    @JsonPropertyWithDefault
+    private boolean checkShelter = true;
 
     public double getDamage() {
         return damage;

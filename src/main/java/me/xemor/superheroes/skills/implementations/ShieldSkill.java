@@ -25,7 +25,7 @@ public class ShieldSkill extends SkillImplementation {
             for (ShieldData shieldData : shieldDatas) {
                 shieldData.ifConditionsTrue(() -> {
                     Superheroes.getScheduling().entitySpecificScheduler(player).runDelayed(() -> {
-                        player.setCooldown(Material.SHIELD, shieldData.getCooldown());
+                        player.setCooldown(Material.SHIELD, (int) shieldData.getCooldown());
                     }, () -> {}, 1L);
                 }, player, e.getDamager());
             }

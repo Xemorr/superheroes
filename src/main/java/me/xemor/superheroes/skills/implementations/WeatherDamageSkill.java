@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.implementations;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;

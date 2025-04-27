@@ -4,20 +4,12 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.AbstractArrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
-public class LightningSpell extends Spell {
-
-    public LightningSpell(int spell, ConfigurationSection section) {
-        super(spell, section);
-    }
+public class LightningSpell extends SpellData {
 
     @Override
     public boolean castSpell(Player player, @Nullable Block clickedBlock, @Nullable BlockFace blockFace) {

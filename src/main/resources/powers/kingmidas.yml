@@ -1,53 +1,52 @@
-KingMidas:
-  colouredName: <bold><gold>King Midas
-  description: You're cursed with the ability to turn items into gold!
-  skin:
-    value: ewogICJ0aW1lc3RhbXAiIDogMTcxMTg1NjY3NTA1NiwKICAicHJvZmlsZUlkIiA6ICIyMDZlMWZkYjI5Yzk0NGYxOTQ5OTg4NzAwNTQxMGQ2NyIsCiAgInByb2ZpbGVOYW1lIiA6ICJoNHlsMzMiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIyNDcwZmJiODUyY2MzNTE1NzlmMTI1MmJmNzQzNThlOTg5MGY5YTc3MTM1OTU1YWViNThiNTFiMDQyNDM1OCIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9
-    signature: vKdKRZ7kCVUf8hdXITw5qEkmxEbZVukZKFDPWWReJ2/JQsgix55FlQ+qgFyg3vimreMYBMudj8hE6SPh31I9Mw3mhY5Q/W2/WznU2tAeQXh/b5CKR4Sj81Ybpqigl71b700DOphU2XZXfO/ivSMOHyyF+A9/brKfJ/7CF2zgbgLq52UE+bZIj0u++VrCZZXr9nkvq4mXRauJdswT3HRz2sKot0AGTdY9iiEJ1/F4NMIr1W9L7Na2wDTAQal0efCyl0mphYo6K4yk0ZbehVB56R7VeLjvyAIWIufj5b0zDWZdjrk81p6lSMnw/MgU9ePIclsVPtB8sI6UKMeNIECjQVSH5R7nLyqcWuSPmKQhvLgBYcc2MD1P3ZM+iSXvWORmF/XpYlDDvYVB/oZk9FPn1FB/Ja0M8BCM716w1RbeoWigscQqIcUOX+5VSkAXVpywKvZOFktdH8wlYM2vZArNxPII1MuDiECONKg7gRMo700BwD4C5BD2XuZez8HIuJLI0aLlBKvPcCFVqvOy/EjapwBuMzzM49qCX3GolpXjxy3FVuawORJOnzQQFULNs5NXkvf26VY7VfTMW9VIgcyTmD1iZDuYQkXqhG1FUVCkMO2K7GS1IQFXjuOQNDn3eK8GmXnF/4x1s82KGTcFoaG1cP5iRHYemoo9bmA4PFwmNKA=
-  skills:
-    convertAppleToGoldenApple:
-      skill: CONVERTITEM
-      inputItem:
-        type: APPLE
-      outputItem:
-        type: GOLDEN_APPLE
-      chance: 1.0
-    convertIngotBlocks:
-      skill: CONVERTBLOCK
-      inputBlocks:
-      - IRON_BLOCK
-      - DIAMOND_BLOCK
-      - NETHERITE_BLOCK
-      - COAL_BLOCK
-      - LAPIS_BLOCK
-      - REDSTONE_BLOCK
-      - EMERALD_BLOCK
-      outputBlock: GOLD_BLOCK
-      chance: 1.0
-    dropsGoldNuggets:
-      skill: EGGLAYER
-      type: GOLD_NUGGET
-      quantity: 1
-      delay: 30
-  plusUltraSkills:
-    goldkill:
-      skill: CUSTOM
-      trigger:
-        type: DAMAGEDENTITY
-      effects:
-        soundeffect:
-          type: SOUND
-          mode: OTHER
-          sound:
-            sound: BLOCK_ANVIL_PLACE
-            volume: 1
-            pitch: 2
-        dropgold:
-          type: SPAWNENTITY
-          mode: OTHER
-          entity:
-            type: DROPPED_ITEM
-            item:
-              type: GOLD_INGOT
-              amount: 1
+name: KingMidas
+colouredName: <bold><gold>King Midas
+description: You're cursed with the ability to turn items into gold!
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTcxMTg1NjY3NTA1NiwKICAicHJvZmlsZUlkIiA6ICIyMDZlMWZkYjI5Yzk0NGYxOTQ5OTg4NzAwNTQxMGQ2NyIsCiAgInByb2ZpbGVOYW1lIiA6ICJoNHlsMzMiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIyNDcwZmJiODUyY2MzNTE1NzlmMTI1MmJmNzQzNThlOTg5MGY5YTc3MTM1OTU1YWViNThiNTFiMDQyNDM1OCIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9
+  signature: vKdKRZ7kCVUf8hdXITw5qEkmxEbZVukZKFDPWWReJ2/JQsgix55FlQ+qgFyg3vimreMYBMudj8hE6SPh31I9Mw3mhY5Q/W2/WznU2tAeQXh/b5CKR4Sj81Ybpqigl71b700DOphU2XZXfO/ivSMOHyyF+A9/brKfJ/7CF2zgbgLq52UE+bZIj0u++VrCZZXr9nkvq4mXRauJdswT3HRz2sKot0AGTdY9iiEJ1/F4NMIr1W9L7Na2wDTAQal0efCyl0mphYo6K4yk0ZbehVB56R7VeLjvyAIWIufj5b0zDWZdjrk81p6lSMnw/MgU9ePIclsVPtB8sI6UKMeNIECjQVSH5R7nLyqcWuSPmKQhvLgBYcc2MD1P3ZM+iSXvWORmF/XpYlDDvYVB/oZk9FPn1FB/Ja0M8BCM716w1RbeoWigscQqIcUOX+5VSkAXVpywKvZOFktdH8wlYM2vZArNxPII1MuDiECONKg7gRMo700BwD4C5BD2XuZez8HIuJLI0aLlBKvPcCFVqvOy/EjapwBuMzzM49qCX3GolpXjxy3FVuawORJOnzQQFULNs5NXkvf26VY7VfTMW9VIgcyTmD1iZDuYQkXqhG1FUVCkMO2K7GS1IQFXjuOQNDn3eK8GmXnF/4x1s82KGTcFoaG1cP5iRHYemoo9bmA4PFwmNKA=
+skills:
+  convertAppleToGoldenApple:
+    skill: CONVERTITEM
+    inputItem:
+      type: APPLE
+    outputItem:
+      type: GOLDEN_APPLE
+    chance: 1.0
+  convertIngotBlocks:
+    skill: CONVERTBLOCK
+    inputBlocks:
+    - IRON_BLOCK
+    - DIAMOND_BLOCK
+    - NETHERITE_BLOCK
+    - COAL_BLOCK
+    - LAPIS_BLOCK
+    - REDSTONE_BLOCK
+    - EMERALD_BLOCK
+    outputBlock: GOLD_BLOCK
+  dropsGoldNuggets:
+    skill: EGGLAYER
+    type: GOLD_NUGGET
+    quantity: 1
+    delay: 30
+plusUltraSkills:
+  goldkill:
+    skill: CUSTOM
+    trigger:
+      type: DAMAGEDENTITY
+    effects:
+      soundeffect:
+        type: SOUND
+        mode: OTHER
+        sound:
+          sound: BLOCK.ANVIL.PLACE
+          volume: 1
+          pitch: 2
+      dropgold:
+        type: SPAWNENTITY
+        mode: OTHER
+        entity:
+          type: ITEM
+          item:
+            type: GOLD_INGOT
+            amount: 1
 
