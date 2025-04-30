@@ -54,7 +54,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     }
 
     public static GracefulScheduling getScheduling() {
-        return foliaHacks.getScheduling();
+        return foliaHacks != null ? foliaHacks.getScheduling() : null;
     }
 
     public static FoliaHacks getFoliaHacks() {
@@ -82,8 +82,10 @@ public final class Superheroes extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(this, this);
         HeroCommand heroCommand = new HeroCommand(this.heroHandler);
         PluginCommand command = this.getCommand("hero");
-        command.setExecutor(heroCommand);
-        command.setTabCompleter(heroCommand);
+        if (command != null) {
+            command.setExecutor(heroCommand);
+            command.setTabCompleter(heroCommand);
+        }
         handleMetrics();
         plusUltraAdvertisement();
         checkForNewUpdate();
@@ -123,7 +125,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
             }
         } catch(NoClassDefFoundError e) {
             getLogger().severe("Disabling WorldGuard compatibility...");
-            e.printStackTrace();
+            getLogger().log(Level.SEVERE, "WorldGuard compatibility error", e);
         }
     }
 
@@ -161,31 +163,35 @@ public final class Superheroes extends JavaPlugin implements Listener {
     public void checkForNewUpdate() {
         UpdateChecker.init(this, 79766);
         getScheduling().globalRegionalScheduler().runAtFixedRate(() -> {
-                if (UpdateChecker.isInitialized()) {
-                    UpdateChecker updateChecker = UpdateChecker.get();
-                    updateChecker.requestUpdateCheck().thenAccept(result -> {
-                        if (result.requiresUpdate()) {
-                            Superheroes.this.getLogger().warning("This server is still running " + Superheroes.this.getDescription().getVersion() + " of Superheroes");
-                            Superheroes.this.getLogger().warning("The latest version is " + result.getNewestVersion());
-                            Superheroes.this.getLogger().warning("Updating is important to ensure there are not any bugs or vulnerabilities.");
-                            Superheroes.this.getLogger().warning("As well as ensuring your players have the best time when using the superheroes!");
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                if (!player.hasPermission("superheroes.notify")) continue;
-                                player.sendMessage("This server is still running " + Superheroes.this.getDescription().getVersion() + " of Superheroes");
-                                player.sendMessage("The latest version is " + result.getNewestVersion());
-                                player.sendMessage("Updating is important to ensure there are not any bugs or vulnerabilities.");
-                                player.sendMessage("As well as ensuring your players have the best time when using the superheroes!");
-                            }
+            if (UpdateChecker.isInitialized()) {
+                UpdateChecker updateChecker = UpdateChecker.get();
+                updateChecker.requestUpdateCheck().thenAccept(result -> {
+                    if (result.requiresUpdate()) {
+                        Superheroes.this.getLogger().warning("This server is still running " + Superheroes.this.getDescription().getVersion() + " of Superheroes");
+                        Superheroes.this.getLogger().warning("The latest version is " + result.getNewestVersion());
+                        Superheroes.this.getLogger().warning("Updating is important to ensure there are not any bugs or vulnerabilities.");
+                        Superheroes.this.getLogger().warning("As well as ensuring your players have the best time when using the superheroes!");
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            if (!player.hasPermission("superheroes.notify")) continue;
+                            player.sendMessage("This server is still running " + Superheroes.this.getDescription().getVersion() + " of Superheroes");
+                            player.sendMessage("The latest version is " + result.getNewestVersion());
+                            player.sendMessage("Updating is important to ensure there are not any bugs or vulnerabilities.");
+                            player.sendMessage("As well as ensuring your players have the best time when using the superheroes!");
                         }
-                    });
-                }
-            }, 6000L, 432000L
-        );
+                    }
+                });
+            }
+        }, 6000L, 432000L);
     }
 
+    @Override
     public void onDisable() {
-        bukkitAudiences.close();
-        superheroes.getHeroHandler().getHeroIOHandler().shutdown();
+        if (bukkitAudiences != null) {
+            bukkitAudiences.close();
+        }
+        if (superheroes != null && superheroes.getHeroHandler() != null && superheroes.getHeroHandler().getHeroIOHandler() != null) {
+            superheroes.getHeroHandler().getHeroIOHandler().shutdown();
+        }
     }
 
     public void handleMetrics() {
@@ -249,6 +255,8 @@ public final class Superheroes extends JavaPlugin implements Listener {
     }
 
     private void handleAliases(final HeroCommand heroCommand, PluginCommand command) {
+        if (command == null) return;
+        
         List<String> commandAliases = this.configHandler.getCommandAliases();
         if (!commandAliases.isEmpty()) {
             BukkitCommand aliasCommand = new BukkitCommand(commandAliases.get(0)) {
