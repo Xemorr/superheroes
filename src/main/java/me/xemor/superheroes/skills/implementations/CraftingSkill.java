@@ -5,6 +5,7 @@ import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
+import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.events.SuperheroesReloadEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.CraftingData;
@@ -38,14 +39,14 @@ public class CraftingSkill extends SkillImplementation {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onJoin(PlayerJoinEvent e) {
+    public void onJoin(SuperheroPlayerJoinEvent e) {
         Superheroes.getFoliaHacks().getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(
                 () -> {
                     Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
                     discoverRecipes(e.getPlayer(), superhero);
                 },
                 () -> {},
-                150L
+                10L
         );
     }
 

@@ -4,11 +4,13 @@ import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
+import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.LightSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -39,10 +41,9 @@ public class LightSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
-        if (superhero.hasSkill("LIGHT")) {
-            runnable(e.getPlayer(), superhero);
+    public void onJoin(SuperheroPlayerJoinEvent e) {
+        if (e.getSuperhero().hasSkill("LIGHT")) {
+            runnable(e.getPlayer(), e.getSuperhero());
         }
     }
 

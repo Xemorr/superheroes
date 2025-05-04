@@ -3,6 +3,7 @@ package me.xemor.superheroes.skills.implementations;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
+import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import me.xemor.superheroes.skills.skilldata.SneakingPotionData;
@@ -50,9 +51,8 @@ public class SneakingPotionSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
-        Superhero superhero = getPowersHandler().getSuperhero(player);
+    public void onJoin(SuperheroPlayerJoinEvent e) {
+        Superhero superhero = e.getSuperhero();
         Collection<SkillData> skillDatas = superhero.getSkillData("SNEAKINGPOTION");
         for (SkillData skillData : skillDatas) {
             SneakingPotionData sneakingPotionData = (SneakingPotionData) skillData;

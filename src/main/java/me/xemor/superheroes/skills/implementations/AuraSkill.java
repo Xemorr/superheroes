@@ -3,6 +3,7 @@ package me.xemor.superheroes.skills.implementations;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
+import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.AuraData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -23,7 +24,7 @@ public class AuraSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
+    public void onJoin(SuperheroPlayerJoinEvent e) {
         runnable(e.getPlayer());
     }
 

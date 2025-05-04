@@ -5,6 +5,7 @@ import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
+import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.AttributeSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -21,15 +22,15 @@ public class FlightSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
+    public void onJoin(SuperheroPlayerJoinEvent e) {
+        Superhero superhero = e.getSuperhero();
         Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(() -> {
-            Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer());
             Collection<SkillData> newSkillData = superhero.getSkillData("FLIGHT");
-            for (SkillData data : newSkillData) {
+            if (!newSkillData.isEmpty()) {
                 e.getPlayer().setAllowFlight(true);
                 e.getPlayer().setFlying(true);
             }
-        }, () -> {}, 10L);
+        }, () -> {}, 1L);
     }
 
     @EventHandler

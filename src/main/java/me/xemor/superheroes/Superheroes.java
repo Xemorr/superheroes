@@ -33,6 +33,7 @@ import space.arim.morepaperlib.scheduling.GracefulScheduling;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 public final class Superheroes extends JavaPlugin implements Listener {
@@ -194,7 +195,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
             this.getLogger().log(Level.WARNING, "[Superheroes] You have disabled bstats, this is very sad :(");
         }
         metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_superhero", () -> {
-            HashMap<String, Integer> valueMap = new HashMap<>();
+            Map<String, Integer> valueMap = new HashMap<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 String powerName = this.heroHandler.getSuperhero(player).getName();
                 int currentCount = valueMap.getOrDefault(powerName, 0);
@@ -203,7 +204,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
             return valueMap;
         }));
         metrics.addCustomChart(new Metrics.AdvancedPie("players_using_each_skill", () -> {
-            HashMap<String, Integer> valueMap = new HashMap<>();
+            Map<String, Integer> valueMap = new HashMap<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Collection<String> skills = this.heroHandler.getSuperhero(player).getSkills();
                 for (String skill : skills) {
@@ -214,7 +215,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
             return valueMap;
         }));
         metrics.addCustomChart(new Metrics.AdvancedPie("superheroes_using_each_skill", () -> {
-            HashMap<String, Integer> valueMap = new HashMap<>();
+            Map<String, Integer> valueMap = new HashMap<>();
             for (Superhero superhero : Superheroes.getInstance().getHeroHandler().getNameToSuperhero().values()) {
                 Collection<String> skills = superhero.getSkills();
                 for (String skill : skills) {
@@ -226,6 +227,8 @@ public final class Superheroes extends JavaPlugin implements Listener {
         }));
         metrics.addCustomChart(new Metrics.SimplePie("superheroes_plus_ultra_usage", () -> Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") != null ? "Yes" : "No"));
         metrics.addCustomChart(new Metrics.SimplePie("has_worldguard", () -> Bukkit.getPluginManager().getPlugin("WorldGuard") != null ? "Yes" : "No"));
+        metrics.addCustomChart(new Metrics.SimplePie("has_skillslibrary", () -> Bukkit.getPluginManager().getPlugin("SkillsLibrary2") != null ? "Yes" : "No"));
+        metrics.addCustomChart(new Metrics.SimplePie("uses_mysql", () -> "MySQL".equalsIgnoreCase(getConfigHandler().getDatabaseType()) ? "Yes" : "No"));
     }
 
     public ConfigHandler getConfigHandler() {

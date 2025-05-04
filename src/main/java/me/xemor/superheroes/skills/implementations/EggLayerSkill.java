@@ -7,6 +7,7 @@ import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
+import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.EggLayerData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
@@ -42,8 +43,8 @@ public class EggLayerSkill extends SkillImplementation {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        initialiseSkill(e.getPlayer(), Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer()));
+    public void onPlayerJoin(SuperheroPlayerJoinEvent e) {
+        initialiseSkill(e.getPlayer(), e.getSuperhero());
     }
 
     @EventHandler

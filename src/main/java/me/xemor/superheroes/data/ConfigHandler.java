@@ -234,7 +234,7 @@ public class ConfigHandler {
     }
 
     public String getDatabaseType() {
-        return this.databaseYAML.getString("database.type", "LEGACY");
+        return this.databaseYAML.getString("database.type", "YAML");
     }
 
     public String getDatabaseHost() {
