@@ -42,4 +42,4 @@ plusUltraSkills: # requires SuperheroesPlusUltra to be installed in order to wor
             type: PLACEBLOCK
             mode: LOCATION
             block:
-              type: COBWEB
+              material: COBWEB
