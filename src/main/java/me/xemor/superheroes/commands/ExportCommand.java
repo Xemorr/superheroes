@@ -1,6 +1,7 @@
 package me.xemor.superheroes.commands;
 
 import me.xemor.superheroes.Superheroes;
+import me.xemor.superheroes.data.ConfigHandler;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -27,7 +28,7 @@ public class ExportCommand implements SubCommand {
             audience.sendMessage(done);
         }
         else {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(Superheroes.getInstance().getConfigHandler().getNoPermissionMessage()));
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission()));
         }
     }
 

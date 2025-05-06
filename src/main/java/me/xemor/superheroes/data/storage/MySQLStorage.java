@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.ConfigHandler;
+import me.xemor.superheroes.data.DatabaseSettings;
 import me.xemor.superheroes.data.HeroHandler;
 import me.xemor.superheroes.data.SuperheroPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -37,13 +38,7 @@ public class MySQLStorage implements Storage {
     public MySQLStorage() {
         this.superheroes = Superheroes.getInstance();
         this.heroHandler = superheroes.getHeroHandler();
-        ConfigHandler configHandler = superheroes.getConfigHandler();
-        String name = configHandler.getDatabaseName();
-        String host = configHandler.getDatabaseHost();
-        int port = configHandler.getDatabasePort();
-        String user = configHandler.getDatabaseUsername();
-        String password = configHandler.getDatabasePassword();
-        initMySQLDataSource(name, host, port, user, password);
+        initMySQLDataSource();
         setupTable();
     }
 
@@ -121,14 +116,15 @@ public class MySQLStorage implements Storage {
         return players;
     }
 
-    private void initMySQLDataSource(String dbName, String host, int port, String user, String password) {
+    private void initMySQLDataSource() {
         Properties props = new Properties();
+        DatabaseSettings databaseSettings = ConfigHandler.getDatabaseYAML().database();
         props.setProperty("dataSourceClassName", "com.mysql.cj.jdbc.MysqlDataSource");
-        props.setProperty("dataSource.serverName", host);
-        props.setProperty("dataSource.portNumber", String.valueOf(port));
-        props.setProperty("dataSource.user", user);
-        props.setProperty("dataSource.password", password);
-        props.setProperty("dataSource.databaseName", dbName);
+        props.setProperty("dataSource.serverName", databaseSettings.getHost());
+        props.setProperty("dataSource.portNumber", Integer.toString(databaseSettings.getPort()));
+        props.setProperty("dataSource.user", databaseSettings.getUsername());
+        props.setProperty("dataSource.password", databaseSettings.getPassword());
+        props.setProperty("dataSource.databaseName", databaseSettings.getName());
         HikariConfig hikariConfig = new HikariConfig(props);
         hikariConfig.setMaximumPoolSize(2);
         source = new HikariDataSource(hikariConfig);

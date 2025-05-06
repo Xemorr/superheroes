@@ -35,7 +35,7 @@ public class ImportCommand implements SubCommand {
             audience.sendMessage(done);
         }
         else {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage()));
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission()));
         }
     }
 

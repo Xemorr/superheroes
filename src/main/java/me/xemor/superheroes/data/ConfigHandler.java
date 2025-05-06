@@ -8,8 +8,10 @@ import me.xemor.configurationdata.ConfigurationData;
 import me.xemor.skillslibrary2.SkillsLibrary;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
+import me.xemor.superheroes.config.ConfigYaml;
 import me.xemor.superheroes.events.SuperheroLoadEvent;
 import me.xemor.superheroes.events.SuperheroesReloadEvent;
+import me.xemor.superheroes.language.LanguageYaml;
 import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import me.xemor.superheroes.skills.skilldata.spell.Spells;
@@ -34,25 +36,51 @@ import java.util.stream.Stream;
 
 public class ConfigHandler {
     private static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
-    private FileConfiguration languageYAML;
-    private FileConfiguration databaseYAML;
-    private FileConfiguration config;
+    private static LanguageYaml languageYAML;
+    private static DatabaseYaml databaseYAML;
+    private static ConfigYaml configYAML;
+    private File dataFolder;
     private final Superheroes superheroes;
 
     public ConfigHandler(Superheroes superheroes) {
         this.superheroes = superheroes;
         superheroes.saveDefaultConfig();
-        File dataFolder = superheroes.getDataFolder();
-        this.config = superheroes.getConfig();
+        dataFolder = superheroes.getDataFolder();
         if (!new File(superheroes.getDataFolder(), "language.yml").exists()) {
             superheroes.saveResource("language.yml", false);
         }
         if (!new File(superheroes.getDataFolder(), "database.yml").exists()) {
             superheroes.saveResource("database.yml", false);
         }
-        this.languageYAML = YamlConfiguration.loadConfiguration(new File(dataFolder, "language.yml"));
-        this.databaseYAML = YamlConfiguration.loadConfiguration(new File(dataFolder, "database.yml"));
+
+        loadConfigs();
+
         this.handleSuperpowersFolder();
+    }
+
+    public void reloadConfig(HeroHandler heroHandler) {
+        SuperheroesReloadEvent superheroesReloadEvent = new SuperheroesReloadEvent();
+        Bukkit.getServer().getPluginManager().callEvent(superheroesReloadEvent);
+        loadConfigs();
+        heroHandler.loadConfigItems();
+        this.handleSuperpowersFolder();
+        heroHandler.handlePlayerData();
+        this.loadSuperheroes(heroHandler);
+        heroHandler.setHeroesIntoMemory(new HashMap<>());
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            heroHandler.loadSuperheroPlayer(player);
+        }
+    }
+
+    public void loadConfigs() {
+        try {
+            ObjectMapper objectMapper = setupObjectMapper();
+            databaseYAML = objectMapper.readValue(new File(dataFolder, "database.yml"), DatabaseYaml.class);
+            languageYAML = objectMapper.readValue(new File(dataFolder, "language.yml"), LanguageYaml.class);
+            configYAML = objectMapper.readValue(new File(dataFolder, "config.yml"), ConfigYaml.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void handleSuperpowersFolder() {
@@ -131,23 +159,6 @@ public class ConfigHandler {
         heroHandler.registerHeroes(nameToSuperhero);
     }
 
-    public void reloadConfig(HeroHandler heroHandler) {
-        SuperheroesReloadEvent superheroesReloadEvent = new SuperheroesReloadEvent();
-        Bukkit.getServer().getPluginManager().callEvent(superheroesReloadEvent);
-        this.superheroes.reloadConfig();
-        this.config = this.superheroes.getConfig();
-        heroHandler.loadConfigItems();
-        this.handleSuperpowersFolder();
-        heroHandler.handlePlayerData();
-        this.loadSuperheroes(heroHandler);
-        this.languageYAML = YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "language.yml"));
-        this.databaseYAML = YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "database.yml"));
-        heroHandler.setHeroesIntoMemory(new HashMap<>());
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            heroHandler.loadSuperheroPlayer(player);
-        }
-    }
-
     public void saveConfig() {
         Superheroes.getScheduling().asyncScheduler().run(this.superheroes::saveConfig);
     }
@@ -156,43 +167,9 @@ public class ConfigHandler {
         return Superheroes.getInstance().getDataFolder();
     }
 
-    public boolean isPowerOnStartEnabled() {
-        return this.config.getBoolean("powerOnStart.isEnabled", false);
-    }
-
-    public boolean openGUIOnStart() {
-        return this.config.getBoolean("gui.onStart", true);
-    }
-
-    public String getGUIName() {
-        return this.languageYAML.getString("GUI.name", "Pick your hero!");
-    }
-
-    public boolean canCloseGUI() {
-        return this.config.getBoolean("gui.canClose", false);
-    }
-
-    public List<String> getDisabledWorlds() {
-        return this.config.getStringList("disabledWorlds");
-    }
-
-    public boolean shouldShowHeroOnStart() {
-        return this.config.getBoolean("powerOnStart.showHero", false);
-    }
-
-    public String getHeroGainedMessage() {
-        return this.languageYAML.getString("Chat.gainedHero", "<bold><player> has gained the power of <hero>");
-    }
-
-    public String getNoPermissionMessage() {
-        return this.languageYAML.getString("Chat.noPermission", "<dark_red>You do not have permission to execute this command!");
-    }
-
-    public String getCurrentHeroMessage() {
-        return this.languageYAML.getString("Chat.currentHero", "<bold><player>, you are currently <hero>");
-    }
-
     public Superhero getDefaultHero() {
+        return configYAML.defaultHero();
+        /*
         String name = this.config.getString("defaultHero.name", "Powerless");
         String colouredName = this.config.getString("defaultHero.colouredName", "<yellow><b>Powerless");
         String description = this.config.getString("defaultHero.description", "You have no power");
@@ -203,58 +180,19 @@ public class ConfigHandler {
         meta.setLore(List.of(legacySerializer.serialize(MiniMessage.miniMessage().deserialize("<white>" + description))));
         icon.setItemMeta(meta);
         return hero;
+         */
     }
 
-    public String getHeroCooldownMessage() {
-        return this.languageYAML.getString("Chat.heroCommandCooldown", "<bold><player>, /hero is currently on cooldown. You need to wait <currentcooldown>/<cooldown> more seconds!");
+    public static LanguageYaml getLanguageYAML() {
+        return languageYAML;
     }
 
-    public String getInvalidHeroMessage() {
-        return this.languageYAML.getString("Chat.invalidHeroMessage", "<bold><player>, You have entered an invalid hero name!");
+    public static DatabaseYaml getDatabaseYAML() {
+        return databaseYAML;
     }
 
-    public String getInvalidPlayerMessage() {
-        return this.languageYAML.getString("Chat.invalidPlayerMessage", "<bold><player>, You have entered an invalid player name!");
-    }
-
-    public String getInvalidCommandMessage() {
-        return this.languageYAML.getString("Chat.invalidCommandMessage", "<bold><player>, You have entered an invalid subcommand name!");
-    }
-
-    public String getInvalidRerollGroupMessage() {
-        return this.languageYAML.getString("Chat.invalidRerollGroupMessage", "<bold><player>, You have entered an invalid reroll group name!");
-    }
-
-    public List<String> getCommandAliases() {
-        return this.config.getStringList("heroCommand.aliases");
-    }
-
-    public long getHeroCommandCooldown() {
-        return this.config.getLong("heroCommand.cooldown", 0L);
-    }
-
-    public String getDatabaseType() {
-        return this.databaseYAML.getString("database.type", "YAML");
-    }
-
-    public String getDatabaseHost() {
-        return this.databaseYAML.getString("database.host", "");
-    }
-
-    public String getDatabaseName() {
-        return this.databaseYAML.getString("database.name", "");
-    }
-
-    public int getDatabasePort() {
-        return this.databaseYAML.getInt("database.port", 3306);
-    }
-
-    public String getDatabaseUsername() {
-        return this.databaseYAML.getString("database.username", "");
-    }
-
-    public String getDatabasePassword() {
-        return this.databaseYAML.getString("database.password", "");
+    public static ConfigYaml getConfigYAML() {
+        return configYAML;
     }
 }
 

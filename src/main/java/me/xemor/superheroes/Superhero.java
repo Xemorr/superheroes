@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import me.sepdron.headcreator.HeadCreator;
 import me.xemor.configurationdata.CompulsoryJsonProperty;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
+import me.xemor.configurationdata.SoundData;
 import me.xemor.configurationdata.deserializers.ItemStackDeserializer;
 import me.xemor.superheroes.skills.PlusUltraSkillsContainer;
 import me.xemor.superheroes.skills.Skill;
@@ -37,6 +38,8 @@ public class Superhero {
     private String colouredName;
     @JsonProperty
     private String description;
+    @JsonPropertyWithDefault
+    private SoundData heroGainedSound = null;
     @JsonPropertyWithDefault
     private Skin skin = null;
     @JsonPropertyWithDefault
@@ -162,5 +165,9 @@ public class Superhero {
 
     public PlusUltraSkillsContainer getPlusUltraSkills() {
         return plusUltraSkills;
+    }
+
+    public SoundData getHeroGainedSound() {
+        return heroGainedSound;
     }
 }

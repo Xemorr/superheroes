@@ -30,7 +30,7 @@ public class SelectCommand implements SubCommand {
     public void onCommand(CommandSender sender, String[] args) {
         Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         if (!sender.hasPermission("superheroes.hero.select")) {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
         Superhero power;
@@ -47,14 +47,14 @@ public class SelectCommand implements SubCommand {
             power = heroHandler.getSuperhero(args[1].toLowerCase());
         }
         if (power == null) {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getInvalidHeroMessage(),
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidHeroMessage(),
                     Placeholder.unparsed("player", sender.getName()),
                     Placeholder.unparsed("hero", args[1])
                     ));
             return;
         }
         if (!sender.hasPermission("superheroes.hero.select." + power.getName().toLowerCase()) && Superheroes.getInstance().getRerollHandler().getRerollConfig().getGlobalRerollSettings().doesEachHeroRequirePermissions()) {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(configHandler.getNoPermissionMessage(), Placeholder.unparsed("player", sender.getName())));
+            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
         if (sender instanceof Player senderPlayer) {
@@ -67,7 +67,7 @@ public class SelectCommand implements SubCommand {
         if (args.length >= 3 && sender.hasPermission("superheroes.hero.select.others")) {
             player = Bukkit.getPlayer(args[2]);
             if (player == null) {
-                MiniMessage.miniMessage().deserialize(configHandler.getInvalidPlayerMessage(), Placeholder.unparsed("player", sender.getName()));
+                MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidPlayerMessage(), Placeholder.unparsed("player", sender.getName()));
                 return;
             }
         }

@@ -228,7 +228,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
         metrics.addCustomChart(new Metrics.SimplePie("superheroes_plus_ultra_usage", () -> Bukkit.getPluginManager().getPlugin("SuperheroesPlusUltra") != null ? "Yes" : "No"));
         metrics.addCustomChart(new Metrics.SimplePie("has_worldguard", () -> Bukkit.getPluginManager().getPlugin("WorldGuard") != null ? "Yes" : "No"));
         metrics.addCustomChart(new Metrics.SimplePie("has_skillslibrary", () -> Bukkit.getPluginManager().getPlugin("SkillsLibrary2") != null ? "Yes" : "No"));
-        metrics.addCustomChart(new Metrics.SimplePie("uses_mysql", () -> "MySQL".equalsIgnoreCase(getConfigHandler().getDatabaseType()) ? "Yes" : "No"));
+        metrics.addCustomChart(new Metrics.SimplePie("uses_mysql", () -> "MySQL".equalsIgnoreCase(ConfigHandler.getDatabaseYAML().database().getType()) ? "Yes" : "No"));
     }
 
     public ConfigHandler getConfigHandler() {
@@ -252,7 +252,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     }
 
     private void handleAliases(final HeroCommand heroCommand, PluginCommand command) {
-        List<String> commandAliases = this.configHandler.getCommandAliases();
+        List<String> commandAliases = ConfigHandler.getConfigYAML().heroCommand().aliases();
         if (!commandAliases.isEmpty()) {
             BukkitCommand aliasCommand = new BukkitCommand(commandAliases.get(0)) {
                 public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {

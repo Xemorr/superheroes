@@ -1,22 +1,28 @@
 config_version: ${version} # do not change unless you know what you are doing
 
 powerOnStart:
-  isEnabled: false # whether they get a random hero, or no hero.
-  showHero: false # whether a popup telling the user which hero they are appears on first join
+  enabled: false # whether they get a random hero, or no hero.
+  firstJoinTitle: false # whether a popup telling the user which hero they are appears on first join
 
 gui:
-  onStart: true
-  canClose: false
+  startsOpen: true
+  closeable: false
 
 heroCommand:
   cooldown: 0 # cooldown in seconds
   aliases:
-    - ''
+    - 'origin'
 
-defaultHero: # note this section does not support Skills as of 2023/02/01
+defaultHero:
   name: "Powerless" # this is dangerous to change as the plugin would not be able to interpret the old name of the defaultHero, and they would be reset.
   colouredName: "<yellow><b>Powerless"
   description: "You have no power"
+  icon:
+    type: BARRIER
+    metadata:
+      displayName: <yellow><b>Powerless
+      lore:
+        - <white>You have no power
 
 # The worlds in which Superheroes is disabled (this is implemented as all users in that world being the default hero / no power hero)
 # This may cause issues with heroes that give items, particularly when switching between these heroes.

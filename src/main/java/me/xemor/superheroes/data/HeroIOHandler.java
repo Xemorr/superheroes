@@ -82,7 +82,7 @@ public class HeroIOHandler {
     }
 
     public void handlePlayerData() {
-        String databaseType = configHandler.getDatabaseType();
+        String databaseType = ConfigHandler.getDatabaseYAML().database().getType();
         if (databaseType.equalsIgnoreCase("YAML")) {
             storage = new YAMLStorage();
         } else if (databaseType.equalsIgnoreCase("MySQL")) {

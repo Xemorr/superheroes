@@ -42,7 +42,7 @@ public class HeroHandler {
 
     public void loadConfigItems() {
         noPower = configHandler.getDefaultHero();
-        disabledWorlds = configHandler.getDisabledWorlds();
+        disabledWorlds = ConfigHandler.getConfigYAML().disabledWorlds();
     }
 
     public void registerHeroes(Map<String, Superhero> nameToSuperhero) {
@@ -51,7 +51,7 @@ public class HeroHandler {
         this.nameToSuperhero.put(noPower.getName().toLowerCase(), noPower);
     }
 
-    public void setHeroesIntoMemory(HashMap<UUID, SuperheroPlayer> playerHeroes) {
+    public void setHeroesIntoMemory(Map<UUID, SuperheroPlayer> playerHeroes) {
         uuidToData.clear();
         uuidToData.putAll(playerHeroes);
     }
@@ -146,7 +146,7 @@ public class HeroHandler {
             Superheroes.getInstance().getLogger().severe("The hero GUI does not support more than 54 heroes.");
             return;
         }
-        final ChestInterface<boolean[]> chestInterface = new ChestInterface<>(configHandler.getGUIName(), numberOfRows, new boolean[]{false});
+        final ChestInterface<boolean[]> chestInterface = new ChestInterface<>(ConfigHandler.getLanguageYAML().guiLanguageSettings().getName(), numberOfRows, new boolean[]{false});
         for (Superhero superhero : allowedSuperheroes) {
             if (superhero.getIcon() == null) continue;
             chestInterface.getInventory().addItem(superhero.getIcon());
@@ -157,7 +157,7 @@ public class HeroHandler {
                 chestInterface.getInteractions().getData()[0] = true;
                 player.closeInventory();
             });
-            if (this.configHandler.canCloseGUI()) continue;
+            if (ConfigHandler.getConfigYAML().gui().closeable()) continue;
             chestInterface.getInteractions().addCloseInteraction(p -> Superheroes.getScheduling().entitySpecificScheduler(player)
                     .runDelayed(() -> {
                         if (!((boolean[]) chestInterface.getInteractions().getData())[0]) {
@@ -179,11 +179,11 @@ public class HeroHandler {
             } else {
                 RerollGroup defaultGroup = Superheroes.getInstance().getRerollHandler().getWeightedHeroes("default");
                 if (defaultGroup == null) throw new IllegalStateException("Default Reroll Group not initialized for some reason!");
-                superhero = configHandler.isPowerOnStartEnabled() ? defaultGroup.chooseHero(player) : noPower;
-                if (configHandler.openGUIOnStart()) {
+                superhero = ConfigHandler.getConfigYAML().powerOnStart().enabled() ? defaultGroup.chooseHero(player) : noPower;
+                if (ConfigHandler.getConfigYAML().gui().startsOpen()) {
                     openHeroGUI(player);
                 }
-                setHero(player, superhero, configHandler.shouldShowHeroOnStart());
+                setHero(player, superhero, ConfigHandler.getConfigYAML().powerOnStart().firstJoinTitle());
             }
             SuperheroPlayerJoinEvent playerJoinEvent = new SuperheroPlayerJoinEvent(superhero, player);
             Bukkit.getPluginManager().callEvent(playerJoinEvent);
@@ -221,8 +221,15 @@ public class HeroHandler {
         String colouredNameSpigot = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build().serialize(colouredName);
         String descriptionSpigot = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build().serialize(description);
         player.sendTitle(colouredNameSpigot, descriptionSpigot, 10, 100, 10);
-        player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5f, 1.0f);
-        Component heroGainedMessage = MiniMessage.miniMessage().deserialize(configHandler.getHeroGainedMessage(), Placeholder.component("hero", colouredName), Placeholder.unparsed("player", player.getName()));
+        if (hero.getHeroGainedSound() != null)
+            player.playSound(
+                    player.getLocation(),
+                    hero.getHeroGainedSound().sound(),
+                    hero.getHeroGainedSound().volume(),
+                    hero.getHeroGainedSound().pitch()
+            );
+        else player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5f, 1.0f);
+        Component heroGainedMessage = MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getGainedHero(), Placeholder.component("hero", colouredName), Placeholder.unparsed("player", player.getName()));
         playerAudience.sendMessage(heroGainedMessage);
     }
 
