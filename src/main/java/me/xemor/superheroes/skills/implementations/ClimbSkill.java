@@ -33,14 +33,16 @@ public class ClimbSkill extends SkillImplementation {
         super(heroHandler);
         Superheroes.getScheduling().globalRegionalScheduler().runAtFixedRate(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Superheroes.getScheduling().entitySpecificScheduler(player).run(() -> performClimbSkill(player), () -> {});
+                Superhero superhero = heroHandler.getSuperhero(player);
+                Collection<SkillData> skillDatas = superhero.getSkillData("CLIMB");
+                if (!skillDatas.isEmpty()) {
+                    Superheroes.getScheduling().entitySpecificScheduler(player).run(() -> performClimbSkill(player, skillDatas), () -> {});
+                }
             }
         }, 10L, 1L);
     }
 
-    public void performClimbSkill(Player player) {
-        Superhero superhero = heroHandler.getSuperhero(player);
-        Collection<SkillData> skillDatas = superhero.getSkillData("CLIMB");
+    public void performClimbSkill(Player player, Collection<SkillData> skillDatas) {
         for (SkillData skillData : skillDatas) {
             skillData.ifConditionsTrue(() -> {
                 ClimbData climbData = (ClimbData) skillData;
