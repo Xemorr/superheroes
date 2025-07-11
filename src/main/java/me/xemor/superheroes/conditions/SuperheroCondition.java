@@ -1,6 +1,7 @@
 package me.xemor.superheroes.conditions;
 
-import me.xemor.configurationdata.JsonPropertyWithDefault;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import me.xemor.configurationdata.comparison.SetData;
 import me.xemor.skillslibrary2.Mode;
 import me.xemor.skillslibrary2.conditions.Condition;
@@ -17,8 +18,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class SuperheroCondition extends Condition implements EntityCondition, TargetCondition {
 
-    @JsonPropertyWithDefault
     private SetData<String> heroes = new SetData<>();
+
+    @JsonCreator
+    public SuperheroCondition(@JsonProperty("heroes") SetData<String> heroes) {
+        this.heroes = heroes;
+    }
 
     public SuperheroCondition(String heroName, Mode mode) {
         heroes = new SetData<>(Set.of(heroName.toLowerCase()));

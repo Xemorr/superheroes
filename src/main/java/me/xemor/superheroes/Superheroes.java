@@ -28,6 +28,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import me.xemor.foliahacks.FoliaHacks;
+import org.lushplugins.unifiedprotection.UnifiedProtection;
+import org.lushplugins.unifiedprotection.bukkit.BukkitUnifiedProtection;
 import space.arim.morepaperlib.scheduling.GracefulScheduling;
 
 import java.util.Collection;
@@ -45,6 +47,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
     private static Superheroes superheroes;
     private WorldGuardSupport worldGuardSupport;
     private static FoliaHacks foliaHacks;
+    private static BukkitUnifiedProtection unifiedProtection;
 
     public static Superheroes getInstance() {
         return superheroes;
@@ -62,6 +65,10 @@ public final class Superheroes extends JavaPlugin implements Listener {
         return foliaHacks;
     }
 
+    public static BukkitUnifiedProtection getUnifiedProtection() {
+        return unifiedProtection;
+    }
+
     @Override
     public void onLoad() {
         if (this.getServer().getPluginManager().getPlugin("WorldGuard") != null) {
@@ -71,6 +78,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        unifiedProtection = new BukkitUnifiedProtection();
         SentryInitializer.initSentry("https://a5dfe8c79f9c3dad331ebdcb8923066a@o4505846670753792.ingest.sentry.io/4505846683992064", this);
         superheroes = this;
         this.hasSkillsLibrary = Bukkit.getPluginManager().isPluginEnabled("SkillsLibrary2");

@@ -1,6 +1,10 @@
 package me.xemor.superheroes.data;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.sentry.util.FileUtils;
@@ -26,9 +30,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -137,10 +145,10 @@ public class ConfigHandler {
         Map<String, Superhero> nameToSuperhero = Arrays.stream(getPowersFolder().listFiles())
                 .parallel()
                 .map((file) -> {
-                    try {
-                        return objectMapper.readValue(file, Superhero.class);
+                    try (InputStream is = new FileInputStream(file)) {
+                        return objectMapper.readValue(is, Superhero.class);
                     } catch (IOException e) {
-                        Superheroes.getInstance().getLogger().severe(e.getMessage());
+                        Superheroes.getInstance().getLogger().severe("While parsing file: %s\n%s".formatted(file.getName(), e));
                         return null;
                     }
                 })
@@ -159,28 +167,12 @@ public class ConfigHandler {
         heroHandler.registerHeroes(nameToSuperhero);
     }
 
-    public void saveConfig() {
-        Superheroes.getScheduling().asyncScheduler().run(this.superheroes::saveConfig);
-    }
-
     private File getDataFolder() {
         return Superheroes.getInstance().getDataFolder();
     }
 
     public Superhero getDefaultHero() {
         return configYAML.defaultHero();
-        /*
-        String name = this.config.getString("defaultHero.name", "Powerless");
-        String colouredName = this.config.getString("defaultHero.colouredName", "<yellow><b>Powerless");
-        String description = this.config.getString("defaultHero.description", "You have no power");
-        Superhero hero = new Superhero(name, colouredName, description);
-        ItemStack icon = new ItemStack(Material.BARRIER);
-        ItemMeta meta = icon.getItemMeta();
-        meta.setDisplayName(legacySerializer.serialize(MiniMessage.miniMessage().deserialize(colouredName)));
-        meta.setLore(List.of(legacySerializer.serialize(MiniMessage.miniMessage().deserialize("<white>" + description))));
-        icon.setItemMeta(meta);
-        return hero;
-         */
     }
 
     public static LanguageYaml getLanguageYAML() {

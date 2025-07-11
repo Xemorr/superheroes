@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import me.xemor.configurationdata.CompulsoryJsonProperty;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.configurationdata.comparison.SetData;
+import me.xemor.superheroes.Superheroes;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +12,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
+import org.lushplugins.libraries.cloplib.operation.OperationType;
 
 public class TransmutationSpell extends SpellData {
 

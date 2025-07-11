@@ -21,6 +21,7 @@ public class AttributeSkillData extends SkillData {
             @JsonProperty("operation") AttributesData.Operation operation,
             @JsonProperty("uniqueKey") @JsonAlias("unique_key") String uniqueKey
     ) {
+        if (uniqueKey == null) throw new IllegalArgumentException("The unique key on an attribute skill cannot be null!");
         if (attributes.remove(null) != null) {
             ConfigurationData.getLogger()
                     .severe("AttributeSkillData has a null key! Please see valid attributes here: "

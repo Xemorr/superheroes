@@ -1,5 +1,5 @@
 group = "me.xemor"
-version = "8.3.1"
+version = "8.3.4"
 description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -24,6 +24,14 @@ repositories {
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots"
     }
+    maven {
+        name = "lushpluginsSnapshots"
+        url = uri("https://repo.lushplugins.org/snapshots")
+    }
+    maven {
+        name = "william278Releases"
+        url = uri("https://repo.william278.net/releases")
+    }
 }
 
 dependencies {
@@ -33,7 +41,8 @@ dependencies {
     compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.0")
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     compileOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.0")
-    shadow("me.xemor:configurationdata:4.3.9")
+    shadow("org.lushplugins.unifiedprotection:UnifiedProtection-bukkit:1.0.0-alpha14")
+    shadow("me.xemor:configurationdata:4.4.6")
     shadow("org.bstats:bstats-bukkit:1.7")
     shadow("me.xemor:userinterfaces:2.0.2-SNAPSHOT")
     shadow("org.jetbrains:annotations:20.1.0")
@@ -67,6 +76,7 @@ tasks.shadowJar {
     relocate("space.arim.morepaperlib", "me.xemor.superheroes.morepaperlib")
     relocate("me.xemor.foliahacks", "me.xemor.superheroes.foliahacks")
     relocate("io.papermc.paperlib", "me.xemor.superheroes.paperlib")
+    relocate("org.lushplugins.unifiedprotection", "me.xemor.superheroes.lushplugins.unifiedprotection")
     configurations = listOf(project.configurations.shadow.get())
     val folder = System.getenv("pluginFolder")
     destinationDirectory.set(file(folder))

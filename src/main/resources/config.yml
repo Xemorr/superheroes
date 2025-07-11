@@ -1,8 +1,8 @@
 config_version: ${version} # do not change unless you know what you are doing
 
 powerOnStart:
-  enabled: false # whether they get a random hero, or no hero.
-  firstJoinTitle: false # whether a popup telling the user which hero they are appears on first join
+  enabled: true # whether they get a random hero, or no hero.
+  firstJoinTitle: true # whether a popup telling the user which hero they are appears on first join
 
 gui:
   startsOpen: true
