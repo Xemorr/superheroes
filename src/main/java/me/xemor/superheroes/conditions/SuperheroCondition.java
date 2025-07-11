@@ -15,18 +15,19 @@ import org.bukkit.entity.Player;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class SuperheroCondition extends Condition implements EntityCondition, TargetCondition {
 
-    private SetData<String> heroes = new SetData<>();
+    private Set<String> heroes;
 
     @JsonCreator
-    public SuperheroCondition(@JsonProperty("heroes") SetData<String> heroes) {
-        this.heroes = heroes;
+    public SuperheroCondition(@JsonProperty("heroes") Set<String> heroes) {
+        this.heroes = heroes.stream().map(String::toLowerCase).collect(Collectors.toSet());
     }
 
     public SuperheroCondition(String heroName, Mode mode) {
-        heroes = new SetData<>(Set.of(heroName.toLowerCase()));
+        heroes = Set.of(heroName.toLowerCase());
         setMode(mode);
     }
 
@@ -43,7 +44,7 @@ public class SuperheroCondition extends Condition implements EntityCondition, Ta
     public boolean checkHero(Entity entity) {
         if (entity instanceof Player player) {
             Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(player);
-            return heroes.inSet(superhero.getName().toLowerCase());
+            return heroes.isEmpty() || heroes.contains(superhero.getName().toLowerCase());
         }
         return false;
     }
