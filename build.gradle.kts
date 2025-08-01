@@ -14,7 +14,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
-    maven { url = uri("https://papermc.io/repo/repository/maven-public/")}
+    maven { url = uri("https://repo.papermc.io/repository/maven-public/")}
     maven { url = uri("https://repo.codemc.org/repository/maven-public") }
     maven { url = uri("https://repo.minebench.de/") }
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
@@ -37,7 +37,7 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
-    compileOnly("me.xemor:skillslibrary:4.1.1")
+    compileOnly("me.xemor:skillslibrary:4.1.3")
     compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.0")
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     compileOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.0")
