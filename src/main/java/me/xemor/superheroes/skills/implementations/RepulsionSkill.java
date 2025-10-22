@@ -3,14 +3,12 @@ package me.xemor.superheroes.skills.implementations;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
-import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.RepulsionData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -45,7 +43,7 @@ public class RepulsionSkill extends SkillImplementation {
                             nearbyEntities
                                     .stream()
                                     .filter(entity -> !entity.equals(player))
-                                    .filter(entity -> !repulsionData.inBlacklist(entity.getType()))
+                                    .filter(entity -> repulsionData.allow(entity.getType()))
                                     .forEach(entity -> {
                                                 skillData.ifConditionsTrue(() -> {
                                                     Vector distanceVelocity = entity.getLocation().subtract(player.getLocation()).toVector().normalize().multiply(0.1).multiply(multiplier);

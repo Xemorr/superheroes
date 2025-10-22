@@ -10,6 +10,7 @@ skills:
     skill: REPULSION
     multiplier: -0.35 # set this to a positive number to repulse.
     radius: 15
-    entityBlacklist:
+    whitelist: false
+    entities:
       - ARMOR_STAND
       - ARROW

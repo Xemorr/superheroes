@@ -1,7 +1,7 @@
 group = "me.xemor"
-version = "8.3.5"
+version = "8.3.10"
 description = "superheroes"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 plugins {
     java
@@ -13,6 +13,7 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
+    maven { url = uri("https://repo.xemor.zip/releases")}
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
     maven { url = uri("https://repo.papermc.io/repository/maven-public/")}
     maven { url = uri("https://repo.codemc.org/repository/maven-public") }
@@ -20,7 +21,6 @@ repositories {
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
     maven { url = uri("https://maven.enginehub.org/repo/")}
     maven { url = uri("https://mvn-repo.arim.space/lesser-gpl3")}
-    maven { url = uri("https://repo.xemor.zip/releases")}
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots"
     }
@@ -35,18 +35,18 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
     compileOnly("me.xemor:skillslibrary:4.1.3")
     compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.0")
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     compileOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.0")
     shadow("org.lushplugins.unifiedprotection:UnifiedProtection-bukkit:1.0.0-alpha14")
-    shadow("me.xemor:configurationdata:4.4.6")
+    shadow("me.xemor:configurationdata:4.4.10")
     shadow("org.bstats:bstats-bukkit:1.7")
     shadow("me.xemor:userinterfaces:2.0.2-SNAPSHOT")
     shadow("org.jetbrains:annotations:20.1.0")
-    shadow("net.kyori:adventure-platform-bukkit:4.3.3-SNAPSHOT")
+    shadow("net.kyori:adventure-platform-bukkit:4.4.0")
     shadow("net.kyori:adventure-text-minimessage:4.17.0")
     shadow("mysql:mysql-connector-java:8.0.29")
     shadow("me.sepdron:HeadCreator:2.0.0")

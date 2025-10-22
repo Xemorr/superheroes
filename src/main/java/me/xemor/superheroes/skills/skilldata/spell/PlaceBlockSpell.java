@@ -30,6 +30,10 @@ public class PlaceBlockSpell extends SpellData {
                     return true;
                 }
             }
+            else {
+                placeHere.setBlockData(block);
+                return true;
+            }
         }
         return false;
     }

@@ -4,14 +4,20 @@ import me.xemor.superheroes.skills.skilldata.configdata.Cooldown;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class SkillCooldownHandler {
 
-    private final HashMap<Cooldown, HashMap<UUID, Long>> cooldownMap = new HashMap<>();
+    private static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build();
+    private final Map<Cooldown, HashMap<UUID, Long>> cooldownMap = new HashMap<>();
 
     public void startCooldown(Cooldown skillData, double cooldown, UUID uuid) {
         HashMap<UUID, Long> hashMap = cooldownMap.getOrDefault(skillData, new HashMap<>());
@@ -31,7 +37,9 @@ public class SkillCooldownHandler {
             }
             long seconds = ((hashMap.get(uuid) - System.currentTimeMillis()) / 1000);
             Component cooldownMessage = MiniMessage.miniMessage().deserialize(skillData.getCooldownMessage(), Placeholder.unparsed("currentcooldown", String.valueOf(seconds)));
-            Superheroes.getBukkitAudiences().player(Bukkit.getPlayer(uuid)).sendActionBar(cooldownMessage);
+            String serializedMessage = legacySerializer.serialize(cooldownMessage);
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(serializedMessage));
             return false;
         }
         else {

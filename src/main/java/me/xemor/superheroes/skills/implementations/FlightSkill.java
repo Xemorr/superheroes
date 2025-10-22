@@ -10,6 +10,7 @@ import me.xemor.superheroes.skills.Skill;
 import me.xemor.superheroes.skills.skilldata.AttributeSkillData;
 import me.xemor.superheroes.skills.skilldata.SkillData;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -40,7 +41,17 @@ public class FlightSkill extends SkillImplementation {
             Collection<SkillData> newSkillData = superhero.getSkillData("FLIGHT");
             for (SkillData data : newSkillData) {
                 e.getPlayer().setAllowFlight(true);
-                e.getPlayer().setFlying(true);
+            }
+        }, () -> {}, 1L);
+    }
+
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent e) {
+        Superheroes.getScheduling().entitySpecificScheduler(e.getPlayer()).runDelayed(() -> {
+            Superhero superhero = Superheroes.getInstance().getHeroHandler().getSuperhero(e.getPlayer());
+            Collection<SkillData> newSkillData = superhero.getSkillData("FLIGHT");
+            for (SkillData data : newSkillData) {
+                e.getPlayer().setAllowFlight(true);
             }
         }, () -> {}, 1L);
     }

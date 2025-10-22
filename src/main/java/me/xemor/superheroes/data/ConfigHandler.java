@@ -144,6 +144,7 @@ public class ConfigHandler {
         ObjectMapper objectMapper = setupObjectMapper();
         Map<String, Superhero> nameToSuperhero = Arrays.stream(getPowersFolder().listFiles())
                 .parallel()
+                .filter((file) -> file.getName().endsWith(".yml") || file.getName().endsWith(".yaml"))
                 .map((file) -> {
                     try (InputStream is = new FileInputStream(file)) {
                         return objectMapper.readValue(is, Superhero.class);

@@ -3,7 +3,7 @@ version: ${version}
 main: me.xemor.superheroes.Superheroes
 api-version: 1.16
 authors: [Xemor_]
-softdepend: [SkillsLibrary2, WorldGuard]
+softdepend: [SkillsLibrary2, WorldGuard, GriefPrevention, HuskClaims, HuskTowns, PvPToggle]
 folia-supported: true
 description: Adds superheroes to your world - these can be customized completely and are extremely modular.
 libraries:

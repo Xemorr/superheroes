@@ -6,6 +6,7 @@ skills:
     skill: REPULSION
     multiplier: 0.5 # set this to a negative number to attract.
     radius: 5
-    entityBlacklist:
+    whitelist: false
+    entities:
       - ARMOR_STAND
 
