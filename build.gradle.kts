@@ -1,6 +1,6 @@
 group = "me.xemor"
-version = "8.3.10"
-description = "superheroes"
+version = "8.3.12"
+description = "superheroes"pe
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 plugins {
@@ -49,7 +49,7 @@ dependencies {
     shadow("net.kyori:adventure-platform-bukkit:4.4.0")
     shadow("net.kyori:adventure-text-minimessage:4.17.0")
     shadow("mysql:mysql-connector-java:8.0.29")
-    shadow("me.sepdron:HeadCreator:2.0.0")
+    shadow("me.sepdron:HeadCreator:2.1.1")
     shadow("com.zaxxer:HikariCP:4.0.3")
     shadow("org.apache.commons:commons-lang3:3.12.0")
     shadow("io.sentry:sentry:6.29.0")
@@ -137,8 +137,4 @@ tasks.withType<JavaCompile>() {
 tasks.processResources {
     inputs.property("version", rootProject.version)
     expand("version" to rootProject.version)
-}
-
-publishing {
-
 }
