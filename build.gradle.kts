@@ -1,6 +1,6 @@
 group = "me.xemor"
-version = "8.3.12"
-description = "superheroes"pe
+version = "8.3.13"
+description = "superheroes"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 plugins {
