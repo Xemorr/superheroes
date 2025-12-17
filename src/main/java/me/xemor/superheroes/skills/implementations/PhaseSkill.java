@@ -46,7 +46,7 @@ public class PhaseSkill extends SkillImplementation {
                                 player.setGameMode(GameMode.SURVIVAL);
                                 return;
                             }
-                            if (player.isSneaking() && player.getLocation().getY() > player.getWorld().getMinHeight() + 5) {
+                            if (player.isSneaking() && player.getLocation().getY() > player.getWorld().getMinHeight() + phaseData.getNumberOfBlocksPhasingAboveWorldMinHeight()) {
                                 phaseData.areConditionsTrue(player).thenAccept((b) -> {
                                     if (b) {
                                         player.setGameMode(GameMode.SPECTATOR);

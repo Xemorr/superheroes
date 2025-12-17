@@ -1,13 +1,15 @@
 package me.xemor.superheroes.skills.skilldata;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 
 public class PhaseData extends SkillData {
 
     @JsonPropertyWithDefault
-    private double minimumPhaseYAxis = 5;
+    @JsonAlias("minimumPhaseYAxis")
+    private double numberOfBlocksPhasingAboveWorldMinHeight = 5;
 
-    public double getMinimumPhaseYAxis() {
-        return minimumPhaseYAxis;
+    public double getNumberOfBlocksPhasingAboveWorldMinHeight() {
+        return numberOfBlocksPhasingAboveWorldMinHeight;
     }
 }
