@@ -25,7 +25,7 @@ public class SummonSkillData extends PotionEffectSkillData implements Cooldown {
     @JsonPropertyWithDefault
     private double cooldown = 10D;
     @JsonPropertyWithDefault
-    private String cooldownMessage = "<yellow><bold>Zeus <white>Cooldown: <s> seconds";
+    private String cooldownMessage = "<white>Cooldown: <currentcooldown> seconds";
 
     public int getRange() {
         return range;
