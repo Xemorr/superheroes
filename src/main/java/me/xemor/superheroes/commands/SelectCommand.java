@@ -28,9 +28,8 @@ public class SelectCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
-        Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         if (!sender.hasPermission("superheroes.hero.select")) {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
         Superhero power;
@@ -47,19 +46,19 @@ public class SelectCommand implements SubCommand {
             power = heroHandler.getSuperhero(args[1].toLowerCase());
         }
         if (power == null) {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidHeroMessage(),
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidHeroMessage(),
                     Placeholder.unparsed("player", sender.getName()),
                     Placeholder.unparsed("hero", args[1])
                     ));
             return;
         }
         if (!sender.hasPermission("superheroes.hero.select." + power.getName().toLowerCase()) && Superheroes.getInstance().getRerollHandler().getRerollConfig().getGlobalRerollSettings().doesEachHeroRequirePermissions()) {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
         if (sender instanceof Player senderPlayer) {
             SuperheroPlayer superheroPlayer = heroHandler.getSuperheroPlayer(senderPlayer);
-            if (!sender.hasPermission("superheroes.hero.select.bypasscooldown") && !superheroPlayer.handleCooldown(senderPlayer, audience)) {
+            if (!sender.hasPermission("superheroes.hero.select.bypasscooldown") && !superheroPlayer.handleCooldown(senderPlayer)) {
                 return;
             }
         }

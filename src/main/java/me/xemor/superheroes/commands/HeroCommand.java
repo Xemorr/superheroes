@@ -40,9 +40,8 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         if (!sender.hasPermission("superheroes.hero")) {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission()));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission()));
             return true;
         }
         if (args.length >= 1) {
@@ -50,7 +49,7 @@ public class HeroCommand implements CommandExecutor, TabExecutor {
             try {
                 commandType = SubCommands.valueOf(args[0].toUpperCase());
             } catch (IllegalArgumentException e) {
-                audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidCommandMessage(), Placeholder.unparsed("player", sender.getName())));
+                sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidCommandMessage(), Placeholder.unparsed("player", sender.getName())));
                 return true;
             }
             switch (commandType) {

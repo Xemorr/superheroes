@@ -6,13 +6,11 @@ import me.xemor.superheroes.events.PlayerChangedSuperheroEvent;
 import me.xemor.superheroes.events.PlayerAsyncCheckSuperheroEvent;
 import me.xemor.superheroes.events.SuperheroPlayerJoinEvent;
 import me.xemor.superheroes.reroll.RerollGroup;
-import me.xemor.superheroes.skills.Skill;
 import me.xemor.userinterface.ChestInterface;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
@@ -20,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -151,7 +150,7 @@ public class HeroHandler {
             if (superhero.getIcon() == null) continue;
             chestInterface.getInventory().addItem(superhero.getIcon());
             chestInterface.getInteractions().addSimpleInteraction(superhero.getIcon(), p -> {
-                if (getSuperheroPlayer(player).handleCooldown(player, Superheroes.getBukkitAudiences().player(player))) {
+                if (getSuperheroPlayer(player).handleCooldown(player)) {
                     setHero(p, superhero);
                 }
                 chestInterface.getInteractions().getData()[0] = true;
@@ -211,16 +210,10 @@ public class HeroHandler {
     public void showHero(Player player, Superhero hero) {
         Component colouredName = MiniMessage.miniMessage().deserialize(hero.getColouredName());
         Component description = MiniMessage.miniMessage().deserialize(hero.getDescription());
-        Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
-        /*
-        Title title = Title.title(colouredName, description, Title.Times.times(Duration.ofMillis(500L), Duration.ofMillis(5000L), Duration.ofMillis(500L)));
-        playerAudience.showTitle(title);
 
-        Adventure Developers aren't on top of maintaining adventure platform bukkit, so I will use a work around to prevent sendTitle from breaking every 3 milliseconds.
-         */
-        String colouredNameSpigot = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build().serialize(colouredName);
-        String descriptionSpigot = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build().serialize(description);
-        player.sendTitle(colouredNameSpigot, descriptionSpigot, 10, 100, 10);
+        Title title = Title.title(colouredName, description, Title.Times.times(Duration.ofMillis(500L), Duration.ofMillis(5000L), Duration.ofMillis(500L)));
+        player.showTitle(title);
+
         if (hero.getHeroGainedSound() != null)
             player.playSound(
                     player.getLocation(),
@@ -230,7 +223,7 @@ public class HeroHandler {
             );
         else player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 0.5f, 1.0f);
         Component heroGainedMessage = MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getGainedHero(), Placeholder.component("hero", colouredName), Placeholder.unparsed("player", player.getName()));
-        playerAudience.sendMessage(heroGainedMessage);
+        player.sendMessage(heroGainedMessage);
     }
 
     @Nullable

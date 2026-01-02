@@ -16,9 +16,8 @@ import java.util.List;
 public class GUICommand implements SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
-        Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         if (!sender.hasPermission("superheroes.hero.gui")) {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
             return;
         }
         HeroHandler heroHandler = Superheroes.getInstance().getHeroHandler();
@@ -31,7 +30,7 @@ public class GUICommand implements SubCommand {
         Player player = Bukkit.getPlayer(args[1]);
         if (player == null) {
             var component = MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidPlayerMessage(), Placeholder.unparsed("player", sender.getName()));
-            audience.sendMessage(component);
+            sender.sendMessage(component);
             return;
         }
         heroHandler.openHeroGUI(player);

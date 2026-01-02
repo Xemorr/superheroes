@@ -18,32 +18,31 @@ public class CheckCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
-        Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         if (sender.hasPermission("superheroes.hero.check")) {
             if (args.length > 1) {
                 if (sender.hasPermission("superheroes.hero.check.others")) {
                     Player other = Bukkit.getPlayer(args[1]);
                     if (other == null) {
-                        audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidPlayerMessage(),
+                        sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidPlayerMessage(),
                                 Placeholder.unparsed("player", sender.getName())));
                         return;
                     }
                     Superhero hero = Superheroes.getInstance().getHeroHandler().getSuperhero(other);
-                    audience.sendMessage(
+                    sender.sendMessage(
                             MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getCurrentHero(),
                                     Placeholder.unparsed("player", other.getName()),
                                     Placeholder.unparsed("hero", hero.getName()))
                     );
                 }
                 else {
-                    audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(),
+                    sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(),
                             Placeholder.unparsed("player", sender.getName())));
                 }
             }
             else {
                 if (sender instanceof Player player) {
                     Superhero hero = Superheroes.getInstance().getHeroHandler().getSuperhero(player);
-                    audience.sendMessage(
+                    sender.sendMessage(
                             MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(),
                                     Placeholder.unparsed("player", player.getName()),
                                     Placeholder.unparsed("hero", hero.getName()))
@@ -52,7 +51,7 @@ public class CheckCommand implements SubCommand {
             }
         }
         else {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(),
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(),
                     Placeholder.unparsed("player", sender.getName())));
         }
     }

@@ -13,8 +13,11 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
+    maven {
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
     maven { url = uri("https://repo.xemor.zip/releases")}
-    maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
     maven { url = uri("https://repo.papermc.io/repository/maven-public/")}
     maven { url = uri("https://repo.codemc.org/repository/maven-public") }
     maven { url = uri("https://repo.minebench.de/") }
@@ -35,9 +38,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
-    compileOnly("me.xemor:skillslibrary:4.1.3")
+    compileOnly("me.xemor:skillslibrary:4.2.0")
     compileOnly("com.fasterxml.jackson.core:jackson-core:2.18.0")
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     compileOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.0")
@@ -46,8 +49,6 @@ dependencies {
     shadow("org.bstats:bstats-bukkit:1.7")
     shadow("me.xemor:userinterfaces:2.0.2-SNAPSHOT")
     shadow("org.jetbrains:annotations:20.1.0")
-    shadow("net.kyori:adventure-platform-bukkit:4.4.0")
-    shadow("net.kyori:adventure-text-minimessage:4.17.0")
     shadow("mysql:mysql-connector-java:8.0.29")
     shadow("me.sepdron:HeadCreator:2.1.1")
     shadow("com.zaxxer:HikariCP:4.0.3")
@@ -64,7 +65,6 @@ java {
 
 tasks.shadowJar {
     minimize()
-    relocate("net.kyori", "me.xemor.superheroes.kyori")
     relocate("me.xemor.configurationdata", "me.xemor.superheroes.configurationdata")
     relocate("org.jetbrains", "me.xemor.superheroes.org.jetbrains")
     relocate("mysql", "me.xemor.superheroes.mysql")

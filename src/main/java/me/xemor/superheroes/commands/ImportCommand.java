@@ -24,18 +24,17 @@ public class ImportCommand implements SubCommand {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
-        Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         ConfigHandler configHandler = Superheroes.getInstance().getConfigHandler();
         if (sender.hasPermission("superheroes.hero.import")) {
-            audience.sendMessage(notReload);
-            audience.sendMessage(importing);
+            sender.sendMessage(notReload);
+            sender.sendMessage(importing);
             HeroHandler heroHandler = Superheroes.getInstance().getHeroHandler();
             heroHandler.getHeroIOHandler().importFiles()
                     .thenAccept((ignored) -> Superheroes.getScheduling().asyncScheduler().run(() -> configHandler.reloadConfig(heroHandler)));
-            audience.sendMessage(done);
+            sender.sendMessage(done);
         }
         else {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission()));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission()));
         }
     }
 

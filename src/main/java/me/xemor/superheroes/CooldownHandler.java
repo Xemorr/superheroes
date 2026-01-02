@@ -1,12 +1,12 @@
 package me.xemor.superheroes;
 
 
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -38,7 +38,7 @@ public class CooldownHandler {
         long seconds = getCurrentCooldown(uuid);
         if (!cooldownMessage.equals("") && seconds > 0) {
             Component component = MiniMessage.miniMessage().deserialize(cooldownMessage, Placeholder.unparsed("currentcooldown",String.valueOf(seconds)));
-            Audience player = Superheroes.getBukkitAudiences().player(Bukkit.getPlayer(uuid));
+            Player player = Bukkit.getPlayer(uuid);
             if (chatMessageType == ChatMessageType.ACTION_BAR) {
                 player.sendActionBar(component);
             }
@@ -53,7 +53,7 @@ public class CooldownHandler {
             if (timeAtCooldownStart <= System.currentTimeMillis()) {
                 return 0;
             }
-            return ((timeAtCooldownStart - System.currentTimeMillis()) / 1000);
+            return (timeAtCooldownStart - System.currentTimeMillis()) / 1000;
         }
         else {
             return 0;

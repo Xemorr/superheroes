@@ -63,14 +63,14 @@ public class SuperheroPlayer {
         return cooldown - (System.currentTimeMillis() - this.getHeroCommandTimestamp());
     }
 
-    public boolean handleCooldown(Player player, Audience audience) {
+    public boolean handleCooldown(Player player) {
         long seconds = this.getCooldownLeft() / 1000;
         if (!player.hasPermission("superheroes.hero.select.bypasscooldown")  && !this.isCooldownOver()) {
             Component message = MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getHeroCommandCooldown(),
                     Placeholder.unparsed("player", player.getName()),
                     Placeholder.unparsed("currentcooldown", String.valueOf(Math.round(seconds))),
                     Placeholder.unparsed("cooldown", String.valueOf(ConfigHandler.getConfigYAML().heroCommand().cooldown())));
-            audience.sendMessage(message);
+            player.sendMessage(message);
             return false;
         }
         setHeroCommandTimestamp(System.currentTimeMillis());
