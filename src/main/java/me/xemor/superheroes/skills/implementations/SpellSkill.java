@@ -115,8 +115,7 @@ public class SpellSkill extends SkillImplementation {
         }
         else {
             Component moreFuelNeeded = MiniMessage.miniMessage().deserialize(spellData.getMoreFuelMessage(), Placeholder.unparsed("fuel", fuel.name()), Placeholder.unparsed("fuelneeded", String.valueOf(cost)));
-            Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
-            playerAudience.sendActionBar(moreFuelNeeded);
+            player.sendActionBar(moreFuelNeeded);
         }
     }
 

@@ -1,0 +1,27 @@
+name: Superheroes
+version: ${version}
+main: me.xemor.superheroes.Superheroes
+api-version: '1.21.10'
+description: Adds superheroes to your server - these can be customized completely and are extremely modular.
+loader: me.xemor.superheroes.DependencyLoader
+folia-supported: true
+dependencies:
+  server:
+    SkillsLibrary2:
+      load: BEFORE
+      required: false
+    WorldGuard:
+      load: BEFORE
+      required: false
+    GriefPrevention:
+      load: BEFORE
+      required: false
+    HuskClaims:
+      load: BEFORE
+      required: false
+    HuskTowns:
+      load: BEFORE
+      required: false
+    PvPToggle:
+      load: BEFORE
+      required: false

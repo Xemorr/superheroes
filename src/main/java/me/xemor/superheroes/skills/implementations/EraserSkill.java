@@ -69,20 +69,17 @@ public class EraserSkill extends SkillImplementation {
         heroHandler.setHeroInMemory(player, erased);
         Component removedMessage = MiniMessage.miniMessage().deserialize(eraserData.getRemovedMessage(), Placeholder.unparsed("player", player.getName()));
         if (remover != null) {
-            Audience removerAudience = Superheroes.getBukkitAudiences().player(remover);
-            removerAudience.sendMessage(removedMessage);
+            remover.sendMessage(removedMessage);
         }
-        Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
-        playerAudience.sendMessage(removedMessage);
+        player.sendMessage(removedMessage);
         Superheroes.getScheduling().entitySpecificScheduler(player).runDelayed(() -> {
             if (heroHandler.getSuperhero(player) == erased) {
                 heroHandler.setHeroInMemory(player, oldPower);
                 Component returnedMessage = MiniMessage.miniMessage().deserialize(eraserData.getReturnedMessage(), Placeholder.unparsed("player", player.getName()));
                 if (remover != null) {
-                    Audience removerAudience = Superheroes.getBukkitAudiences().player(remover);
-                    removerAudience.sendMessage(returnedMessage);
+                    remover.sendMessage(returnedMessage);
                 }
-                playerAudience.sendMessage(returnedMessage);
+                player.sendMessage(returnedMessage);
             }
         }, () -> {}, eraserData.getDuration());
     }

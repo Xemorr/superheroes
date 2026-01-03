@@ -10,12 +10,10 @@ import me.xemor.superheroes.reroll.RerollHandler;
 import me.xemor.superheroes.sentry.SentryInitializer;
 import me.xemor.superheroes.skills.implementations.*;
 import me.xemor.userinterface.ChestHandler;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +26,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import me.xemor.foliahacks.FoliaHacks;
-import org.lushplugins.unifiedprotection.UnifiedProtection;
+import org.jspecify.annotations.NonNull;
 import org.lushplugins.unifiedprotection.bukkit.BukkitUnifiedProtection;
 import space.arim.morepaperlib.scheduling.GracefulScheduling;
 
@@ -42,7 +40,6 @@ public final class Superheroes extends JavaPlugin implements Listener {
     private ConfigHandler configHandler;
     private HeroHandler heroHandler;
     private RerollHandler rerollHandler;
-    private static BukkitAudiences bukkitAudiences;
     private boolean hasSkillsLibrary;
     private static Superheroes superheroes;
     private WorldGuardSupport worldGuardSupport;
@@ -51,10 +48,6 @@ public final class Superheroes extends JavaPlugin implements Listener {
 
     public static Superheroes getInstance() {
         return superheroes;
-    }
-
-    public static BukkitAudiences getBukkitAudiences() {
-        return bukkitAudiences;
     }
 
     public static GracefulScheduling getScheduling() {
@@ -90,19 +83,40 @@ public final class Superheroes extends JavaPlugin implements Listener {
         this.registerSkills();
         this.getServer().getPluginManager().registerEvents(this, this);
         HeroCommand heroCommand = new HeroCommand(this.heroHandler);
-        PluginCommand command = this.getCommand("hero");
-        command.setExecutor(heroCommand);
-        command.setTabCompleter(heroCommand);
+
+        // Register hero command
+        BukkitCommand heroCommandBukkit = setupHeroCommand(heroCommand);
+
+        CommandMap commandMap = foliaHacks.getMorePaperLib().commandRegistration().getServerCommandMap();
+        commandMap.register("superheroes", heroCommandBukkit);
+
         handleMetrics();
         plusUltraAdvertisement();
         checkForNewUpdate();
-        bukkitAudiences = BukkitAudiences.create(this);
         if (this.hasSkillsLibrary) {
             this.runSkillsLibraryChanges();
         }
-        handleAliases(heroCommand, command);
+        handleAliases(heroCommand, heroCommandBukkit);
         registerUserInterfaces();
         handleWorldGuardCompatibility();
+    }
+
+    private @NonNull BukkitCommand setupHeroCommand(HeroCommand heroCommand) {
+        BukkitCommand heroCommandBukkit = new BukkitCommand("hero") {
+            @Override
+            public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+                return heroCommand.onCommand(sender, this, commandLabel, args);
+            }
+
+            @NotNull
+            @Override
+            public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
+                return heroCommand.onTabComplete(sender, this, alias, args);
+            }
+        };
+        heroCommandBukkit.setDescription("The root command of all of the commands within Superheroes");
+        heroCommandBukkit.setUsage("/hero <hero> <name>");
+        return heroCommandBukkit;
     }
 
     @EventHandler
@@ -193,7 +207,6 @@ public final class Superheroes extends JavaPlugin implements Listener {
     }
 
     public void onDisable() {
-        bukkitAudiences.close();
         superheroes.getHeroHandler().getHeroIOHandler().shutdown();
     }
 
@@ -259,7 +272,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
         return this.rerollHandler;
     }
 
-    private void handleAliases(final HeroCommand heroCommand, PluginCommand command) {
+    private void handleAliases(final HeroCommand heroCommand, BukkitCommand command) {
         List<String> commandAliases = ConfigHandler.getConfigYAML().heroCommand().aliases();
         if (!commandAliases.isEmpty()) {
             BukkitCommand aliasCommand = new BukkitCommand(commandAliases.get(0)) {

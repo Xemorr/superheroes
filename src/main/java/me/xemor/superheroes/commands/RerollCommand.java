@@ -20,7 +20,6 @@ public class RerollCommand implements SubCommand, Listener {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
-        Audience audience = Superheroes.getBukkitAudiences().sender(sender);
         if (sender.hasPermission("superheroes.hero.reroll")) {
             RerollHandler rerollHandler = Superheroes.getInstance().getRerollHandler();
             String rerollGroupName;
@@ -30,19 +29,19 @@ public class RerollCommand implements SubCommand, Listener {
                 rerollGroupName = "default";
             }
             if (!sender.hasPermission("superheroes.hero.reroll." + rerollGroupName)) {
-                audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
+                sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission(), Placeholder.unparsed("player", sender.getName())));
                 return;
             }
             RerollGroup rerollGroup = rerollHandler.getWeightedHeroes(rerollGroupName);
             if (rerollGroup == null) {
-                audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidRerollGroupMessage(), Placeholder.unparsed("player", sender.getName())));
+                sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidRerollGroupMessage(), Placeholder.unparsed("player", sender.getName())));
                 return;
             }
             Player player;
             if (args.length >= 3) {
                 player = Bukkit.getPlayer(args[2]);
                 if (player == null) {
-                    audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidPlayerMessage(), Placeholder.unparsed("player", sender.getName())));
+                    sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getInvalidPlayerMessage(), Placeholder.unparsed("player", sender.getName())));
                     return;
                 }
             } else if (sender instanceof Player) {
@@ -52,7 +51,7 @@ public class RerollCommand implements SubCommand, Listener {
             }
             Superheroes.getInstance().getHeroHandler().setHero(player, rerollGroup.chooseHero(player), true, PlayerChangedSuperheroEvent.Cause.REROLL);
         } else {
-            audience.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission()));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(ConfigHandler.getLanguageYAML().chatLanguageSettings().getNoPermission()));
         }
     }
 

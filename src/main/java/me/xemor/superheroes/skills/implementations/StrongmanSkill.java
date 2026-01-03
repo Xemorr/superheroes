@@ -42,8 +42,7 @@ public class StrongmanSkill extends SkillImplementation {
                 }
                 if (e.getRightClicked() instanceof Vehicle) {
                     Component tooMuscular = MiniMessage.miniMessage().deserialize(strongmanData.getTooMuscularMessage(), Placeholder.unparsed("player", player.getName()));
-                    Audience playerAudience = Superheroes.getBukkitAudiences().player(player);
-                    playerAudience.sendActionBar(tooMuscular);
+                    player.sendActionBar(tooMuscular);
                 }
             }, player, e.getRightClicked());
         }
