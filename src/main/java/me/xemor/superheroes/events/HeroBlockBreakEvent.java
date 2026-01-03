@@ -35,11 +35,6 @@ public class HeroBlockBreakEvent extends BlockBreakEvent {
         changed = true;
     }
 
-    public boolean callEvent() {
-        Bukkit.getServer().getPluginManager().callEvent(this);
-        return false;
-    }
-
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS;

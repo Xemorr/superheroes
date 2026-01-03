@@ -26,6 +26,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import me.xemor.foliahacks.FoliaHacks;
+import org.jspecify.annotations.NonNull;
 import org.lushplugins.unifiedprotection.bukkit.BukkitUnifiedProtection;
 import space.arim.morepaperlib.scheduling.GracefulScheduling;
 
@@ -84,6 +85,23 @@ public final class Superheroes extends JavaPlugin implements Listener {
         HeroCommand heroCommand = new HeroCommand(this.heroHandler);
 
         // Register hero command
+        BukkitCommand heroCommandBukkit = setupHeroCommand(heroCommand);
+
+        CommandMap commandMap = foliaHacks.getMorePaperLib().commandRegistration().getServerCommandMap();
+        commandMap.register("superheroes", heroCommandBukkit);
+
+        handleMetrics();
+        plusUltraAdvertisement();
+        checkForNewUpdate();
+        if (this.hasSkillsLibrary) {
+            this.runSkillsLibraryChanges();
+        }
+        handleAliases(heroCommand, heroCommandBukkit);
+        registerUserInterfaces();
+        handleWorldGuardCompatibility();
+    }
+
+    private @NonNull BukkitCommand setupHeroCommand(HeroCommand heroCommand) {
         BukkitCommand heroCommandBukkit = new BukkitCommand("hero") {
             @Override
             public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
@@ -98,19 +116,7 @@ public final class Superheroes extends JavaPlugin implements Listener {
         };
         heroCommandBukkit.setDescription("The root command of all of the commands within Superheroes");
         heroCommandBukkit.setUsage("/hero <hero> <name>");
-
-        CommandMap commandMap = foliaHacks.getMorePaperLib().commandRegistration().getServerCommandMap();
-        commandMap.register("superheroes", heroCommandBukkit);
-
-        handleMetrics();
-        plusUltraAdvertisement();
-        checkForNewUpdate();
-        if (this.hasSkillsLibrary) {
-            this.runSkillsLibraryChanges();
-        }
-        handleAliases(heroCommand, heroCommandBukkit);
-        registerUserInterfaces();
-        handleWorldGuardCompatibility();
+        return heroCommandBukkit;
     }
 
     @EventHandler
