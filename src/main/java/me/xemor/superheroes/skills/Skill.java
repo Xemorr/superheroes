@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class Skill {
 
-    private static int counter = 0;
     private static final BiMap<String, Class<? extends SkillData>> skillToData = HashBiMap.create();
 
     static {

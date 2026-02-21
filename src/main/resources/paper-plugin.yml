@@ -10,18 +10,24 @@ dependencies:
     SkillsLibrary2:
       load: BEFORE
       required: false
+      join-classpath: true
     WorldGuard:
       load: BEFORE
       required: false
+      join-classpath: true
     GriefPrevention:
       load: BEFORE
       required: false
+      join-classpath: true
     HuskClaims:
       load: BEFORE
       required: false
+      join-classpath: true
     HuskTowns:
       load: BEFORE
       required: false
+      join-classpath: true
     PvPToggle:
       load: BEFORE
       required: false
+      join-classpath: true

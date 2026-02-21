@@ -133,7 +133,7 @@ public class ConfigHandler {
     }
 
     public ObjectMapper setupObjectMapper() {
-        ObjectMapper objectMapper = ConfigurationData.setupObjectMapperForConfigurationData(new ObjectMapper(new YAMLFactory()));;
+        ObjectMapper objectMapper = ConfigurationData.setupObjectMapperForConfigurationData(new ObjectMapper(new YAMLFactory()));
         if (superheroes.hasSkillsLibrary()) objectMapper = SkillsLibrary.getInstance().setupObjectMapper(objectMapper);
         objectMapper.registerSubtypes(Skill.getNamedTypes());
         objectMapper.registerSubtypes(Spells.getNamedTypes());

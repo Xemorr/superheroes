@@ -7,7 +7,7 @@ skills:
     ignoreSilkTouch: false
     ignoredBlocks:
     - REDSTONE
-    - DECORATING_POT
+    - DECORATED_POT
     convertMap:
       RAW_IRON:
         type: IRON_INGOT

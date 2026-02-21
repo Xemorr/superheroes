@@ -1,5 +1,6 @@
 package me.xemor.superheroes.skills.implementations;
 
+import it.unimi.dsi.fastutil.Hash;
 import me.xemor.superheroes.Superhero;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.data.HeroHandler;
@@ -26,11 +27,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class DecoySkill extends SkillImplementation {
 
-    final HashMap<SkillData, HashMap<UUID, UUID>> playerToDecoy = new HashMap<>();
+    final Map<SkillData, HashMap<UUID, UUID>> playerToDecoy = new HashMap<>();
     final NamespacedKey namespacedKey;
 
     public DecoySkill(HeroHandler heroHandler) {
