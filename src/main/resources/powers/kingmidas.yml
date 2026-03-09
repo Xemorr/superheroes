@@ -46,7 +46,7 @@ plusUltraSkills:
         mode: OTHER
         entity:
           type: ITEM
-          item:
+          stackData:
             type: GOLD_INGOT
             amount: 1
 
