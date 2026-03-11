@@ -1,6 +1,7 @@
 package me.xemor.superheroes.skills;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @JsonDeserialize(using = ConditionListWrapper.ConditionListWrapperDeserializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConditionListWrapper {
 
     @JsonIgnore
@@ -33,6 +35,7 @@ public class ConditionListWrapper {
             if (Superheroes.getInstance().hasSkillsLibrary()) {
                 return new ConditionListWrapper(ctxt.readValue(p, ConditionList.class));
             }
+            p.skipChildren();
             return null;
         }
     }

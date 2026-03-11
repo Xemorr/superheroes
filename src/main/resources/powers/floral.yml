@@ -68,13 +68,13 @@ skills:
     material: AZURE_BLUET
     type: SPEED
     potency: 3
-    duration: 7.5
+    duration: 150
     hunger: 1
   allium:
     skill: CONSUME
     material: ALLIUM
     type: LEVITATION
-    duration: 7.5
+    duration: 150
     potency: 2
     hunger: 1
   flowerPlacer1:

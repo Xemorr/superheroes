@@ -30,6 +30,7 @@ public class PlusUltraSkillsContainer {
             if (Superheroes.getInstance().getServer().getPluginManager().getPlugin("SuperheroesPlusUltra") != null) {
                 return new PlusUltraSkillsContainer(ctxt.readValue(p, SkillsContainer.class));
             }
+            p.skipChildren();
             return new PlusUltraSkillsContainer();
         }
     }

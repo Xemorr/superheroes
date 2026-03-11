@@ -3,6 +3,7 @@ package me.xemor.superheroes.skills.skilldata;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import me.xemor.configurationdata.JsonPropertyWithDefault;
 import me.xemor.superheroes.Superheroes;
 import me.xemor.superheroes.skills.ConditionListWrapper;
@@ -14,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 public abstract class SkillData {
 
     @JsonPropertyWithDefault
+    @JsonDeserialize(using = ConditionListWrapper.ConditionListWrapperDeserializer.class)
     private ConditionListWrapper conditions = new ConditionListWrapper();
     @JsonPropertyWithDefault
     private String skill;
