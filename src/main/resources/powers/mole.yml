@@ -12,7 +12,7 @@ skills:
       - DIRT
       - STONE
       - COBBLESTONE
-    breakUsing: DIAMOND_PICKAXE
+    simulateBreakingUsing: DIAMOND_PICKAXE
   blindInLight:
     skill: LIGHT
     type: BLINDNESS

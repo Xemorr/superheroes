@@ -25,6 +25,7 @@ public class Skill {
         registerSkill("REMOTEDETONATION", RemoteDetonationData.class);
         registerSkill("BLOCKDROPS", BlockDropsData.class);
         registerSkill("CREEPER", CreeperData.class);
+        registerSkill("JETPACK", JetpackData.class);
         registerSkill("GIVEITEM", GiveItemData.class);
         registerSkill("GUN", GunData.class);
         registerSkill("SNEAK", SneakData.class);

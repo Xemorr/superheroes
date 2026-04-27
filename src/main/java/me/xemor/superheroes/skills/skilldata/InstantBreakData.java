@@ -11,14 +11,14 @@ public class InstantBreakData extends SkillData {
     @JsonAlias("blocks")
     private SetData<Material> instantBreakable = new SetData<>();
     @JsonPropertyWithDefault
-    @JsonAlias("breakusing")
-    private Material breakUsing;
+    @JsonAlias({"breakusing", "breakUsing"})
+    private Material simulateBreakingUsing;
 
     public boolean canBreak(Material type) {
         return instantBreakable.inSet(type);
     }
 
-    public Material getBreakUsing() {
-        return breakUsing;
+    public Material getSimulateBreakingUsing() {
+        return simulateBreakingUsing;
     }
 }

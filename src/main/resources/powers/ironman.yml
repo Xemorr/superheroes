@@ -1,0 +1,18 @@
+name: IronMan
+colouredName: <gradient:#FDE08D:#7E5109><b>Iron Man</b></gradient>
+description: Genius, billionaire, playboy, philanthropist
+# Skins require SuperheroesPlusUltra to work - https://www.spigotmc.org/resources/superheroesplusultra-classes-characters-heroes.102663/
+skin:
+  value: ewogICJ0aW1lc3RhbXAiIDogMTY3NDk2NDgzMjMyOSwKICAicHJvZmlsZUlkIiA6ICI0M2NmNWJkNjUyMDM0YzU5ODVjMDIwYWI3NDE0OGQxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJrYW1pbDQ0NSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lMTY3NzMwZjQ1NmQ5MzBjZTRhMDMxOTI2NmJlMjgxOTYwZDA4MmZkYzQ1MzZlNDkxNWU1Y2ViNTY2MDNlZmE2IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=
+  signature: Gv2OX89P0jaGWA0SUB4vBKfYlxn03+qyMD5k+9l7QunXlyE1pFdDwxl2lfTHt1K5TfMFhAWNpNigMWSYorUu0DBYQ+1NXrF1VnJThTD2loq3epR8qttmV7ffnDpznLqhMspAQbaleDvbk1Ybdx3bsEJNXEGrRAnASeiOAgMxaRN3sfmwRXebPbc7u40Qt+hmLTj4rvmbMsMmZivqWSjNAEgZeYWZGcN1iky7xYm2iocQgEbr5SAlL5eRn07B4LrcBBrzEJU28dsQscENwTz5golHaSlgj6+8wDwfL1qIv/7S8IAiFpD/FVQtnJ8FHYOzuU0KYbDxRQ90LoABSfMNts8w6NxCbLLbq24rxi8nCnTlHEAkfzYsTWdPgXq7G1GD6n4UDr6PS4Ctj8xbNx7huoFQYW5i6JlNwo8zAzFt08f5EyKx2M2Gwi87wRSHzxUeVEL8QJaWeS3T+kXCH3WU5QR4z9IGgjGEsJ+/Txa6NRsyYSswdUzIAxQHP4ZjldjM0s6Y4BGB0zvgFNJXZ8BsxgUDUTujWGAmfbWB86L71npDIZMQONyhts+rTC6dFXnpdiN73/VbQKYoLxWp+B2W+1jJnGUWXfWWG+UqrZBi03UObAJloNtCit/Xt3IZs/LOiOOkC02hc6M0Wkvly2h7pzA81wtRNX79gtdugPk7Ijs=
+skills:
+  jetpack:
+    skill: JETPACK
+    gliding: true
+    verticalOnly: false
+    horizontalMagnitude: 1.0
+    verticalMagnitude: 1.1
+    horizontalAccelerationMultiplier: 0.2
+    verticalAccelerationMultiplier: 0.3
+    disableInWater: true
+
