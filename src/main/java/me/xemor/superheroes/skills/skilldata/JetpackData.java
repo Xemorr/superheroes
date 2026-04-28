@@ -9,6 +9,10 @@ public class JetpackData extends SkillData {
     @JsonPropertyWithDefault
     boolean disableInWater = true;
     @JsonPropertyWithDefault
+    boolean sprinting = true;
+    @JsonPropertyWithDefault
+    boolean disableOnGround = true;
+    @JsonPropertyWithDefault
     boolean verticalOnly = true;
     @JsonPropertyWithDefault
     double horizontalMagnitude = 1.0;
@@ -37,6 +41,14 @@ public class JetpackData extends SkillData {
 
     public boolean shouldDisableInWater() {
         return disableInWater;
+    }
+
+    public boolean requiresSprinting() {
+        return sprinting;
+    }
+
+    public boolean shouldDisableOnGround() {
+        return disableOnGround;
     }
 
     public boolean isVerticalOnly() {

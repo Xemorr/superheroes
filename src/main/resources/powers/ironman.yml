@@ -15,4 +15,6 @@ skills:
     horizontalAccelerationMultiplier: 0.2
     verticalAccelerationMultiplier: 0.3
     disableInWater: true
+    disableOnGround: true
+    sprinting: true
 

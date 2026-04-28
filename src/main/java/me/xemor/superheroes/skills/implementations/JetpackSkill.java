@@ -28,10 +28,17 @@ public class JetpackSkill extends SkillImplementation {
         Superhero superhero = heroHandler.getSuperhero(e.getPlayer());
         List<JetpackData> skillData = superhero.getSkillData(JetpackData.class);
         for (JetpackData data : skillData) {
-            if (e.getPlayer().isJumping() && e.getPlayer().isGliding() && (!data.shouldDisableInWater() || !e.getPlayer().isInWater())) {
+            if (canJetpack(e.getPlayer(), data) && e.getPlayer().isGliding()) {
                 e.setCancelled(true);
             }
         }
+    }
+
+    public boolean canJetpack(Player player, JetpackData data) {
+        return player.getCurrentInput().isJump()
+                && (!data.shouldDisableInWater() || !player.isInWater())
+                && (!data.requiresSprinting() || player.isSprinting())
+                && (!data.shouldDisableOnGround() || !player.getLocation().subtract(0, 1, 0).getBlock().isSolid());
     }
 
     public void applyJetpack(Player player) {
@@ -40,7 +47,7 @@ public class JetpackSkill extends SkillImplementation {
             List<JetpackData> skillData = superhero.getSkillData(JetpackData.class);
             for (JetpackData data : skillData) {
                 player.setAllowFlight(true);
-                if ((!data.shouldDisableInWater() || !player.isInWater())) {
+                if (canJetpack(player, data)) {
                     if (data.glidingMode()) player.setGliding(true);
                     Vector targetVelocity;
                     if (data.isVerticalOnly()) {
